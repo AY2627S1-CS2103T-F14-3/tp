@@ -9,15 +9,11 @@ You can reach us at the email `seer[at]comp.nus.edu.sg`
 
 ## Project team
 
-### John Doe
+### Yik Wee
+<img src="images/yik-wee.png" width="200px">
 
-<img src="images/johndoe.png" width="200px">
-
-[[homepage](http://www.comp.nus.edu.sg/~damithch)]
-[[github](https://github.com/johndoe)]
-[[portfolio](team/johndoe.md)]
-
-* Role: Project Advisor
+[[homepage](https://yik-wee.github.io)]
+[[github](https://github.com/yik-wee)]
 
 ### Kia Hao
 
