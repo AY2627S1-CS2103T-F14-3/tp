@@ -13,11 +13,11 @@ public class Remark {
     /**
      * Constructs an {@code Remark}.
      *
-     * @param Remark A valid Remark.
+     * @param remark the remark text
      */
-    public Remark(String Remark) {
-        requireNonNull(Remark);
-        value = Remark;
+    public Remark(String remark) {
+        requireNonNull(remark);
+        value = remark;
     }
 
     @Override
