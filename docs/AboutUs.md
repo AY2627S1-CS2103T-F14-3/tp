@@ -22,8 +22,8 @@ You can reach us at the email `seer[at]comp.nus.edu.sg`
 
 [[github](http://github.com/GODMODE899)]
 
-* Role: guy
-* Responsibilities: UI
+* Role: Developer
+* Responsibilities: Testing, Integration, Component Ingredients
 
 ### Kia Hao
 
