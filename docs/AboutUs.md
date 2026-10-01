@@ -32,8 +32,8 @@ You can reach us at the email `seer[at]comp.nus.edu.sg`
 [[homepage](https://neokh719.github.io)]
 [[github](http://github.com/neokh719)]
 
-* Role: Baker
-* Responsibilities: Bake
+* Role: Documenter and QC
+* Responsibilities: Documentation, code quality
 
 ### Jean Doe
 
