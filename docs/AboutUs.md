@@ -10,10 +10,20 @@ You can reach us at the email `seer[at]comp.nus.edu.sg`
 ## Project team
 
 ### Yik Wee
+
 <img src="images/yik-wee.png" width="200px">
 
 [[homepage](https://yik-wee.github.io)]
 [[github](https://github.com/yik-wee)]
+
+### Abdo
+
+<img src="images/godmode899.png" width="200px">
+
+[[github](http://github.com/GODMODE899)]
+
+* Role: guy
+* Responsibilities: UI
 
 ### Kia Hao
 
@@ -22,17 +32,8 @@ You can reach us at the email `seer[at]comp.nus.edu.sg`
 [[homepage](https://neokh719.github.io)]
 [[github](http://github.com/neokh719)]
 
-* Role: Team Lead
-* Responsibilities: UI
-
-### Johnny Doe
-
-<img src="images/johndoe.png" width="200px">
-
-[[github](http://github.com/johndoe)] [[portfolio](team/johndoe.md)]
-
-* Role: Developer
-* Responsibilities: Data
+* Role: Baker
+* Responsibilities: Bake
 
 ### Jean Doe
 
