@@ -19,14 +19,13 @@ You can reach us at the email `seer[at]comp.nus.edu.sg`
 
 * Role: Project Advisor
 
-### Jane Doe
+### Abdo
 
-<img src="images/johndoe.png" width="200px">
+<img src="images/godmode899.png" width="200px">
 
-[[github](http://github.com/johndoe)]
-[[portfolio](team/johndoe.md)]
+[[github](http://github.com/GODMODE899)]
 
-* Role: Team Lead
+* Role: guy
 * Responsibilities: UI
 
 ### Johnny Doe
