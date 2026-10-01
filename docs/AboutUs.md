@@ -16,6 +16,9 @@ You can reach us at the email `seer[at]comp.nus.edu.sg`
 [[homepage](https://yik-wee.github.io)]
 [[github](https://github.com/yik-wee)]
 
+* Role: Team Lead
+* Responsibilities: Deliverables and Deadlines, Scheduling and Tracking
+
 ### Abdo
 
 <img src="images/godmode899.png" width="200px">
