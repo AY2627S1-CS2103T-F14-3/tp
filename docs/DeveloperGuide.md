@@ -354,6 +354,18 @@ Priorities: Must have - `* * * *`, Nice to have (high) - `* * *`, Nice to have (
 
 * **Mainstream OS**: Windows, Linux, Unix, or macOS
 * **Private contact detail**: A contact detail that is not meant to be shared with others
+* **Baker**: The user who manages clients, bakery goods and orders in BakeBase.
+* **Client**: A customer whose contact details are stored in BakeBase.
+* **Bakery good**: A baked product that a baker offers and can add to a client order.
+* **Client order**: A record of a client’s request for a bakery good, including its quantity and, if specified, its deadline and status.
+* **Order deadline**: The date by which a client order is due.
+* **Incomplete order**: An order that has not been marked as complete.
+* **Completed order**: An order that the baker has marked as complete.
+* **Recurring order**: An order pattern saved for reuse when a client regularly requests the same order.
+* **Membership tier**: A client category that determines the membership options or discounts available to that client.
+* **Limited-edition bakery good**: A bakery good offered for a limited period.
+* **Special instructions**: Notes associated with an order, such as allergy information or preparation requests.
+* **Ingredient inventory**: The recorded quantities of ingredients available for fulfilling orders.
 
 --------------------------------------------------------------------------------------------------------------------
 
