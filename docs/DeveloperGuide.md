@@ -261,29 +261,53 @@ _{Explain here how the data archiving feature will be implemented}_
 
 **Target user profile**:
 
-* has a need to manage a significant number of contacts
+* runs a home bakery business
+* has a need to manage a significant number of client contacts
+* has a need to manage a significant number of client order details
 * prefers desktop apps over other types of applications
 * can type fast
 * prefers typing to mouse interactions
 * is reasonably comfortable using CLI apps
 
-**Value proposition**: Manage contacts faster than with a typical mouse-driven GUI application.
+**Value proposition**: Help home bakers running a home bakery business manage client contacts and orders faster than with a typical mouse-driven GUI application.
 
 
 ### User stories
 
-Priorities: High (must have) - `* * *`, Medium (nice to have) - `* *`, Low (unlikely to have) - `*`
+Priorities: Must have - `* * * *`, Nice to have (high) - `* * *`, Nice to have (medium) - `* *`, Nice to have (low) - `*`
 
-| Priority | As a …​                                    | I want to …​                     | So that I can…​                                                        |
-| -------- | ------------------------------------------ | ------------------------------ | ---------------------------------------------------------------------- |
-| `* * *`  | new user                                   | see usage instructions         | refer to instructions when I forget how to use the App                 |
-| `* * *`  | user                                       | add a new person               |                                                                        |
-| `* * *`  | user                                       | delete a person                | remove entries that I no longer need                                   |
-| `* * *`  | user                                       | find a person by name          | locate details of persons without having to go through the entire list |
-| `* *`    | user                                       | hide private contact details   | minimize chance of someone else seeing them by accident                |
-| `*`      | user with many persons in the address book | sort persons by name           | locate a person easily                                                 |
+| Priority  | As a …​            | I want to …​                                                         | So that I can…​                                                                 |
+| --------- | ------------------ | -------------------------------------------------------------------- | ------------------------------------------------------------------------------- |
+| `* * * *` | Baker              | Add client contacts                                                  | keep track of client contacts                                                   |
+| `* * * *` | Baker              | Delete client contacts                                               | remove mistakes                                                                 |
+| `* * *`   | Baker              | Search specific client contacts                                      | quickly retrieve specific information                                           |
+| `* * * *` | Baker              | List all client contacts                                             | view all client information                                                     |
+| `* * *`   | Baker              | Edit client contacts                                                 | keep contact information up to date                                             |
+| `* * * *` | Baker              | Add new bakery goods                                                 | keep track of bakery goods                                                      |
+| `* * * *` | Baker              | Delete bakery goods                                                  | remove mistakes                                                                 |
+| `* * * *` | Baker              | List all bakery goods                                                | view all bakery goods                                                           |
+| `* * *`   | Baker              | Edit bakery goods                                                    | keep bakery items’ inventory up to date                                         |
+| `* * * *` | Baker              | Add client orders                                                    | keep track of client orders easily                                              |
+| `* *`     | Baker              | Add deadlines to orders                                              | track when an order is due                                                      |
+| `* *`     | Baker              | Add priorities to orders                                             | prioritise different orders easily                                              |
+| `* *`     | Popular Baker      | Add recurring orders                                                 | don’t have to repeatedly add the same orders that a customer orders recurrently |
+| `* * * *` | Baker              | Delete orders                                                        | remove mistakes                                                                 |
+| `* * *`   | Baker              | Edit orders                                                          | keep order information correct if there was a mistake                           |
+| `* *`     | Baker              | Sort orders by priority                                              | prioritise baking the most important orders first                               |
+| `* * * *` | Baker              | Mark orders as complete                                              | focus on orders that are incomplete                                             |
+| `* * * *` | Baker              | Unmark orders as complete                                            | remove mistakes                                                                 |
+| `* * * *` | Baker              | List all orders                                                      | view all orders quickly                                                         |
+| `* * *`   | Baker              | View incomplete orders                                               | focus on orders that are incomplete                                             |
+| `* * *`   | Baker              | View completed orders                                                | have a record of past orders                                                    |
+| `*`       | Professional Baker | Add membership tiers                                                 | track membership discounts / options                                            |
+| `*`       | Professional Baker | Register a client under a membership tier                            | track which clients belong to which membership tiers                            |
+| `*`       | Professional Baker | Add limited edition bakery goods                                     | track goods that are available for a limited time only                          |
+| `*`       | Baker              | Add a pick-up time to orders                                         | track when users want to pick up their order                                    |
+| `*`       | Baker              | Add notes / special instructions to orders                           | track which orders need special instructions (e.g. allergies)                   |
+| `*`       | Baker              | Add ingredients required for baking                                  | track if I have enough ingredients to complete an order                         |
+| `*`       | Baker              | Delete ingredients required for baking                               | remove mistakes                                                                 |
+| `*`       | Baker              | Automatically deduct remaining ingredients after completing an order | not be trouble with updating ingredients                                        |
 
-*{More to be added}*
 
 ### Use cases
 
