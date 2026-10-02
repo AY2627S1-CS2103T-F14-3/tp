@@ -340,11 +340,15 @@ Priorities: Must have - `* * * *`, Nice to have (high) - `* * *`, Nice to have (
 
 ### Non-Functional Requirements
 
-1.  Should work on any _mainstream OS_ as long as it has Java `25` or above installed.
-2.  Should be able to hold up to 1000 persons without noticeable sluggishness in performance for typical usage.
-3.  A user with above average typing speed for regular English text (i.e. not code, not system admin commands) should be able to accomplish most of the tasks faster using commands than using the mouse.
+1. The application should run on any mainstream operating system with Java 25 installed.
 
-*{More to be added}*
+2. With up to 100 client contacts, 100 bakery goods and 1000 orders, the application should display the results of a list, search or filter command within 3 seconds on the project team's reference machine running Java 25.
+
+3. After a data-changing command reports success, the affected client, bakery good or order data should be retained after the application is closed and reopened, with its values and associations unchanged.
+
+4. A first-time user with basic computer literacy should be able to use the in-app help to add a client, bakery good and order within 15 minutes, without outside assistance.
+
+5. Client contact, bakery good and order data should remain on the user's computer. The application should not transmit this data over a network.
 
 ### Glossary
 
