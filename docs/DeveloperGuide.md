@@ -287,16 +287,16 @@ Priorities: High (must have) - `* * *`, Medium (nice to have) - `* *`, Low (unli
 
 ### Use cases
 
-(For all use cases below, the **System** is the `AddressBook` and the **Actor** is the `user`, unless specified otherwise)
+(For all use cases below, the **System** is the `BakeBase` and the **Actor** is the `user`, unless specified otherwise)
 
 **Use case: Delete a person**
 
 **MSS**
 
 1.  User requests to list persons
-2.  AddressBook shows a list of persons
+2.  BakeBase shows a list of persons
 3.  User requests to delete a specific person in the list
-4.  AddressBook deletes the person
+4.  BakeBase deletes the person
 
     Use case ends.
 
@@ -308,11 +308,61 @@ Priorities: High (must have) - `* * *`, Medium (nice to have) - `* *`, Low (unli
 
 * 3a. The given index is invalid.
 
-    * 3a1. AddressBook shows an error message.
+    * 3a1. BakeBase shows an error message.
 
       Use case resumes at step 2.
 
+
+**Use case: Mark an order as complete**
+
+**MSS**
+
+1.  User requests to list orders
+2.  BakeBase shows a list of orders
+3.  User requests to mark a specific order in the list as complete
+4.  BakeBase marks the order as complete
+
+    Use case ends.
+
+**Extensions**
+
+* 2a. The list is empty.
+
+  Use case ends.
+
+* 3a. The given index is invalid.
+
+    * 3a1. BakeBase shows an error message.
+
+      Use case resumes at step 2.
+
+* 3b. The specified order is already marked as complete
+    * 3b1. BakeBase displays a friendly reminder that the specified order is already marked as complete
+    
+      Use case resumes at step 2.
+
+
+**Use case: Display unfulfilled orders with deadline soon**
+
+**MSS**
+
+1.  User requests to list orders with filters incomplete and deadline by specified date
+2.  BakeBase shows a list of filtered orders accordingly
+
+    Use case ends.
+
+**Extensions**
+
+* 2a. No orders match the filters.
+
+    * 2a1. BakeBase displays a message indicating that no incomplete orders are due on or before the specified date.
+
+      Use case ends.
+
+
+
 *{More to be added}*
+
 
 ### Non-Functional Requirements
 
