@@ -30,7 +30,7 @@ You can reach us at the email `seer[at]comp.nus.edu.sg`
 
 ### Kia Hao
 
-<img src="images/kiahao.png.jpg" width="200px">
+<img src="images/neokh719.png" width="200px">
 
 [[homepage](https://neokh719.github.io)]
 [[github](http://github.com/neokh719)]
