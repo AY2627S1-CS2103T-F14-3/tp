@@ -12,6 +12,8 @@ import java.util.Set;
 import org.junit.jupiter.api.Test;
 
 import seedu.address.logic.parser.exceptions.ParseException;
+import seedu.address.model.bakeryitem.BakeryItemName;
+import seedu.address.model.bakeryitem.Price;
 import seedu.address.model.person.Address;
 import seedu.address.model.person.Email;
 import seedu.address.model.person.Name;
@@ -24,6 +26,8 @@ public class ParserUtilTest {
     private static final String INVALID_ADDRESS = " ";
     private static final String INVALID_EMAIL = "example.com";
     private static final String INVALID_TAG = "#friend";
+    private static final String INVALID_BAKERY_ITEM_NAME = "Cr\u00e8me Brulee";
+    private static final String INVALID_PRICE = "1.234";
 
     private static final String VALID_NAME = "Rachel Walker";
     private static final String VALID_PHONE = "123456";
@@ -31,6 +35,8 @@ public class ParserUtilTest {
     private static final String VALID_EMAIL = "rachel@example.com";
     private static final String VALID_TAG_1 = "friend";
     private static final String VALID_TAG_2 = "neighbour";
+    private static final String VALID_BAKERY_ITEM_NAME = "Banana Muffin";
+    private static final String VALID_PRICE = "1.20";
 
     private static final String WHITESPACE = " \t\r\n";
 
@@ -190,5 +196,38 @@ public class ParserUtilTest {
         Set<Tag> expectedTagSet = Set.of(new Tag(VALID_TAG_1), new Tag(VALID_TAG_2));
 
         assertEquals(expectedTagSet, actualTagSet);
+    }
+
+    @Test
+    public void parseBakeryItemName_null_throwsNullPointerException() {
+        assertThrows(NullPointerException.class, () -> ParserUtil.parseBakeryItemName(null));
+    }
+
+    @Test
+    public void parseBakeryItemName_invalidValue_throwsParseException() {
+        assertThrows(ParseException.class, () -> ParserUtil.parseBakeryItemName(INVALID_BAKERY_ITEM_NAME));
+    }
+
+    @Test
+    public void parseBakeryItemName_validValueWithWhitespace_returnsTrimmedName() throws Exception {
+        String itemNameWithWhitespace = WHITESPACE + VALID_BAKERY_ITEM_NAME + WHITESPACE;
+        assertEquals(new BakeryItemName(VALID_BAKERY_ITEM_NAME),
+                ParserUtil.parseBakeryItemName(itemNameWithWhitespace));
+    }
+
+    @Test
+    public void parsePrice_null_throwsNullPointerException() {
+        assertThrows(NullPointerException.class, () -> ParserUtil.parsePrice(null));
+    }
+
+    @Test
+    public void parsePrice_invalidValue_throwsParseException() {
+        assertThrows(ParseException.class, () -> ParserUtil.parsePrice(INVALID_PRICE));
+    }
+
+    @Test
+    public void parsePrice_validValueWithWhitespace_returnsPrice() throws Exception {
+        String priceWithWhitespace = WHITESPACE + VALID_PRICE + WHITESPACE;
+        assertEquals(Price.fromDollars(VALID_PRICE), ParserUtil.parsePrice(priceWithWhitespace));
     }
 }

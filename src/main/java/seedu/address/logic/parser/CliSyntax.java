@@ -15,4 +15,6 @@ public class CliSyntax {
     public static final Prefix PREFIX_QUANTITY = new Prefix("q/");
     public static final Prefix PREFIX_DEADLINE = new Prefix("d/");
 
+    public static final Prefix PREFIX_BAKERY_ITEM_NAME = new Prefix("n/");
+    public static final Prefix PREFIX_PRICE = new Prefix("p/");
 }

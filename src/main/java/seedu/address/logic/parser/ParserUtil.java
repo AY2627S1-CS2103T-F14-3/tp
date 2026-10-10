@@ -9,6 +9,8 @@ import java.util.Set;
 import seedu.address.commons.core.index.Index;
 import seedu.address.commons.util.StringUtil;
 import seedu.address.logic.parser.exceptions.ParseException;
+import seedu.address.model.bakeryitem.BakeryItemName;
+import seedu.address.model.bakeryitem.Price;
 import seedu.address.model.order.Deadline;
 import seedu.address.model.order.Quantity;
 import seedu.address.model.person.Address;
@@ -150,5 +152,28 @@ public class ParserUtil {
             throw new ParseException(Deadline.MESSAGE_CONSTRAINTS);
         }
         return new Deadline(trimmedDeadline);
+    }
+    /**
+     * Parses {@code String itemName} into a {@code BakeryItemName}.
+     */
+    public static BakeryItemName parseBakeryItemName(String itemName) throws ParseException {
+        requireNonNull(itemName);
+        String trimmedItemName = itemName.trim();
+        if (!BakeryItemName.isValidItemName(trimmedItemName)) {
+            throw new ParseException(BakeryItemName.MESSAGE_CONSTRAINTS);
+        }
+        return new BakeryItemName(trimmedItemName);
+    }
+
+    /**
+     * Parses {@code String priceDollars} into a {@code Price}.
+     */
+    public static Price parsePrice(String priceDollars) throws ParseException {
+        requireNonNull(priceDollars);
+        String trimmedPriceDollars = priceDollars.trim();
+        if (!Price.isValidPriceDollars(trimmedPriceDollars)) {
+            throw new ParseException(Price.MESSAGE_CONSTRAINTS);
+        }
+        return Price.fromDollars(trimmedPriceDollars);
     }
 }
