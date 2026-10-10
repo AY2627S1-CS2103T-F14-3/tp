@@ -255,36 +255,33 @@ _{Explain here how the data archiving feature will be implemented}_
 
 --------------------------------------------------------------------------------------------------------------------
 
-### Adding client orders parsing increment
+### Client order backend
 
-The current increment recognizes `add-order CONTACT_INDEX i/ITEM_INDEX q/QUANTITY d/DEADLINE`.
-For example: `add-order 1 i/2 q/5 d/2026-10-15`.
-It parses and validates an order request; it does not add or save an order yet.
-Executing a valid request returns `Adding client orders is not available yet. No order has been saved.`
-No data is modified, and no success is reported.
+`add-order CONTACT_INDEX i/ITEM_INDEX q/QUANTITY d/DEADLINE` resolves indices from the displayed
+client and bakery item lists and adds an incomplete order. Identical orders are accepted with separate UUIDs.
+Quantities remain integers from 1 to 9,999; deadlines use strict YYYY-MM-DD calendar dates, including past dates.
+Missing, repeated, malformed, overflowing, and out-of-range arguments cannot change data.
 
-Requirements for this increment:
+`AddressBook` owns observable client, bakery item, and order collections. Orders reference immutable clients and
+items rather than displayed positions. Editing a client updates its order references while retaining order IDs.
+Deleting a referenced client or item is blocked until its orders are removed. Clearing the book clears all three
+collections together. The model exposes displayed item lists and client-local order lists; the logic exposes
+unmodifiable observable item and order lists for the teammate's list and GUI implementation.
 
-* Require one client index before the prefixes, and exactly one each of `i/`, `q/`, and `d/`.
-* Accept client and item indices from 1 through `Integer.MAX_VALUE`, consistent with AB3's index representation.
-  Identify which index is invalid in the error message, and reject overflow without an unchecked exception.
-* Accept whole-number quantities from 1 to 9,999 inclusive, as specified in the team's MVP feature notes.
-  The upper bound is a product limit and should be revisited if realistic bakery orders require larger quantities.
-* Accept valid calendar dates in `YYYY-MM-DD` format, including leap days and past dates for record-keeping.
-  Reject impossible dates rather than automatically adjusting them.
-* Accept required prefix fields in any order and ignore surrounding whitespace.
-* Reject missing, duplicate, empty, and malformed fields with usage or field-specific error messages.
-* Keep invalid requests and execution of this parsing preview from modifying existing data.
+The JSON file contains `persons`, `bakeryItems`, and `orders`. Legacy AB3 files without items or orders remain
+supported. Each order stores an `id` UUID, `clientName`, `itemName`, `quantity`, `deadline`, and `complete` status.
+Client and item names reference their respective unique collection entries, preserving associations if the
+collections are reordered. In-app client edits update both the client record and its order references.
+Manual renames in JSON must update the corresponding order references too. Duplicate order UUIDs, missing
+references, invalid values, and null entries are rejected during loading; no partially loaded model is returned.
 
-`AddClientOrderCommandParser` uses the existing argument tokenizer and index parser, plus
-`ParserUtil.parseQuantity` and `ParserUtil.parseDeadline`. `Quantity` and `Deadline` are immutable validated values.
-`AddClientOrderCommand` retains the two indices and these values for later execution integration.
-The indices are transient references to displayed lists, not persistent client or item identifiers.
+Commands return success only after persistence succeeds. The storage writes a temporary JSON file beside the
+destination and replaces the destination, using an atomic move where supported. A failed save restores the
+previous model and displayed lists. The shared order APIs support deleting an order and replacing completion
+status; those commands are implemented separately on their respective feature branches.
 
-Deferred work includes checking that the indexed client and item exist, constructing persistent order associations,
-updating the model and storage, displaying orders, and updating user-facing help and instructions when adding orders
-becomes available. Identical orders are intended to be allowed; duplicate-order rejection is not part of this parser.
-Other order commands and list or GUI enhancements are outside this increment.
+`add-item` from team PR #34 is integrated with the shared item model and storage so orders can reference real
+bakery goods. Order views and list commands remain the assigned teammate's GUI work.
 
 ## **Appendix: Requirements**
 

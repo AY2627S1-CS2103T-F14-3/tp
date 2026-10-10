@@ -6,10 +6,13 @@ import static seedu.address.commons.util.CollectionUtil.requireAllNonNull;
 import java.util.function.Predicate;
 import java.util.logging.Logger;
 
+import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.collections.transformation.FilteredList;
 import seedu.address.commons.core.GuiSettings;
 import seedu.address.commons.core.LogsCenter;
+import seedu.address.model.bakeryitem.BakeryItem;
+import seedu.address.model.order.ClientOrder;
 import seedu.address.model.person.Person;
 
 /**
@@ -21,6 +24,7 @@ public class ModelManager implements Model {
     private final AddressBook addressBook;
     private final UserPrefs userPrefs;
     private final FilteredList<Person> filteredPersons;
+    private final FilteredList<BakeryItem> filteredBakeryItems;
 
     /**
      * Initializes a ModelManager with the given addressBook and userPrefs.
@@ -32,7 +36,8 @@ public class ModelManager implements Model {
 
         this.addressBook = new AddressBook(addressBook);
         this.userPrefs = new UserPrefs(userPrefs);
-        filteredPersons = new FilteredList<>(this.addressBook.getPersonList());
+        filteredPersons = new FilteredList<>(this.addressBook.getPersonList(), PREDICATE_SHOW_ALL_PERSONS);
+        filteredBakeryItems = new FilteredList<>(this.addressBook.getBakeryItemList(), unused -> true);
     }
 
     public ModelManager() {
@@ -108,6 +113,59 @@ public class ModelManager implements Model {
     public void updateFilteredPersonList(Predicate<Person> predicate) {
         requireNonNull(predicate);
         filteredPersons.setPredicate(predicate);
+    }
+
+    @Override
+    public Predicate<Person> getPersonFilter() {
+        return filteredPersons.getPredicate()::test;
+    }
+
+    @Override
+    public Predicate<BakeryItem> getBakeryItemFilter() {
+        return filteredBakeryItems.getPredicate()::test;
+    }
+
+    @Override
+    public ObservableList<BakeryItem> getFilteredBakeryItemList() {
+        return FXCollections.unmodifiableObservableList(filteredBakeryItems);
+    }
+
+    @Override
+    public void updateFilteredBakeryItemList(Predicate<BakeryItem> predicate) {
+        filteredBakeryItems.setPredicate(requireNonNull(predicate));
+    }
+
+    @Override
+    public boolean hasBakeryItem(BakeryItem item) {
+        return addressBook.hasBakeryItem(item);
+    }
+
+    @Override
+    public void addBakeryItem(BakeryItem item) {
+        addressBook.addBakeryItem(item);
+        filteredBakeryItems.setPredicate(unused -> true);
+    }
+
+    @Override
+    public ObservableList<ClientOrder> getOrdersForClient(Person client) {
+        requireNonNull(client);
+        return FXCollections.unmodifiableObservableList(addressBook.getOrderList()
+                .filtered(order -> order.getClient().equals(client)));
+    }
+
+    @Override
+    public void addOrder(ClientOrder order) {
+        addressBook.addOrder(order);
+    }
+
+    @Override
+    public void deleteOrder(ClientOrder order) {
+        addressBook.removeOrder(order);
+    }
+
+    @Override
+    public void setOrderCompletion(ClientOrder order, boolean isComplete) {
+        addressBook.setOrderCompletion(order, isComplete);
     }
 
     @Override

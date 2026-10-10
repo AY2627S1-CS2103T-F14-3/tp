@@ -40,10 +40,12 @@ public class AddBakeryItemCommand extends Command {
 
     @Override
     public CommandResult execute(Model model) throws CommandException {
-        System.out.println(model);
-        System.out.println(toAdd);
-        // TODO Auto-generated method stub
-        throw new UnsupportedOperationException("Unimplemented method 'execute'");
+        requireNonNull(model);
+        if (model.hasBakeryItem(toAdd)) {
+            throw new CommandException(MESSAGE_DUPLICATE_ITEM);
+        }
+        model.addBakeryItem(toAdd);
+        return new CommandResult(String.format(MESSAGE_SUCCESS, toAdd));
     }
 
     @Override

@@ -34,11 +34,11 @@ public class AddClientOrderCommandTest {
     }
 
     @Test
-    public void execute_parsedRequest_reportsUnavailableWithoutChangingModel() throws Exception {
+    public void execute_missingItem_rejectsWithoutChangingModel() throws Exception {
         ModelManager model = new ModelManager(getTypicalAddressBook(), new UserPrefs());
         ModelManager expected = new ModelManager(getTypicalAddressBook(), new UserPrefs());
         Command command = new AddressBookParser().parseCommand("add-order 1 i/2 q/5 d/2026-10-15");
-        assertThrows(CommandException.class, AddClientOrderCommand.MESSAGE_NOT_IMPLEMENTED, () ->
+        assertThrows(CommandException.class, AddClientOrderCommand.MESSAGE_INVALID_ITEM, () ->
                 command.execute(model));
         assertEquals(expected, model);
     }
