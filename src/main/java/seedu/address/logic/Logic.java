@@ -5,6 +5,8 @@ import seedu.address.commons.core.GuiSettings;
 import seedu.address.logic.commands.CommandResult;
 import seedu.address.logic.commands.exceptions.CommandException;
 import seedu.address.logic.parser.exceptions.ParseException;
+import seedu.address.model.bakeryitem.BakeryItem;
+import seedu.address.model.order.ClientOrder;
 import seedu.address.model.person.Person;
 
 /**
@@ -27,6 +29,16 @@ public interface Logic {
      * Returns the user prefs' GUI settings.
      */
     GuiSettings getGuiSettings();
+
+    /**
+     * Returns an unmodifiable observable list of displayed bakery items for the UI.
+     */
+    ObservableList<BakeryItem> getFilteredBakeryItemList();
+
+    /**
+     * Returns an unmodifiable observable list of all orders for the UI.
+     */
+    ObservableList<ClientOrder> getOrderList();
 
     /**
      * Set the user prefs' GUI settings.

@@ -196,3 +196,32 @@ Action | Format, Examples
 **Find** | `find KEYWORD [MORE_KEYWORDS]`<br> e.g., `find James Jake`
 **List** | `list`
 **Help** | `help`
+
+## Bakery items and client orders
+
+Add an item with `add-item n/Muffin p/1.20`. Item names are unique ignoring case and extra spaces.
+Add an order with `add-order 1 i/1 q/5 d/2026-10-15`.
+The first number identifies the client in the displayed client list; `i/` identifies the item in the displayed item
+list. Required `i/`, `q/`, and `d/` fields may appear in any order. The quantity must be a whole number from 1 to
+9,999. The deadline must be a real calendar date in YYYY-MM-DD format; past deadlines are accepted.
+
+New orders are incomplete. Identical repeat orders are allowed. The success message includes the order's index
+within that client's orders. Order indices are client-local insertion positions, not positions in a consolidated
+order list. Deleting an order will shift the later order indices for that client. Invalid indices or fields leave
+the data unchanged. Orders, items, and completion statuses are saved automatically after successful commands.
+
+Clients referenced by orders cannot be deleted until those orders are removed. Editing a client's details retains
+their orders. The `clear` command removes clients, bakery items, and orders together.
+The order/item panels and listing commands are under development separately; this increment provides the backend
+and command feedback for them.
+
+The data file is editable JSON. Existing AB3 files remain supported. Orders refer to clients and items by name in
+the file: if you manually rename one, update its order references as well. Keep each order's UUID unique and use
+valid quantities, dates, and completion statuses. Incorrect edits can prevent loading and cause data loss, as with
+AB3; back up the file before editing it. A failed save is reported as an error and its in-memory change is undone.
+
+### delete-order
+
+Usage: `delete-order CONTACT_INDEX o/ORDER_INDEX`. Example: `delete-order 1 o/2`.
+
+Deletes the selected client order. CONTACT_INDEX refers to the displayed client list. ORDER_INDEX refers to that client's orders in insertion order. After deleting an order, later order indices shift down. A status command reports an error if the requested status already applies. Successful changes are saved automatically; a save error restores the previous state.

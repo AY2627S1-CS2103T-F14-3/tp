@@ -12,6 +12,7 @@ import java.util.stream.Collectors;
 
 import org.junit.jupiter.api.Test;
 
+import seedu.address.logic.commands.AddBakeryItemCommand;
 import seedu.address.logic.commands.AddCommand;
 import seedu.address.logic.commands.ClearCommand;
 import seedu.address.logic.commands.DeleteCommand;
@@ -22,6 +23,9 @@ import seedu.address.logic.commands.FindCommand;
 import seedu.address.logic.commands.HelpCommand;
 import seedu.address.logic.commands.ListCommand;
 import seedu.address.logic.parser.exceptions.ParseException;
+import seedu.address.model.bakeryitem.BakeryItem;
+import seedu.address.model.bakeryitem.BakeryItemName;
+import seedu.address.model.bakeryitem.Price;
 import seedu.address.model.person.NameContainsKeywordsPredicate;
 import seedu.address.model.person.Person;
 import seedu.address.testutil.EditPersonDescriptorBuilder;
@@ -37,6 +41,13 @@ public class AddressBookParserTest {
         Person person = new PersonBuilder().build();
         AddCommand command = (AddCommand) parser.parseCommand(PersonUtil.getAddCommand(person));
         assertEquals(new AddCommand(person), command);
+    }
+
+    @Test
+    public void parseCommand_addBakeryItem() throws Exception {
+        BakeryItem bakeryItem = new BakeryItem(new BakeryItemName("Banana Muffin"), Price.fromDollars("1.20"));
+        AddBakeryItemCommand command = (AddBakeryItemCommand) parser.parseCommand("add-item n/Banana Muffin p/1.20");
+        assertEquals(new AddBakeryItemCommand(bakeryItem), command);
     }
 
     @Test

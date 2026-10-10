@@ -16,6 +16,8 @@ import org.junit.jupiter.api.Test;
 
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
+import seedu.address.model.bakeryitem.BakeryItem;
+import seedu.address.model.order.ClientOrder;
 import seedu.address.model.person.Person;
 import seedu.address.model.person.exceptions.DuplicatePersonException;
 import seedu.address.testutil.PersonBuilder;
@@ -95,6 +97,16 @@ public class AddressBookTest {
 
         AddressBookStub(Collection<Person> persons) {
             this.persons.setAll(persons);
+        }
+
+        @Override
+        public ObservableList<BakeryItem> getBakeryItemList() {
+            return FXCollections.emptyObservableList();
+        }
+
+        @Override
+        public ObservableList<ClientOrder> getOrderList() {
+            return FXCollections.emptyObservableList();
         }
 
         @Override
