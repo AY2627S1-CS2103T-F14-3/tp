@@ -9,6 +9,10 @@ import java.util.Set;
 import seedu.address.commons.core.index.Index;
 import seedu.address.commons.util.StringUtil;
 import seedu.address.logic.parser.exceptions.ParseException;
+import seedu.address.model.bakeryitem.BakeryItemName;
+import seedu.address.model.bakeryitem.Price;
+import seedu.address.model.order.Deadline;
+import seedu.address.model.order.Quantity;
 import seedu.address.model.person.Address;
 import seedu.address.model.person.Email;
 import seedu.address.model.person.Name;
@@ -120,5 +124,56 @@ public class ParserUtil {
             tagSet.add(parseTag(tagName));
         }
         return tagSet;
+    }
+
+    /**
+     * Parses a whole-number order quantity, trimming surrounding whitespace.
+     *
+     * @throws ParseException If the quantity is not between 1 and 9,999 inclusive.
+     */
+    public static Quantity parseQuantity(String quantity) throws ParseException {
+        requireNonNull(quantity);
+        String trimmedQuantity = quantity.trim();
+        if (!Quantity.isValidQuantity(trimmedQuantity)) {
+            throw new ParseException(Quantity.MESSAGE_CONSTRAINTS);
+        }
+        return new Quantity(Integer.parseInt(trimmedQuantity));
+    }
+
+    /**
+     * Parses an order deadline, trimming surrounding whitespace and accepting past dates.
+     *
+     * @throws ParseException If the deadline is not a valid calendar date in YYYY-MM-DD format.
+     */
+    public static Deadline parseDeadline(String deadline) throws ParseException {
+        requireNonNull(deadline);
+        String trimmedDeadline = deadline.trim();
+        if (!Deadline.isValidDeadline(trimmedDeadline)) {
+            throw new ParseException(Deadline.MESSAGE_CONSTRAINTS);
+        }
+        return new Deadline(trimmedDeadline);
+    }
+    /**
+     * Parses {@code String itemName} into a {@code BakeryItemName}.
+     */
+    public static BakeryItemName parseBakeryItemName(String itemName) throws ParseException {
+        requireNonNull(itemName);
+        String trimmedItemName = itemName.trim();
+        if (!BakeryItemName.isValidItemName(trimmedItemName)) {
+            throw new ParseException(BakeryItemName.MESSAGE_CONSTRAINTS);
+        }
+        return new BakeryItemName(trimmedItemName);
+    }
+
+    /**
+     * Parses {@code String priceDollars} into a {@code Price}.
+     */
+    public static Price parsePrice(String priceDollars) throws ParseException {
+        requireNonNull(priceDollars);
+        String trimmedPriceDollars = priceDollars.trim();
+        if (!Price.isValidPriceDollars(trimmedPriceDollars)) {
+            throw new ParseException(Price.MESSAGE_CONSTRAINTS);
+        }
+        return Price.fromDollars(trimmedPriceDollars);
     }
 }

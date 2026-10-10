@@ -255,25 +255,33 @@ _{Explain here how the data archiving feature will be implemented}_
 
 --------------------------------------------------------------------------------------------------------------------
 
-### unmark parsing increment
+### Client order backend
 
-The current increment recognizes `unmark CONTACT_INDEX o/ORDER_INDEX`, for example
-`unmark 1 o/2`, as specified in [issue #40](https://github.com/AY2627S1-CS2103T-F14-3/tp/issues/40).
-It validates and retains the indices in a command; execution is deferred until the order model is integrated.
-Executing a valid request returns `Unmarking orders is not available yet. No order status has been changed.` and leaves existing data unchanged.
+`add-order CONTACT_INDEX i/ITEM_INDEX q/QUANTITY d/DEADLINE` resolves indices from the displayed
+client and bakery item lists and adds an incomplete order. Identical orders are accepted with separate UUIDs.
+Quantities remain integers from 1 to 9,999; deadlines use strict YYYY-MM-DD calendar dates, including past dates.
+Missing, repeated, malformed, overflowing, and out-of-range arguments cannot change data.
 
-Requirements for this increment:
+`AddressBook` owns observable client, bakery item, and order collections. Orders reference immutable clients and
+items rather than displayed positions. Editing a client updates its order references while retaining order IDs.
+Deleting a referenced client or item is blocked until its orders are removed. Clearing the book clears all three
+collections together. The model exposes displayed item lists and client-local order lists; the logic exposes
+unmodifiable observable item and order lists for the teammate's list and GUI implementation.
 
-* Require one client index before the prefixes and exactly one `o/` order index.
-* Accept indices from 1 through `Integer.MAX_VALUE`, consistent with AB3's index representation.
-* Accept surrounding whitespace, including tabs, and leading zeros in indices.
-* Reject missing, duplicate, empty, malformed, overflowing, or extra arguments with usage or field-specific errors.
-* Register the command with the top-level parser and verify parsing and safe execution with automated tests.
+The JSON file contains `persons`, `bakeryItems`, and `orders`. Legacy AB3 files without items or orders remain
+supported. Each order stores an `id` UUID, `clientName`, `itemName`, `quantity`, `deadline`, and `complete` status.
+Client and item names reference their respective unique collection entries, preserving associations if the
+collections are reordered. In-app client edits update both the client record and its order references.
+Manual renames in JSON must update the corresponding order references too. Duplicate order UUIDs, missing
+references, invalid values, and null entries are rejected during loading; no partially loaded model is returned.
 
-The client index refers to the displayed client list. The order index refers to that client's own orders,
-not the consolidated list of all orders. Indices are transient displayed positions, not persistent identifiers.
-Existence checks, order changes, persistence, UI updates, and user-facing help are deferred to model integration.
-No successful data change is claimed by this parsing increment.
+Commands return success only after persistence succeeds. The storage writes a temporary JSON file beside the
+destination and replaces the destination, using an atomic move where supported. A failed save restores the
+previous model and displayed lists. The shared order APIs support deleting an order and replacing completion
+status; those commands are implemented separately on their respective feature branches.
+
+`add-item` from team PR #34 is integrated with the shared item model and storage so orders can reference real
+bakery goods. Order views and list commands remain the assigned teammate's GUI work.
 
 ## **Appendix: Requirements**
 
@@ -490,3 +498,7 @@ testers are expected to do more *exploratory* testing.
    1. _{Explain how to simulate missing or corrupted data files and state the expected behavior.}_
 
 1. _{ more test cases …​ }_
+
+### unmark backend
+
+The command resolves the displayed client index and then the order index within that client's orders through `OrderCommandUtil`. Restores the selected client order to incomplete. Other clients and orders retain their identities. Invalid indices produce specific errors without mutation. Status commands reject an already applied status. LogicManager saves successful changes and restores data and filters if saving fails.

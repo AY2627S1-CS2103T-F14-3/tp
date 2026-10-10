@@ -10,10 +10,10 @@ import seedu.address.commons.core.index.Index;
 import seedu.address.commons.util.ToStringBuilder;
 import seedu.address.logic.commands.exceptions.CommandException;
 import seedu.address.model.Model;
+import seedu.address.model.order.ClientOrder;
 
 /**
- * Represents a parsed request to restore a client order to incomplete.
- * Execution is deferred until order model and storage integration are available.
+ * Restores the selected client order to incomplete.
  */
 public class UnmarkOrderCommand extends Command {
     public static final String COMMAND_WORD = "unmark";
@@ -21,15 +21,14 @@ public class UnmarkOrderCommand extends Command {
             + "Parameters: CONTACT_INDEX (positive integer) "
             + PREFIX_ORDER_INDEX + "ORDER_INDEX (positive integer)\n"
             + "Example: " + COMMAND_WORD + " 1 o/2";
-    public static final String MESSAGE_NOT_IMPLEMENTED =
-            "Unmarking orders is not available yet. No order status has been changed.";
+    public static final String MESSAGE_SUCCESS = "Order marked as incomplete: %1$s";
 
     private final Index clientIndex;
     private final Index orderIndex;
 
     /**
      * Creates a request targeting an order within the specified client's orders.
-     * The client index refers to the displayed client list; existence checks are deferred to execution integration.
+     * The client index refers to the displayed client list; the order index is local to that client.
      */
     public UnmarkOrderCommand(Index clientIndex, Index orderIndex) {
         requireAllNonNull(clientIndex, orderIndex);
@@ -38,14 +37,19 @@ public class UnmarkOrderCommand extends Command {
     }
 
     /**
-     * Reports that execution is unavailable in this parsing increment without modifying the model.
+     * Restores the selected client order to incomplete.
      *
-     * @throws CommandException Always, until model and storage integration are implemented.
+     * @throws CommandException If an index is invalid or the requested status already applies.
      */
     @Override
     public CommandResult execute(Model model) throws CommandException {
         requireNonNull(model);
-        throw new CommandException(MESSAGE_NOT_IMPLEMENTED);
+        ClientOrder order = OrderCommandUtil.findOrder(model, clientIndex, orderIndex);
+        if (!order.isComplete()) {
+            throw new CommandException("This order is already incomplete.");
+        }
+        model.setOrderCompletion(order, false);
+        return new CommandResult(String.format(MESSAGE_SUCCESS, order.withCompletion(false)));
     }
 
     @Override
