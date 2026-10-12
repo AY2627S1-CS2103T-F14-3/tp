@@ -24,6 +24,14 @@ public class JsonSerializableAddressBookTest {
     private static final Path TYPICAL_PERSONS_FILE = TEST_DATA_FOLDER.resolve("typicalPersonsAddressBook.json");
     private static final Path INVALID_PERSON_FILE = TEST_DATA_FOLDER.resolve("invalidPersonAddressBook.json");
     private static final Path DUPLICATE_PERSON_FILE = TEST_DATA_FOLDER.resolve("duplicatePersonAddressBook.json");
+    private static final Path TYPICAL_BAKERY_ITEMS_FILE =
+            TEST_DATA_FOLDER.resolve("typicalBakeryItemsAddressBook.json");
+    private static final Path EMPTY_BAKERY_ITEMS_FILE =
+            TEST_DATA_FOLDER.resolve("emptyBakeryItemsAddressBook.json");
+    private static final Path INVALID_BAKERY_ITEM_FILE =
+            TEST_DATA_FOLDER.resolve("invalidBakeryItemAddressBook.json");
+    private static final Path DUPLICATE_BAKERY_ITEMS_FILE =
+            TEST_DATA_FOLDER.resolve("duplicateBakeryItemsAddressBook.json");
 
     @Test
     public void toJsonString_addressBookWithBakeryItems_serializesBakeryItems() throws Exception {
@@ -51,12 +59,31 @@ public class JsonSerializableAddressBookTest {
     }
 
     @Test
-    public void toModelType_typicalPersonsFile_success() throws Exception {
+    public void toModelType_typicalPersonsFileWithoutBakeryItems_success() throws Exception {
         JsonSerializableAddressBook dataFromFile = JsonUtil.readJsonFile(TYPICAL_PERSONS_FILE,
                 JsonSerializableAddressBook.class).get();
         AddressBook addressBookFromFile = dataFromFile.toModelType();
         AddressBook typicalPersonsAddressBook = TypicalPersons.getTypicalAddressBook();
         assertEquals(addressBookFromFile, typicalPersonsAddressBook);
+        assertEquals(List.of(), addressBookFromFile.getBakeryItemList());
+    }
+
+    @Test
+    public void toModelType_typicalBakeryItemsFile_success() throws Exception {
+        JsonSerializableAddressBook dataFromFile = JsonUtil.readJsonFile(TYPICAL_BAKERY_ITEMS_FILE,
+                JsonSerializableAddressBook.class).get();
+        AddressBook addressBookFromFile = dataFromFile.toModelType();
+        AddressBook typicalBakeryItemsAddressBook = new AddressBook();
+        typicalBakeryItemsAddressBook.setBakeryItems(List.of(BANANA_MUFFIN, CHOCOLATE_MUFFIN));
+        assertEquals(addressBookFromFile, typicalBakeryItemsAddressBook);
+    }
+
+    @Test
+    public void toModelType_emptyBakeryItemsFile_success() throws Exception {
+        JsonSerializableAddressBook dataFromFile = JsonUtil.readJsonFile(EMPTY_BAKERY_ITEMS_FILE,
+                JsonSerializableAddressBook.class).get();
+        AddressBook addressBookFromFile = dataFromFile.toModelType();
+        assertEquals(new AddressBook(), addressBookFromFile);
     }
 
     @Test
@@ -71,6 +98,21 @@ public class JsonSerializableAddressBookTest {
         JsonSerializableAddressBook dataFromFile = JsonUtil.readJsonFile(DUPLICATE_PERSON_FILE,
                 JsonSerializableAddressBook.class).get();
         assertThrows(IllegalValueException.class, JsonSerializableAddressBook.MESSAGE_DUPLICATE_PERSON,
+                dataFromFile::toModelType);
+    }
+
+    @Test
+    public void toModelType_invalidBakeryItemFile_throwsIllegalValueException() throws Exception {
+        JsonSerializableAddressBook dataFromFile = JsonUtil.readJsonFile(INVALID_BAKERY_ITEM_FILE,
+                JsonSerializableAddressBook.class).get();
+        assertThrows(IllegalValueException.class, dataFromFile::toModelType);
+    }
+
+    @Test
+    public void toModelType_duplicateBakeryItems_throwsIllegalValueException() throws Exception {
+        JsonSerializableAddressBook dataFromFile = JsonUtil.readJsonFile(DUPLICATE_BAKERY_ITEMS_FILE,
+                JsonSerializableAddressBook.class).get();
+        assertThrows(IllegalValueException.class, JsonSerializableAddressBook.MESSAGE_DUPLICATE_BAKERY_ITEM,
                 dataFromFile::toModelType);
     }
 
