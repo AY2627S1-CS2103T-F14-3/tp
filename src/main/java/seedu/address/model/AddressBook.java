@@ -96,6 +96,16 @@ public class AddressBook implements ReadOnlyAddressBook {
         persons.remove(key);
     }
 
+    //// bakery item-level operations
+
+    /**
+     * Removes {@code key} from this {@code AddressBook}.
+     * {@code key} must exist in the address book.
+     */
+    public void removeBakeryItem(BakeryItem key) {
+        bakeryItems.remove(key);
+    }
+
     //// util methods
 
     @Override
