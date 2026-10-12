@@ -3,9 +3,12 @@ package seedu.address.model;
 import static java.util.Objects.requireNonNull;
 
 import java.util.List;
+import java.util.Objects;
 
 import javafx.collections.ObservableList;
 import seedu.address.commons.util.ToStringBuilder;
+import seedu.address.model.bakeryitem.BakeryItem;
+import seedu.address.model.bakeryitem.UniqueBakeryItemList;
 import seedu.address.model.person.Person;
 import seedu.address.model.person.UniquePersonList;
 
@@ -16,6 +19,7 @@ import seedu.address.model.person.UniquePersonList;
 public class AddressBook implements ReadOnlyAddressBook {
 
     private final UniquePersonList persons = new UniquePersonList();
+    private final UniqueBakeryItemList bakeryItems = new UniqueBakeryItemList();
 
     public AddressBook() {}
 
@@ -38,12 +42,21 @@ public class AddressBook implements ReadOnlyAddressBook {
     }
 
     /**
+     * Replaces the contents of the bakery item list with {@code bakeryItems}.
+     * {@code bakeryItems} must not contain duplicate bakery items.
+     */
+    public void setBakeryItems(List<BakeryItem> bakeryItems) {
+        this.bakeryItems.setBakeryItems(bakeryItems);
+    }
+
+    /**
      * Resets the existing data of this {@code AddressBook} with {@code newData}.
      */
     public void resetData(ReadOnlyAddressBook newData) {
         requireNonNull(newData);
 
         setPersons(newData.getPersonList());
+        setBakeryItems(newData.getBakeryItemList());
     }
 
     //// person-level operations
@@ -89,12 +102,18 @@ public class AddressBook implements ReadOnlyAddressBook {
     public String toString() {
         return new ToStringBuilder(this)
                 .add("persons", persons)
+                .add("bakeryItems", bakeryItems)
                 .toString();
     }
 
     @Override
     public ObservableList<Person> getPersonList() {
         return persons.asUnmodifiableObservableList();
+    }
+
+    @Override
+    public ObservableList<BakeryItem> getBakeryItemList() {
+        return bakeryItems.asUnmodifiableObservableList();
     }
 
     @Override
@@ -108,11 +127,12 @@ public class AddressBook implements ReadOnlyAddressBook {
             return false;
         }
 
-        return persons.equals(otherAddressBook.persons);
+        return persons.equals(otherAddressBook.persons)
+                && bakeryItems.equals(otherAddressBook.bakeryItems);
     }
 
     @Override
     public int hashCode() {
-        return persons.hashCode();
+        return Objects.hash(persons, bakeryItems);
     }
 }

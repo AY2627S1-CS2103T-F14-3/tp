@@ -6,6 +6,8 @@ import static org.junit.jupiter.api.Assertions.assertTrue;
 import static seedu.address.logic.commands.CommandTestUtil.VALID_ADDRESS_BOB;
 import static seedu.address.logic.commands.CommandTestUtil.VALID_TAG_HUSBAND;
 import static seedu.address.testutil.Assert.assertThrows;
+import static seedu.address.testutil.TypicalBakeryItems.BANANA_MUFFIN;
+import static seedu.address.testutil.TypicalBakeryItems.BANANA_MUFFIN_WITH_DIFFERENT_PRICE;
 import static seedu.address.testutil.TypicalPersons.ALICE;
 import static seedu.address.testutil.TypicalPersons.getTypicalAddressBook;
 
@@ -16,6 +18,8 @@ import org.junit.jupiter.api.Test;
 
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
+import seedu.address.model.bakeryitem.BakeryItem;
+import seedu.address.model.bakeryitem.exceptions.DuplicateBakeryItemException;
 import seedu.address.model.person.Person;
 import seedu.address.model.person.exceptions.DuplicatePersonException;
 import seedu.address.testutil.PersonBuilder;
@@ -27,6 +31,7 @@ public class AddressBookTest {
     @Test
     public void constructor() {
         assertEquals(List.of(), addressBook.getPersonList());
+        assertEquals(List.of(), addressBook.getBakeryItemList());
     }
 
     @Test
@@ -37,6 +42,7 @@ public class AddressBookTest {
     @Test
     public void resetData_withValidReadOnlyAddressBook_replacesData() {
         AddressBook newData = getTypicalAddressBook();
+        newData.setBakeryItems(List.of(BANANA_MUFFIN));
         addressBook.resetData(newData);
         assertEquals(newData, addressBook);
     }
@@ -50,6 +56,14 @@ public class AddressBookTest {
         AddressBookStub newData = new AddressBookStub(newPersons);
 
         assertThrows(DuplicatePersonException.class, () -> addressBook.resetData(newData));
+    }
+
+    @Test
+    public void resetData_withDuplicateBakeryItems_throwsDuplicateBakeryItemException() {
+        List<BakeryItem> duplicateBakeryItems = List.of(BANANA_MUFFIN, BANANA_MUFFIN_WITH_DIFFERENT_PRICE);
+        AddressBookStub newData = new AddressBookStub(List.of(), duplicateBakeryItems);
+
+        assertThrows(DuplicateBakeryItemException.class, () -> addressBook.resetData(newData));
     }
 
     @Test
@@ -82,8 +96,14 @@ public class AddressBookTest {
     }
 
     @Test
+    public void getBakeryItemList_modifyList_throwsUnsupportedOperationException() {
+        assertThrows(UnsupportedOperationException.class, () -> addressBook.getBakeryItemList().add(BANANA_MUFFIN));
+    }
+
+    @Test
     public void toStringMethod() {
-        String expected = AddressBook.class.getCanonicalName() + "{persons=" + addressBook.getPersonList() + "}";
+        String expected = AddressBook.class.getCanonicalName() + "{persons=" + addressBook.getPersonList()
+                + ", bakeryItems=" + addressBook.getBakeryItemList() + "}";
         assertEquals(expected, addressBook.toString());
     }
 
@@ -92,14 +112,25 @@ public class AddressBookTest {
      */
     private static class AddressBookStub implements ReadOnlyAddressBook {
         private final ObservableList<Person> persons = FXCollections.observableArrayList();
+        private final ObservableList<BakeryItem> bakeryItems = FXCollections.observableArrayList();
 
         AddressBookStub(Collection<Person> persons) {
             this.persons.setAll(persons);
         }
 
+        AddressBookStub(Collection<Person> persons, Collection<BakeryItem> bakeryItems) {
+            this.persons.setAll(persons);
+            this.bakeryItems.setAll(bakeryItems);
+        }
+
         @Override
         public ObservableList<Person> getPersonList() {
             return persons;
+        }
+
+        @Override
+        public ObservableList<BakeryItem> getBakeryItemList() {
+            return bakeryItems;
         }
     }
 
