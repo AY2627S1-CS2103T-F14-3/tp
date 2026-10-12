@@ -20,6 +20,7 @@ import org.junit.jupiter.api.Test;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import seedu.address.model.bakeryitem.BakeryItem;
+import seedu.address.model.bakeryitem.exceptions.BakeryItemNotFoundException;
 import seedu.address.model.bakeryitem.exceptions.DuplicateBakeryItemException;
 import seedu.address.model.person.Person;
 import seedu.address.model.person.exceptions.DuplicatePersonException;
@@ -99,6 +100,25 @@ public class AddressBookTest {
     @Test
     public void getBakeryItemList_modifyList_throwsUnsupportedOperationException() {
         assertThrows(UnsupportedOperationException.class, () -> addressBook.getBakeryItemList().add(BANANA_MUFFIN));
+    }
+
+    @Test
+    public void removeBakeryItem_nullBakeryItem_throwsNullPointerException() {
+        assertThrows(NullPointerException.class, () -> addressBook.removeBakeryItem(null));
+    }
+
+    @Test
+    public void removeBakeryItem_bakeryItemNotInAddressBook_throwsBakeryItemNotFoundException() {
+        assertThrows(BakeryItemNotFoundException.class, () -> addressBook.removeBakeryItem(BANANA_MUFFIN));
+    }
+
+    @Test
+    public void removeBakeryItem_existingBakeryItem_removesBakeryItem() {
+        addressBook.setBakeryItems(List.of(BANANA_MUFFIN));
+
+        addressBook.removeBakeryItem(BANANA_MUFFIN);
+
+        assertEquals(List.of(), addressBook.getBakeryItemList());
     }
 
     @Test

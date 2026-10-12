@@ -5,6 +5,8 @@ import static org.junit.jupiter.api.Assertions.assertFalse;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 import static seedu.address.model.Model.PREDICATE_SHOW_ALL_PERSONS;
 import static seedu.address.testutil.Assert.assertThrows;
+import static seedu.address.testutil.TypicalBakeryItems.BANANA_MUFFIN;
+import static seedu.address.testutil.TypicalBakeryItems.CHOCOLATE_MUFFIN;
 import static seedu.address.testutil.TypicalPersons.ALICE;
 import static seedu.address.testutil.TypicalPersons.BENSON;
 
@@ -71,6 +73,33 @@ public class ModelManagerTest {
     @Test
     public void getFilteredPersonList_modifyList_throwsUnsupportedOperationException() {
         assertThrows(UnsupportedOperationException.class, () -> modelManager.getFilteredPersonList().remove(0));
+    }
+
+    @Test
+    public void getFilteredBakeryItemList_returnsBakeryItems() {
+        AddressBook addressBook = new AddressBook();
+        addressBook.setBakeryItems(List.of(BANANA_MUFFIN, CHOCOLATE_MUFFIN));
+        modelManager = new ModelManager(addressBook, new UserPrefs());
+
+        assertEquals(List.of(BANANA_MUFFIN, CHOCOLATE_MUFFIN), modelManager.getFilteredBakeryItemList());
+    }
+
+    @Test
+    public void getFilteredBakeryItemList_modifyList_throwsUnsupportedOperationException() {
+        assertThrows(UnsupportedOperationException.class, () ->
+                modelManager.getFilteredBakeryItemList().add(BANANA_MUFFIN));
+    }
+
+    @Test
+    public void deleteBakeryItem_existingBakeryItem_removesBakeryItem() {
+        AddressBook addressBook = new AddressBook();
+        addressBook.setBakeryItems(List.of(BANANA_MUFFIN, CHOCOLATE_MUFFIN));
+        modelManager = new ModelManager(addressBook, new UserPrefs());
+
+        modelManager.deleteBakeryItem(BANANA_MUFFIN);
+
+        assertEquals(List.of(CHOCOLATE_MUFFIN), modelManager.getFilteredBakeryItemList());
+        assertEquals(List.of(CHOCOLATE_MUFFIN), modelManager.getAddressBook().getBakeryItemList());
     }
 
     @Test
