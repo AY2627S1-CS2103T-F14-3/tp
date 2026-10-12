@@ -5,6 +5,7 @@ import static seedu.address.logic.parser.CliSyntax.PREFIX_BAKERY_ITEM_NAME;
 import static seedu.address.logic.parser.CliSyntax.PREFIX_PRICE;
 
 import seedu.address.commons.util.ToStringBuilder;
+import seedu.address.logic.Messages;
 import seedu.address.logic.commands.exceptions.CommandException;
 import seedu.address.model.Model;
 import seedu.address.model.bakeryitem.BakeryItem;
@@ -47,8 +48,7 @@ public class AddBakeryItemCommand extends Command {
         }
 
         model.addBakeryItem(toAdd);
-        // TODO this is just a stub, add the real message from Messages.format later
-        return new CommandResult(String.format(MESSAGE_SUCCESS, toAdd) + "\nADDED? " + model.hasBakeryItem(toAdd));
+        return new CommandResult(String.format(MESSAGE_SUCCESS, Messages.format(toAdd)));
     }
 
     @Override
