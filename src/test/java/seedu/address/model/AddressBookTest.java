@@ -8,6 +8,7 @@ import static seedu.address.logic.commands.CommandTestUtil.VALID_TAG_HUSBAND;
 import static seedu.address.testutil.Assert.assertThrows;
 import static seedu.address.testutil.TypicalBakeryItems.BANANA_MUFFIN;
 import static seedu.address.testutil.TypicalBakeryItems.BANANA_MUFFIN_WITH_DIFFERENT_PRICE;
+import static seedu.address.testutil.TypicalBakeryItems.CHOCOLATE_MUFFIN;
 import static seedu.address.testutil.TypicalPersons.ALICE;
 import static seedu.address.testutil.TypicalPersons.getTypicalAddressBook;
 
@@ -98,6 +99,21 @@ public class AddressBookTest {
     @Test
     public void getBakeryItemList_modifyList_throwsUnsupportedOperationException() {
         assertThrows(UnsupportedOperationException.class, () -> addressBook.getBakeryItemList().add(BANANA_MUFFIN));
+    }
+
+    @Test
+    public void equals() {
+        addressBook.setBakeryItems(List.of(BANANA_MUFFIN));
+        AddressBook sameAddressBook = new AddressBook(addressBook);
+        AddressBook differentAddressBook = new AddressBook();
+        differentAddressBook.setBakeryItems(List.of(CHOCOLATE_MUFFIN));
+
+        assertTrue(addressBook.equals(addressBook));
+        assertTrue(addressBook.equals(sameAddressBook));
+        assertFalse(addressBook.equals(null));
+        assertFalse(addressBook.equals(5));
+        assertFalse(addressBook.equals(differentAddressBook));
+        assertEquals(addressBook.hashCode(), sameAddressBook.hashCode());
     }
 
     @Test

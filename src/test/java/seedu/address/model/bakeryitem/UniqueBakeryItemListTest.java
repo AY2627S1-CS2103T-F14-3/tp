@@ -8,6 +8,7 @@ import static seedu.address.testutil.TypicalBakeryItems.BANANA_MUFFIN;
 import static seedu.address.testutil.TypicalBakeryItems.BANANA_MUFFIN_WITH_DIFFERENT_PRICE;
 import static seedu.address.testutil.TypicalBakeryItems.CHOCOLATE_MUFFIN;
 
+import java.util.Iterator;
 import java.util.List;
 
 import org.junit.jupiter.api.Test;
@@ -154,9 +155,10 @@ public class UniqueBakeryItemListTest {
     public void setBakeryItems_list_replacesOwnList() {
         uniqueBakeryItemList.add(BANANA_MUFFIN);
 
-        uniqueBakeryItemList.setBakeryItems(List.of(CHOCOLATE_MUFFIN));
+        uniqueBakeryItemList.setBakeryItems(List.of(BANANA_MUFFIN, CHOCOLATE_MUFFIN));
 
         UniqueBakeryItemList expectedList = new UniqueBakeryItemList();
+        expectedList.add(BANANA_MUFFIN);
         expectedList.add(CHOCOLATE_MUFFIN);
         assertEquals(expectedList, uniqueBakeryItemList);
     }
@@ -179,9 +181,27 @@ public class UniqueBakeryItemListTest {
     public void iterator_iteratesInInsertionOrder() {
         uniqueBakeryItemList.add(BANANA_MUFFIN);
         uniqueBakeryItemList.add(CHOCOLATE_MUFFIN);
+        Iterator<BakeryItem> iterator = uniqueBakeryItemList.iterator();
 
-        assertEquals(List.of(BANANA_MUFFIN, CHOCOLATE_MUFFIN),
-                uniqueBakeryItemList.asUnmodifiableObservableList());
+        assertEquals(BANANA_MUFFIN, iterator.next());
+        assertEquals(CHOCOLATE_MUFFIN, iterator.next());
+        assertFalse(iterator.hasNext());
+    }
+
+    @Test
+    public void equals() {
+        uniqueBakeryItemList.add(BANANA_MUFFIN);
+        UniqueBakeryItemList sameUniqueBakeryItemList = new UniqueBakeryItemList();
+        sameUniqueBakeryItemList.add(BANANA_MUFFIN);
+        UniqueBakeryItemList differentUniqueBakeryItemList = new UniqueBakeryItemList();
+        differentUniqueBakeryItemList.add(CHOCOLATE_MUFFIN);
+
+        assertTrue(uniqueBakeryItemList.equals(uniqueBakeryItemList));
+        assertTrue(uniqueBakeryItemList.equals(sameUniqueBakeryItemList));
+        assertFalse(uniqueBakeryItemList.equals(null));
+        assertFalse(uniqueBakeryItemList.equals(List.of(BANANA_MUFFIN)));
+        assertFalse(uniqueBakeryItemList.equals(differentUniqueBakeryItemList));
+        assertEquals(uniqueBakeryItemList.hashCode(), sameUniqueBakeryItemList.hashCode());
     }
 
     @Test
