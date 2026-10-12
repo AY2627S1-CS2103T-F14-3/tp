@@ -41,7 +41,7 @@ public class DeleteBakeryItemCommand extends Command {
 
         BakeryItem itemToDelete = lastShownList.get(targetIndex.getZeroBased());
         model.deleteBakeryItem(itemToDelete);
-        return new CommandResult(String.format(MESSAGE_DELETE_BAKERY_ITEM_SUCCESS, itemToDelete));
+        return new CommandResult(String.format(MESSAGE_DELETE_BAKERY_ITEM_SUCCESS, Messages.format(itemToDelete)));
     }
 
     @Override
