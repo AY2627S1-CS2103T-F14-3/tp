@@ -58,8 +58,8 @@ public class AddBakeryItemCommandTest {
         AddBakeryItemCommand addBakeryItemCommand = new AddBakeryItemCommand(BANANA_MUFFIN);
         ModelStub modelStub = new ModelStubWithBakeryItem(BANANA_MUFFIN);
 
-        assertThrows(CommandException.class, AddBakeryItemCommand.MESSAGE_DUPLICATE_ITEM, ()
-                -> addBakeryItemCommand.execute(modelStub));
+        assertThrows(CommandException.class,
+                AddBakeryItemCommand.MESSAGE_DUPLICATE_ITEM, () -> addBakeryItemCommand.execute(modelStub));
     }
 
     @Test
@@ -133,6 +133,16 @@ public class AddBakeryItemCommandTest {
 
         @Override
         public void addBakeryItem(BakeryItem bakeryItem) {
+            throw new AssertionError("This method should not be called.");
+        }
+
+        @Override
+        public void deleteBakeryItem(BakeryItem target) {
+            throw new AssertionError("This method should not be called.");
+        }
+
+        @Override
+        public ObservableList<BakeryItem> getFilteredBakeryItemList() {
             throw new AssertionError("This method should not be called.");
         }
 

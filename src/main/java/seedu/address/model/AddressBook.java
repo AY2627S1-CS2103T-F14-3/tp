@@ -99,6 +99,14 @@ public class AddressBook implements ReadOnlyAddressBook {
     //// bakery item-level operations
 
     /**
+     * Removes {@code key} from this {@code AddressBook}.
+     * {@code key} must exist in the address book.
+     */
+    public void removeBakeryItem(BakeryItem key) {
+        bakeryItems.remove(key);
+    }
+
+    /**
      * Returns true if a bakery item with the same identity as {@code bakeryItem} exists in the address book.
      */
     public boolean hasBakeryItem(BakeryItem bakeryItem) {

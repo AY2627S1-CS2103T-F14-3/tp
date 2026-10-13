@@ -22,6 +22,7 @@ public class ModelManager implements Model {
     private final AddressBook addressBook;
     private final UserPrefs userPrefs;
     private final FilteredList<Person> filteredPersons;
+    private final FilteredList<BakeryItem> filteredBakeryItems;
 
     /**
      * Initializes a ModelManager with the given addressBook and userPrefs.
@@ -34,6 +35,7 @@ public class ModelManager implements Model {
         this.addressBook = new AddressBook(addressBook);
         this.userPrefs = new UserPrefs(userPrefs);
         filteredPersons = new FilteredList<>(this.addressBook.getPersonList());
+        filteredBakeryItems = new FilteredList<>(this.addressBook.getBakeryItemList());
     }
 
     public ModelManager() {
@@ -82,6 +84,11 @@ public class ModelManager implements Model {
     }
 
     @Override
+    public void deleteBakeryItem(BakeryItem target) {
+        addressBook.removeBakeryItem(target);
+    }
+
+    @Override
     public void addPerson(Person person) {
         addressBook.addPerson(person);
         updateFilteredPersonList(PREDICATE_SHOW_ALL_PERSONS);
@@ -117,6 +124,11 @@ public class ModelManager implements Model {
     }
 
     @Override
+    public ObservableList<BakeryItem> getFilteredBakeryItemList() {
+        return filteredBakeryItems;
+    }
+
+    @Override
     public void updateFilteredPersonList(Predicate<Person> predicate) {
         requireNonNull(predicate);
         filteredPersons.setPredicate(predicate);
@@ -135,7 +147,8 @@ public class ModelManager implements Model {
 
         return addressBook.equals(otherModelManager.addressBook)
                 && userPrefs.equals(otherModelManager.userPrefs)
-                && filteredPersons.equals(otherModelManager.filteredPersons);
+                && filteredPersons.equals(otherModelManager.filteredPersons)
+                && filteredBakeryItems.equals(otherModelManager.filteredBakeryItems);
     }
 
 }
