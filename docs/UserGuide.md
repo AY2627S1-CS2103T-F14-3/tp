@@ -140,6 +140,19 @@ Examples:
 * `list` followed by `delete 2` deletes the 2nd person in the address book.
 * `find Betsy` followed by `delete 1` deletes the 1st person in the results of the `find` command.
 
+### Deleting a bakery item: `delete-item`
+
+Deletes the specified bakery item from the address book.
+
+Format: `delete-item INDEX`
+
+* Deletes the bakery item at the specified `INDEX`.
+* The index refers to the index number shown in the displayed bakery item list.
+* The index **must be a positive integer** 1, 2, 3, …​
+
+Examples:
+* `delete-item 1` deletes the 1st bakery item in the displayed bakery item list.
+
 ### Clearing all entries: `clear`
 
 Clears all entries from the address book.
@@ -194,5 +207,6 @@ Action | Format, Examples
 **Delete** | `delete INDEX`<br> e.g., `delete 3`
 **Edit** | `edit INDEX [n/NAME] [p/PHONE_NUMBER] [e/EMAIL] [a/ADDRESS] [t/TAG]…​`<br> e.g., `edit 2 n/James Lee e/jameslee@example.com`
 **Find** | `find KEYWORD [MORE_KEYWORDS]`<br> e.g., `find James Jake`
+**Delete Item** | `delete-item INDEX`<br> e.g., `delete-item 3`
 **List** | `list`
 **Help** | `help`
