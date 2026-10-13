@@ -20,6 +20,7 @@ import org.junit.jupiter.api.Test;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import seedu.address.model.bakeryitem.BakeryItem;
+import seedu.address.model.bakeryitem.exceptions.BakeryItemNotFoundException;
 import seedu.address.model.bakeryitem.exceptions.DuplicateBakeryItemException;
 import seedu.address.model.person.Person;
 import seedu.address.model.person.exceptions.DuplicatePersonException;
@@ -92,6 +93,46 @@ public class AddressBookTest {
     }
 
     @Test
+    public void hasBakeryItem_nullBakeryItem_throwsNullPointerException() {
+        assertThrows(NullPointerException.class, () -> addressBook.hasBakeryItem(null));
+    }
+
+    @Test
+    public void hasBakeryItem_bakeryItemNotInAddressBook_returnsFalse() {
+        assertFalse(addressBook.hasBakeryItem(BANANA_MUFFIN));
+    }
+
+    @Test
+    public void hasBakeryItem_bakeryItemInAddressBook_returnsTrue() {
+        addressBook.addBakeryItem(BANANA_MUFFIN);
+        assertTrue(addressBook.hasBakeryItem(BANANA_MUFFIN));
+    }
+
+    @Test
+    public void hasBakeryItem_bakeryItemWithSameIdentityInAddressBook_returnsTrue() {
+        addressBook.addBakeryItem(BANANA_MUFFIN);
+        assertTrue(addressBook.hasBakeryItem(BANANA_MUFFIN_WITH_DIFFERENT_PRICE));
+    }
+
+    @Test
+    public void addBakeryItem_nullBakeryItem_throwsNullPointerException() {
+        assertThrows(NullPointerException.class, () -> addressBook.addBakeryItem(null));
+    }
+
+    @Test
+    public void addBakeryItem_newBakeryItem_addsBakeryItem() {
+        addressBook.addBakeryItem(BANANA_MUFFIN);
+        assertEquals(List.of(BANANA_MUFFIN), addressBook.getBakeryItemList());
+    }
+
+    @Test
+    public void addBakeryItem_duplicateBakeryItem_throwsDuplicateBakeryItemException() {
+        addressBook.addBakeryItem(BANANA_MUFFIN);
+        assertThrows(DuplicateBakeryItemException.class, ()
+                -> addressBook.addBakeryItem(BANANA_MUFFIN_WITH_DIFFERENT_PRICE));
+    }
+
+    @Test
     public void getPersonList_modifyList_throwsUnsupportedOperationException() {
         assertThrows(UnsupportedOperationException.class, () -> addressBook.getPersonList().remove(0));
     }
@@ -99,6 +140,25 @@ public class AddressBookTest {
     @Test
     public void getBakeryItemList_modifyList_throwsUnsupportedOperationException() {
         assertThrows(UnsupportedOperationException.class, () -> addressBook.getBakeryItemList().add(BANANA_MUFFIN));
+    }
+
+    @Test
+    public void removeBakeryItem_nullBakeryItem_throwsNullPointerException() {
+        assertThrows(NullPointerException.class, () -> addressBook.removeBakeryItem(null));
+    }
+
+    @Test
+    public void removeBakeryItem_bakeryItemNotInAddressBook_throwsBakeryItemNotFoundException() {
+        assertThrows(BakeryItemNotFoundException.class, () -> addressBook.removeBakeryItem(BANANA_MUFFIN));
+    }
+
+    @Test
+    public void removeBakeryItem_existingBakeryItem_removesBakeryItem() {
+        addressBook.setBakeryItems(List.of(BANANA_MUFFIN));
+
+        addressBook.removeBakeryItem(BANANA_MUFFIN);
+
+        assertEquals(List.of(), addressBook.getBakeryItemList());
     }
 
     @Test

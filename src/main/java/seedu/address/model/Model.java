@@ -4,6 +4,7 @@ import java.util.function.Predicate;
 
 import javafx.collections.ObservableList;
 import seedu.address.commons.core.GuiSettings;
+import seedu.address.model.bakeryitem.BakeryItem;
 import seedu.address.model.person.Person;
 
 /**
@@ -48,10 +49,27 @@ public interface Model {
     void deletePerson(Person target);
 
     /**
+     * Deletes the given bakery item.
+     * The bakery item must exist in the address book.
+     */
+    void deleteBakeryItem(BakeryItem target);
+
+    /**
      * Adds the given person.
      * {@code person} must not already exist in the address book.
      */
     void addPerson(Person person);
+
+    /**
+     * Returns true if a bakery item with the same identity as {@code bakeryItem} exists in the address book.
+     */
+    boolean hasBakeryItem(BakeryItem bakeryItem);
+
+    /**
+     * Adds the given bakery item.
+     * {@code bakeryItem} must not already exist in the address book.
+     */
+    void addBakeryItem(BakeryItem bakeryItem);
 
     /**
      * Replaces the given person {@code target} with {@code editedPerson}.
@@ -62,6 +80,9 @@ public interface Model {
 
     /** Returns an unmodifiable view of the filtered person list */
     ObservableList<Person> getFilteredPersonList();
+
+    /** Returns an unmodifiable view of the filtered bakery item list. */
+    ObservableList<BakeryItem> getFilteredBakeryItemList();
 
     /**
      * Updates the filter of the filtered person list to filter by the given {@code predicate}.

@@ -32,11 +32,13 @@ AddressBook Level 3 (AB3) is a **desktop application for managing contacts, opti
 
    * `delete 3` : Deletes the 3rd contact shown in the current list.
 
+   * `add-item n/Banana Muffin p/5.99` : Adds a bakery item named `Banana Muffin` to the Address Book.
+
    * `clear` : Deletes all contacts.
 
    * `exit` : Exits the app.
 
-1. Refer to the [Features](#features) section below for details of each command.
+2. Refer to the [Features](#features) section below for details of each command.
 
 --------------------------------------------------------------------------------------------------------------------
 
@@ -140,6 +142,32 @@ Examples:
 * `list` followed by `delete 2` deletes the 2nd person in the address book.
 * `find Betsy` followed by `delete 1` deletes the 1st person in the results of the `find` command.
 
+### Adding a bakery item: `add-item`
+
+Adds the specified bakery item to the address book.
+
+Format: `add-item n/ITEM_NAME p/PRICE_DOLLARS`
+
+* Adds the bakery item with the trimmed `ITEM_NAME` and `PRICE_DOLLARS`.
+* Duplicate items are rejected. An item is a duplicate if they have the same item name after trimming, removing extra whitespace and converting to uppercase.
+* `PRICE_DOLLARS` can have the format `D`, `D.`, `D.c`, or `D.cc`.
+
+Examples:
+* `add-item n/Banana Muffin p/5.90`
+
+### Deleting a bakery item: `delete-item`
+
+Deletes the specified bakery item from the address book.
+
+Format: `delete-item INDEX`
+
+* Deletes the bakery item at the specified `INDEX`.
+* The index refers to the index number shown in the displayed bakery item list.
+* The index **must be a positive integer** 1, 2, 3, …​
+
+Examples:
+* `delete-item 1` deletes the 1st bakery item in the displayed bakery item list.
+
 ### Clearing all entries: `clear`
 
 Clears all entries from the address book.
@@ -194,5 +222,7 @@ Action | Format, Examples
 **Delete** | `delete INDEX`<br> e.g., `delete 3`
 **Edit** | `edit INDEX [n/NAME] [p/PHONE_NUMBER] [e/EMAIL] [a/ADDRESS] [t/TAG]…​`<br> e.g., `edit 2 n/James Lee e/jameslee@example.com`
 **Find** | `find KEYWORD [MORE_KEYWORDS]`<br> e.g., `find James Jake`
+**Add Bakery Item** | `add-item n/ITEM_NAME p/PRICE_DOLLARS` <br> e.g., `add-item n/Banana Muffin p/5.99`
+**Delete Bakery Item** | `delete-item INDEX`<br> e.g., `delete-item 3`
 **List** | `list`
 **Help** | `help`
