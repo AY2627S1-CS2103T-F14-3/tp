@@ -5,6 +5,8 @@ import static org.junit.jupiter.api.Assertions.assertFalse;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 import static seedu.address.model.Model.PREDICATE_SHOW_ALL_PERSONS;
 import static seedu.address.testutil.Assert.assertThrows;
+import static seedu.address.testutil.TypicalBakeryItems.BANANA_MUFFIN;
+import static seedu.address.testutil.TypicalBakeryItems.BANANA_MUFFIN_WITH_DIFFERENT_PRICE;
 import static seedu.address.testutil.TypicalPersons.ALICE;
 import static seedu.address.testutil.TypicalPersons.BENSON;
 
@@ -66,6 +68,34 @@ public class ModelManagerTest {
     public void hasPerson_personInAddressBook_returnsTrue() {
         modelManager.addPerson(ALICE);
         assertTrue(modelManager.hasPerson(ALICE));
+    }
+
+    @Test
+    public void hasBakeryItem_nullBakeryItem_throwsNullPointerException() {
+        assertThrows(NullPointerException.class, () -> modelManager.hasBakeryItem(null));
+    }
+
+    @Test
+    public void hasBakeryItem_bakeryItemNotInAddressBook_returnsFalse() {
+        assertFalse(modelManager.hasBakeryItem(BANANA_MUFFIN));
+    }
+
+    @Test
+    public void hasBakeryItem_bakeryItemInAddressBook_returnsTrue() {
+        modelManager.addBakeryItem(BANANA_MUFFIN);
+        assertTrue(modelManager.hasBakeryItem(BANANA_MUFFIN));
+    }
+
+    @Test
+    public void hasBakeryItem_bakeryItemWithSameIdentityInAddressBook_returnsTrue() {
+        modelManager.addBakeryItem(BANANA_MUFFIN);
+        assertTrue(modelManager.hasBakeryItem(BANANA_MUFFIN_WITH_DIFFERENT_PRICE));
+    }
+
+    @Test
+    public void addBakeryItem_newBakeryItem_addsBakeryItem() {
+        modelManager.addBakeryItem(BANANA_MUFFIN);
+        assertEquals(List.of(BANANA_MUFFIN), modelManager.getAddressBook().getBakeryItemList());
     }
 
     @Test

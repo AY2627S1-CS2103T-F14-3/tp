@@ -4,6 +4,7 @@ import java.util.function.Predicate;
 
 import javafx.collections.ObservableList;
 import seedu.address.commons.core.GuiSettings;
+import seedu.address.model.bakeryitem.BakeryItem;
 import seedu.address.model.person.Person;
 
 /**
@@ -52,6 +53,17 @@ public interface Model {
      * {@code person} must not already exist in the address book.
      */
     void addPerson(Person person);
+
+    /**
+     * Returns true if a bakery item with the same identity as {@code bakeryItem} exists in the address book.
+     */
+    boolean hasBakeryItem(BakeryItem bakeryItem);
+
+    /**
+     * Adds the given bakery item.
+     * {@code bakeryItem} must not already exist in the address book.
+     */
+    void addBakeryItem(BakeryItem bakeryItem);
 
     /**
      * Replaces the given person {@code target} with {@code editedPerson}.
