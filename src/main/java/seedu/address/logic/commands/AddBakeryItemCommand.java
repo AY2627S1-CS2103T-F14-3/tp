@@ -5,6 +5,7 @@ import static seedu.address.logic.parser.CliSyntax.PREFIX_BAKERY_ITEM_NAME;
 import static seedu.address.logic.parser.CliSyntax.PREFIX_PRICE;
 
 import seedu.address.commons.util.ToStringBuilder;
+import seedu.address.logic.Messages;
 import seedu.address.logic.commands.exceptions.CommandException;
 import seedu.address.model.Model;
 import seedu.address.model.bakeryitem.BakeryItem;
@@ -40,10 +41,14 @@ public class AddBakeryItemCommand extends Command {
 
     @Override
     public CommandResult execute(Model model) throws CommandException {
-        System.out.println(model);
-        System.out.println(toAdd);
-        // TODO Auto-generated method stub
-        throw new UnsupportedOperationException("Unimplemented method 'execute'");
+        requireNonNull(model);
+
+        if (model.hasBakeryItem(toAdd)) {
+            throw new CommandException(MESSAGE_DUPLICATE_ITEM);
+        }
+
+        model.addBakeryItem(toAdd);
+        return new CommandResult(String.format(MESSAGE_SUCCESS, Messages.format(toAdd)));
     }
 
     @Override

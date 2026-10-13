@@ -109,6 +109,16 @@ public class AddCommandTest {
         }
 
         @Override
+        public boolean hasBakeryItem(BakeryItem bakeryItem) {
+            throw new AssertionError("This method should not be called.");
+        }
+
+        @Override
+        public void addBakeryItem(BakeryItem bakeryItem) {
+            throw new AssertionError("This method should not be called.");
+        }
+
+        @Override
         public void setAddressBook(ReadOnlyAddressBook newData) {
             throw new AssertionError("This method should not be called.");
         }

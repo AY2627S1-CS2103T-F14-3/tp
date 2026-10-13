@@ -42,7 +42,7 @@ public class ModelManager implements Model {
         this(new AddressBook(), new UserPrefs());
     }
 
-    //=========== UserPrefs ==================================================================================
+    // =========== UserPrefs ==================================================================================
 
     @Override
     public ReadOnlyUserPrefs getUserPrefs() {
@@ -60,7 +60,7 @@ public class ModelManager implements Model {
         userPrefs.setGuiSettings(guiSettings);
     }
 
-    //=========== AddressBook ================================================================================
+    // =========== AddressBook ================================================================================
 
     @Override
     public void setAddressBook(ReadOnlyAddressBook addressBook) {
@@ -95,13 +95,24 @@ public class ModelManager implements Model {
     }
 
     @Override
+    public boolean hasBakeryItem(BakeryItem bakeryItem) {
+        requireNonNull(bakeryItem);
+        return addressBook.hasBakeryItem(bakeryItem);
+    }
+
+    @Override
+    public void addBakeryItem(BakeryItem bakeryItem) {
+        addressBook.addBakeryItem(bakeryItem);
+    }
+
+    @Override
     public void setPerson(Person target, Person editedPerson) {
         requireAllNonNull(target, editedPerson);
 
         addressBook.setPerson(target, editedPerson);
     }
 
-    //=========== Filtered Person List Accessors =============================================================
+    // =========== Filtered Person List Accessors =============================================================
 
     /**
      * Returns an unmodifiable view of the list of {@code Person} backed by the internal list of

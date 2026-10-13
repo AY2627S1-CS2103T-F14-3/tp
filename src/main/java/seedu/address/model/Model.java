@@ -61,6 +61,17 @@ public interface Model {
     void addPerson(Person person);
 
     /**
+     * Returns true if a bakery item with the same identity as {@code bakeryItem} exists in the address book.
+     */
+    boolean hasBakeryItem(BakeryItem bakeryItem);
+
+    /**
+     * Adds the given bakery item.
+     * {@code bakeryItem} must not already exist in the address book.
+     */
+    void addBakeryItem(BakeryItem bakeryItem);
+
+    /**
      * Replaces the given person {@code target} with {@code editedPerson}.
      * {@code target} must exist in the address book.
      * The person identity of {@code editedPerson} must not be the same as another existing person in the address book.

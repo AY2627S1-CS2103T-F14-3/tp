@@ -106,6 +106,22 @@ public class AddressBook implements ReadOnlyAddressBook {
         bakeryItems.remove(key);
     }
 
+    /**
+     * Returns true if a bakery item with the same identity as {@code bakeryItem} exists in the address book.
+     */
+    public boolean hasBakeryItem(BakeryItem bakeryItem) {
+        requireNonNull(bakeryItem);
+        return bakeryItems.contains(bakeryItem);
+    }
+
+    /**
+     * Adds a bakery item to the address book.
+     * The bakery item must not already exist in the address book.
+     */
+    public void addBakeryItem(BakeryItem bakeryItem) {
+        bakeryItems.add(bakeryItem);
+    }
+
     //// util methods
 
     @Override
