@@ -152,6 +152,9 @@ Format: `add-item n/ITEM_NAME p/PRICE_DOLLARS`
 * Duplicate items are rejected. An item is a duplicate if they have the same item name after trimming, removing extra whitespace and converting to uppercase.
 * `PRICE_DOLLARS` can have the format `D`, `D.`, `D.c`, or `D.cc`.
 
+Examples:
+* `add-item n/Banana Muffin p/5.90`
+
 ### Deleting a bakery item: `delete-item`
 
 Deletes the specified bakery item from the address book.
@@ -164,9 +167,6 @@ Format: `delete-item INDEX`
 
 Examples:
 * `delete-item 1` deletes the 1st bakery item in the displayed bakery item list.
-
-Examples:
-* `add-item n/Banana Muffin p/5.90`
 
 ### Clearing all entries: `clear`
 
@@ -223,6 +223,6 @@ Action | Format, Examples
 **Edit** | `edit INDEX [n/NAME] [p/PHONE_NUMBER] [e/EMAIL] [a/ADDRESS] [t/TAG]…​`<br> e.g., `edit 2 n/James Lee e/jameslee@example.com`
 **Find** | `find KEYWORD [MORE_KEYWORDS]`<br> e.g., `find James Jake`
 **Add Bakery Item** | `add-item n/ITEM_NAME p/PRICE_DOLLARS` <br> e.g., `add-item n/Banana Muffin p/5.99`
-**Delete Item** | `delete-item INDEX`<br> e.g., `delete-item 3`
+**Delete Bakery Item** | `delete-item INDEX`<br> e.g., `delete-item 3`
 **List** | `list`
 **Help** | `help`
