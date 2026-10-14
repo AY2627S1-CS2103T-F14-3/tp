@@ -302,6 +302,12 @@ The client index refers to the displayed client list. The order index refers to 
 not the consolidated list of all orders. Indices are transient displayed positions, not persistent identifiers.
 Existence checks, order changes, persistence, UI updates, and user-facing help are deferred to model integration.
 No successful data change is claimed by this parsing increment.
+### mark-order-complete parsing increment
+
+The current increment recognizes `mark-order-complete CONTACT_INDEX o/ORDER_INDEX`, for example
+`mark-order-complete 1 o/2`, as specified in [issue #39](https://github.com/AY2627S1-CS2103T-F14-3/tp/issues/39).
+It validates and retains the indices in a command; execution is deferred until the order model is integrated.
+Executing a valid request returns `Marking orders as complete is not available yet. No order status has been changed.` and leaves existing data unchanged.
 
 ### unmark parsing increment
 
@@ -543,3 +549,6 @@ testers are expected to do more *exploratory* testing.
 ### mark-order-complete backend
 
 Mark only the selected order complete, retaining its identity and associations. `OrderCommandUtil` resolves the displayed client and then the order's position within that client. Invalid indices and repeated status changes report specific errors without mutation. Successful changes are saved by LogicManager; save failures restore data and displayed filters.
+### delete-order backend
+
+Delete only the selected order; subsequent client-local indices shift down. `OrderCommandUtil` resolves the displayed client and then the order's position within that client. Invalid indices and repeated status changes report specific errors without mutation. Successful changes are saved by LogicManager; save failures restore data and displayed filters.

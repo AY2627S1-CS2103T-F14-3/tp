@@ -255,3 +255,9 @@ AB3; back up the file before editing it. A failed save is reported as an error a
 Usage: `mark-order-complete CONTACT_INDEX o/ORDER_INDEX`. Example: `mark-order-complete 1 o/2`.
 
 Marks the selected client order as complete. CONTACT_INDEX refers to the displayed client list. ORDER_INDEX refers to that client's orders in insertion order. After deleting an order, later order indices shift down. A status command reports an error if the requested status already applies. Successful changes are saved automatically; a save error restores the previous state.
+
+### delete-order
+
+Usage: `delete-order CONTACT_INDEX o/ORDER_INDEX`. Example: `delete-order 1 o/2`.
+
+Deletes the selected client order. CONTACT_INDEX refers to the displayed client list. ORDER_INDEX refers to that client's orders in insertion order. After deleting an order, later order indices shift down. A status command reports an error if the requested status already applies. Successful changes are saved automatically; a save error restores the previous state.
