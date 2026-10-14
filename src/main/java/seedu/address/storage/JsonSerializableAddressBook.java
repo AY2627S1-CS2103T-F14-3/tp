@@ -11,6 +11,7 @@ import com.fasterxml.jackson.annotation.JsonRootName;
 import seedu.address.commons.exceptions.IllegalValueException;
 import seedu.address.model.AddressBook;
 import seedu.address.model.ReadOnlyAddressBook;
+import seedu.address.model.bakeryitem.BakeryItem;
 import seedu.address.model.person.Person;
 
 /**
@@ -20,15 +21,21 @@ import seedu.address.model.person.Person;
 class JsonSerializableAddressBook {
 
     public static final String MESSAGE_DUPLICATE_PERSON = "Persons list contains duplicate person(s).";
+    public static final String MESSAGE_DUPLICATE_BAKERY_ITEM = "Bakery items list contains duplicate bakery item(s).";
 
     private final List<JsonAdaptedPerson> persons = new ArrayList<>();
+    private final List<JsonAdaptedBakeryItem> bakeryItems = new ArrayList<>();
 
     /**
-     * Constructs a {@code JsonSerializableAddressBook} with the given persons.
+     * Constructs a {@code JsonSerializableAddressBook} with the given persons and bakery items.
      */
     @JsonCreator
-    public JsonSerializableAddressBook(@JsonProperty("persons") List<JsonAdaptedPerson> persons) {
+    public JsonSerializableAddressBook(@JsonProperty("persons") List<JsonAdaptedPerson> persons,
+            @JsonProperty("bakeryItems") List<JsonAdaptedBakeryItem> bakeryItems) {
         this.persons.addAll(persons);
+        if (bakeryItems != null) {
+            this.bakeryItems.addAll(bakeryItems);
+        }
     }
 
     /**
@@ -38,6 +45,9 @@ class JsonSerializableAddressBook {
      */
     public JsonSerializableAddressBook(ReadOnlyAddressBook source) {
         persons.addAll(source.getPersonList().stream().map(JsonAdaptedPerson::new).collect(Collectors.toList()));
+        bakeryItems.addAll(source.getBakeryItemList().stream()
+                .map(JsonAdaptedBakeryItem::new)
+                .collect(Collectors.toList()));
     }
 
     /**
@@ -53,6 +63,14 @@ class JsonSerializableAddressBook {
                 throw new IllegalValueException(MESSAGE_DUPLICATE_PERSON);
             }
             addressBook.addPerson(person);
+        }
+
+        for (JsonAdaptedBakeryItem jsonAdaptedBakeryItem : bakeryItems) {
+            BakeryItem bakeryItem = jsonAdaptedBakeryItem.toModelType();
+            if (addressBook.hasBakeryItem(bakeryItem)) {
+                throw new IllegalValueException(MESSAGE_DUPLICATE_BAKERY_ITEM);
+            }
+            addressBook.addBakeryItem(bakeryItem);
         }
         return addressBook;
     }
