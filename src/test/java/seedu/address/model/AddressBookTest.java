@@ -22,6 +22,7 @@ import javafx.collections.ObservableList;
 import seedu.address.model.bakeryitem.BakeryItem;
 import seedu.address.model.bakeryitem.exceptions.BakeryItemNotFoundException;
 import seedu.address.model.bakeryitem.exceptions.DuplicateBakeryItemException;
+import seedu.address.model.order.ClientOrder;
 import seedu.address.model.person.Person;
 import seedu.address.model.person.exceptions.DuplicatePersonException;
 import seedu.address.testutil.PersonBuilder;
@@ -187,8 +188,10 @@ public class AddressBookTest {
      * A stub ReadOnlyAddressBook whose persons list can violate interface constraints.
      */
     private static class AddressBookStub implements ReadOnlyAddressBook {
+
         private final ObservableList<Person> persons = FXCollections.observableArrayList();
         private final ObservableList<BakeryItem> bakeryItems = FXCollections.observableArrayList();
+
 
         AddressBookStub(Collection<Person> persons) {
             this.persons.setAll(persons);
@@ -197,6 +200,11 @@ public class AddressBookTest {
         AddressBookStub(Collection<Person> persons, Collection<BakeryItem> bakeryItems) {
             this.persons.setAll(persons);
             this.bakeryItems.setAll(bakeryItems);
+        }
+
+        @Override
+        public ObservableList<ClientOrder> getOrderList() {
+            return FXCollections.observableArrayList();
         }
 
         @Override

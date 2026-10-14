@@ -23,6 +23,7 @@ import seedu.address.model.ReadOnlyUserPrefs;
 import seedu.address.model.bakeryitem.BakeryItem;
 import seedu.address.model.bakeryitem.BakeryItemName;
 import seedu.address.model.bakeryitem.Price;
+import seedu.address.model.order.ClientOrder;
 import seedu.address.model.person.Person;
 
 public class AddBakeryItemCommandTest {
@@ -86,6 +87,42 @@ public class AddBakeryItemCommandTest {
      * A default model stub that has all of the methods failing.
      */
     private class ModelStub implements Model {
+
+        @Override
+        public Predicate<Person> getPersonFilter() {
+            throw new AssertionError("This method should not be called.");
+        }
+
+        @Override
+        public Predicate<BakeryItem> getBakeryItemFilter() {
+            throw new AssertionError("This method should not be called.");
+        }
+
+        @Override
+        public void updateFilteredBakeryItemList(Predicate<BakeryItem> predicate) {
+            throw new AssertionError("This method should not be called.");
+        }
+
+        @Override
+        public ObservableList<ClientOrder> getOrdersForClient(Person client) {
+            throw new AssertionError("This method should not be called.");
+        }
+
+        @Override
+        public void addOrder(ClientOrder order) {
+            throw new AssertionError("This method should not be called.");
+        }
+
+        @Override
+        public void deleteOrder(ClientOrder order) {
+            throw new AssertionError("This method should not be called.");
+        }
+
+        @Override
+        public void setOrderCompletion(ClientOrder order, boolean isComplete) {
+            throw new AssertionError("This method should not be called.");
+        }
+
         @Override
         public ReadOnlyUserPrefs getUserPrefs() {
             throw new AssertionError("This method should not be called.");

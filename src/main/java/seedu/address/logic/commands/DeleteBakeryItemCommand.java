@@ -8,6 +8,7 @@ import seedu.address.commons.core.index.Index;
 import seedu.address.commons.util.ToStringBuilder;
 import seedu.address.logic.Messages;
 import seedu.address.logic.commands.exceptions.CommandException;
+import seedu.address.model.AddressBook;
 import seedu.address.model.Model;
 import seedu.address.model.bakeryitem.BakeryItem;
 
@@ -40,6 +41,9 @@ public class DeleteBakeryItemCommand extends Command {
         }
 
         BakeryItem itemToDelete = lastShownList.get(targetIndex.getZeroBased());
+        if (model.getAddressBook().getOrderList().stream().anyMatch(order -> order.getItem().equals(itemToDelete))) {
+            throw new CommandException(AddressBook.MESSAGE_ITEM_HAS_ORDERS);
+        }
         model.deleteBakeryItem(itemToDelete);
         return new CommandResult(String.format(MESSAGE_DELETE_BAKERY_ITEM_SUCCESS, Messages.format(itemToDelete)));
     }

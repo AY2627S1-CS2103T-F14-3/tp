@@ -127,30 +127,6 @@ public class ParserUtil {
     }
 
     /**
-     * Parses {@code String itemName} into a {@code BakeryItemName}.
-     */
-    public static BakeryItemName parseBakeryItemName(String itemName) throws ParseException {
-        requireNonNull(itemName);
-        String trimmedItemName = itemName.trim();
-        if (!BakeryItemName.isValidItemName(trimmedItemName)) {
-            throw new ParseException(BakeryItemName.MESSAGE_CONSTRAINTS);
-        }
-        return new BakeryItemName(trimmedItemName);
-    }
-
-    /**
-     * Parses {@code String priceDollars} into a {@code Price}.
-     */
-    public static Price parsePrice(String priceDollars) throws ParseException {
-        requireNonNull(priceDollars);
-        String trimmedPriceDollars = priceDollars.trim();
-        if (!Price.isValidPriceDollars(trimmedPriceDollars)) {
-            throw new ParseException(Price.MESSAGE_CONSTRAINTS);
-        }
-        return Price.fromDollars(trimmedPriceDollars);
-    }
-
-    /**
      * Parses a whole-number order quantity, trimming surrounding whitespace.
      *
      * @throws ParseException If the quantity is not between 1 and 9,999 inclusive.
@@ -176,5 +152,28 @@ public class ParserUtil {
             throw new ParseException(Deadline.MESSAGE_CONSTRAINTS);
         }
         return new Deadline(trimmedDeadline);
+    }
+    /**
+     * Parses {@code String itemName} into a {@code BakeryItemName}.
+     */
+    public static BakeryItemName parseBakeryItemName(String itemName) throws ParseException {
+        requireNonNull(itemName);
+        String trimmedItemName = itemName.trim();
+        if (!BakeryItemName.isValidItemName(trimmedItemName)) {
+            throw new ParseException(BakeryItemName.MESSAGE_CONSTRAINTS);
+        }
+        return new BakeryItemName(trimmedItemName);
+    }
+
+    /**
+     * Parses {@code String priceDollars} into a {@code Price}.
+     */
+    public static Price parsePrice(String priceDollars) throws ParseException {
+        requireNonNull(priceDollars);
+        String trimmedPriceDollars = priceDollars.trim();
+        if (!Price.isValidPriceDollars(trimmedPriceDollars)) {
+            throw new ParseException(Price.MESSAGE_CONSTRAINTS);
+        }
+        return Price.fromDollars(trimmedPriceDollars);
     }
 }

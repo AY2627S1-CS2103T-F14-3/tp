@@ -12,12 +12,13 @@ import seedu.address.commons.core.index.Index;
 import seedu.address.commons.util.ToStringBuilder;
 import seedu.address.logic.commands.exceptions.CommandException;
 import seedu.address.model.Model;
+import seedu.address.model.order.ClientOrder;
 import seedu.address.model.order.Deadline;
 import seedu.address.model.order.Quantity;
 
 /**
  * Represents a parsed request to add a bakery order to a client.
- * Model, storage, and UI integration are deferred; execution reports that limitation without changing data.
+ * Execution resolves displayed indices and adds an incomplete order to the persistent model.
  */
 public class AddClientOrderCommand extends Command {
     public static final String COMMAND_WORD = "add-order";
@@ -27,8 +28,9 @@ public class AddClientOrderCommand extends Command {
             + PREFIX_QUANTITY + "QUANTITY (1 to 9,999) "
             + PREFIX_DEADLINE + "DEADLINE (YYYY-MM-DD)\n"
             + "Example: " + COMMAND_WORD + " 1 i/2 q/5 d/2026-10-15";
-    public static final String MESSAGE_NOT_IMPLEMENTED =
-            "Adding client orders is not available yet. No order has been saved.";
+    public static final String MESSAGE_SUCCESS = "New order added to contact: %1$s (Order index for this client: %2$d)";
+    public static final String MESSAGE_INVALID_CLIENT = "Client not found in the displayed client list.";
+    public static final String MESSAGE_INVALID_ITEM = "Item not found in the displayed bakery item list.";
 
     private final Index clientIndex;
     private final Index itemIndex;
@@ -37,7 +39,7 @@ public class AddClientOrderCommand extends Command {
 
     /**
      * Creates a parsed add-order request with validated fields.
-     * Indices refer to displayed lists and must be resolved during future model integration.
+     * Indices refer to displayed lists and are resolved during execution.
      */
     public AddClientOrderCommand(Index clientIndex, Index itemIndex, Quantity quantity, Deadline deadline) {
         requireAllNonNull(clientIndex, itemIndex, quantity, deadline);
@@ -48,14 +50,24 @@ public class AddClientOrderCommand extends Command {
     }
 
     /**
-     * Reports that order execution is unavailable in this parsing increment, without modifying the model.
+     * Adds an incomplete order for the selected client and bakery item.
      *
-     * @throws CommandException Always, until model and storage integration are implemented.
+     * @throws CommandException If either displayed index is out of range.
      */
     @Override
     public CommandResult execute(Model model) throws CommandException {
         requireNonNull(model);
-        throw new CommandException(MESSAGE_NOT_IMPLEMENTED);
+        if (clientIndex.getZeroBased() >= model.getFilteredPersonList().size()) {
+            throw new CommandException(MESSAGE_INVALID_CLIENT);
+        }
+        if (itemIndex.getZeroBased() >= model.getFilteredBakeryItemList().size()) {
+            throw new CommandException(MESSAGE_INVALID_ITEM);
+        }
+        ClientOrder order = ClientOrder.create(model.getFilteredPersonList().get(clientIndex.getZeroBased()),
+                model.getFilteredBakeryItemList().get(itemIndex.getZeroBased()), quantity, deadline);
+        model.addOrder(order);
+        return new CommandResult(String.format(MESSAGE_SUCCESS, order,
+                model.getOrdersForClient(order.getClient()).size()));
     }
 
     @Override

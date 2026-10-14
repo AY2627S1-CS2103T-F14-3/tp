@@ -5,6 +5,7 @@ import java.util.function.Predicate;
 import javafx.collections.ObservableList;
 import seedu.address.commons.core.GuiSettings;
 import seedu.address.model.bakeryitem.BakeryItem;
+import seedu.address.model.order.ClientOrder;
 import seedu.address.model.person.Person;
 
 /**
@@ -49,8 +50,7 @@ public interface Model {
     void deletePerson(Person target);
 
     /**
-     * Deletes the given bakery item.
-     * The bakery item must exist in the address book.
+     * Deletes an existing bakery item that is not referenced by an order.
      */
     void deleteBakeryItem(BakeryItem target);
 
@@ -59,17 +59,6 @@ public interface Model {
      * {@code person} must not already exist in the address book.
      */
     void addPerson(Person person);
-
-    /**
-     * Returns true if a bakery item with the same identity as {@code bakeryItem} exists in the address book.
-     */
-    boolean hasBakeryItem(BakeryItem bakeryItem);
-
-    /**
-     * Adds the given bakery item.
-     * {@code bakeryItem} must not already exist in the address book.
-     */
-    void addBakeryItem(BakeryItem bakeryItem);
 
     /**
      * Replaces the given person {@code target} with {@code editedPerson}.
@@ -81,12 +70,59 @@ public interface Model {
     /** Returns an unmodifiable view of the filtered person list */
     ObservableList<Person> getFilteredPersonList();
 
-    /** Returns an unmodifiable view of the filtered bakery item list. */
-    ObservableList<BakeryItem> getFilteredBakeryItemList();
-
     /**
      * Updates the filter of the filtered person list to filter by the given {@code predicate}.
      * @throws NullPointerException if {@code predicate} is null.
      */
     void updateFilteredPersonList(Predicate<Person> predicate);
+
+    /**
+     * Returns the current client filter for restoring a failed transaction.
+     */
+    Predicate<Person> getPersonFilter();
+
+    /**
+     * Returns the current item filter for restoring a failed transaction.
+     */
+    Predicate<BakeryItem> getBakeryItemFilter();
+
+    /**
+     * Returns an unmodifiable view of the displayed bakery items.
+     */
+    ObservableList<BakeryItem> getFilteredBakeryItemList();
+
+    /**
+     * Updates the bakery item filter used for displayed item indices.
+     */
+    void updateFilteredBakeryItemList(Predicate<BakeryItem> predicate);
+
+    /**
+     * Returns whether an item with the same normalized name already exists.
+     */
+    boolean hasBakeryItem(BakeryItem item);
+
+    /**
+     * Adds a bakery item and shows all items.
+     */
+    void addBakeryItem(BakeryItem item);
+
+    /**
+     * Returns an unmodifiable observable list of the client's orders in insertion order.
+     */
+    ObservableList<ClientOrder> getOrdersForClient(Person client);
+
+    /**
+     * Adds an order with existing client and item references.
+     */
+    void addOrder(ClientOrder order);
+
+    /**
+     * Deletes the specified existing order.
+     */
+    void deleteOrder(ClientOrder order);
+
+    /**
+     * Sets completion status for the specified existing order.
+     */
+    void setOrderCompletion(ClientOrder order, boolean isComplete);
 }

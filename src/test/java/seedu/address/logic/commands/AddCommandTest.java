@@ -22,6 +22,7 @@ import seedu.address.model.Model;
 import seedu.address.model.ReadOnlyAddressBook;
 import seedu.address.model.ReadOnlyUserPrefs;
 import seedu.address.model.bakeryitem.BakeryItem;
+import seedu.address.model.order.ClientOrder;
 import seedu.address.model.person.Person;
 import seedu.address.testutil.PersonBuilder;
 
@@ -89,6 +90,60 @@ public class AddCommandTest {
      */
     private class ModelStub implements Model {
         @Override
+        public void deleteBakeryItem(BakeryItem target) {
+            throw new AssertionError("This method should not be called.");
+        }
+
+        @Override
+        public Predicate<Person> getPersonFilter() {
+            throw new AssertionError("Unexpected filter operation.");
+        }
+
+        @Override
+        public Predicate<BakeryItem> getBakeryItemFilter() {
+            throw new AssertionError("Unexpected filter operation.");
+        }
+        @Override
+        public ObservableList<BakeryItem> getFilteredBakeryItemList() {
+            throw new AssertionError("Unexpected bakery operation.");
+        }
+
+        @Override
+        public void updateFilteredBakeryItemList(Predicate<BakeryItem> predicate) {
+            throw new AssertionError("Unexpected bakery operation.");
+        }
+
+        @Override
+        public boolean hasBakeryItem(BakeryItem item) {
+            throw new AssertionError("Unexpected bakery operation.");
+        }
+
+        @Override
+        public void addBakeryItem(BakeryItem item) {
+            throw new AssertionError("Unexpected bakery operation.");
+        }
+
+        @Override
+        public ObservableList<ClientOrder> getOrdersForClient(Person client) {
+            throw new AssertionError("Unexpected order operation.");
+        }
+
+        @Override
+        public void addOrder(ClientOrder order) {
+            throw new AssertionError("Unexpected order operation.");
+        }
+
+        @Override
+        public void deleteOrder(ClientOrder order) {
+            throw new AssertionError("Unexpected order operation.");
+        }
+
+        @Override
+        public void setOrderCompletion(ClientOrder order, boolean isComplete) {
+            throw new AssertionError("Unexpected order operation.");
+        }
+
+        @Override
         public ReadOnlyUserPrefs getUserPrefs() {
             throw new AssertionError("This method should not be called.");
         }
@@ -105,16 +160,6 @@ public class AddCommandTest {
 
         @Override
         public void addPerson(Person person) {
-            throw new AssertionError("This method should not be called.");
-        }
-
-        @Override
-        public boolean hasBakeryItem(BakeryItem bakeryItem) {
-            throw new AssertionError("This method should not be called.");
-        }
-
-        @Override
-        public void addBakeryItem(BakeryItem bakeryItem) {
             throw new AssertionError("This method should not be called.");
         }
 
@@ -139,22 +184,12 @@ public class AddCommandTest {
         }
 
         @Override
-        public void deleteBakeryItem(BakeryItem target) {
-            throw new AssertionError("This method should not be called.");
-        }
-
-        @Override
         public void setPerson(Person target, Person editedPerson) {
             throw new AssertionError("This method should not be called.");
         }
 
         @Override
         public ObservableList<Person> getFilteredPersonList() {
-            throw new AssertionError("This method should not be called.");
-        }
-
-        @Override
-        public ObservableList<BakeryItem> getFilteredBakeryItemList() {
             throw new AssertionError("This method should not be called.");
         }
 

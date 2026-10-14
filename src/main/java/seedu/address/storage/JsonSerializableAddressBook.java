@@ -2,7 +2,6 @@ package seedu.address.storage;
 
 import java.util.ArrayList;
 import java.util.List;
-import java.util.stream.Collectors;
 
 import com.fasterxml.jackson.annotation.JsonCreator;
 import com.fasterxml.jackson.annotation.JsonProperty;
@@ -15,64 +14,80 @@ import seedu.address.model.bakeryitem.BakeryItem;
 import seedu.address.model.person.Person;
 
 /**
- * An Immutable AddressBook that is serializable to JSON format.
+ * Stores clients, bakery items, and orders in a human-editable JSON document.
  */
 @JsonRootName(value = "addressbook")
 class JsonSerializableAddressBook {
-
-    public static final String MESSAGE_DUPLICATE_PERSON = "Persons list contains duplicate person(s).";
     public static final String MESSAGE_DUPLICATE_BAKERY_ITEM = "Bakery items list contains duplicate bakery item(s).";
+    public static final String MESSAGE_DUPLICATE_PERSON = "Persons list contains duplicate person(s).";
 
     private final List<JsonAdaptedPerson> persons = new ArrayList<>();
     private final List<JsonAdaptedBakeryItem> bakeryItems = new ArrayList<>();
+    private final List<JsonAdaptedClientOrder> orders = new ArrayList<>();
 
     /**
-     * Constructs a {@code JsonSerializableAddressBook} with the given persons and bakery items.
+     * Creates a serialized book, accepting legacy AB3 files that omit items and orders.
      */
     @JsonCreator
     public JsonSerializableAddressBook(@JsonProperty("persons") List<JsonAdaptedPerson> persons,
-            @JsonProperty("bakeryItems") List<JsonAdaptedBakeryItem> bakeryItems) {
+            @JsonProperty("bakeryItems") List<JsonAdaptedBakeryItem> bakeryItems,
+            @JsonProperty("orders") List<JsonAdaptedClientOrder> orders) {
+        if (persons == null) {
+            throw new IllegalArgumentException("The persons collection is missing.");
+        }
         this.persons.addAll(persons);
         if (bakeryItems != null) {
             this.bakeryItems.addAll(bakeryItems);
         }
+        if (orders != null) {
+            this.orders.addAll(orders);
+        }
     }
 
     /**
-     * Converts a given {@code ReadOnlyAddressBook} into this class for Jackson use.
-     *
-     * @param source future changes to this will not affect the created {@code JsonSerializableAddressBook}.
+     * Creates an immutable serialization snapshot of the current book.
      */
     public JsonSerializableAddressBook(ReadOnlyAddressBook source) {
-        persons.addAll(source.getPersonList().stream().map(JsonAdaptedPerson::new).collect(Collectors.toList()));
-        bakeryItems.addAll(source.getBakeryItemList().stream()
-                .map(JsonAdaptedBakeryItem::new)
-                .collect(Collectors.toList()));
+        persons.addAll(source.getPersonList().stream().map(JsonAdaptedPerson::new).toList());
+        bakeryItems.addAll(source.getBakeryItemList().stream().map(JsonAdaptedBakeryItem::new).toList());
+        orders.addAll(source.getOrderList().stream().map(JsonAdaptedClientOrder::new).toList());
     }
 
     /**
-     * Converts this address book into the model's {@code AddressBook} object.
-     *
-     * @throws IllegalValueException if there were any data constraints violated.
+     * Returns a completely validated model, rejecting missing references and duplicate identities.
      */
     public AddressBook toModelType() throws IllegalValueException {
-        AddressBook addressBook = new AddressBook();
-        for (JsonAdaptedPerson jsonAdaptedPerson : persons) {
-            Person person = jsonAdaptedPerson.toModelType();
-            if (addressBook.hasPerson(person)) {
+        AddressBook book = new AddressBook();
+        for (JsonAdaptedPerson entry : persons) {
+            if (entry == null) {
+                throw new IllegalValueException("The persons collection contains a null entry.");
+            }
+            Person person = entry.toModelType();
+            if (book.hasPerson(person)) {
                 throw new IllegalValueException(MESSAGE_DUPLICATE_PERSON);
             }
-            addressBook.addPerson(person);
+            book.addPerson(person);
         }
-
-        for (JsonAdaptedBakeryItem jsonAdaptedBakeryItem : bakeryItems) {
-            BakeryItem bakeryItem = jsonAdaptedBakeryItem.toModelType();
-            if (addressBook.hasBakeryItem(bakeryItem)) {
-                throw new IllegalValueException(MESSAGE_DUPLICATE_BAKERY_ITEM);
+        try {
+            for (JsonAdaptedBakeryItem entry : bakeryItems) {
+                if (entry == null) {
+                    throw new IllegalValueException("The bakery items collection contains a null entry.");
+                }
+                BakeryItem item = entry.toModelType();
+                if (book.hasBakeryItem(item)) {
+                    throw new IllegalValueException(MESSAGE_DUPLICATE_BAKERY_ITEM);
+                }
+                book.addBakeryItem(item);
             }
-            addressBook.addBakeryItem(bakeryItem);
+            for (JsonAdaptedClientOrder entry : orders) {
+                if (entry == null) {
+                    throw new IllegalValueException("The orders collection contains a null entry.");
+                }
+                book.addOrder(entry.toModelType(book));
+            }
+        } catch (IllegalArgumentException exception) {
+            throw new IllegalValueException(exception.getMessage());
         }
-        return addressBook;
+        return book;
     }
-
 }
