@@ -66,6 +66,16 @@ public class UnmarkOrderCommandBackendTest {
     }
 
     @Test
+    public void execute_identicalOrders_preservesUnselectedIdentity() throws Exception {
+        ModelManager model = createModel();
+        ClientOrder target = model.getOrdersForClient(BOB).getFirst();
+        ClientOrder repeat = ClientOrder.create(BOB, target.getItem(), target.getQuantity(), target.getDeadline());
+        model.addOrder(repeat);
+        execute(model);
+        assertEquals(target.getId(), model.getOrdersForClient(BOB).getFirst().getId());
+        assertEquals(repeat, model.getOrdersForClient(BOB).getLast());
+    }
+    @Test
     public void execute_invalidIndices_doesNotChangeData() throws Exception {
         ModelManager model = createModel();
         AddressBook before = new AddressBook(model.getAddressBook());

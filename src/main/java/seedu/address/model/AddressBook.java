@@ -9,6 +9,7 @@ import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import seedu.address.commons.util.ToStringBuilder;
 import seedu.address.model.bakeryitem.BakeryItem;
+import seedu.address.model.bakeryitem.UniqueBakeryItemList;
 import seedu.address.model.order.ClientOrder;
 import seedu.address.model.person.Person;
 import seedu.address.model.person.UniquePersonList;
@@ -24,9 +25,8 @@ public class AddressBook implements ReadOnlyAddressBook {
             "Cannot delete this item: existing orders reference this item. Delete those orders first.";
 
     private final UniquePersonList persons = new UniquePersonList();
-    private final ObservableList<BakeryItem> bakeryItems = FXCollections.observableArrayList();
+    private final UniqueBakeryItemList bakeryItems = new UniqueBakeryItemList();
     private final ObservableList<ClientOrder> orders = FXCollections.observableArrayList();
-
 
     public AddressBook() {}
 
@@ -63,8 +63,19 @@ public class AddressBook implements ReadOnlyAddressBook {
         newData.getBakeryItemList().forEach(replacement::addBakeryItem);
         newData.getOrderList().forEach(replacement::addOrder);
         persons.setPersons(replacement.getPersonList());
-        bakeryItems.setAll(replacement.getBakeryItemList());
+        bakeryItems.setBakeryItems(replacement.getBakeryItemList());
         orders.setAll(replacement.getOrderList());
+    }
+
+    /**
+     * Replaces bakery items without leaving existing orders without their items.
+     */
+    public void setBakeryItems(List<BakeryItem> items) {
+        requireNonNull(items);
+        if (orders.stream().anyMatch(order -> !items.contains(order.getItem()))) {
+            throw new IllegalArgumentException("The replacement item list would leave an order without its item.");
+        }
+        bakeryItems.setBakeryItems(items);
     }
 
     //// person-level operations
@@ -113,16 +124,13 @@ public class AddressBook implements ReadOnlyAddressBook {
      */
     public boolean hasBakeryItem(BakeryItem item) {
         requireNonNull(item);
-        return bakeryItems.stream().anyMatch(item::isSameBakeryItem);
+        return bakeryItems.contains(item);
     }
 
     /**
      * Adds a bakery item, rejecting duplicate normalized names.
      */
     public void addBakeryItem(BakeryItem item) {
-        if (hasBakeryItem(item)) {
-            throw new IllegalArgumentException("This bakery item already exists.");
-        }
         bakeryItems.add(item);
     }
 
@@ -134,9 +142,7 @@ public class AddressBook implements ReadOnlyAddressBook {
         if (orders.stream().anyMatch(order -> order.getItem().equals(item))) {
             throw new IllegalArgumentException(MESSAGE_ITEM_HAS_ORDERS);
         }
-        if (!bakeryItems.remove(item)) {
-            throw new IllegalArgumentException("Bakery item not found.");
-        }
+        bakeryItems.remove(item);
     }
 
     /**
@@ -144,7 +150,7 @@ public class AddressBook implements ReadOnlyAddressBook {
      */
     public void addOrder(ClientOrder order) {
         requireNonNull(order);
-        if (!getPersonList().contains(order.getClient()) || !bakeryItems.contains(order.getItem())) {
+        if (!getPersonList().contains(order.getClient()) || !getBakeryItemList().contains(order.getItem())) {
             throw new IllegalArgumentException("An order must reference an existing client and bakery item.");
         }
         if (orders.stream().anyMatch(existing -> existing.getId().equals(order.getId()))) {
@@ -177,7 +183,7 @@ public class AddressBook implements ReadOnlyAddressBook {
 
     @Override
     public ObservableList<BakeryItem> getBakeryItemList() {
-        return FXCollections.unmodifiableObservableList(bakeryItems);
+        return bakeryItems.asUnmodifiableObservableList();
     }
 
     @Override
@@ -191,6 +197,7 @@ public class AddressBook implements ReadOnlyAddressBook {
     public String toString() {
         return new ToStringBuilder(this)
                 .add("persons", persons)
+                .add("bakeryItems", bakeryItems)
                 .toString();
     }
 
