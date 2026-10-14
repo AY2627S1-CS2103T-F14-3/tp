@@ -219,12 +219,16 @@ public class OrderBackendTest {
         JsonAddressBookStorage storage = new JsonAddressBookStorage(path);
         storage.saveAddressBook(model.getAddressBook());
         String json = Files.readString(path);
+        String itemReference = "\"itemName\" : \"Muffin\"";
+        int itemPosition = json.lastIndexOf(itemReference);
+        String missingItemJson = json.substring(0, itemPosition) + "\"itemName\" : \"Missing\""
+                + json.substring(itemPosition + itemReference.length());
         for (String invalid : new String[] {
             json.replace("\"quantity\" : \"5\"", "\"quantity\" : \"0\""),
             json.replace("\"quantity\" : \"5\"", "\"quantity\" : 1.5"),
             json.replace("\"deadline\" : \"2026-10-15\"", "\"deadline\" : \"2026-02-30\""),
             json.replace("\"clientName\" : \"" + ALICE.getName() + "\"", "\"clientName\" : \"Missing\""),
-            json.replace("\"itemName\" : \"Muffin\"", "\"itemName\" : \"Missing\""),
+            missingItemJson,
             json.replace(model.getAddressBook().getOrderList().getFirst().getId().toString(), "bad-id"),
             json.replace("\"complete\" : false", "\"complete\" : null")}) {
             assertNotEquals(json, invalid);
@@ -233,6 +237,25 @@ public class OrderBackendTest {
         }
     }
 
+    @Test
+    public void execute_deleteReferencedClientOrItem_reportsErrorWithoutMutation() throws Exception {
+        ModelManager model = createModel();
+        addOrder(model, "1 i/1 q/2 d/2026-10-15");
+        AddressBook before = new AddressBook(model.getAddressBook());
+        LogicManager logic = createLogic(model, new JsonAddressBookStorage(directory.resolve("book.json")));
+        assertThrows(CommandException.class, AddressBook.MESSAGE_ITEM_HAS_ORDERS, () -> logic.execute("delete-item 1"));
+        assertThrows(CommandException.class, AddressBook.MESSAGE_CLIENT_HAS_ORDERS, () -> logic.execute("delete 1"));
+        assertEquals(before, model.getAddressBook());
+    }
+
+    @Test
+    public void readItemOnlyJson_preservesExistingItemSchema() throws Exception {
+        Path path = directory.resolve("book.json");
+        Files.writeString(path, "{\"persons\":[],\"bakeryItems\":[{\"itemName\":\"Cake\",\"price\":\"3.50\"}]}");
+        ReadOnlyAddressBook loaded = new JsonAddressBookStorage(path).readAddressBook().orElseThrow();
+        assertEquals(List.of(CAKE), loaded.getBakeryItemList());
+        assertTrue(loaded.getOrderList().isEmpty());
+    }
     @Test
     public void orderViews_areObservableAndUnmodifiable() throws Exception {
         ModelManager model = createModel();

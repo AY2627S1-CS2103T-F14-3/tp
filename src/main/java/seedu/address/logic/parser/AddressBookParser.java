@@ -13,6 +13,8 @@ import seedu.address.logic.commands.AddClientOrderCommand;
 import seedu.address.logic.commands.AddCommand;
 import seedu.address.logic.commands.ClearCommand;
 import seedu.address.logic.commands.Command;
+import seedu.address.logic.commands.DeleteBakeryItemCommand;
+import seedu.address.logic.commands.DeleteClientOrderCommand;
 import seedu.address.logic.commands.DeleteCommand;
 import seedu.address.logic.commands.EditCommand;
 import seedu.address.logic.commands.ExitCommand;
@@ -20,6 +22,7 @@ import seedu.address.logic.commands.FindCommand;
 import seedu.address.logic.commands.HelpCommand;
 import seedu.address.logic.commands.ListCommand;
 import seedu.address.logic.commands.MarkOrderCompleteCommand;
+import seedu.address.logic.commands.UnmarkOrderCommand;
 import seedu.address.logic.parser.exceptions.ParseException;
 
 /**
@@ -57,7 +60,9 @@ public class AddressBookParser {
         return switch (commandWord) {
             case AddCommand.COMMAND_WORD -> new AddCommandParser().parse(arguments);
             case AddClientOrderCommand.COMMAND_WORD -> new AddClientOrderCommandParser().parse(arguments);
+            case DeleteClientOrderCommand.COMMAND_WORD -> new DeleteClientOrderCommandParser().parse(arguments);
             case MarkOrderCompleteCommand.COMMAND_WORD -> new MarkOrderCompleteCommandParser().parse(arguments);
+            case UnmarkOrderCommand.COMMAND_WORD -> new UnmarkOrderCommandParser().parse(arguments);
             case EditCommand.COMMAND_WORD -> new EditCommandParser().parse(arguments);
             case DeleteCommand.COMMAND_WORD -> new DeleteCommandParser().parse(arguments);
             case ClearCommand.COMMAND_WORD -> new ClearCommand();
@@ -65,6 +70,7 @@ public class AddressBookParser {
             case ListCommand.COMMAND_WORD -> new ListCommand();
             case ExitCommand.COMMAND_WORD -> new ExitCommand();
             case HelpCommand.COMMAND_WORD -> new HelpCommand();
+            case DeleteBakeryItemCommand.COMMAND_WORD -> new DeleteBakeryItemCommandParser().parse(arguments);
             case AddBakeryItemCommand.COMMAND_WORD -> new AddBakeryItemCommandParser().parse(arguments);
             default -> {
                 logger.finer("This user input caused a ParseException: " + userInput);
