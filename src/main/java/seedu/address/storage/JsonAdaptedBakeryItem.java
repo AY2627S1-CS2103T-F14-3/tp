@@ -9,39 +9,56 @@ import seedu.address.model.bakeryitem.BakeryItemName;
 import seedu.address.model.bakeryitem.Price;
 
 /**
- * Stores a bakery item's name and exact decimal price in editable JSON.
+ * Jackson-friendly version of {@link BakeryItem}.
  */
 class JsonAdaptedBakeryItem {
-    private final String name;
+
+    public static final String MISSING_FIELD_MESSAGE_FORMAT = "Bakery item's %s field is missing!";
+
+    private final String itemName;
     private final String price;
 
     /**
-     * Creates an adapted item from JSON fields.
+     * Constructs a {@code JsonAdaptedBakeryItem} with the given bakery item details.
      */
     @JsonCreator
-    public JsonAdaptedBakeryItem(@JsonProperty("name") String name, @JsonProperty("price") String price) {
-        this.name = name;
+    public JsonAdaptedBakeryItem(@JsonProperty("itemName") String itemName,
+            @JsonProperty("price") String price) {
+        this.itemName = itemName;
         this.price = price;
     }
 
     /**
-     * Creates an adapted item from a validated model item.
+     * Converts a given {@code BakeryItem} into this class for Jackson use.
      */
-    public JsonAdaptedBakeryItem(BakeryItem item) {
-        name = item.getItemName().itemName;
-        price = item.getPrice().toString();
+    public JsonAdaptedBakeryItem(BakeryItem source) {
+        itemName = source.getItemName().toString();
+        price = source.getPrice().toString();
     }
 
     /**
-     * Returns a validated item or reports invalid or missing JSON fields.
+     * Converts this Jackson-friendly adapted bakery item object into the model's {@code BakeryItem} object.
+     *
+     * @throws IllegalValueException if there were any data constraints violated in the adapted bakery item.
      */
     public BakeryItem toModelType() throws IllegalValueException {
-        if (name == null || !BakeryItemName.isValidItemName(name)) {
+        if (itemName == null) {
+            throw new IllegalValueException(
+                    String.format(MISSING_FIELD_MESSAGE_FORMAT, BakeryItemName.class.getSimpleName()));
+        }
+        if (!BakeryItemName.isValidItemName(itemName)) {
             throw new IllegalValueException(BakeryItemName.MESSAGE_CONSTRAINTS);
         }
-        if (price == null || !Price.isValidPriceDollars(price)) {
+        final BakeryItemName modelItemName = new BakeryItemName(itemName);
+
+        if (price == null) {
+            throw new IllegalValueException(String.format(MISSING_FIELD_MESSAGE_FORMAT, Price.class.getSimpleName()));
+        }
+        if (!Price.isValidPriceDollars(price)) {
             throw new IllegalValueException(Price.MESSAGE_CONSTRAINTS);
         }
-        return new BakeryItem(new BakeryItemName(name), Price.fromDollars(price));
+        final Price modelPrice = Price.fromDollars(price);
+
+        return new BakeryItem(modelItemName, modelPrice);
     }
 }

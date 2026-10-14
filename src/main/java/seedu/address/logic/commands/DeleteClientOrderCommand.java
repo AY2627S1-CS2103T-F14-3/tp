@@ -39,7 +39,7 @@ public class DeleteClientOrderCommand extends Command {
     /**
      * Deletes the selected client order.
      *
-     * @throws CommandException If an index is invalid or the requested status already applies.
+     * @throws CommandException If the displayed client index or client-local order index is invalid.
      */
     @Override
     public CommandResult execute(Model model) throws CommandException {

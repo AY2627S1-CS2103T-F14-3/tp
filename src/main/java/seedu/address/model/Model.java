@@ -50,6 +50,11 @@ public interface Model {
     void deletePerson(Person target);
 
     /**
+     * Deletes an existing bakery item that is not referenced by an order.
+     */
+    void deleteBakeryItem(BakeryItem target);
+
+    /**
      * Adds the given person.
      * {@code person} must not already exist in the address book.
      */

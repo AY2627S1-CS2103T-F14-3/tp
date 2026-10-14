@@ -98,6 +98,11 @@ public class ModelManager implements Model {
         addressBook.setPerson(target, editedPerson);
     }
 
+    @Override
+    public void deleteBakeryItem(BakeryItem target) {
+        addressBook.removeBakeryItem(target);
+    }
+
     //=========== Filtered Person List Accessors =============================================================
 
     /**
@@ -181,7 +186,8 @@ public class ModelManager implements Model {
 
         return addressBook.equals(otherModelManager.addressBook)
                 && userPrefs.equals(otherModelManager.userPrefs)
-                && filteredPersons.equals(otherModelManager.filteredPersons);
+                && filteredPersons.equals(otherModelManager.filteredPersons)
+                && filteredBakeryItems.equals(otherModelManager.filteredBakeryItems);
     }
 
 }
