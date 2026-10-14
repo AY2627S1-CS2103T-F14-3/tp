@@ -90,6 +90,11 @@ public class AddCommandTest {
      */
     private class ModelStub implements Model {
         @Override
+        public void deleteBakeryItem(BakeryItem target) {
+            throw new AssertionError("This method should not be called.");
+        }
+
+        @Override
         public Predicate<Person> getPersonFilter() {
             throw new AssertionError("Unexpected filter operation.");
         }
