@@ -24,11 +24,11 @@ public class DeleteClientOrderCommandTest {
     }
 
     @Test
-    public void execute_parsedRequest_reportsUnavailableWithoutChangingModel() throws Exception {
+    public void execute_missingOrder_reportsSpecificErrorWithoutChangingModel() throws Exception {
         ModelManager model = new ModelManager(getTypicalAddressBook(), new UserPrefs());
         ModelManager expected = new ModelManager(getTypicalAddressBook(), new UserPrefs());
         Command command = new AddressBookParser().parseCommand("delete-order 1 o/2");
-        assertThrows(CommandException.class, DeleteClientOrderCommand.MESSAGE_NOT_IMPLEMENTED, () ->
+        assertThrows(CommandException.class, OrderCommandUtil.MESSAGE_INVALID_ORDER, () ->
                 command.execute(model));
         assertEquals(expected, model);
     }

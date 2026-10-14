@@ -249,3 +249,9 @@ The data file is editable JSON. Existing AB3 files remain supported. Orders refe
 the file: if you manually rename one, update its order references as well. Keep each order's UUID unique and use
 valid quantities, dates, and completion statuses. Incorrect edits can prevent loading and cause data loss, as with
 AB3; back up the file before editing it. A failed save is reported as an error and its in-memory change is undone.
+
+### delete-order
+
+Usage: `delete-order CONTACT_INDEX o/ORDER_INDEX`. Example: `delete-order 1 o/2`.
+
+Deletes the selected client order. CONTACT_INDEX refers to the displayed client list. ORDER_INDEX refers to that client's orders in insertion order. After deleting an order, later order indices shift down. A status command reports an error if the requested status already applies. Successful changes are saved automatically; a save error restores the previous state.
