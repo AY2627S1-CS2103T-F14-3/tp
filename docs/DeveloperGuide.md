@@ -303,13 +303,6 @@ not the consolidated list of all orders. Indices are transient displayed positio
 Existence checks, order changes, persistence, UI updates, and user-facing help are deferred to model integration.
 No successful data change is claimed by this parsing increment.
 
-### mark-order-complete parsing increment
-
-The current increment recognizes `mark-order-complete CONTACT_INDEX o/ORDER_INDEX`, for example
-`mark-order-complete 1 o/2`, as specified in [issue #39](https://github.com/AY2627S1-CS2103T-F14-3/tp/issues/39).
-It validates and retains the indices in a command; execution is deferred until the order model is integrated.
-Executing a valid request returns `Marking orders as complete is not available yet. No order status has been changed.` and leaves existing data unchanged.
-
 ### unmark parsing increment
 
 The current increment recognizes `unmark CONTACT_INDEX o/ORDER_INDEX`, for example
