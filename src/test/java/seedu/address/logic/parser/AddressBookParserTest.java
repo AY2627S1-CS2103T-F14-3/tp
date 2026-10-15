@@ -126,6 +126,23 @@ public class AddressBookParserTest {
     }
 
     @Test
+    public void parseCommand_clientCommands_acceptExplicitNames() throws Exception {
+        assertTrue(parser.parseCommand("add-client n/Alice p/12345678 e/alice@example.com a/Somewhere")
+                instanceof AddCommand);
+        assertTrue(parser.parseCommand("delete-client 1") instanceof DeleteCommand);
+        assertTrue(parser.parseCommand("edit-client 1 n/Alice") instanceof EditCommand);
+        assertTrue(parser.parseCommand("find-clients Alice") instanceof FindCommand);
+        assertTrue(parser.parseCommand("list-clients") instanceof ListCommand);
+    }
+
+    @Test
+    public void parseCommand_genericClientCommands_rejected() {
+        for (String command : List.of("add", "delete", "edit", "find", "list")) {
+            assertThrows(ParseException.class, MESSAGE_UNKNOWN_COMMAND, () -> parser.parseCommand(command));
+        }
+    }
+
+    @Test
     public void parseCommand_unknownCommand_throwsParseException() {
         assertThrows(ParseException.class, MESSAGE_UNKNOWN_COMMAND, () -> parser.parseCommand("unknownCommand"));
     }
