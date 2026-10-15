@@ -34,7 +34,7 @@ AddressBook Level 3 (AB3) is a **desktop application for managing contacts, opti
 
    * `add-item n/Banana Muffin p/5.99` : Adds a bakery item named `Banana Muffin` to the Address Book.
 
-   * `clear` : Deletes all contacts.
+   * `clear` : Deletes all clients, bakery items, and orders.
 
    * `exit` : Exits the app.
 
@@ -66,16 +66,9 @@ AddressBook Level 3 (AB3) is a **desktop application for managing contacts, opti
 * If you are using a PDF version of this document, be careful when copying and pasting commands that span multiple lines as space characters surrounding line-breaks may be omitted when copied over to the application.
 </div>
 
-### Viewing help: `help`
+### Client commands
 
-Shows a message explaining how to access the help page.
-
-![help message](images/helpMessage.png)
-
-Format: `help`
-
-
-### Adding a client: `add-client`
+#### Adding a client: `add-client`
 
 Adds a client to the address book.
 
@@ -89,15 +82,23 @@ Examples:
 * `add-client n/John Doe p/98765432 e/johnd@example.com a/John street, block 123, #01-01`
 * `add-client n/Betsy Crowe t/friend e/betsycrowe@example.com a/Newgate Prison p/1234567 t/criminal`
 
-### Listing all clients: `list-clients`
+#### Deleting a client: `delete-client`
 
-Shows a list of all clients in the address book.
+Deletes the specified client from the address book. If the client has orders, delete those orders first.
 
-Format: `list-clients`
+Format: `delete-client INDEX`
 
-### Editing a client: `edit-client`
+* Deletes the client at the specified `INDEX`.
+* The index refers to the index number shown in the displayed client list.
+* The index **must be a positive integer** 1, 2, 3, …​
 
-Edits an existing client in the address book.
+Examples:
+* `list-clients` followed by `delete-client 2` deletes the 2nd client in the address book.
+* `find-clients Betsy` followed by `delete-client 1` deletes the 1st client in the results of the `find-clients` command.
+
+#### Editing a client: `edit-client`
+
+Edits an existing client in the address book. The client's existing orders are retained.
 
 Format: `edit-client INDEX [n/NAME] [p/PHONE] [e/EMAIL] [a/ADDRESS] [t/TAG]…​`
 
@@ -111,7 +112,13 @@ Examples:
 *  `edit-client 1 p/91234567 e/johndoe@example.com` Edits the phone number and email address of the 1st client to be `91234567` and `johndoe@example.com` respectively.
 *  `edit-client 2 n/Betsy Crower t/` Edits the name of the 2nd client to be `Betsy Crower` and clears all existing tags.
 
-### Locating clients by name: `find-clients`
+#### Listing all clients: `list-clients`
+
+Shows a list of all clients in the address book.
+
+Format: `list-clients`
+
+#### Locating clients by name: `find-clients`
 
 Finds clients whose names contain any of the given keywords.
 
@@ -128,21 +135,103 @@ Examples:
 * `find-clients alex david` returns `Alex Yeoh`, `David Li`<br>
   ![result for finding Alex and David](images/findAlexDavidResult.png)
 
-### Deleting a client: `delete-client`
+### Bakery item commands
 
-Deletes the specified client from the address book.
+#### Adding a bakery item: `add-item`
 
-Format: `delete-client INDEX`
+Adds the specified bakery item to the address book.
 
-* Deletes the client at the specified `INDEX`.
-* The index refers to the index number shown in the displayed client list.
+Format: `add-item n/ITEM_NAME p/PRICE_DOLLARS`
+
+* Adds the bakery item with the trimmed `ITEM_NAME` and `PRICE_DOLLARS`.
+* Duplicate items are rejected. An item is a duplicate if they have the same item name after trimming, removing extra whitespace and converting to uppercase.
+* `PRICE_DOLLARS` can have the format `D`, `D.`, `D.c`, or `D.cc`.
+
+Examples:
+* `add-item n/Banana Muffin p/5.90`
+
+#### Deleting a bakery item: `delete-item`
+
+Deletes the specified bakery item from the address book. If orders reference this item, delete those orders first.
+
+Format: `delete-item INDEX`
+
+* Deletes the bakery item at the specified `INDEX`.
+* The index refers to the index number shown in the displayed bakery item list.
 * The index **must be a positive integer** 1, 2, 3, …​
 
 Examples:
-* `list-clients` followed by `delete-client 2` deletes the 2nd client in the address book.
-* `find-clients Betsy` followed by `delete-client 1` deletes the 1st client in the results of the `find-clients` command.
+* `delete-item 1` deletes the 1st bakery item in the displayed bakery item list.
 
-### Listing all orders: `list-orders`
+#### Listing all bakery items: `list-items`
+
+Shows all bakery items in the item panel, with their index, name, and price.
+
+Format: `list-items`
+
+Like `list-clients`, this command ignores extra arguments. It does not change the displayed client list.
+The displayed item indices can be used with `delete-item` and `add-order`.
+
+### Order commands
+
+Order commands use the displayed client and item lists. Create the client and bakery item before adding an order.
+
+* `CONTACT_INDEX` is the client's index in the displayed client list. Use `list-clients` to show all clients after a search.
+* `ITEM_INDEX` is the item's index in the displayed bakery item list.
+* `ORDER_INDEX` is the order's position within that client's own orders, as shown on the order card. It is not the row number in the complete order list.
+* Indices must be positive integers. Invalid indices or input fields leave existing data unchanged.
+
+#### Adding an order: `add-order`
+
+Adds a new incomplete order for an existing client and bakery item.
+
+Format: `add-order CONTACT_INDEX i/ITEM_INDEX q/QUANTITY d/DEADLINE`
+
+* Required `i/`, `q/`, and `d/` fields may appear in any order.
+* `QUANTITY` must be a whole number from 1 to 9,999.
+* `DEADLINE` must be a real calendar date in `YYYY-MM-DD` format. Past dates are accepted for record-keeping.
+* Identical repeat orders are allowed and can be managed separately.
+* The success message includes the new order's index within the client's orders.
+
+Example:
+* `add-order 1 i/1 q/5 d/2026-10-15` adds an order for five units of item 1 to client 1.
+
+#### Deleting an order: `delete-order`
+
+Deletes the selected order from the specified client.
+
+Format: `delete-order CONTACT_INDEX o/ORDER_INDEX`
+
+* Deletes only the selected order; other orders, including identical repeat orders, are retained.
+* Later order indices for that client shift down after deletion. Use the updated numbers shown on the cards.
+
+Example:
+* `delete-order 1 o/2` deletes client 1's second order.
+
+#### Marking an order complete: `mark-order-complete`
+
+Marks the selected client order as complete.
+
+Format: `mark-order-complete CONTACT_INDEX o/ORDER_INDEX`
+
+* The order remains visible in the order panel.
+* If the order is already complete, an error is shown and no data is changed.
+
+Example:
+* `mark-order-complete 1 o/2` marks client 1's second order complete.
+
+#### Restoring an order to incomplete: `unmark`
+
+Restores the selected completed order to incomplete.
+
+Format: `unmark CONTACT_INDEX o/ORDER_INDEX`
+
+* If the order is already incomplete, an error is shown and no data is changed.
+
+Example:
+* `unmark 1 o/2` restores client 1's second order to incomplete.
+
+#### Listing all orders: `list-orders`
 
 Shows all orders in insertion order, including completed orders. Each card shows its position
 in the order list, item, quantity, client name, that client's own order number, deadline, and completion status.
@@ -160,48 +249,17 @@ Format: `list-orders`
 * Adding, deleting, or marking an order updates the panel automatically. Deleting an order
   renumbers the remaining rows in the order panel.
 
-### Listing all bakery items: `list-items`
+### General commands
 
-Shows all bakery items in the item panel, with their index, name, and price.
+#### Viewing help: `help`
 
-Format: `list-items`
+Shows a message explaining how to access the help page.
 
-Like `list-clients`, this command ignores extra arguments. It does not change the displayed client list.
-The displayed item indices can be used with `delete-item` and `add-order`.
+![help message](images/helpMessage.png)
 
-### Adding a bakery item: `add-item`
+Format: `help`
 
-Adds the specified bakery item to the address book.
-
-Format: `add-item n/ITEM_NAME p/PRICE_DOLLARS`
-
-* Adds the bakery item with the trimmed `ITEM_NAME` and `PRICE_DOLLARS`.
-* Duplicate items are rejected. An item is a duplicate if they have the same item name after trimming, removing extra whitespace and converting to uppercase.
-* `PRICE_DOLLARS` can have the format `D`, `D.`, `D.c`, or `D.cc`.
-
-Examples:
-* `add-item n/Banana Muffin p/5.90`
-
-### Deleting a bakery item: `delete-item`
-
-Deletes the specified bakery item from the address book.
-
-Format: `delete-item INDEX`
-
-* Deletes the bakery item at the specified `INDEX`.
-* The index refers to the index number shown in the displayed bakery item list.
-* The index **must be a positive integer** 1, 2, 3, …​
-
-Examples:
-* `delete-item 1` deletes the 1st bakery item in the displayed bakery item list.
-
-### Clearing all entries: `clear`
-
-Clears all entries from the address book.
-
-Format: `clear`
-
-### Replacing all entries with sample data: `populate`
+#### Replacing all entries with sample data: `populate`
 
 Replaces all current clients, bakery items, and orders with the default sample data.
 This overwrites existing data; it does not append to it. The replacement is saved automatically.
@@ -213,15 +271,25 @@ Format: `populate`
 * Running it again replaces the data with a fresh sample book rather than adding duplicates.
 * If saving fails, the previous data and filters are restored.
 
-### Exiting the program: `exit`
+#### Clearing all entries: `clear`
+
+Removes all clients, bakery items, and orders from the address book.
+
+Format: `clear`
+
+#### Exiting the program: `exit`
 
 Exits the program.
 
 Format: `exit`
 
+## Data storage
+
 ### Saving the data
 
 AddressBook automatically saves data after every command. You do not need to save manually.
+
+Clients, bakery items, orders, and completion statuses are saved together. A successful change is reported only after saving succeeds. If saving fails, an error is shown and the previous in-memory data and displayed filters are restored.
 
 ### Editing the data file
 
@@ -231,6 +299,8 @@ AddressBook data is saved automatically as a JSON file `[JAR file location]/data
 If your changes make the data file invalid, AddressBook starts with an empty address book at the next run. The invalid file remains on disk until you run a command (AddressBook saves after every command). Still, we recommend backing up the file before editing it.<br>
 Furthermore, certain edits can cause the AddressBook to behave in unexpected ways (e.g., if a value entered is outside of the acceptable range). Therefore, edit the data file only if you are confident that you can update it correctly.
 </div>
+
+Existing AB3 files remain supported. Orders refer to clients and bakery items by name in the file. If you manually rename one, update its order references as well. Keep each order's UUID unique and use valid quantities, dates, and completion statuses. Incorrect edits can prevent loading and cause data loss, as with AB3; back up the file before editing it.
 
 ### Archiving data files `[coming in v2.0]`
 
@@ -254,58 +324,39 @@ _Details coming soon ..._
 
 ## Command summary
 
+### Client commands
+
 Action | Format, Examples
 --------|------------------
-**Add** | `add-client n/NAME p/PHONE_NUMBER e/EMAIL a/ADDRESS [t/TAG]…​` <br> e.g., `add-client n/James Ho p/22224444 e/jamesho@example.com a/123, Clementi Rd, 1234665 t/friend t/colleague`
-**Clear** | `clear`
-**Populate Sample Data** | `populate`
-**Delete** | `delete-client INDEX`<br> e.g., `delete-client 3`
-**Edit** | `edit-client INDEX [n/NAME] [p/PHONE_NUMBER] [e/EMAIL] [a/ADDRESS] [t/TAG]…​`<br> e.g., `edit-client 2 n/James Lee e/jameslee@example.com`
-**Find** | `find-clients KEYWORD [MORE_KEYWORDS]`<br> e.g., `find-clients James Jake`
-**Add Bakery Item** | `add-item n/ITEM_NAME p/PRICE_DOLLARS` <br> e.g., `add-item n/Banana Muffin p/5.99`
-**Delete Bakery Item** | `delete-item INDEX`<br> e.g., `delete-item 3`
-**List** | `list-clients`
-**List Bakery Items** | `list-items`
-**List Orders** | `list-orders`
+**Add client** | `add-client n/NAME p/PHONE_NUMBER e/EMAIL a/ADDRESS [t/TAG]…​`<br>e.g., `add-client n/James Ho p/22224444 e/jamesho@example.com a/123, Clementi Rd, 1234665 t/friend`
+**Delete client** | `delete-client INDEX`<br>e.g., `delete-client 3`
+**Edit client** | `edit-client INDEX [n/NAME] [p/PHONE] [e/EMAIL] [a/ADDRESS] [t/TAG]…​`<br>e.g., `edit-client 2 n/James Lee e/jameslee@example.com`
+**List clients** | `list-clients`
+**Find clients** | `find-clients KEYWORD [MORE_KEYWORDS]`<br>e.g., `find-clients James Jake`
+
+### Bakery item commands
+
+Action | Format, Examples
+--------|------------------
+**Add bakery item** | `add-item n/ITEM_NAME p/PRICE_DOLLARS`<br>e.g., `add-item n/Banana Muffin p/5.99`
+**Delete bakery item** | `delete-item INDEX`<br>e.g., `delete-item 3`
+**List bakery items** | `list-items`
+
+### Order commands
+
+Action | Format, Examples
+--------|------------------
+**Add order** | `add-order CONTACT_INDEX i/ITEM_INDEX q/QUANTITY d/DEADLINE`<br>e.g., `add-order 1 i/2 q/5 d/2026-10-15`
+**Delete order** | `delete-order CONTACT_INDEX o/ORDER_INDEX`<br>e.g., `delete-order 1 o/2`
+**Mark order complete** | `mark-order-complete CONTACT_INDEX o/ORDER_INDEX`<br>e.g., `mark-order-complete 1 o/2`
+**Restore order to incomplete** | `unmark CONTACT_INDEX o/ORDER_INDEX`<br>e.g., `unmark 1 o/2`
+**List orders** | `list-orders`
+
+### General commands
+
+Action | Format
+--------|-------
 **Help** | `help`
-
-## Bakery items and client orders
-
-Add an item with `add-item n/Muffin p/1.20`. Item names are unique ignoring case and extra spaces.
-Add an order with `add-order 1 i/1 q/5 d/2026-10-15`.
-The first number identifies the client in the displayed client list; `i/` identifies the item in the displayed item
-list. Required `i/`, `q/`, and `d/` fields may appear in any order. The quantity must be a whole number from 1 to
-9,999. The deadline must be a real calendar date in YYYY-MM-DD format; past deadlines are accepted.
-
-New orders are incomplete. Identical repeat orders are allowed. The success message includes the order's index
-within that client's orders. Order indices are client-local insertion positions, not positions in a consolidated
-order list. Deleting an order will shift the later order indices for that client. Invalid indices or fields leave
-the data unchanged. Orders, items, and completion statuses are saved automatically after successful commands.
-
-Clients referenced by orders cannot be deleted until those orders are removed. Editing a client's details retains
-their orders. The `clear` command removes clients, bakery items, and orders together.
-Bakery items are displayed in the item panel; use `list-items` to show all bakery items.
-The order panel displays all orders in insertion order, independently of the displayed client list.
-
-The data file is editable JSON. Existing AB3 files remain supported. Orders refer to clients and items by name in
-the file: if you manually rename one, update its order references as well. Keep each order's UUID unique and use
-valid quantities, dates, and completion statuses. Incorrect edits can prevent loading and cause data loss, as with
-AB3; back up the file before editing it. A failed save is reported as an error and its in-memory change is undone.
-
-### unmark
-
-Usage: `unmark CONTACT_INDEX o/ORDER_INDEX`. Example: `unmark 1 o/2`.
-
-Restores the selected client order to incomplete. CONTACT_INDEX refers to the displayed client list. ORDER_INDEX refers to that client's orders in insertion order. After deleting an order, later order indices shift down. A status command reports an error if the requested status already applies. Successful changes are saved automatically; a save error restores the previous state.
-
-### mark-order-complete
-
-Usage: `mark-order-complete CONTACT_INDEX o/ORDER_INDEX`. Example: `mark-order-complete 1 o/2`.
-
-Marks the selected client order as complete. CONTACT_INDEX refers to the displayed client list. ORDER_INDEX refers to that client's orders in insertion order. After deleting an order, later order indices shift down. A status command reports an error if the requested status already applies. Successful changes are saved automatically; a save error restores the previous state.
-
-### delete-order
-
-Usage: `delete-order CONTACT_INDEX o/ORDER_INDEX`. Example: `delete-order 1 o/2`.
-
-Deletes the selected client order. CONTACT_INDEX refers to the displayed client list. ORDER_INDEX refers to that client's orders in insertion order. After deleting an order, later order indices shift down. A status command reports an error if the requested status already applies. Successful changes are saved automatically; a save error restores the previous state.
+**Populate sample data** | `populate`
+**Clear all data** | `clear`
+**Exit** | `exit`
