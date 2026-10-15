@@ -270,9 +270,7 @@ the data unchanged. Orders, items, and completion statuses are saved automatical
 Clients referenced by orders cannot be deleted until those orders are removed. Editing a client's details retains
 their orders. The `clear` command removes clients, bakery items, and orders together.
 Bakery items are displayed in the item panel; use `list-items` to show all bakery items.
-The order panel and order listing commands remain under development separately.
 The order panel displays all orders in insertion order, independently of the displayed client list.
-The item panel and item listing command are under development separately.
 
 The data file is editable JSON. Existing AB3 files remain supported. Orders refer to clients and items by name in
 the file: if you manually rename one, update its order references as well. Keep each order's UUID unique and use
