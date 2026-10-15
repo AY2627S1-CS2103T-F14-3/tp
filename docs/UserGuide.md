@@ -60,7 +60,7 @@ AddressBook Level 3 (AB3) is a **desktop application for managing contacts, opti
 * Parameters can be in any order.<br>
   For example, if the command specifies `n/NAME p/PHONE_NUMBER`, `p/PHONE_NUMBER n/NAME` is also acceptable.
 
-* Extraneous parameters for commands that take no parameters, such as `help`, `list`, `exit`, and `clear`, are ignored.<br>
+* Extraneous parameters for commands that take no parameters, such as `help`, `list`, `list-items`, `exit`, and `clear`, are ignored.<br>
   For example, `help 123` is interpreted as `help`.
 
 * If you are using a PDF version of this document, be careful when copying and pasting commands that span multiple lines as space characters surrounding line-breaks may be omitted when copied over to the application.
@@ -141,6 +141,15 @@ Format: `delete INDEX`
 Examples:
 * `list` followed by `delete 2` deletes the 2nd person in the address book.
 * `find Betsy` followed by `delete 1` deletes the 1st person in the results of the `find` command.
+
+### Listing all bakery items: `list-items`
+
+Shows all bakery items in the item panel, with their index, name, and price.
+
+Format: `list-items`
+
+Like `list`, this command ignores extra arguments. It does not change the displayed person list.
+The displayed item indices can be used with `delete-item` and `add-order`.
 
 ### Adding a bakery item: `add-item`
 
@@ -225,6 +234,7 @@ Action | Format, Examples
 **Add Bakery Item** | `add-item n/ITEM_NAME p/PRICE_DOLLARS` <br> e.g., `add-item n/Banana Muffin p/5.99`
 **Delete Bakery Item** | `delete-item INDEX`<br> e.g., `delete-item 3`
 **List** | `list`
+**List Bakery Items** | `list-items`
 **Help** | `help`
 
 ## Bakery items and client orders
@@ -242,8 +252,8 @@ the data unchanged. Orders, items, and completion statuses are saved automatical
 
 Clients referenced by orders cannot be deleted until those orders are removed. Editing a client's details retains
 their orders. The `clear` command removes clients, bakery items, and orders together.
-The order/item panels and listing commands are under development separately; this increment provides the backend
-and command feedback for them.
+Bakery items are displayed in the item panel; use `list-items` to show all bakery items.
+The order panel and order listing commands remain under development separately.
 
 The data file is editable JSON. Existing AB3 files remain supported. Orders refer to clients and items by name in
 the file: if you manually rename one, update its order references as well. Keep each order's UUID unique and use
