@@ -21,11 +21,13 @@ public class OrderCard extends UiPart<Region> {
     private Label status;
 
     /**
-     * Creates a card with the displayed list index and the client's own order number.
+     * Creates a card with its row number, client-local order number, and displayed client index.
+     * A zero client index indicates that the client is hidden from the displayed client list.
      */
-    public OrderCard(ClientOrder order, int displayedIndex, int clientOrderIndex) {
+    public OrderCard(ClientOrder order, int displayedIndex, int clientOrderIndex, int clientIndex) {
         super(FXML);
-        client.setText("Client: " + order.getClient().getName() + " — Order " + clientOrderIndex);
+        String clientLabel = clientIndex > 0 ? "Client " + clientIndex : "Client";
+        client.setText(clientLabel + ": " + order.getClient().getName() + " — Order " + clientOrderIndex);
         item.setText(displayedIndex + ". " + order.getQuantity() + " x " + order.getItem().getItemName());
         deadline.setText("Due: " + order.getDeadline());
         status.setText(order.isComplete() ? "Complete" : "Incomplete");

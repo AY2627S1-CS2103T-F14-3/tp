@@ -18,6 +18,7 @@ import org.junit.jupiter.api.Test;
 import javafx.application.Platform;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
+import javafx.collections.transformation.FilteredList;
 import javafx.scene.Node;
 import javafx.scene.Scene;
 import javafx.scene.control.Label;
@@ -110,10 +111,42 @@ public class OrderListPanelTest {
     }
 
     @Test
+    public void render_filterClients_updatesClientNumbersAndOmitsHiddenNumbers() throws Exception {
+        onJavaFxThread(() -> {
+            RenderedPanel rendered = new RenderedPanel(orderFor(ALICE), orderFor(BOB), orderFor(ALICE));
+            rendered.cards();
+            rendered.filteredClients.setPredicate(person -> person.equals(BOB));
+            List<Node> cards = rendered.cards();
+            assertEquals(3, cards.size());
+            assertCard(cards.get(0), 1, ALICE, 1, "Incomplete", 0);
+            assertCard(cards.get(1), 2, BOB, 1, "Incomplete", 1);
+            assertCard(cards.get(2), 3, ALICE, 2, "Incomplete", 0);
+            rendered.filteredClients.setPredicate(person -> true);
+            cards = rendered.cards();
+            assertCard(cards.get(0), 1, ALICE, 1, "Incomplete");
+            assertCard(cards.get(1), 2, BOB, 1, "Incomplete");
+            assertCard(cards.get(2), 3, ALICE, 2, "Incomplete");
+        });
+    }
+
+    @Test
+    public void render_reorderClients_updatesNumbersWithoutReorderingOrders() throws Exception {
+        onJavaFxThread(() -> {
+            RenderedPanel rendered = new RenderedPanel(orderFor(ALICE), orderFor(BOB));
+            rendered.cards();
+            rendered.clients.setAll(BOB, ALICE);
+            List<Node> cards = rendered.cards();
+            assertCard(cards.get(0), 1, ALICE, 1, "Incomplete", 2);
+            assertCard(cards.get(1), 2, BOB, 1, "Incomplete", 1);
+        });
+    }
+
+    @Test
     public void updateItem_emptyOrNull_clearsReusedCell() throws Exception {
         onJavaFxThread(() -> {
             ClientOrder order = orderFor(ALICE);
-            OrderListPanel panel = new OrderListPanel(FXCollections.observableArrayList(order));
+            OrderListPanel panel = new OrderListPanel(FXCollections.observableArrayList(order),
+                    FXCollections.observableArrayList(ALICE));
             OrderListPanel.OrderListViewCell cell = panel.new OrderListViewCell();
             cell.updateItem(order, false);
             cell.updateItem(order, true);
@@ -127,8 +160,13 @@ public class OrderListPanelTest {
     }
 
     private static void assertCard(Node card, int row, Person client, int clientOrder, String status) {
+        assertCard(card, row, client, clientOrder, status, client.equals(ALICE) ? 1 : 2);
+    }
+
+    private static void assertCard(Node card, int row, Person client, int clientOrder, String status, int clientIndex) {
         assertEquals(row + ". 2 x Banana Muffin", labelText(card, "item"));
-        assertEquals("Client: " + client.getName() + " — Order " + clientOrder, labelText(card, "client"));
+        String clientLabel = clientIndex > 0 ? "Client " + clientIndex : "Client";
+        assertEquals(clientLabel + ": " + client.getName() + " — Order " + clientOrder, labelText(card, "client"));
         assertEquals("Due: 2026-10-15", labelText(card, "deadline"));
         assertEquals(status, labelText(card, "status"));
     }
@@ -142,11 +180,14 @@ public class OrderListPanelTest {
      */
     private static class RenderedPanel {
         private final ObservableList<ClientOrder> orders = FXCollections.observableArrayList();
+        private final ObservableList<Person> clients = FXCollections.observableArrayList(ALICE, BOB);
+        private final FilteredList<Person> filteredClients = new FilteredList<>(clients);
         private final StackPane root;
 
         RenderedPanel(ClientOrder... initialOrders) {
             orders.addAll(initialOrders);
-            OrderListPanel panel = new OrderListPanel(FXCollections.unmodifiableObservableList(orders));
+            OrderListPanel panel = new OrderListPanel(FXCollections.unmodifiableObservableList(orders),
+                    filteredClients);
             root = new StackPane(panel.getRoot());
             new Scene(root, 800, 800);
             root.resize(800, 800);

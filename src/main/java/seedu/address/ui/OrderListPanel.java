@@ -7,6 +7,7 @@ import javafx.scene.control.ListCell;
 import javafx.scene.control.ListView;
 import javafx.scene.layout.Region;
 import seedu.address.model.order.ClientOrder;
+import seedu.address.model.person.Person;
 
 /**
  * Panel containing all orders in insertion order.
@@ -17,14 +18,18 @@ public class OrderListPanel extends UiPart<Region> {
     @FXML
     private ListView<ClientOrder> orderListView;
 
+    private final ObservableList<Person> clients;
+
     /**
-     * Creates a panel with the given observable order list.
+     * Creates a panel with the observable orders and displayed clients used by order commands.
      */
-    public OrderListPanel(ObservableList<ClientOrder> orders) {
+    public OrderListPanel(ObservableList<ClientOrder> orders, ObservableList<Person> clients) {
         super(FXML);
+        this.clients = clients;
         orderListView.setItems(orders);
         orderListView.setCellFactory(listView -> new OrderListViewCell());
         orders.addListener((ListChangeListener<ClientOrder>) change -> orderListView.refresh());
+        clients.addListener((ListChangeListener<Person>) change -> orderListView.refresh());
     }
 
     /**
@@ -47,7 +52,8 @@ public class OrderListPanel extends UiPart<Region> {
                         break;
                     }
                 }
-                setGraphic(new OrderCard(order, getIndex() + 1, clientOrderIndex).getRoot());
+                int clientIndex = clients.indexOf(order.getClient()) + 1;
+                setGraphic(new OrderCard(order, getIndex() + 1, clientOrderIndex, clientIndex).getRoot());
             }
         }
     }
