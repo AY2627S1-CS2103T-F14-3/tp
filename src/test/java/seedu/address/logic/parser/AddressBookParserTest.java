@@ -24,6 +24,7 @@ import seedu.address.logic.commands.HelpCommand;
 import seedu.address.logic.commands.ListCommand;
 import seedu.address.logic.commands.ListItemsCommand;
 import seedu.address.logic.commands.ListOrdersCommand;
+import seedu.address.logic.commands.PopulateCommand;
 import seedu.address.logic.parser.exceptions.ParseException;
 import seedu.address.model.bakeryitem.BakeryItem;
 import seedu.address.model.bakeryitem.BakeryItemName;
@@ -50,6 +51,12 @@ public class AddressBookParserTest {
         BakeryItem bakeryItem = new BakeryItem(new BakeryItemName("Banana Muffin"), Price.fromDollars("1.20"));
         AddBakeryItemCommand command = (AddBakeryItemCommand) parser.parseCommand("add-item n/Banana Muffin p/1.20");
         assertEquals(new AddBakeryItemCommand(bakeryItem), command);
+    }
+
+    @Test
+    public void parseCommand_populate() throws Exception {
+        assertTrue(parser.parseCommand(PopulateCommand.COMMAND_WORD) instanceof PopulateCommand);
+        assertTrue(parser.parseCommand(PopulateCommand.COMMAND_WORD + " extra") instanceof PopulateCommand);
     }
 
     @Test

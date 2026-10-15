@@ -60,7 +60,7 @@ AddressBook Level 3 (AB3) is a **desktop application for managing contacts, opti
 * Parameters can be in any order.<br>
   For example, if the command specifies `n/NAME p/PHONE_NUMBER`, `p/PHONE_NUMBER n/NAME` is also acceptable.
 
-* Extraneous parameters for commands that take no parameters, such as `help`, `list`, `list-items`, `exit`, and `clear`, are ignored.<br>
+* Extraneous parameters for commands that take no parameters, such as `help`, `list`, `list-items`, `populate`, `exit`, and `clear`, are ignored.<br>
   For example, `help 123` is interpreted as `help`.
 
 * If you are using a PDF version of this document, be careful when copying and pasting commands that span multiple lines as space characters surrounding line-breaks may be omitted when copied over to the application.
@@ -199,6 +199,18 @@ Clears all entries from the address book.
 
 Format: `clear`
 
+### Replacing all entries with sample data: `populate`
+
+Replaces all current clients, bakery items, and orders with the default sample data.
+This overwrites existing data; it does not append to it. The replacement is saved automatically.
+
+Format: `populate`
+
+* Loads six sample clients, four bakery items, and six orders, including completed and incomplete orders.
+* Resets client and item filters so all sample entries are displayed.
+* Running it again replaces the data with a fresh sample book rather than adding duplicates.
+* If saving fails, the previous data and filters are restored.
+
 ### Exiting the program: `exit`
 
 Exits the program.
@@ -244,6 +256,7 @@ Action | Format, Examples
 --------|------------------
 **Add** | `add n/NAME p/PHONE_NUMBER e/EMAIL a/ADDRESS [t/TAG]…​` <br> e.g., `add n/James Ho p/22224444 e/jamesho@example.com a/123, Clementi Rd, 1234665 t/friend t/colleague`
 **Clear** | `clear`
+**Populate Sample Data** | `populate`
 **Delete** | `delete INDEX`<br> e.g., `delete 3`
 **Edit** | `edit INDEX [n/NAME] [p/PHONE_NUMBER] [e/EMAIL] [a/ADDRESS] [t/TAG]…​`<br> e.g., `edit 2 n/James Lee e/jameslee@example.com`
 **Find** | `find KEYWORD [MORE_KEYWORDS]`<br> e.g., `find James Jake`
