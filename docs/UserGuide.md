@@ -152,9 +152,11 @@ Format: `list-orders`
 * Leaves the displayed client and item lists unchanged.
 * Extra arguments are ignored, like `list-clients`. No order filters are supported yet.
 * Orders stay visible when clients are filtered with `find-clients`.
-* Row numbers refer to this complete order list. The client line also shows the order number
-  within that client's own orders. Existing order commands take a displayed client index and
-  this client-local order number, as documented for those commands.
+* Row numbers refer to this complete order list. The client line shows the client's displayed
+  index and the order number within that client's own orders, for example `Client 2: Bernice Yu — Order 1`.
+  Existing order commands take these two indices, for example `delete-order 2 o/1`.
+  Client indices update with the displayed client list. If a client is hidden by a search,
+  their name and order number remain visible, but their client index is omitted.
 * Adding, deleting, or marking an order updates the panel automatically. Deleting an order
   renumbers the remaining rows in the order panel.
 
