@@ -24,6 +24,7 @@ import seedu.address.logic.commands.HelpCommand;
 import seedu.address.logic.commands.ListCommand;
 import seedu.address.logic.commands.ListItemsCommand;
 import seedu.address.logic.commands.ListOrdersCommand;
+import seedu.address.logic.commands.PopulateCommand;
 import seedu.address.logic.parser.exceptions.ParseException;
 import seedu.address.model.bakeryitem.BakeryItem;
 import seedu.address.model.bakeryitem.BakeryItemName;
@@ -50,6 +51,12 @@ public class AddressBookParserTest {
         BakeryItem bakeryItem = new BakeryItem(new BakeryItemName("Banana Muffin"), Price.fromDollars("1.20"));
         AddBakeryItemCommand command = (AddBakeryItemCommand) parser.parseCommand("add-item n/Banana Muffin p/1.20");
         assertEquals(new AddBakeryItemCommand(bakeryItem), command);
+    }
+
+    @Test
+    public void parseCommand_populate() throws Exception {
+        assertTrue(parser.parseCommand(PopulateCommand.COMMAND_WORD) instanceof PopulateCommand);
+        assertTrue(parser.parseCommand(PopulateCommand.COMMAND_WORD + " extra") instanceof PopulateCommand);
     }
 
     @Test
@@ -116,6 +123,23 @@ public class AddressBookParserTest {
     public void parseCommand_unrecognisedInput_throwsParseException() {
         assertThrows(ParseException.class, String.format(MESSAGE_INVALID_COMMAND_FORMAT, HelpCommand.MESSAGE_USAGE), ()
             -> parser.parseCommand(""));
+    }
+
+    @Test
+    public void parseCommand_clientCommands_acceptExplicitNames() throws Exception {
+        assertTrue(parser.parseCommand("add-client n/Alice p/12345678 e/alice@example.com a/Somewhere")
+                instanceof AddCommand);
+        assertTrue(parser.parseCommand("delete-client 1") instanceof DeleteCommand);
+        assertTrue(parser.parseCommand("edit-client 1 n/Alice") instanceof EditCommand);
+        assertTrue(parser.parseCommand("find-clients Alice") instanceof FindCommand);
+        assertTrue(parser.parseCommand("list-clients") instanceof ListCommand);
+    }
+
+    @Test
+    public void parseCommand_genericClientCommands_rejected() {
+        for (String command : List.of("add", "delete", "edit", "find", "list")) {
+            assertThrows(ParseException.class, MESSAGE_UNKNOWN_COMMAND, () -> parser.parseCommand(command));
+        }
     }
 
     @Test

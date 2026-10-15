@@ -6,6 +6,12 @@ import java.util.stream.Collectors;
 
 import seedu.address.model.AddressBook;
 import seedu.address.model.ReadOnlyAddressBook;
+import seedu.address.model.bakeryitem.BakeryItem;
+import seedu.address.model.bakeryitem.BakeryItemName;
+import seedu.address.model.bakeryitem.Price;
+import seedu.address.model.order.ClientOrder;
+import seedu.address.model.order.Deadline;
+import seedu.address.model.order.Quantity;
 import seedu.address.model.person.Address;
 import seedu.address.model.person.Email;
 import seedu.address.model.person.Name;
@@ -40,11 +46,39 @@ public class SampleDataUtil {
         };
     }
 
+    /**
+     * Returns sample bakery items for the catalogue.
+     */
+    public static BakeryItem[] getSampleBakeryItems() {
+        return new BakeryItem[] {
+            new BakeryItem(new BakeryItemName("Banana Muffin"), Price.fromDollars("1.20")),
+            new BakeryItem(new BakeryItemName("Chocolate Cake"), Price.fromDollars("25.00")),
+            new BakeryItem(new BakeryItemName("Butter Croissant"), Price.fromDollars("2.80")),
+            new BakeryItem(new BakeryItemName("Chocolate Chip Cookies"), Price.fromDollars("5.50"))
+        };
+    }
+
+    /**
+     * Returns a sample book with clients, bakery items, and complete and incomplete orders.
+     */
     public static ReadOnlyAddressBook getSampleAddressBook() {
         AddressBook sampleAb = new AddressBook();
-        for (Person samplePerson : getSamplePersons()) {
+        Person[] persons = getSamplePersons();
+        BakeryItem[] items = getSampleBakeryItems();
+        for (Person samplePerson : persons) {
             sampleAb.addPerson(samplePerson);
         }
+        for (BakeryItem sampleItem : items) {
+            sampleAb.addBakeryItem(sampleItem);
+        }
+        sampleAb.addOrder(ClientOrder.create(persons[0], items[0], new Quantity(12), new Deadline("2026-10-20")));
+        sampleAb.addOrder(ClientOrder.create(persons[1], items[1], new Quantity(1), new Deadline("2026-10-21")));
+        sampleAb.addOrder(ClientOrder.create(persons[0], items[2], new Quantity(6), new Deadline("2026-10-22")));
+        sampleAb.addOrder(ClientOrder.create(persons[2], items[3], new Quantity(3), new Deadline("2026-10-12"))
+                .withCompletion(true));
+        sampleAb.addOrder(ClientOrder.create(persons[3], items[0], new Quantity(8), new Deadline("2026-10-23")));
+        sampleAb.addOrder(ClientOrder.create(persons[4], items[2], new Quantity(4), new Deadline("2026-10-13"))
+                .withCompletion(true));
         return sampleAb;
     }
 
