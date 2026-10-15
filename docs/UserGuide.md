@@ -142,6 +142,22 @@ Examples:
 * `list` followed by `delete 2` deletes the 2nd person in the address book.
 * `find Betsy` followed by `delete 1` deletes the 1st person in the results of the `find` command.
 
+### Listing all orders: `list-orders`
+
+Shows all orders in insertion order, including completed orders. Each card shows its position
+in the order list, item, quantity, client name, that client's own order number, deadline, and completion status.
+
+Format: `list-orders`
+
+* Leaves the displayed client and item lists unchanged.
+* Extra arguments are ignored, like `list`. No order filters are supported yet.
+* Orders stay visible when clients are filtered with `find`.
+* Row numbers refer to this complete order list. The client line also shows the order number
+  within that client's own orders. Existing order commands take a displayed client index and
+  this client-local order number, as documented for those commands.
+* Adding, deleting, or marking an order updates the panel automatically. Deleting an order
+  renumbers the remaining rows in the order panel.
+
 ### Adding a bakery item: `add-item`
 
 Adds the specified bakery item to the address book.
@@ -225,6 +241,7 @@ Action | Format, Examples
 **Add Bakery Item** | `add-item n/ITEM_NAME p/PRICE_DOLLARS` <br> e.g., `add-item n/Banana Muffin p/5.99`
 **Delete Bakery Item** | `delete-item INDEX`<br> e.g., `delete-item 3`
 **List** | `list`
+**List Orders** | `list-orders`
 **Help** | `help`
 
 ## Bakery items and client orders
@@ -242,8 +259,8 @@ the data unchanged. Orders, items, and completion statuses are saved automatical
 
 Clients referenced by orders cannot be deleted until those orders are removed. Editing a client's details retains
 their orders. The `clear` command removes clients, bakery items, and orders together.
-The order/item panels and listing commands are under development separately; this increment provides the backend
-and command feedback for them.
+The order panel displays all orders in insertion order, independently of the displayed client list.
+The item panel and item listing command are under development separately.
 
 The data file is editable JSON. Existing AB3 files remain supported. Orders refer to clients and items by name in
 the file: if you manually rename one, update its order references as well. Keep each order's UUID unique and use

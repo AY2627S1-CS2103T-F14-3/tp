@@ -36,7 +36,7 @@ public interface Logic {
     ObservableList<BakeryItem> getFilteredBakeryItemList();
 
     /**
-     * Returns an unmodifiable observable list of all orders for the UI.
+     * Returns an unmodifiable observable list of all orders in insertion order for the UI.
      */
     ObservableList<ClientOrder> getOrderList();
 
