@@ -147,7 +147,7 @@ public class OrderBackendTest {
         addOrder(model, "1 i/1 q/5 d/2026-10-15");
         AddressBook before = new AddressBook(model.getAddressBook());
         assertThrows(CommandException.class, AddressBook.MESSAGE_CLIENT_HAS_ORDERS, () ->
-                new AddressBookParser().parseCommand("delete 1").execute(model));
+                new AddressBookParser().parseCommand("delete-client 1").execute(model));
         assertThrows(IllegalArgumentException.class, () -> model.deletePerson(ALICE));
         AddressBook book = new AddressBook(model.getAddressBook());
         assertThrows(IllegalArgumentException.class, () -> book.removeBakeryItem(MUFFIN));
@@ -244,7 +244,8 @@ public class OrderBackendTest {
         AddressBook before = new AddressBook(model.getAddressBook());
         LogicManager logic = createLogic(model, new JsonAddressBookStorage(directory.resolve("book.json")));
         assertThrows(CommandException.class, AddressBook.MESSAGE_ITEM_HAS_ORDERS, () -> logic.execute("delete-item 1"));
-        assertThrows(CommandException.class, AddressBook.MESSAGE_CLIENT_HAS_ORDERS, () -> logic.execute("delete 1"));
+        assertThrows(CommandException.class, AddressBook.MESSAGE_CLIENT_HAS_ORDERS, () ->
+                logic.execute("delete-client 1"));
         assertEquals(before, model.getAddressBook());
     }
 
