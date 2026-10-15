@@ -60,7 +60,7 @@ AddressBook Level 3 (AB3) is a **desktop application for managing contacts, opti
 * Parameters can be in any order.<br>
   For example, if the command specifies `n/NAME p/PHONE_NUMBER`, `p/PHONE_NUMBER n/NAME` is also acceptable.
 
-* Extraneous parameters for commands that take no parameters, such as `help`, `list`, `exit`, and `clear`, are ignored.<br>
+* Extraneous parameters for commands that take no parameters, such as `help`, `list`, `list-items`, `exit`, and `clear`, are ignored.<br>
   For example, `help 123` is interpreted as `help`.
 
 * If you are using a PDF version of this document, be careful when copying and pasting commands that span multiple lines as space characters surrounding line-breaks may be omitted when copied over to the application.
@@ -158,6 +158,15 @@ Format: `list-orders`
 * Adding, deleting, or marking an order updates the panel automatically. Deleting an order
   renumbers the remaining rows in the order panel.
 
+### Listing all bakery items: `list-items`
+
+Shows all bakery items in the item panel, with their index, name, and price.
+
+Format: `list-items`
+
+Like `list`, this command ignores extra arguments. It does not change the displayed person list.
+The displayed item indices can be used with `delete-item` and `add-order`.
+
 ### Adding a bakery item: `add-item`
 
 Adds the specified bakery item to the address book.
@@ -241,6 +250,7 @@ Action | Format, Examples
 **Add Bakery Item** | `add-item n/ITEM_NAME p/PRICE_DOLLARS` <br> e.g., `add-item n/Banana Muffin p/5.99`
 **Delete Bakery Item** | `delete-item INDEX`<br> e.g., `delete-item 3`
 **List** | `list`
+**List Bakery Items** | `list-items`
 **List Orders** | `list-orders`
 **Help** | `help`
 
@@ -259,6 +269,8 @@ the data unchanged. Orders, items, and completion statuses are saved automatical
 
 Clients referenced by orders cannot be deleted until those orders are removed. Editing a client's details retains
 their orders. The `clear` command removes clients, bakery items, and orders together.
+Bakery items are displayed in the item panel; use `list-items` to show all bakery items.
+The order panel and order listing commands remain under development separately.
 The order panel displays all orders in insertion order, independently of the displayed client list.
 The item panel and item listing command are under development separately.
 

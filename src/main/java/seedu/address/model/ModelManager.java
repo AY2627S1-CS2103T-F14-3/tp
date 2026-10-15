@@ -37,7 +37,7 @@ public class ModelManager implements Model {
         this.addressBook = new AddressBook(addressBook);
         this.userPrefs = new UserPrefs(userPrefs);
         filteredPersons = new FilteredList<>(this.addressBook.getPersonList(), PREDICATE_SHOW_ALL_PERSONS);
-        filteredBakeryItems = new FilteredList<>(this.addressBook.getBakeryItemList(), unused -> true);
+        filteredBakeryItems = new FilteredList<>(this.addressBook.getBakeryItemList(), PREDICATE_SHOW_ALL_BAKERY_ITEMS);
     }
 
     public ModelManager() {
@@ -148,7 +148,7 @@ public class ModelManager implements Model {
     @Override
     public void addBakeryItem(BakeryItem item) {
         addressBook.addBakeryItem(item);
-        filteredBakeryItems.setPredicate(unused -> true);
+        updateFilteredBakeryItemList(PREDICATE_SHOW_ALL_BAKERY_ITEMS);
     }
 
     @Override
