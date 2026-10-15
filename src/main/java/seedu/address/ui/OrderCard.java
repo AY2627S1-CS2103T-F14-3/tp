@@ -1,17 +1,33 @@
 package seedu.address.ui;
 
+import javafx.fxml.FXML;
+import javafx.scene.control.Label;
 import javafx.scene.layout.Region;
+import seedu.address.model.order.ClientOrder;
 
 /**
- * A UI component for an order card, ready for model integration.
+ * Displays an order's list index, client, item, quantity, deadline, and status.
  */
 public class OrderCard extends UiPart<Region> {
     private static final String FXML = "OrderListCard.fxml";
 
+    @FXML
+    private Label client;
+    @FXML
+    private Label item;
+    @FXML
+    private Label deadline;
+    @FXML
+    private Label status;
+
     /**
-     * Creates an empty {@code OrderCard}.
+     * Creates a card with the displayed list index and the client's own order number.
      */
-    public OrderCard() {
+    public OrderCard(ClientOrder order, int displayedIndex, int clientOrderIndex) {
         super(FXML);
+        client.setText("Client: " + order.getClient().getName() + " — Order " + clientOrderIndex);
+        item.setText(displayedIndex + ". " + order.getQuantity() + " x " + order.getItem().getItemName());
+        deadline.setText("Due: " + order.getDeadline());
+        status.setText(order.isComplete() ? "Complete" : "Incomplete");
     }
 }

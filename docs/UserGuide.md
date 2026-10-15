@@ -142,6 +142,22 @@ Examples:
 * `list` followed by `delete 2` deletes the 2nd person in the address book.
 * `find Betsy` followed by `delete 1` deletes the 1st person in the results of the `find` command.
 
+### Listing all orders: `list-orders`
+
+Shows all orders in insertion order, including completed orders. Each card shows its position
+in the order list, item, quantity, client name, that client's own order number, deadline, and completion status.
+
+Format: `list-orders`
+
+* Leaves the displayed client and item lists unchanged.
+* Extra arguments are ignored, like `list`. No order filters are supported yet.
+* Orders stay visible when clients are filtered with `find`.
+* Row numbers refer to this complete order list. The client line also shows the order number
+  within that client's own orders. Existing order commands take a displayed client index and
+  this client-local order number, as documented for those commands.
+* Adding, deleting, or marking an order updates the panel automatically. Deleting an order
+  renumbers the remaining rows in the order panel.
+
 ### Listing all bakery items: `list-items`
 
 Shows all bakery items in the item panel, with their index, name, and price.
@@ -235,6 +251,7 @@ Action | Format, Examples
 **Delete Bakery Item** | `delete-item INDEX`<br> e.g., `delete-item 3`
 **List** | `list`
 **List Bakery Items** | `list-items`
+**List Orders** | `list-orders`
 **Help** | `help`
 
 ## Bakery items and client orders
@@ -253,7 +270,7 @@ the data unchanged. Orders, items, and completion statuses are saved automatical
 Clients referenced by orders cannot be deleted until those orders are removed. Editing a client's details retains
 their orders. The `clear` command removes clients, bakery items, and orders together.
 Bakery items are displayed in the item panel; use `list-items` to show all bakery items.
-The order panel and order listing commands remain under development separately.
+The order panel displays all orders in insertion order, independently of the displayed client list.
 
 The data file is editable JSON. Existing AB3 files remain supported. Orders refer to clients and items by name in
 the file: if you manually rename one, update its order references as well. Keep each order's UUID unique and use
