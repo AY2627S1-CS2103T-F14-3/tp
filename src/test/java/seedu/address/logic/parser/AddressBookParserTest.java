@@ -16,6 +16,8 @@ import seedu.address.logic.commands.AddBakeryItemCommand;
 import seedu.address.logic.commands.AddCommand;
 import seedu.address.logic.commands.ClearCommand;
 import seedu.address.logic.commands.DeleteCommand;
+import seedu.address.logic.commands.EditBakeryItemCommand;
+import seedu.address.logic.commands.EditBakeryItemCommand.EditBakeryItemDescriptor;
 import seedu.address.logic.commands.EditCommand;
 import seedu.address.logic.commands.EditCommand.EditPersonDescriptor;
 import seedu.address.logic.commands.ExitCommand;
@@ -79,6 +81,17 @@ public class AddressBookParserTest {
         EditCommand command = (EditCommand) parser.parseCommand(EditCommand.COMMAND_WORD + " "
                 + INDEX_FIRST_PERSON.getOneBased() + " " + PersonUtil.getEditPersonDescriptorDetails(descriptor));
         assertEquals(new EditCommand(INDEX_FIRST_PERSON, descriptor), command);
+    }
+
+    @Test
+    public void parseCommand_editBakeryItem() throws Exception {
+        EditBakeryItemDescriptor descriptor = new EditBakeryItemDescriptor();
+        descriptor.setItemName(new BakeryItemName("Blueberry Muffin"));
+        descriptor.setPrice(Price.fromDollars("2.50"));
+        EditBakeryItemCommand command = (EditBakeryItemCommand) parser.parseCommand(
+                "edit-item 1 n/Blueberry Muffin p/2.50");
+
+        assertEquals(new EditBakeryItemCommand(INDEX_FIRST_PERSON, descriptor), command);
     }
 
     @Test
