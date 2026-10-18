@@ -517,6 +517,7 @@ Priorities: Must have - `* * * *`, Nice to have (high) - `* * *`, Nice to have (
 * **Baker**: The user who manages clients, bakery goods and orders in BakeBase.
 * **Client**: A customer whose contact details are stored in BakeBase.
 * **Bakery good**: A baked product that a baker offers and can add to a client order.
+* **Bakery item**: Another term for a bakery good. The terms are used interchangeably in this guide.
 * **Client order**: A record of a client’s request for a bakery good, including its quantity and, if specified, its deadline and status.
 * **Order deadline**: The date by which a client order is due.
 * **Incomplete order**: An order that has not been marked as complete.
