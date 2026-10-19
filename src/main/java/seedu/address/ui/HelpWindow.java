@@ -130,26 +130,26 @@ public class HelpWindow extends UiPart<Stage> {
     }
 
     private void populateCommandSummary() {
-        addCommandSummary(ClearCommand.COMMAND_WORD, ClearCommand.COMMAND_WORD);
-        addCommandSummary(PopulateCommand.COMMAND_WORD, PopulateCommand.COMMAND_WORD);
+        addCommandSummary(ClearCommand.COMMAND_WORD, ClearCommand.MESSAGE_USAGE);
+        addCommandSummary(PopulateCommand.COMMAND_WORD, PopulateCommand.MESSAGE_USAGE);
         addCommandSummary(HelpCommand.COMMAND_WORD, HelpCommand.MESSAGE_USAGE);
-        addCommandSummary(ExitCommand.COMMAND_WORD, ExitCommand.COMMAND_WORD);
+        addCommandSummary(ExitCommand.COMMAND_WORD, ExitCommand.MESSAGE_USAGE);
 
         addCommandSummary(AddCommand.COMMAND_WORD, AddCommand.MESSAGE_USAGE);
         addCommandSummary(EditCommand.COMMAND_WORD, EditCommand.MESSAGE_USAGE);
         addCommandSummary(DeleteCommand.COMMAND_WORD, DeleteCommand.MESSAGE_USAGE);
         addCommandSummary(FindCommand.COMMAND_WORD, FindCommand.MESSAGE_USAGE);
-        addCommandSummary(ListCommand.COMMAND_WORD, ListCommand.COMMAND_WORD);
+        addCommandSummary(ListCommand.COMMAND_WORD, ListCommand.MESSAGE_USAGE);
 
         addCommandSummary(AddBakeryItemCommand.COMMAND_WORD, AddBakeryItemCommand.MESSAGE_USAGE);
         addCommandSummary(DeleteBakeryItemCommand.COMMAND_WORD, DeleteBakeryItemCommand.MESSAGE_USAGE);
-        addCommandSummary(ListItemsCommand.COMMAND_WORD, ListItemsCommand.COMMAND_WORD);
+        addCommandSummary(ListItemsCommand.COMMAND_WORD, ListItemsCommand.MESSAGE_USAGE);
 
         addCommandSummary(AddClientOrderCommand.COMMAND_WORD, AddClientOrderCommand.MESSAGE_USAGE);
         addCommandSummary(DeleteClientOrderCommand.COMMAND_WORD, DeleteClientOrderCommand.MESSAGE_USAGE);
         addCommandSummary(MarkOrderCompleteCommand.COMMAND_WORD, MarkOrderCompleteCommand.MESSAGE_USAGE);
         addCommandSummary(UnmarkOrderCommand.COMMAND_WORD, UnmarkOrderCommand.MESSAGE_USAGE);
-        addCommandSummary(ListOrdersCommand.COMMAND_WORD, ListOrdersCommand.COMMAND_WORD);
+        addCommandSummary(ListOrdersCommand.COMMAND_WORD, ListOrdersCommand.MESSAGE_USAGE);
     }
 
     private void addCommandSummary(String commandWord, String commandUsage) {
