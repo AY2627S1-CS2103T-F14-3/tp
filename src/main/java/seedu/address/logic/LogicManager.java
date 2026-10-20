@@ -5,11 +5,14 @@ import java.nio.file.AccessDeniedException;
 import java.util.function.Predicate;
 import java.util.logging.Logger;
 
+import javafx.beans.property.ReadOnlyBooleanProperty;
+import javafx.beans.property.ReadOnlyBooleanWrapper;
 import javafx.collections.ObservableList;
 import seedu.address.commons.core.GuiSettings;
 import seedu.address.commons.core.LogsCenter;
 import seedu.address.logic.commands.Command;
 import seedu.address.logic.commands.CommandResult;
+import seedu.address.logic.commands.UndoCommand;
 import seedu.address.logic.commands.exceptions.CommandException;
 import seedu.address.logic.parser.AddressBookParser;
 import seedu.address.logic.parser.exceptions.ParseException;
@@ -34,6 +37,8 @@ public class LogicManager implements Logic {
     private final Model model;
     private final Storage storage;
     private final AddressBookParser addressBookParser;
+    private final ReadOnlyBooleanWrapper undoAvailable = new ReadOnlyBooleanWrapper(false);
+    private AddressBook undoSnapshot;
 
     /**
      * Constructs a {@code LogicManager} with the given {@code Model} and {@code Storage}.
@@ -60,6 +65,10 @@ public class LogicManager implements Logic {
 
         CommandResult commandResult;
         Command command = addressBookParser.parseCommand(commandText);
+        boolean isUndo = command instanceof UndoCommand;
+        if (isUndo) {
+            command = new UndoCommand(undoSnapshot);
+        }
         AddressBook beforeCommand = new AddressBook(model.getAddressBook());
         Predicate<Person> displayedClients = model.getPersonFilter();
         Predicate<BakeryItem> displayedItems = model.getBakeryItemFilter();
@@ -75,7 +84,18 @@ public class LogicManager implements Logic {
             throw new CommandException(String.format(FILE_OPS_ERROR_FORMAT, ioe.getMessage()), ioe);
         }
 
+        if (isUndo) {
+            undoSnapshot = null;
+        } else if (!beforeCommand.equals(model.getAddressBook())) {
+            undoSnapshot = beforeCommand;
+        }
+        undoAvailable.set(undoSnapshot != null);
         return commandResult;
+    }
+
+    @Override
+    public ReadOnlyBooleanProperty undoAvailableProperty() {
+        return undoAvailable.getReadOnlyProperty();
     }
 
     @Override

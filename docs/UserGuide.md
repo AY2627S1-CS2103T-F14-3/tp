@@ -275,6 +275,20 @@ Format: `list-orders`
 
 ### General commands
 
+#### Undoing the last data change: `undo`
+
+Type `undo` or click the **Undo** button above the command input to reverse the last successfully saved data change.
+
+* Supports adding, editing, or deleting clients/items, adding or deleting orders, marking/unmarking orders, `clear`, and `populate`.
+* Only one change can be undone. A new saved data change replaces the previous undo opportunity. There is no redo.
+* Listing, searching, help, failed commands, and edits that leave data unchanged do not replace the undo opportunity.
+* Undo restores linked clients, items, and orders together. It shows all clients and items again, so use the refreshed indices.
+* The button is disabled when nothing can be undone. Typing `undo` then reports an error without changing data.
+* If saving undo fails, the current data and displayed filters are restored, and you can retry.
+* Undo history is cleared on restart; successfully restored data remains saved. Extra arguments are rejected.
+
+Example: `delete-order 1 o/2` followed by `undo` restores the deleted order.
+
 #### Viewing help: `help`
 
 Shows a message explaining how to access the help page.
@@ -382,6 +396,7 @@ Action | Format, Examples
 Action | Format
 --------|-------
 **Help** | `help`
+**Undo last data change** | `undo`
 **Populate sample data** | `populate`
 **Clear all data** | `clear`
 **Exit** | `exit`
