@@ -21,6 +21,7 @@ import seedu.address.logic.commands.ClearCommand;
 import seedu.address.logic.commands.DeleteBakeryItemCommand;
 import seedu.address.logic.commands.DeleteClientOrderCommand;
 import seedu.address.logic.commands.DeleteCommand;
+import seedu.address.logic.commands.EditBakeryItemCommand;
 import seedu.address.logic.commands.EditCommand;
 import seedu.address.logic.commands.ExitCommand;
 import seedu.address.logic.commands.FindCommand;
@@ -143,6 +144,7 @@ public class HelpWindow extends UiPart<Stage> {
 
         addCommandSummary(AddBakeryItemCommand.COMMAND_WORD, AddBakeryItemCommand.MESSAGE_USAGE);
         addCommandSummary(DeleteBakeryItemCommand.COMMAND_WORD, DeleteBakeryItemCommand.MESSAGE_USAGE);
+        addCommandSummary(EditBakeryItemCommand.COMMAND_WORD, EditBakeryItemCommand.MESSAGE_USAGE);
         addCommandSummary(ListItemsCommand.COMMAND_WORD, ListItemsCommand.MESSAGE_USAGE);
 
         addCommandSummary(AddClientOrderCommand.COMMAND_WORD, AddClientOrderCommand.MESSAGE_USAGE);
