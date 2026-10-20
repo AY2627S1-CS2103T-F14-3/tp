@@ -51,6 +51,7 @@ public class Price {
      * @throws NumberFormatException If the {@code priceDollarsText} is not in a valid format.
      */
     public static Price fromDollars(String priceDollarsText) {
+        requireNonNull(priceDollarsText);
         String trimmed = priceDollarsText.trim();
 
         if (!isValidPriceDollars(trimmed)) {

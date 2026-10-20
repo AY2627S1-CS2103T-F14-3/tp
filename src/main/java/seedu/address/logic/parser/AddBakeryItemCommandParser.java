@@ -1,5 +1,6 @@
 package seedu.address.logic.parser;
 
+import static java.util.Objects.requireNonNull;
 import static seedu.address.logic.Messages.MESSAGE_INVALID_COMMAND_FORMAT;
 import static seedu.address.logic.parser.CliSyntax.PREFIX_BAKERY_ITEM_NAME;
 import static seedu.address.logic.parser.CliSyntax.PREFIX_PRICE;
@@ -24,6 +25,7 @@ public class AddBakeryItemCommandParser implements Parser<AddBakeryItemCommand> 
      * @throws ParseException if the user input does not conform to the expected format.
      */
     public AddBakeryItemCommand parse(String args) throws ParseException {
+        requireNonNull(args);
         ArgumentMultimap argMultimap = ArgumentTokenizer.tokenize(args, PREFIX_BAKERY_ITEM_NAME, PREFIX_PRICE);
 
         if (!arePrefixesPresent(argMultimap, PREFIX_BAKERY_ITEM_NAME, PREFIX_PRICE)

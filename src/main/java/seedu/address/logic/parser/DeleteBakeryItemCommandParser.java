@@ -1,5 +1,6 @@
 package seedu.address.logic.parser;
 
+import static java.util.Objects.requireNonNull;
 import static seedu.address.logic.Messages.MESSAGE_INVALID_COMMAND_FORMAT;
 
 import seedu.address.commons.core.index.Index;
@@ -18,6 +19,7 @@ public class DeleteBakeryItemCommandParser implements Parser<DeleteBakeryItemCom
      * @throws ParseException if the user input does not conform to the expected format.
      */
     public DeleteBakeryItemCommand parse(String args) throws ParseException {
+        requireNonNull(args);
         try {
             Index index = ParserUtil.parseIndex(args);
             return new DeleteBakeryItemCommand(index);

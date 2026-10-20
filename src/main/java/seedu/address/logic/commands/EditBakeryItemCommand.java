@@ -129,6 +129,7 @@ public class EditBakeryItemCommand extends Command {
          * Creates a defensive copy of {@code toCopy}.
          */
         public EditBakeryItemDescriptor(EditBakeryItemDescriptor toCopy) {
+            requireNonNull(toCopy);
             setItemName(toCopy.itemName);
             setPrice(toCopy.price);
         }

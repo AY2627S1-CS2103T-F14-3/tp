@@ -31,6 +31,7 @@ public class DeleteBakeryItemCommand extends Command {
      * Creates a {@code DeleteBakeryItemCommand} to delete the item at {@code targetIndex}.
      */
     public DeleteBakeryItemCommand(Index targetIndex) {
+        requireNonNull(targetIndex);
         this.targetIndex = targetIndex;
     }
 
