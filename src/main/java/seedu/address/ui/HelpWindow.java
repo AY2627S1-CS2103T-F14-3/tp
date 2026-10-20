@@ -3,12 +3,14 @@ package seedu.address.ui;
 import java.util.logging.Logger;
 
 import javafx.fxml.FXML;
+import javafx.scene.Node;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 import javafx.scene.control.ScrollPane;
 import javafx.scene.control.TextArea;
 import javafx.scene.input.Clipboard;
 import javafx.scene.input.ClipboardContent;
+import javafx.scene.input.MouseButton;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.Region;
 import javafx.scene.layout.VBox;
@@ -62,8 +64,21 @@ public class HelpWindow extends UiPart<Stage> {
         super(FXML, root);
         helpMessage.setText(HELP_MESSAGE);
         populateCommandSummary();
-        // Clear existing selections before the clicked text area starts a new selection.
-        getRoot().getScene().addEventFilter(MouseEvent.MOUSE_PRESSED, event -> clearTextAreaSelections());
+
+        // clear selected text when left or right clicking
+        getRoot().getScene().addEventFilter(MouseEvent.MOUSE_PRESSED, event -> {
+            if (event.getButton() == MouseButton.PRIMARY) {
+                clearTextAreaSelections();
+            } else if (event.getButton() == MouseButton.SECONDARY) {
+                // if selected text in textarea A, then right clicked in B -> select all, then
+                // selected text in A is greyed and all text in B is actively selected.
+                // prevent this by clearing the selection if right clicking in another textarea
+                TextArea rightClickedTextArea = findTextArea(event.getTarget());
+                if (rightClickedTextArea != null) {
+                    clearTextAreaSelectionsExcept(rightClickedTextArea);
+                }
+            }
+        });
     }
 
     /**
@@ -184,10 +199,31 @@ public class HelpWindow extends UiPart<Stage> {
     }
 
     private void clearTextAreaSelections() {
+        clearTextAreaSelectionsExcept(null);
+    }
+
+    private void clearTextAreaSelectionsExcept(TextArea textAreaToPreserve) {
         commandSummaryContainer.getChildren().stream()
                 .filter(TextArea.class::isInstance)
                 .map(TextArea.class::cast)
+                .filter(textArea -> textArea != textAreaToPreserve)
                 .forEach(TextArea::deselect);
+    }
+
+    private TextArea findTextArea(Object eventTarget) {
+        // Events within a text area can target one of its internal skin nodes,
+        // so walk up to the owning text area.
+        if (!(eventTarget instanceof Node node)) {
+            return null;
+        }
+
+        while (node != null) {
+            if (node instanceof TextArea textArea) {
+                return textArea;
+            }
+            node = node.getParent();
+        }
+        return null;
     }
 
     private void resizeToFitContent(TextArea textArea) {

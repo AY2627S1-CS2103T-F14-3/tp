@@ -126,6 +126,45 @@ public class HelpWindowTest {
     }
 
     @Test
+    public void secondaryMousePress_textSelected_preservesSelection() throws Exception {
+        onJavaFxThread(() -> {
+            HelpWindow helpWindow = new HelpWindow();
+            helpWindow.show();
+            TextArea textArea = commandUsageTextAreas(helpWindow).get(0);
+            textArea.selectRange(0, 3);
+            String selectedText = textArea.getSelectedText();
+
+            textArea.fireEvent(new MouseEvent(MouseEvent.MOUSE_PRESSED, 0, 0, 0, 0,
+                    MouseButton.SECONDARY, 1, false, false, false, false,
+                    false, false, true, false, true, false, null));
+
+            assertEquals(selectedText, textArea.getSelectedText());
+            helpWindow.getRoot().close();
+        });
+    }
+
+    @Test
+    public void secondaryMousePress_anotherTextAreaSelected_clearsOtherSelection() throws Exception {
+        onJavaFxThread(() -> {
+            HelpWindow helpWindow = new HelpWindow();
+            helpWindow.show();
+            List<TextArea> textAreas = commandUsageTextAreas(helpWindow);
+            TextArea initiallySelectedTextArea = textAreas.get(0);
+            TextArea rightClickedTextArea = textAreas.get(1);
+            initiallySelectedTextArea.selectRange(0, 3);
+
+            rightClickedTextArea.fireEvent(new MouseEvent(MouseEvent.MOUSE_PRESSED, 0, 0, 0, 0,
+                    MouseButton.SECONDARY, 1, false, false, false, false,
+                    false, false, true, false, true, false, null));
+            rightClickedTextArea.selectAll();
+
+            assertEquals(0, initiallySelectedTextArea.getSelectedText().length());
+            assertEquals(rightClickedTextArea.getText(), rightClickedTextArea.getSelectedText());
+            helpWindow.getRoot().close();
+        });
+    }
+
+    @Test
     public void show_resizesTextAreasAndDisablesInternalScrollbars() throws Exception {
         onJavaFxThread(() -> {
             HelpWindow helpWindow = new HelpWindow();
