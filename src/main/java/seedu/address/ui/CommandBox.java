@@ -1,8 +1,12 @@
 package seedu.address.ui;
 
+import static java.util.Objects.requireNonNull;
+
 import javafx.collections.ObservableList;
 import javafx.fxml.FXML;
 import javafx.scene.control.TextField;
+import javafx.scene.input.KeyCode;
+import javafx.scene.input.KeyEvent;
 import javafx.scene.layout.Region;
 import seedu.address.logic.commands.CommandResult;
 import seedu.address.logic.commands.exceptions.CommandException;
@@ -17,6 +21,7 @@ public class CommandBox extends UiPart<Region> {
     private static final String FXML = "CommandBox.fxml";
 
     private final CommandExecutor commandExecutor;
+    private final CommandHistory commandHistory = new CommandHistory();
 
     @FXML
     private TextField commandTextField;
@@ -26,7 +31,8 @@ public class CommandBox extends UiPart<Region> {
      */
     public CommandBox(CommandExecutor commandExecutor) {
         super(FXML);
-        this.commandExecutor = commandExecutor;
+        this.commandExecutor = requireNonNull(commandExecutor);
+        commandTextField.addEventFilter(KeyEvent.KEY_PRESSED, this::handleHistoryNavigation);
         // calls #setStyleToDefault() whenever there is a change to the text of the command box.
         commandTextField.textProperty().addListener((unused1, unused2, unused3) -> setStyleToDefault());
     }
@@ -37,16 +43,37 @@ public class CommandBox extends UiPart<Region> {
     @FXML
     private void handleCommandEntered() {
         String commandText = commandTextField.getText();
-        if (commandText.equals("")) {
+        if (commandText.isEmpty()) {
             return;
         }
 
         try {
+            commandHistory.add(commandText);
             commandExecutor.execute(commandText);
             commandTextField.setText("");
         } catch (CommandException | ParseException e) {
             setStyleToIndicateCommandFailure();
         }
+    }
+
+    /**
+     * Recalls submitted commands with unmodified Up and Down arrow keys.
+     */
+    private void handleHistoryNavigation(KeyEvent event) {
+        if (event.isAltDown() || event.isControlDown() || event.isMetaDown() || event.isShiftDown()) {
+            return;
+        }
+        String recalled;
+        if (event.getCode() == KeyCode.UP) {
+            recalled = commandHistory.previous(commandTextField.getText());
+        } else if (event.getCode() == KeyCode.DOWN) {
+            recalled = commandHistory.next(commandTextField.getText());
+        } else {
+            return;
+        }
+        commandTextField.setText(recalled);
+        commandTextField.positionCaret(recalled.length());
+        event.consume();
     }
 
     /**
