@@ -110,6 +110,11 @@ public interface Model {
     void addBakeryItem(BakeryItem item);
 
     /**
+     * Replaces the given bakery item with its edited version.
+     */
+    void setBakeryItem(BakeryItem target, BakeryItem editedBakeryItem);
+
+    /**
      * Returns an unmodifiable observable list of the client's orders in insertion order.
      */
     ObservableList<ClientOrder> getOrdersForClient(Person client);

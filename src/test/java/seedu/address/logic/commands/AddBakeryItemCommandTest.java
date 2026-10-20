@@ -174,6 +174,11 @@ public class AddBakeryItemCommandTest {
         }
 
         @Override
+        public void setBakeryItem(BakeryItem target, BakeryItem editedBakeryItem) {
+            throw new AssertionError("This method should not be called.");
+        }
+
+        @Override
         public void deleteBakeryItem(BakeryItem target) {
             throw new AssertionError("This method should not be called.");
         }

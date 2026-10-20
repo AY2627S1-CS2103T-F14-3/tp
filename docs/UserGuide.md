@@ -143,12 +143,36 @@ Adds the specified bakery item to the address book.
 
 Format: `add-item n/ITEM_NAME p/PRICE_DOLLARS`
 
-* Adds the bakery item with the trimmed `ITEM_NAME` and `PRICE_DOLLARS`.
+* Adds the bakery item with the leading and trailing whitespace removed from `ITEM_NAME`. The name must not be blank and must contain only printable ASCII characters.
+* Printable ASCII is defined as the set of:
+  * lowercase letters `a`–`z` and uppercase letters `A`-`Z`
+  * digits `0`-`9`
+  * the ordinary space character
+  * the special characters ``!"#$%&'()*+,-./:;<=>?@[\]^_`{|}~``
+* `/` can appear in an item name. However, `n/` and `p/` preceded by whitespace are interpreted as command prefixes and cannot be included literally in an item name. For example, `Cake/Cream` and `Cake / Cream` are accepted, but `Cake n/Cream` and `Cake p/Special` are not. There is no quoting or escaping syntax for these reserved sequences.
 * Duplicate items are rejected. An item is a duplicate if they have the same item name after trimming, removing extra whitespace and converting to uppercase.
-* `PRICE_DOLLARS` can have the format `D`, `D.`, `D.c`, or `D.cc`.
+* `PRICE_DOLLARS` must be non-negative and can have the format `D`, `D.`, `D.c`, `D.cc`, `.c`, or `.cc`, where `D` represents one or more digits and `c` represents one digit.
 
 Examples:
 * `add-item n/Banana Muffin p/5.90`
+
+#### Editing a bakery item: `edit-item`
+
+Edits the name, price, or both fields of an existing bakery item. Existing orders for the item are retained; if the item is renamed, its order cards show the new name.
+
+Format: `edit-item INDEX [n/ITEM_NAME] [p/PRICE]`
+
+* Edits the bakery item at the specified `INDEX` in the displayed bakery item list.
+* The index **must be a positive integer** 1, 2, 3, …​ and must not exceed the number of displayed bakery items.
+* At least one of `n/ITEM_NAME` or `p/PRICE` must be provided. An omitted field is left unchanged.
+* `ITEM_NAME` and `PRICE` follow the same validation rules as the [`add-item`](#adding-a-bakery-item-add-item) command.
+* The edit is rejected without changing any data if the new item name duplicates another bakery item's normalized name. Letter case and repeated whitespace do not distinguish item names.
+* Each of the `n/` and `p/` prefixes can appear at most once.
+
+Examples:
+* `edit-item 1 n/Blueberry Muffin` changes only the name of the 1st displayed bakery item.
+* `edit-item 2 p/6.50` changes only the price of the 2nd displayed bakery item.
+* `edit-item 3 n/Chocolate Tart p/18.90` changes both the name and price of the 3rd displayed bakery item.
 
 #### Deleting a bakery item: `delete-item`
 
@@ -170,7 +194,7 @@ Shows all bakery items in the item panel, with their index, name, and price.
 Format: `list-items`
 
 Like `list-clients`, this command ignores extra arguments. It does not change the displayed client list.
-The displayed item indices can be used with `delete-item` and `add-order`.
+The displayed item indices can be used with `edit-item`, `delete-item`, and `add-order`.
 
 ### Order commands
 
@@ -339,6 +363,7 @@ Action | Format, Examples
 Action | Format, Examples
 --------|------------------
 **Add bakery item** | `add-item n/ITEM_NAME p/PRICE_DOLLARS`<br>e.g., `add-item n/Banana Muffin p/5.99`
+**Edit bakery item** | `edit-item INDEX [n/ITEM_NAME] [p/PRICE]`<br>e.g., `edit-item 2 n/Blueberry Muffin p/6.50`
 **Delete bakery item** | `delete-item INDEX`<br>e.g., `delete-item 3`
 **List bakery items** | `list-items`
 

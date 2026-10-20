@@ -152,6 +152,13 @@ public class ModelManager implements Model {
     }
 
     @Override
+    public void setBakeryItem(BakeryItem target, BakeryItem editedBakeryItem) {
+        requireAllNonNull(target, editedBakeryItem);
+
+        addressBook.setBakeryItem(target, editedBakeryItem);
+    }
+
+    @Override
     public ObservableList<ClientOrder> getOrdersForClient(Person client) {
         requireNonNull(client);
         return FXCollections.unmodifiableObservableList(addressBook.getOrderList()
