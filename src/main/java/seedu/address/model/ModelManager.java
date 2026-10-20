@@ -101,6 +101,7 @@ public class ModelManager implements Model {
     @Override
     public void deleteBakeryItem(BakeryItem target) {
         addressBook.removeBakeryItem(target);
+        logger.fine("Deleted bakery item: " + target);
     }
 
     //=========== Filtered Person List Accessors =============================================================
@@ -149,6 +150,7 @@ public class ModelManager implements Model {
     public void addBakeryItem(BakeryItem item) {
         addressBook.addBakeryItem(item);
         updateFilteredBakeryItemList(PREDICATE_SHOW_ALL_BAKERY_ITEMS);
+        logger.fine("Added bakery item: " + item);
     }
 
     @Override
@@ -156,6 +158,7 @@ public class ModelManager implements Model {
         requireAllNonNull(target, editedBakeryItem);
 
         addressBook.setBakeryItem(target, editedBakeryItem);
+        logger.fine("Edited bakery item from " + target + " to " + editedBakeryItem);
     }
 
     @Override
