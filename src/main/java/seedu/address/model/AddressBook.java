@@ -135,6 +135,16 @@ public class AddressBook implements ReadOnlyAddressBook {
     }
 
     /**
+     * Replaces an existing bakery item and updates orders that reference it.
+     */
+    public void setBakeryItem(BakeryItem target, BakeryItem editedBakeryItem) {
+        requireNonNull(editedBakeryItem);
+
+        bakeryItems.setBakeryItem(target, editedBakeryItem);
+        orders.replaceAll(order -> order.getItem().equals(target) ? order.withItem(editedBakeryItem) : order);
+    }
+
+    /**
      * Removes an existing bakery item only when no orders reference it.
      */
     public void removeBakeryItem(BakeryItem item) {

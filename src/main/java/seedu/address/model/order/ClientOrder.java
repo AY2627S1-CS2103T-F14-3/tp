@@ -82,6 +82,13 @@ public final class ClientOrder {
         return new ClientOrder(id, editedClient, item, quantity, deadline, isComplete);
     }
 
+    /**
+     * Returns a copy associated with an edited bakery item without changing the order identity or details.
+     */
+    public ClientOrder withItem(BakeryItem editedItem) {
+        return new ClientOrder(id, client, editedItem, quantity, deadline, isComplete);
+    }
+
     @Override
     public boolean equals(Object other) {
         return other instanceof ClientOrder order && id.equals(order.id) && client.equals(order.client)

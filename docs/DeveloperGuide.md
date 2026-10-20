@@ -263,7 +263,8 @@ Quantities remain integers from 1 to 9,999; deadlines use strict YYYY-MM-DD cale
 Missing, repeated, malformed, overflowing, and out-of-range arguments cannot change data.
 
 `AddressBook` owns observable client, bakery item, and order collections. Orders reference immutable clients and
-items rather than displayed positions. Editing a client updates its order references while retaining order IDs.
+items rather than displayed positions. Editing a client or bakery item updates its order references while retaining
+order IDs and the other order details.
 Deleting a referenced client or item is blocked until its orders are removed. Clearing the book clears all three
 collections together. The model exposes displayed item lists and client-local order lists; the logic exposes
 unmodifiable observable item and order lists for the teammate's list and GUI implementation.
@@ -271,7 +272,8 @@ unmodifiable observable item and order lists for the teammate's list and GUI imp
 The JSON file contains `persons`, `bakeryItems`, and `orders`. Legacy AB3 files without items or orders remain
 supported. Each order stores an `id` UUID, `clientName`, `itemName`, `quantity`, `deadline`, and `complete` status.
 Client and item names reference their respective unique collection entries, preserving associations if the
-collections are reordered. In-app client edits update both the client record and its order references.
+collections are reordered. In-app client and bakery item edits update both the edited record and its order
+references.
 Manual renames in JSON must update the corresponding order references too. Duplicate order UUIDs, missing
 references, invalid values, and null entries are rejected during loading; no partially loaded model is returned.
 
@@ -282,6 +284,24 @@ status; those commands are implemented separately on their respective feature br
 
 `add-item` from team PR #34 is integrated with the shared item model and storage so orders can reference real
 bakery goods. Order views and list commands remain the assigned teammate's GUI work.
+
+### Bakery item editing
+
+`edit-item INDEX [n/ITEM_NAME] [p/PRICE]` edits an item selected from the displayed bakery item list. The
+`AddressBookParser` delegates to `EditBakeryItemCommandParser`, which parses the index and the optional name and
+price into an `EditBakeryItemDescriptor`. It rejects malformed or non-positive indices, repeated prefixes, invalid
+field values, and requests that provide neither editable field.
+
+During execution, `EditBakeryItemCommand` resolves `INDEX` against `Model#getFilteredBakeryItemList()` and creates
+an immutable replacement item. An index outside the displayed list is rejected without mutation, and omitted fields
+retain their existing values. Before mutation, the command rejects a new name that matches another item's name after
+case and whitespace normalization.
+
+For a successful edit, `ModelManager#setBakeryItem()` delegates to `AddressBook#setBakeryItem()`. The unique bakery
+item list replaces the original item, and each order that references it is replaced using `ClientOrder#withItem()`.
+This retains the order's UUID, client, quantity, deadline, and completion status while associating it with the
+edited item. The command then displays the complete bakery item list. Persistence and rollback on a save failure
+follow the same Logic transaction used by other data-changing commands.
 
 ### delete-order parsing increment
 
@@ -391,6 +411,42 @@ Priorities: Must have - `* * * *`, Nice to have (high) - `* * *`, Nice to have (
       Use case resumes at step 2.
 
 
+**Use case: Edit a bakery item**
+
+**MSS**
+
+1.  User requests to list bakery items
+2.  BakeBase shows the bakery item list
+3.  User requests to edit the name, price, or both fields of a specific bakery item in the list
+4.  BakeBase updates the bakery item and retains its existing order associations
+
+    Use case ends.
+
+**Extensions**
+
+* 2a. The list is empty.
+
+  Use case ends.
+
+* 3a. The given index is invalid.
+
+    * 3a1. BakeBase shows an error message.
+
+      Use case resumes at step 2.
+
+* 3b. No editable field is provided, or a field value is invalid.
+
+    * 3b1. BakeBase shows an error message.
+
+      Use case resumes at step 2.
+
+* 3c. The new item name duplicates another bakery item.
+
+    * 3c1. BakeBase shows an error message and does not change the item or its orders.
+
+      Use case resumes at step 2.
+
+
 **Use case: Mark an order as complete**
 
 **MSS**
@@ -461,6 +517,7 @@ Priorities: Must have - `* * * *`, Nice to have (high) - `* * *`, Nice to have (
 * **Baker**: The user who manages clients, bakery goods and orders in BakeBase.
 * **Client**: A customer whose contact details are stored in BakeBase.
 * **Bakery good**: A baked product that a baker offers and can add to a client order.
+* **Bakery item**: Another term for a bakery good. The terms are used interchangeably in this guide.
 * **Client order**: A record of a client’s request for a bakery good, including its quantity and, if specified, its deadline and status.
 * **Order deadline**: The date by which a client order is due.
 * **Incomplete order**: An order that has not been marked as complete.
@@ -516,6 +573,29 @@ testers are expected to do more *exploratory* testing.
       Expected: Similar to previous.
 
 1. _{ more test cases …​ }_
+
+### Editing a bakery item
+
+1. Editing a bakery item while all items are shown
+
+   1. Prerequisites: Run `populate`, followed by `list-items`. The first two items should be `Banana Muffin` and
+      `Chocolate Cake`. The sample data should contain orders for `Banana Muffin`.
+
+   1. Test case: `edit-item 1 n/Blueberry Muffin p/2.50`<br>
+      Expected: The first item's name changes to `Blueberry Muffin` and its price changes to `$2.50`. The status
+      message shows the edited item. Existing orders that previously showed `Banana Muffin` now show
+      `Blueberry Muffin`; their clients, quantities, deadlines, order identities, and completion statuses are
+      unchanged.
+
+   1. Test case: Run `populate`, then `edit-item 1 p/3.00`.<br>
+      Expected: The first item's price changes to `$3.00`, while its name remains `Banana Muffin`.
+
+   1. Test case: Run `populate`, then `edit-item 1 n/Chocolate Cake`.<br>
+      Expected: No item or order is changed. The status message reports that the bakery item already exists.
+
+   1. Other incorrect edit commands to try: `edit-item`, `edit-item 0 p/2.50`, `edit-item 1`,
+      `edit-item 1 p/1.234`, and `edit-item 1 n/Cake n/Tart`.<br>
+      Expected: No item or order is changed. The status message shows the relevant error details.
 
 ### Saving data
 

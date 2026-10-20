@@ -124,6 +124,11 @@ public class AddCommandTest {
         }
 
         @Override
+        public void setBakeryItem(BakeryItem target, BakeryItem editedBakeryItem) {
+            throw new AssertionError("Unexpected bakery operation.");
+        }
+
+        @Override
         public ObservableList<ClientOrder> getOrdersForClient(Person client) {
             throw new AssertionError("Unexpected order operation.");
         }
