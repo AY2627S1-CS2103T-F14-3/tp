@@ -17,7 +17,7 @@ public class Price {
      */
     public static final String VALIDATION_REGEX = "\\d+(?:\\.\\d{0,2})?|\\.\\d{1,2}";
 
-    public final BigDecimal priceDollars;
+    private final BigDecimal priceDollars;
 
     /**
      * Constructs a {@code Price}.

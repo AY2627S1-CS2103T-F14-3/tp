@@ -17,7 +17,7 @@ public class BakeryItemName {
      */
     public static final String VALIDATION_REGEX = "[\\x21-\\x7E][\\x20-\\x7E]*";
 
-    public final String itemName;
+    private final String itemName;
 
     /**
      * Constructs a {@code BakeryItemName}.
@@ -28,6 +28,10 @@ public class BakeryItemName {
         requireNonNull(itemName);
         checkArgument(isValidItemName(itemName), MESSAGE_CONSTRAINTS);
         this.itemName = itemName;
+    }
+
+    public String getItemName() {
+        return itemName;
     }
 
     /**
