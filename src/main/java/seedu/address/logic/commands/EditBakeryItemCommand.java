@@ -120,6 +120,9 @@ public class EditBakeryItemCommand extends Command {
         private BakeryItemName itemName;
         private Price price;
 
+        /**
+         * Creates an empty {@code EditBakeryItemDescriptor}.
+         */
         public EditBakeryItemDescriptor() {}
 
         /**
