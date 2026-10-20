@@ -9,17 +9,21 @@ import java.util.List;
 import java.util.concurrent.CompletableFuture;
 import java.util.concurrent.FutureTask;
 import java.util.concurrent.TimeUnit;
+import java.util.function.DoublePredicate;
 
 import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.Test;
 
 import javafx.application.Platform;
+import javafx.beans.value.ChangeListener;
+import javafx.beans.value.ObservableValue;
 import javafx.scene.Node;
 import javafx.scene.control.Label;
 import javafx.scene.control.ScrollPane;
 import javafx.scene.control.TextArea;
 import javafx.scene.input.MouseButton;
 import javafx.scene.input.MouseEvent;
+import javafx.scene.layout.Region;
 import javafx.scene.layout.VBox;
 import seedu.address.logic.commands.AddBakeryItemCommand;
 import seedu.address.logic.commands.AddClientOrderCommand;
@@ -41,6 +45,11 @@ import seedu.address.logic.commands.PopulateCommand;
 import seedu.address.logic.commands.UnmarkOrderCommand;
 
 public class HelpWindowTest {
+    private static final double INITIAL_WINDOW_WIDTH = 750;
+    private static final double INITIAL_WINDOW_HEIGHT = 420;
+    private static final double MIN_SUPPORTED_LOGICAL_SCREEN_WIDTH = 1280 / 1.5;
+    private static final double MIN_SUPPORTED_LOGICAL_SCREEN_HEIGHT = 720 / 1.5;
+
     private static final List<CommandSummary> EXPECTED_COMMAND_SUMMARIES = List.of(
             new CommandSummary(ClearCommand.COMMAND_WORD, ClearCommand.MESSAGE_USAGE),
             new CommandSummary(PopulateCommand.COMMAND_WORD, PopulateCommand.MESSAGE_USAGE),
@@ -186,6 +195,71 @@ public class HelpWindowTest {
         });
     }
 
+    @Test
+    public void show_supportedDisplayConfiguration_windowFitsAndIsResizable() throws Exception {
+        onJavaFxThread(() -> {
+            HelpWindow helpWindow = new HelpWindow();
+            helpWindow.show();
+
+            assertTrue(helpWindow.getRoot().isResizable());
+            assertEquals(INITIAL_WINDOW_WIDTH, helpWindow.getRoot().getWidth(), 0.01);
+            assertEquals(INITIAL_WINDOW_HEIGHT, helpWindow.getRoot().getHeight(), 0.01);
+            assertTrue(helpWindow.getRoot().getWidth() <= MIN_SUPPORTED_LOGICAL_SCREEN_WIDTH);
+            assertTrue(helpWindow.getRoot().getHeight() <= MIN_SUPPORTED_LOGICAL_SCREEN_HEIGHT);
+            helpWindow.getRoot().close();
+        });
+    }
+
+    @Test
+    public void resizeWindow_widthChanges_textAreaGrowsAndShrinksToFitContent() throws Exception {
+        HelpWindow[] helpWindow = new HelpWindow[1];
+        TextArea[] longestTextArea = new TextArea[1];
+        double[] initialNarrowHeight = new double[1];
+
+        onJavaFxThread(() -> {
+            HelpWindow window = new HelpWindow();
+            window.show();
+            longestTextArea[0] = commandUsageTextAreas(window).stream()
+                    .max((first, second) -> Integer.compare(first.getLength(), second.getLength()))
+                    .orElseThrow();
+            helpWindow[0] = window;
+            initialNarrowHeight[0] = longestTextArea[0].getPrefHeight();
+        });
+
+        double wideHeight = resizeWindowAndWaitForTextAreaHeight(
+                helpWindow[0], longestTextArea[0], 1000,
+                height -> height >= 0 && height < initialNarrowHeight[0]);
+        onJavaFxThread(() -> assertTextAreaContentFits(longestTextArea[0]));
+
+        double resizedNarrowHeight = resizeWindowAndWaitForTextAreaHeight(
+                helpWindow[0], longestTextArea[0], INITIAL_WINDOW_WIDTH, height -> height > wideHeight);
+        onJavaFxThread(() -> {
+            assertTrue(resizedNarrowHeight > wideHeight);
+            assertTextAreaContentFits(longestTextArea[0]);
+            helpWindow[0].getRoot().close();
+        });
+    }
+
+    private static double resizeWindowAndWaitForTextAreaHeight(
+            HelpWindow helpWindow, TextArea textArea, double width, DoublePredicate expectedHeight) throws Exception {
+        CompletableFuture<Double> resizedHeight = new CompletableFuture<>();
+        onJavaFxThread(() -> {
+            ChangeListener<Number> heightListener = new ChangeListener<>() {
+                @Override
+                public void changed(
+                        ObservableValue<? extends Number> observable, Number oldHeight, Number newHeight) {
+                    if (expectedHeight.test(newHeight.doubleValue())) {
+                        textArea.prefHeightProperty().removeListener(this);
+                        resizedHeight.complete(newHeight.doubleValue());
+                    }
+                }
+            };
+            textArea.prefHeightProperty().addListener(heightListener);
+            helpWindow.getRoot().setWidth(width);
+        });
+        return resizedHeight.get(10, TimeUnit.SECONDS);
+    }
+
     private static VBox commandSummaryContainer(HelpWindow helpWindow) {
         VBox helpWindowContainer = (VBox) helpWindow.getRoot().getScene().getRoot();
         ScrollPane commandSummaryScrollPane = helpWindowContainer.getChildren().stream()
@@ -201,6 +275,13 @@ public class HelpWindowTest {
                 .filter(TextArea.class::isInstance)
                 .map(TextArea.class::cast)
                 .toList();
+    }
+
+    private static void assertTextAreaContentFits(TextArea textArea) {
+        ScrollPane scrollPane = (ScrollPane) textArea.lookup(".scroll-pane");
+        double contentHeight = ((Region) scrollPane.getContent())
+                .prefHeight(scrollPane.getViewportBounds().getWidth());
+        assertTrue(contentHeight <= scrollPane.getViewportBounds().getHeight() + 1);
     }
 
     private record CommandSummary(String commandWord, String commandUsage) {

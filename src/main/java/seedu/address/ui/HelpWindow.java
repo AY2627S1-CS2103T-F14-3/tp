@@ -2,6 +2,7 @@ package seedu.address.ui;
 
 import java.util.logging.Logger;
 
+import javafx.application.Platform;
 import javafx.fxml.FXML;
 import javafx.scene.Node;
 import javafx.scene.control.Button;
@@ -55,6 +56,8 @@ public class HelpWindow extends UiPart<Stage> {
     @FXML
     private VBox commandSummaryContainer;
 
+    private boolean isTextAreaResizePending;
+
     /**
      * Creates a new HelpWindow.
      *
@@ -79,6 +82,10 @@ public class HelpWindow extends UiPart<Stage> {
                 }
             }
         });
+
+        // resize text box heights when window width changes to prevent overflow text
+        commandSummaryContainer.widthProperty()
+                .addListener((observable, oldWidth, newWidth) -> requestCommandUsageTextAreaResize());
     }
 
     /**
@@ -188,6 +195,13 @@ public class HelpWindow extends UiPart<Stage> {
     private void resizeCommandUsageTextAreas() {
         // Applying CSS creates each text area's skin/visual structure and its internal scroll pane.
         commandSummaryContainer.getScene().getRoot().applyCss();
+
+        // Reset the heights so the old viewport heights don't prevent the text areas from shrinking.
+        commandSummaryContainer.getChildren().stream()
+                .filter(TextArea.class::isInstance)
+                .map(TextArea.class::cast)
+                .forEach(textArea -> textArea.setPrefHeight(Region.USE_COMPUTED_SIZE));
+        commandSummaryContainer.getScene().getRoot().layout();
         resizeEachCommandUsageTextArea();
     }
 
@@ -196,6 +210,20 @@ public class HelpWindow extends UiPart<Stage> {
                 .filter(TextArea.class::isInstance)
                 .map(TextArea.class::cast)
                 .forEach(this::resizeToFitContent);
+    }
+
+    private void requestCommandUsageTextAreaResize() {
+        if (isTextAreaResizePending) {
+            return;
+        }
+
+        isTextAreaResizePending = true;
+        Platform.runLater(() -> {
+            isTextAreaResizePending = false;
+            if (getRoot().isShowing()) {
+                resizeCommandUsageTextAreas();
+            }
+        });
     }
 
     private void clearTextAreaSelections() {

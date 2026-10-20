@@ -11,13 +11,14 @@
 <?import javafx.scene.layout.VBox?>
 <?import javafx.stage.Stage?>
 
-<fx:root resizable="false" title="Help" type="javafx.stage.Stage" xmlns="http://javafx.com/javafx/17"
-         xmlns:fx="http://javafx.com/fxml/1">
+<fx:root resizable="true" title="Help" type="javafx.stage.Stage"
+         minWidth="750" minHeight="420" width="750" height="420"
+         xmlns="http://javafx.com/javafx/17" xmlns:fx="http://javafx.com/fxml/1">
   <icons>
     <Image url="@/images/help_icon.png" />
   </icons>
   <scene>
-    <Scene height="650.0" width="800.0">
+    <Scene>
       <stylesheets>
         <URL value="@DarkTheme.css" />
         <URL value="@HelpWindow.css" />
