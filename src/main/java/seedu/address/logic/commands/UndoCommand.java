@@ -2,6 +2,9 @@ package seedu.address.logic.commands;
 
 import static java.util.Objects.requireNonNull;
 
+import java.util.logging.Logger;
+
+import seedu.address.commons.core.LogsCenter;
 import seedu.address.logic.commands.exceptions.CommandException;
 import seedu.address.model.Model;
 import seedu.address.model.ReadOnlyAddressBook;
@@ -16,6 +19,7 @@ public class UndoCommand extends Command {
     public static final String MESSAGE_UNAVAILABLE = "There is no data change to undo.";
 
     private final ReadOnlyAddressBook previousData;
+    private final Logger logger = LogsCenter.getLogger(UndoCommand.class);
 
     /**
      * Creates a parsed undo request without a snapshot.
@@ -35,11 +39,13 @@ public class UndoCommand extends Command {
     public CommandResult execute(Model model) throws CommandException {
         requireNonNull(model);
         if (previousData == null) {
+            logger.info("Undo rejected: no saved data change is available.");
             throw new CommandException(MESSAGE_UNAVAILABLE);
         }
         model.setAddressBook(previousData);
         model.updateFilteredPersonList(Model.PREDICATE_SHOW_ALL_PERSONS);
         model.updateFilteredBakeryItemList(Model.PREDICATE_SHOW_ALL_BAKERY_ITEMS);
+        logger.fine("Undo snapshot restored in memory; awaiting persistence.");
         return new CommandResult(MESSAGE_SUCCESS);
     }
 }

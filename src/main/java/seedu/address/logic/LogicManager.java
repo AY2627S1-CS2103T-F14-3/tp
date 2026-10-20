@@ -78,16 +78,24 @@ public class LogicManager implements Logic {
             storage.saveAddressBook(model.getAddressBook());
         } catch (AccessDeniedException e) {
             restoreAfterSaveFailure(beforeCommand, displayedClients, displayedItems);
+            if (isUndo) {
+                logger.warning("Undo save denied: current data and filters restored; snapshot retained for retry.");
+            }
             throw new CommandException(String.format(FILE_OPS_PERMISSION_ERROR_FORMAT, e.getMessage()), e);
         } catch (IOException ioe) {
             restoreAfterSaveFailure(beforeCommand, displayedClients, displayedItems);
+            if (isUndo) {
+                logger.warning("Undo save failed: current data and filters restored; snapshot retained for retry.");
+            }
             throw new CommandException(String.format(FILE_OPS_ERROR_FORMAT, ioe.getMessage()), ioe);
         }
 
         if (isUndo) {
             undoSnapshot = null;
+            logger.info("Undo saved successfully; snapshot consumed.");
         } else if (!beforeCommand.equals(model.getAddressBook())) {
             undoSnapshot = beforeCommand;
+            logger.fine("Saved data change recorded as the new single-step undo snapshot.");
         }
         undoAvailable.set(undoSnapshot != null);
         return commandResult;
