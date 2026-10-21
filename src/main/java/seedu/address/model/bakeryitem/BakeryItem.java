@@ -44,8 +44,8 @@ public class BakeryItem {
     }
 
     /**
-     * Returns true if both persons have the same identity and data fields.
-     * This defines a stronger notion of equality between two persons.
+     * Returns true if both bakery items have the same name and price.
+     * This defines a stronger notion of equality between two bakery items.
      */
     @Override
     public boolean equals(Object obj) {

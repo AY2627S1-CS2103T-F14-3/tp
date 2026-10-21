@@ -3,6 +3,8 @@ package seedu.address.model.bakeryitem;
 import static java.util.Objects.requireNonNull;
 import static seedu.address.commons.util.AppUtil.checkArgument;
 
+import java.util.Locale;
+
 /**
  * Represents a bakery item's name in the address book.
  * Guarantees: immutable; is valid as declared in {@link #isValidItemName(String)}
@@ -17,7 +19,7 @@ public class BakeryItemName {
      */
     public static final String VALIDATION_REGEX = "[\\x21-\\x7E][\\x20-\\x7E]*";
 
-    public final String itemName;
+    private final String itemName;
 
     /**
      * Constructs a {@code BakeryItemName}.
@@ -30,6 +32,10 @@ public class BakeryItemName {
         this.itemName = itemName;
     }
 
+    public String getItemName() {
+        return itemName;
+    }
+
     /**
      * Returns true if a given string is a valid bakery item name.
      */
@@ -38,13 +44,14 @@ public class BakeryItemName {
     }
 
     public String getNormalizedItemName() {
-        return this.itemName.toUpperCase().trim().replaceAll("\\s+", " ");
+        return this.itemName.toUpperCase(Locale.ROOT).trim().replaceAll("\\s+", " ");
     }
 
     /**
      * Returns true if the {@code other} bakery item has the same normalized item name.
      */
     public boolean hasSameNormalizedName(BakeryItemName other) {
+        requireNonNull(other);
         return getNormalizedItemName().equals(other.getNormalizedItemName());
     }
 

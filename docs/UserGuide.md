@@ -289,9 +289,19 @@ Type `undo` or click the **Undo** button above the command input to reverse the 
 
 Example: `delete-order 1 o/2` followed by `undo` restores the deleted order.
 
+#### Recalling commands with Up and Down
+
+While the command input has focus, press **Up** to recall the latest submitted command and press it again for older commands. Press **Down** to move toward newer commands. Moving past the newest command restores the unfinished text you typed before navigating.
+
+* You can edit recalled text and press Enter to submit it. This does not change the original history entry.
+* Navigation keeps the caret at the end of the recalled text and does not execute commands.
+* Non-empty submissions, including commands that produce errors, are remembered. Empty submissions are ignored.
+* At the oldest entry, further Up presses keep that entry. Down at the draft keeps the current input.
+* History lasts only for the current application session. Modified arrow shortcuts keep their normal behavior.
+
 #### Viewing help: `help`
 
-Shows a message explaining how to access the help page.
+Shows a message explaining how to access the help page, and a very brief summary of the commands.
 
 ![help message](images/helpMessage.png)
 

@@ -12,6 +12,8 @@ import seedu.address.model.util.SampleDataUtil;
  */
 public class PopulateCommand extends Command {
     public static final String COMMAND_WORD = "populate";
+    public static final String MESSAGE_USAGE = COMMAND_WORD + ": Replaces all current data with sample data.\n"
+            + "Example: " + COMMAND_WORD;
     public static final String MESSAGE_SUCCESS = "Replaced all clients, bakery items, and orders with sample data.";
 
     @Override

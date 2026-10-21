@@ -7,8 +7,8 @@ import static seedu.address.logic.commands.CommandTestUtil.assertCommandFailure;
 import static seedu.address.logic.commands.CommandTestUtil.assertCommandSuccess;
 import static seedu.address.testutil.TypicalBakeryItems.BANANA_MUFFIN;
 import static seedu.address.testutil.TypicalBakeryItems.CHOCOLATE_MUFFIN;
-import static seedu.address.testutil.TypicalIndexes.INDEX_FIRST_PERSON;
-import static seedu.address.testutil.TypicalIndexes.INDEX_SECOND_PERSON;
+import static seedu.address.testutil.TypicalIndexes.INDEX_FIRST_BAKERY_ITEM;
+import static seedu.address.testutil.TypicalIndexes.INDEX_SECOND_BAKERY_ITEM;
 
 import java.util.List;
 
@@ -38,8 +38,8 @@ public class DeleteBakeryItemCommandTest {
 
     @Test
     public void execute_validIndex_success() {
-        BakeryItem bakeryItemToDelete = model.getFilteredBakeryItemList().get(INDEX_FIRST_PERSON.getZeroBased());
-        DeleteBakeryItemCommand deleteCommand = new DeleteBakeryItemCommand(INDEX_FIRST_PERSON);
+        BakeryItem bakeryItemToDelete = model.getFilteredBakeryItemList().get(INDEX_FIRST_BAKERY_ITEM.getZeroBased());
+        DeleteBakeryItemCommand deleteCommand = new DeleteBakeryItemCommand(INDEX_FIRST_BAKERY_ITEM);
 
         String expectedMessage = String.format(DeleteBakeryItemCommand.MESSAGE_DELETE_BAKERY_ITEM_SUCCESS,
                 Messages.format(bakeryItemToDelete));
@@ -59,14 +59,14 @@ public class DeleteBakeryItemCommandTest {
 
     @Test
     public void equals() {
-        DeleteBakeryItemCommand deleteFirstCommand = new DeleteBakeryItemCommand(INDEX_FIRST_PERSON);
-        DeleteBakeryItemCommand deleteSecondCommand = new DeleteBakeryItemCommand(INDEX_SECOND_PERSON);
+        DeleteBakeryItemCommand deleteFirstCommand = new DeleteBakeryItemCommand(INDEX_FIRST_BAKERY_ITEM);
+        DeleteBakeryItemCommand deleteSecondCommand = new DeleteBakeryItemCommand(INDEX_SECOND_BAKERY_ITEM);
 
         // same object -> returns true
         assertTrue(deleteFirstCommand.equals(deleteFirstCommand));
 
         // same values -> returns true
-        DeleteBakeryItemCommand deleteFirstCommandCopy = new DeleteBakeryItemCommand(INDEX_FIRST_PERSON);
+        DeleteBakeryItemCommand deleteFirstCommandCopy = new DeleteBakeryItemCommand(INDEX_FIRST_BAKERY_ITEM);
         assertTrue(deleteFirstCommand.equals(deleteFirstCommandCopy));
 
         // different types -> returns false

@@ -5,6 +5,7 @@ import static org.junit.jupiter.api.Assertions.assertTrue;
 import static seedu.address.logic.Messages.MESSAGE_INVALID_COMMAND_FORMAT;
 import static seedu.address.logic.Messages.MESSAGE_UNKNOWN_COMMAND;
 import static seedu.address.testutil.Assert.assertThrows;
+import static seedu.address.testutil.TypicalIndexes.INDEX_FIRST_BAKERY_ITEM;
 import static seedu.address.testutil.TypicalIndexes.INDEX_FIRST_PERSON;
 
 import java.util.List;
@@ -91,7 +92,7 @@ public class AddressBookParserTest {
         EditBakeryItemCommand command = (EditBakeryItemCommand) parser.parseCommand(
                 "edit-item 1 n/Blueberry Muffin p/2.50");
 
-        assertEquals(new EditBakeryItemCommand(INDEX_FIRST_PERSON, descriptor), command);
+        assertEquals(new EditBakeryItemCommand(INDEX_FIRST_BAKERY_ITEM, descriptor), command);
     }
 
     @Test

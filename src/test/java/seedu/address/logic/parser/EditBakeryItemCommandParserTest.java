@@ -5,8 +5,8 @@ import static seedu.address.logic.parser.CliSyntax.PREFIX_BAKERY_ITEM_NAME;
 import static seedu.address.logic.parser.CliSyntax.PREFIX_PRICE;
 import static seedu.address.logic.parser.CommandParserTestUtil.assertParseFailure;
 import static seedu.address.logic.parser.CommandParserTestUtil.assertParseSuccess;
-import static seedu.address.testutil.TypicalIndexes.INDEX_FIRST_PERSON;
-import static seedu.address.testutil.TypicalIndexes.INDEX_SECOND_PERSON;
+import static seedu.address.testutil.TypicalIndexes.INDEX_FIRST_BAKERY_ITEM;
+import static seedu.address.testutil.TypicalIndexes.INDEX_SECOND_BAKERY_ITEM;
 
 import org.junit.jupiter.api.Test;
 
@@ -57,21 +57,21 @@ public class EditBakeryItemCommandParserTest {
         descriptor.setItemName(new BakeryItemName("Blueberry Muffin"));
         descriptor.setPrice(Price.fromDollars("2.50"));
 
-        assertParseSuccess(parser, INDEX_SECOND_PERSON.getOneBased() + ITEM_NAME_DESC + PRICE_DESC,
-                new EditBakeryItemCommand(INDEX_SECOND_PERSON, descriptor));
+        assertParseSuccess(parser, INDEX_SECOND_BAKERY_ITEM.getOneBased() + ITEM_NAME_DESC + PRICE_DESC,
+                new EditBakeryItemCommand(INDEX_SECOND_BAKERY_ITEM, descriptor));
     }
 
     @Test
     public void parse_oneFieldSpecified_success() {
         EditBakeryItemDescriptor nameDescriptor = new EditBakeryItemDescriptor();
         nameDescriptor.setItemName(new BakeryItemName("Blueberry Muffin"));
-        assertParseSuccess(parser, INDEX_FIRST_PERSON.getOneBased() + ITEM_NAME_DESC,
-                new EditBakeryItemCommand(INDEX_FIRST_PERSON, nameDescriptor));
+        assertParseSuccess(parser, INDEX_FIRST_BAKERY_ITEM.getOneBased() + ITEM_NAME_DESC,
+                new EditBakeryItemCommand(INDEX_FIRST_BAKERY_ITEM, nameDescriptor));
 
         EditBakeryItemDescriptor priceDescriptor = new EditBakeryItemDescriptor();
         priceDescriptor.setPrice(Price.fromDollars("2.50"));
-        assertParseSuccess(parser, INDEX_FIRST_PERSON.getOneBased() + PRICE_DESC,
-                new EditBakeryItemCommand(INDEX_FIRST_PERSON, priceDescriptor));
+        assertParseSuccess(parser, INDEX_FIRST_BAKERY_ITEM.getOneBased() + PRICE_DESC,
+                new EditBakeryItemCommand(INDEX_FIRST_BAKERY_ITEM, priceDescriptor));
     }
 
     @Test

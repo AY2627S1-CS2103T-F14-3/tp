@@ -103,7 +103,7 @@ public class UniqueBakeryItemList implements Iterable<BakeryItem> {
 
     @Override
     public Iterator<BakeryItem> iterator() {
-        return internalList.iterator();
+        return internalUnmodifiableList.iterator();
     }
 
     @Override

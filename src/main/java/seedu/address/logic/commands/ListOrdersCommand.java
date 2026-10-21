@@ -9,6 +9,8 @@ import seedu.address.model.Model;
  */
 public class ListOrdersCommand extends Command {
     public static final String COMMAND_WORD = "list-orders";
+    public static final String MESSAGE_USAGE = COMMAND_WORD + ": Lists all orders.\n"
+            + "Example: " + COMMAND_WORD;
     public static final String MESSAGE_SUCCESS = "Listed all orders.";
 
     @Override

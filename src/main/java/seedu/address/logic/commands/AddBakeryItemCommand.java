@@ -19,7 +19,7 @@ public class AddBakeryItemCommand extends Command {
     public static final String MESSAGE_USAGE = COMMAND_WORD + ": Adds a bakery item to the address book. "
             + "Parameters: "
             + PREFIX_BAKERY_ITEM_NAME + "ITEM_NAME "
-            + PREFIX_PRICE + "PRICE "
+            + PREFIX_PRICE + "PRICE_DOLLARS\n"
             + "Example: " + COMMAND_WORD + " "
             + PREFIX_BAKERY_ITEM_NAME + "Banana Muffin "
             + PREFIX_PRICE + "0.99 ";
@@ -30,7 +30,7 @@ public class AddBakeryItemCommand extends Command {
     private final BakeryItem toAdd;
 
     /**
-     * Creates a new {@code BakeryItemCommand}.
+     * Creates a new {@code AddBakeryItemCommand}.
      *
      * @param item The bakery item to be added.
      */
