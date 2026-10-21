@@ -325,10 +325,10 @@ Requires explicit confirmation before removing all clients, bakery items, and or
 
 Format: `clear` or `clear confirm`
 
-* `clear` shows a warning without changing or saving any data. Type `clear confirm` to proceed.
+* `clear` shows a warning without changing or saving any data. The warning counts all clients, items, and orders in the book, including records hidden by searches. For example, the sample book contains 6 clients, 4 items, and 6 orders.
 * To cancel, simply continue using other commands. There is no pending action or confirmation dialog.
 * Only the exact, lowercase word `confirm` is accepted. Other arguments (for example, `clear yes` or `clear confirm extra`) are rejected without changing data.
-* `clear confirm` explicitly authorizes deletion, even if you have not typed `clear` first. All records are removed, including records hidden by searches.
+* **`clear confirm` deletes all clients, items, and orders immediately.** It is an intentional, one-shot command for experienced users: you do not need to type `clear` first, and there is no additional confirmation prompt. All records are removed, including records hidden by searches. Review the command before pressing Enter, including when recalling it from command history.
 * If saving fails, the previous data and displayed filters are restored. You can retry the confirmed command.
 
 ##### Interaction with single-step undo
@@ -433,5 +433,5 @@ Action | Format
 **Help** | `help`
 **Undo last data change** | `undo`
 **Populate sample data** | `populate`
-**Clear all data** | `clear` to show the warning; `clear confirm` to delete
+**Clear all data** | `clear` to show the warning and counts; `clear confirm` to delete immediately without another prompt
 **Exit** | `exit`

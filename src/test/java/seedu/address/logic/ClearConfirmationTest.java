@@ -47,7 +47,7 @@ public class ClearConfirmationTest {
         model.updateFilteredBakeryItemList(item -> false);
         for (int attempt = 0; attempt < 2; attempt++) {
             CommandException exception = assertThrows(CommandException.class, () -> logic.execute("clear"));
-            assertEquals(ClearCommand.MESSAGE_CONFIRMATION, exception.getMessage());
+            assertEquals(String.format(ClearCommand.MESSAGE_CONFIRMATION_FORMAT, 6, 4, 6), exception.getMessage());
         }
         for (String args : new String[] {"3", "yes", "CONFIRM", "confirm extra", "confirm confirm"}) {
             assertThrows(ParseException.class, () -> logic.execute("clear " + args));

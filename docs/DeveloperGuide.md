@@ -157,7 +157,9 @@ Classes used by multiple components are in the `seedu.address.commons` package.
 
 `ClearCommandParser` accepts only no arguments or the exact token `confirm`. An unconfirmed `ClearCommand` throws a `CommandException` containing the warning before modifying the model. This also prevents the normal save path from running. A confirmed command clears the complete bakery book and resets client/item filters; the existing logic-layer save rollback restores data and filters if persistence fails.
 
-The confirmation is explicit in `clear confirm`, with no pending state or dialog. Users cancel by continuing with another command. Help reuses `ClearCommand.MESSAGE_USAGE`. `ClearConfirmationTest` exercises parsed commands, persistence, hidden records, repeated warnings, invalid confirmations, and save-failure rollback.
+The confirmation is explicit in `clear confirm`, with no pending state or dialog. It is a one-shot command for experienced users and executes even without an earlier `clear`; there is no additional confirmation. Users cancel an unconfirmed request by continuing with another command. Both the warning and Help usage explicitly state that `clear confirm` deletes all clients, items, and orders immediately.
+
+The warning formats counts from the complete `ReadOnlyAddressBook` lists, rather than the filtered UI lists, so it includes hidden records. Counts are calculated when `clear` runs and are not a stored preview; `clear confirm` always acts on the book at execution time. Help reuses `ClearCommand.MESSAGE_USAGE`. `ClearConfirmationTest` exercises parsed commands, persistence, hidden records and counts, repeated warnings, invalid confirmations, and save-failure rollback.
 
 #### Integration with single-step undo (issue #97)
 
@@ -488,9 +490,9 @@ Priorities: Must have - `* * * *`, Nice to have (high) - `* * *`, Nice to have (
 
 Use a disposable data folder or back up your book before testing deletion.
 
-1. Load sample data with `populate`, then search for one client. Run `clear`: expect a warning, unchanged data and filters, and no file write. Repeat with `clear yes` and `clear confirm extra`: expect invalid-format errors and unchanged data.
+1. Load sample data with `populate`, then search for one client. Run `clear`: expect a warning showing 6 clients, 4 items, and 6 orders, regardless of the search. It must state that confirmed deletion is immediate and has no additional prompt. Expect unchanged data and filters, and no file write. Repeat with `clear yes` and `clear confirm extra`: expect invalid-format errors and unchanged data.
 2. Continue with `list-clients` to cancel. No pending deletion should occur.
-3. Run `clear confirm`: expect all clients, items, and orders to disappear. Restart: expect the saved book to remain empty.
+3. Run `clear confirm` directly without first typing `clear`: expect all clients, items, and orders to disappear without another prompt. Restart: expect the saved book to remain empty.
 4. Load sample data, edit an item, then run `clear` and `undo`: expect the item edit to be reversed. The warning must not replace undo history.
 5. Load sample data, run `clear confirm`, then `undo` without restarting: expect the entire book and its linked orders restored. A second `undo` must be unavailable.
 6. Verify that another successful data change replaces recovery of the cleared book, and restarting removes undo availability.

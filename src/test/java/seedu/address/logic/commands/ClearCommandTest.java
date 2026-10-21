@@ -33,7 +33,14 @@ public class ClearCommandTest {
     @Test
     public void execute_unconfirmed_doesNotChangeData() {
         Model model = new ModelManager(getTypicalAddressBook(), new UserPrefs());
-        assertCommandFailure(new ClearCommand(), model, ClearCommand.MESSAGE_CONFIRMATION);
+        assertCommandFailure(new ClearCommand(), model,
+                String.format(ClearCommand.MESSAGE_CONFIRMATION_FORMAT, 7, 0, 0));
+    }
+
+    @Test
+    public void execute_unconfirmedEmptyBook_showsZeroCounts() {
+        assertCommandFailure(new ClearCommand(), new ModelManager(),
+                String.format(ClearCommand.MESSAGE_CONFIRMATION_FORMAT, 0, 0, 0));
     }
 
 }
