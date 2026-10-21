@@ -1,10 +1,12 @@
 package seedu.address.logic;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertFalse;
 import static org.junit.jupiter.api.Assertions.assertThrows;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 
 import java.io.IOException;
+import java.nio.file.AccessDeniedException;
 import java.nio.file.Files;
 import java.nio.file.Path;
 
@@ -65,6 +67,84 @@ public class ClearConfirmationTest {
         assertEquals(new AddressBook(), storage.readAddressBook().orElseThrow());
         logic.execute("clear confirm");
         assertEquals(new AddressBook(), model.getAddressBook());
+    }
+
+    @Test
+    public void clear_warningAndInvalidConfirmation_preservePreviousUndo() throws Exception {
+        AddressBook original = new AddressBook(model.getAddressBook());
+        logic.execute("edit-item 1 p/123.45");
+        assertThrows(CommandException.class, () -> logic.execute("clear"));
+        assertThrows(ParseException.class, () -> logic.execute("clear yes"));
+        logic.execute("undo");
+        assertEquals(original, model.getAddressBook());
+        assertEquals(original, storage.readAddressBook().orElseThrow());
+    }
+
+    @Test
+    public void clear_confirmedAndThenEmptyClear_retainsSnapshotUntilUndo() throws Exception {
+        AddressBook original = new AddressBook(model.getAddressBook());
+        logic.execute("clear confirm");
+        logic.execute("clear confirm");
+        assertTrue(logic.undoAvailableProperty().get());
+        logic.execute("undo");
+        assertEquals(original, model.getAddressBook());
+        assertEquals(original, storage.readAddressBook().orElseThrow());
+        assertFalse(logic.undoAvailableProperty().get());
+    }
+
+    @Test
+    public void clear_accessDenied_restoresDataFiltersAndPreviousUndo() throws Exception {
+        IOException[] failure = {null};
+        logic = logicWith(new JsonAddressBookStorage(storage.getAddressBookFilePath()) {
+            @Override
+            public void saveAddressBook(ReadOnlyAddressBook data) throws IOException {
+                if (failure[0] != null) {
+                    throw failure[0];
+                }
+                super.saveAddressBook(data);
+            }
+        });
+        AddressBook original = new AddressBook(model.getAddressBook());
+        logic.execute("edit-item 1 p/123.45");
+        AddressBook edited = new AddressBook(model.getAddressBook());
+        model.updateFilteredPersonList(person -> false);
+        model.updateFilteredBakeryItemList(item -> false);
+        failure[0] = new AccessDeniedException("book.json");
+        CommandException exception = assertThrows(CommandException.class, () -> logic.execute("clear confirm"));
+        assertEquals(String.format(LogicManager.FILE_OPS_PERMISSION_ERROR_FORMAT, "book.json"), exception.getMessage());
+        assertEquals(edited, model.getAddressBook());
+        assertEquals(edited, storage.readAddressBook().orElseThrow());
+        assertTrue(model.getFilteredPersonList().isEmpty());
+        assertTrue(model.getFilteredBakeryItemList().isEmpty());
+        assertTrue(logic.undoAvailableProperty().get());
+        failure[0] = null;
+        logic.execute("undo");
+        assertEquals(original, model.getAddressBook());
+    }
+
+    @Test
+    public void undo_clearedBookSaveFails_keepsEmptyBookAndAllowsRetry() throws Exception {
+        IOException[] failure = {null};
+        logic = logicWith(new JsonAddressBookStorage(storage.getAddressBookFilePath()) {
+            @Override
+            public void saveAddressBook(ReadOnlyAddressBook data) throws IOException {
+                if (failure[0] != null) {
+                    throw failure[0];
+                }
+                super.saveAddressBook(data);
+            }
+        });
+        AddressBook original = new AddressBook(model.getAddressBook());
+        logic.execute("clear confirm");
+        failure[0] = new IOException("disk unavailable");
+        assertThrows(CommandException.class, () -> logic.execute("undo"));
+        assertEquals(new AddressBook(), model.getAddressBook());
+        assertEquals(new AddressBook(), storage.readAddressBook().orElseThrow());
+        assertTrue(logic.undoAvailableProperty().get());
+        failure[0] = null;
+        logic.execute("undo");
+        assertEquals(original, model.getAddressBook());
+        assertEquals(original, storage.readAddressBook().orElseThrow());
     }
 
     @Test

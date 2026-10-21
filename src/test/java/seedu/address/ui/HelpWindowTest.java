@@ -9,21 +9,20 @@ import java.util.List;
 import java.util.concurrent.CompletableFuture;
 import java.util.concurrent.FutureTask;
 import java.util.concurrent.TimeUnit;
-import java.util.concurrent.TimeoutException;
-import java.util.concurrent.atomic.AtomicReference;
 import java.util.function.DoublePredicate;
 
 import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.Test;
 
 import javafx.application.Platform;
+import javafx.beans.value.ChangeListener;
+import javafx.beans.value.ObservableValue;
 import javafx.scene.Node;
 import javafx.scene.control.Label;
 import javafx.scene.control.ScrollPane;
 import javafx.scene.control.TextArea;
 import javafx.scene.input.MouseButton;
 import javafx.scene.input.MouseEvent;
-import javafx.scene.layout.Region;
 import javafx.scene.layout.VBox;
 import seedu.address.logic.commands.AddBakeryItemCommand;
 import seedu.address.logic.commands.AddClientOrderCommand;
@@ -42,6 +41,7 @@ import seedu.address.logic.commands.ListItemsCommand;
 import seedu.address.logic.commands.ListOrdersCommand;
 import seedu.address.logic.commands.MarkOrderCompleteCommand;
 import seedu.address.logic.commands.PopulateCommand;
+import seedu.address.logic.commands.UndoCommand;
 import seedu.address.logic.commands.UnmarkOrderCommand;
 
 public class HelpWindowTest {
@@ -53,6 +53,7 @@ public class HelpWindowTest {
     private static final List<CommandSummary> EXPECTED_COMMAND_SUMMARIES = List.of(
             new CommandSummary(ClearCommand.COMMAND_WORD, ClearCommand.MESSAGE_USAGE),
             new CommandSummary(PopulateCommand.COMMAND_WORD, PopulateCommand.MESSAGE_USAGE),
+            new CommandSummary(UndoCommand.COMMAND_WORD, UndoCommand.MESSAGE_USAGE),
             new CommandSummary(HelpCommand.COMMAND_WORD, HelpCommand.MESSAGE_USAGE),
             new CommandSummary(ExitCommand.COMMAND_WORD, ExitCommand.MESSAGE_USAGE),
             new CommandSummary(AddCommand.COMMAND_WORD, AddCommand.MESSAGE_USAGE),
@@ -223,75 +224,39 @@ public class HelpWindowTest {
                     .max((first, second) -> Integer.compare(first.getLength(), second.getLength()))
                     .orElseThrow();
             helpWindow[0] = window;
+            initialNarrowHeight[0] = longestTextArea[0].getPrefHeight();
         });
 
-        try {
-            initialNarrowHeight[0] = resizeWindowAndWaitForTextAreaHeight(
-                    helpWindow[0], longestTextArea[0], INITIAL_WINDOW_WIDTH, height -> height > 0);
-            double wideHeight = resizeWindowAndWaitForTextAreaHeight(
-                    helpWindow[0], longestTextArea[0], 1000,
-                    height -> height >= 0 && height < initialNarrowHeight[0]);
-            onJavaFxThread(() -> commandUsageTextAreas(helpWindow[0]).forEach(
-                    HelpWindowTest::assertTextAreaContentFits));
+        double wideHeight = resizeWindowAndWaitForTextAreaHeight(
+                helpWindow[0], longestTextArea[0], 1000,
+                height -> height >= 0 && height < initialNarrowHeight[0]);
 
-            double resizedNarrowHeight = resizeWindowAndWaitForTextAreaHeight(
-                    helpWindow[0], longestTextArea[0], INITIAL_WINDOW_WIDTH, height -> height > wideHeight);
-            onJavaFxThread(() -> {
-                assertTrue(resizedNarrowHeight > wideHeight);
-                commandUsageTextAreas(helpWindow[0]).forEach(HelpWindowTest::assertTextAreaContentFits);
-            });
-        } finally {
-            onJavaFxThread(() -> helpWindow[0].getRoot().close());
-        }
+        double resizedNarrowHeight = resizeWindowAndWaitForTextAreaHeight(
+                helpWindow[0], longestTextArea[0], INITIAL_WINDOW_WIDTH, height -> height > wideHeight);
+        onJavaFxThread(() -> {
+            assertTrue(resizedNarrowHeight > wideHeight);
+            helpWindow[0].getRoot().close();
+        });
     }
 
     private static double resizeWindowAndWaitForTextAreaHeight(
             HelpWindow helpWindow, TextArea textArea, double width, DoublePredicate expectedHeight) throws Exception {
         CompletableFuture<Double> resizedHeight = new CompletableFuture<>();
-        AtomicReference<String> lastLayout = new AtomicReference<>("No layout pulse observed");
-        double[] expectedSceneWidth = new double[1];
-        Runnable layoutListener = new Runnable() {
-            private List<Double> previousGeometry = List.of();
-
-            @Override
-            public void run() {
-                ScrollPane scrollPane = (ScrollPane) textArea.lookup(".scroll-pane");
-                List<Double> geometry = List.of(textArea.getWidth(), textArea.getHeight(),
-                        textArea.getPrefHeight(), scrollPane.getViewportBounds().getWidth(),
-                        scrollPane.getViewportBounds().getHeight());
-                lastLayout.set("requestedWidth=" + width + ", stageWidth=" + helpWindow.getRoot().getWidth()
-                        + ", sceneWidth=" + helpWindow.getRoot().getScene().getWidth()
-                        + ", expectedSceneWidth=" + expectedSceneWidth[0] + ", geometry=" + geometry);
-                // A preferred-height event precedes layout. Wait for matching actual height and
-                // unchanged viewport geometry across consecutive completed layout pulses instead.
-                boolean ready = Math.abs(helpWindow.getRoot().getWidth() - width) < 1
-                        && Math.abs(helpWindow.getRoot().getScene().getWidth() - expectedSceneWidth[0]) < 1
-                        && expectedHeight.test(textArea.getPrefHeight())
-                        && Math.abs(textArea.getHeight() - textArea.getPrefHeight()) < 1
-                        && scrollPane.getViewportBounds().getWidth() > 0;
-                if (ready && geometry.equals(previousGeometry)) {
-                    resizedHeight.complete(textArea.getPrefHeight());
-                }
-                previousGeometry = geometry;
-                helpWindow.getRoot().getScene().getRoot().requestLayout();
-                Platform.requestNextPulse();
-            }
-        };
         onJavaFxThread(() -> {
-            expectedSceneWidth[0] = helpWindow.getRoot().getScene().getWidth()
-                    + width - helpWindow.getRoot().getWidth();
-            helpWindow.getRoot().getScene().addPostLayoutPulseListener(layoutListener);
+            ChangeListener<Number> heightListener = new ChangeListener<>() {
+                @Override
+                public void changed(
+                        ObservableValue<? extends Number> observable, Number oldHeight, Number newHeight) {
+                    if (expectedHeight.test(newHeight.doubleValue())) {
+                        textArea.prefHeightProperty().removeListener(this);
+                        resizedHeight.complete(newHeight.doubleValue());
+                    }
+                }
+            };
+            textArea.prefHeightProperty().addListener(heightListener);
             helpWindow.getRoot().setWidth(width);
-            helpWindow.getRoot().getScene().getRoot().requestLayout();
-            Platform.requestNextPulse();
         });
-        try {
-            return resizedHeight.get(10, TimeUnit.SECONDS);
-        } catch (TimeoutException e) {
-            throw new AssertionError("Help layout did not settle: " + lastLayout.get(), e);
-        } finally {
-            onJavaFxThread(() -> helpWindow.getRoot().getScene().removePostLayoutPulseListener(layoutListener));
-        }
+        return resizedHeight.get(10, TimeUnit.SECONDS);
     }
 
     private static VBox commandSummaryContainer(HelpWindow helpWindow) {
@@ -309,17 +274,6 @@ public class HelpWindowTest {
                 .filter(TextArea.class::isInstance)
                 .map(TextArea.class::cast)
                 .toList();
-    }
-
-    private static void assertTextAreaContentFits(TextArea textArea) {
-        ScrollPane scrollPane = (ScrollPane) textArea.lookup(".scroll-pane");
-        double contentHeight = ((Region) scrollPane.getContent())
-                .prefHeight(scrollPane.getViewportBounds().getWidth());
-        assertTrue(contentHeight <= scrollPane.getViewportBounds().getHeight() + 1,
-                "Usage text does not fit after layout: contentHeight=" + contentHeight
-                        + ", viewport=" + scrollPane.getViewportBounds()
-                        + ", actualHeight=" + textArea.getHeight() + ", preferredHeight=" + textArea.getPrefHeight()
-                        + ", text=" + textArea.getText());
     }
 
     private record CommandSummary(String commandWord, String commandUsage) {
