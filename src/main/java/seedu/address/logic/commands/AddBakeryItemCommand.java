@@ -30,7 +30,7 @@ public class AddBakeryItemCommand extends Command {
     private final BakeryItem toAdd;
 
     /**
-     * Creates a new {@code BakeryItemCommand}.
+     * Creates a new {@code AddBakeryItemCommand}.
      *
      * @param item The bakery item to be added.
      */

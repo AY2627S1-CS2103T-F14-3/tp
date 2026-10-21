@@ -171,6 +171,14 @@ Clear confirmation works independently of undo. This integration description app
 
 No confirmation flag needs to be stored in the model, data file, or undo snapshot. Use the parsed confirmation flag only for that command execution.
 
+### Command history
+
+`CommandHistory` holds submitted text, a navigation cursor, and the unsent draft for one application session. `CommandBox` records non-empty submissions before execution, including commands that produce handled errors, and resets navigation after each submission.
+
+An event filter consumes unmodified Up/Down key presses. Up saves the draft when navigation starts and recalls older commands; Down recalls newer commands and eventually restores the draft. Recalled text is copied into the input with the caret at its end, so editing it does not modify a stored entry. Other keys and modified arrow shortcuts retain their existing behavior. History does not change the model or storage.
+
+`CommandHistoryTest` covers boundaries, draft restoration, repeat submissions, and editing. `CommandBoxTest` dispatches JavaFX key/action events to verify integration and recovery of failed commands.
+
 This section describes some noteworthy details on how certain features are implemented.
 
 ### \[Proposed\] Undo/redo feature

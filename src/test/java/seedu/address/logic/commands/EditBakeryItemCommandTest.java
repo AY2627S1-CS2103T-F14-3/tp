@@ -7,8 +7,8 @@ import static seedu.address.logic.commands.CommandTestUtil.assertCommandFailure;
 import static seedu.address.logic.commands.CommandTestUtil.assertCommandSuccess;
 import static seedu.address.testutil.TypicalBakeryItems.BANANA_MUFFIN;
 import static seedu.address.testutil.TypicalBakeryItems.CHOCOLATE_MUFFIN;
-import static seedu.address.testutil.TypicalIndexes.INDEX_FIRST_PERSON;
-import static seedu.address.testutil.TypicalIndexes.INDEX_SECOND_PERSON;
+import static seedu.address.testutil.TypicalIndexes.INDEX_FIRST_BAKERY_ITEM;
+import static seedu.address.testutil.TypicalIndexes.INDEX_SECOND_BAKERY_ITEM;
 
 import java.util.List;
 
@@ -46,7 +46,7 @@ public class EditBakeryItemCommandTest {
         EditBakeryItemDescriptor descriptor = new EditBakeryItemDescriptor();
         descriptor.setItemName(BLUEBERRY_MUFFIN_NAME);
         descriptor.setPrice(UPDATED_PRICE);
-        EditBakeryItemCommand command = new EditBakeryItemCommand(INDEX_FIRST_PERSON, descriptor);
+        EditBakeryItemCommand command = new EditBakeryItemCommand(INDEX_FIRST_BAKERY_ITEM, descriptor);
         BakeryItem editedBakeryItem = new BakeryItem(BLUEBERRY_MUFFIN_NAME, UPDATED_PRICE);
 
         String expectedMessage = String.format(EditBakeryItemCommand.MESSAGE_EDIT_BAKERY_ITEM_SUCCESS,
@@ -61,7 +61,7 @@ public class EditBakeryItemCommandTest {
     public void execute_priceOnly_nameUnchanged() {
         EditBakeryItemDescriptor descriptor = new EditBakeryItemDescriptor();
         descriptor.setPrice(UPDATED_PRICE);
-        EditBakeryItemCommand command = new EditBakeryItemCommand(INDEX_FIRST_PERSON, descriptor);
+        EditBakeryItemCommand command = new EditBakeryItemCommand(INDEX_FIRST_BAKERY_ITEM, descriptor);
         BakeryItem editedBakeryItem = new BakeryItem(BANANA_MUFFIN.getItemName(), UPDATED_PRICE);
 
         String expectedMessage = String.format(EditBakeryItemCommand.MESSAGE_EDIT_BAKERY_ITEM_SUCCESS,
@@ -77,7 +77,7 @@ public class EditBakeryItemCommandTest {
         model.updateFilteredBakeryItemList(item -> item.equals(CHOCOLATE_MUFFIN));
         EditBakeryItemDescriptor descriptor = new EditBakeryItemDescriptor();
         descriptor.setPrice(UPDATED_PRICE);
-        EditBakeryItemCommand command = new EditBakeryItemCommand(INDEX_FIRST_PERSON, descriptor);
+        EditBakeryItemCommand command = new EditBakeryItemCommand(INDEX_FIRST_BAKERY_ITEM, descriptor);
         BakeryItem editedBakeryItem = new BakeryItem(CHOCOLATE_MUFFIN.getItemName(), UPDATED_PRICE);
 
         String expectedMessage = String.format(EditBakeryItemCommand.MESSAGE_EDIT_BAKERY_ITEM_SUCCESS,
@@ -92,7 +92,7 @@ public class EditBakeryItemCommandTest {
     public void execute_duplicateName_throwsCommandException() {
         EditBakeryItemDescriptor descriptor = new EditBakeryItemDescriptor();
         descriptor.setItemName(new BakeryItemName("CHOCOLATE   MUFFIN"));
-        EditBakeryItemCommand command = new EditBakeryItemCommand(INDEX_FIRST_PERSON, descriptor);
+        EditBakeryItemCommand command = new EditBakeryItemCommand(INDEX_FIRST_BAKERY_ITEM, descriptor);
 
         assertCommandFailure(command, model, EditBakeryItemCommand.MESSAGE_DUPLICATE_BAKERY_ITEM);
     }
@@ -111,25 +111,25 @@ public class EditBakeryItemCommandTest {
     public void equals() {
         EditBakeryItemDescriptor descriptor = new EditBakeryItemDescriptor();
         descriptor.setPrice(UPDATED_PRICE);
-        EditBakeryItemCommand standardCommand = new EditBakeryItemCommand(INDEX_FIRST_PERSON, descriptor);
+        EditBakeryItemCommand standardCommand = new EditBakeryItemCommand(INDEX_FIRST_BAKERY_ITEM, descriptor);
 
         EditBakeryItemDescriptor descriptorCopy = new EditBakeryItemDescriptor(descriptor);
-        assertTrue(standardCommand.equals(new EditBakeryItemCommand(INDEX_FIRST_PERSON, descriptorCopy)));
+        assertTrue(standardCommand.equals(new EditBakeryItemCommand(INDEX_FIRST_BAKERY_ITEM, descriptorCopy)));
         assertTrue(standardCommand.equals(standardCommand));
         assertFalse(standardCommand.equals(null));
         assertFalse(standardCommand.equals(new ClearCommand()));
-        assertFalse(standardCommand.equals(new EditBakeryItemCommand(INDEX_SECOND_PERSON, descriptor)));
+        assertFalse(standardCommand.equals(new EditBakeryItemCommand(INDEX_SECOND_BAKERY_ITEM, descriptor)));
 
         EditBakeryItemDescriptor differentDescriptor = new EditBakeryItemDescriptor();
         differentDescriptor.setItemName(BLUEBERRY_MUFFIN_NAME);
-        assertFalse(standardCommand.equals(new EditBakeryItemCommand(INDEX_FIRST_PERSON, differentDescriptor)));
+        assertFalse(standardCommand.equals(new EditBakeryItemCommand(INDEX_FIRST_BAKERY_ITEM, differentDescriptor)));
     }
 
     @Test
     public void toStringMethod() {
         EditBakeryItemDescriptor descriptor = new EditBakeryItemDescriptor();
-        EditBakeryItemCommand command = new EditBakeryItemCommand(INDEX_FIRST_PERSON, descriptor);
-        String expected = EditBakeryItemCommand.class.getCanonicalName() + "{index=" + INDEX_FIRST_PERSON
+        EditBakeryItemCommand command = new EditBakeryItemCommand(INDEX_FIRST_BAKERY_ITEM, descriptor);
+        String expected = EditBakeryItemCommand.class.getCanonicalName() + "{index=" + INDEX_FIRST_BAKERY_ITEM
                 + ", editBakeryItemDescriptor=" + descriptor + "}";
 
         assertEquals(expected, command.toString());

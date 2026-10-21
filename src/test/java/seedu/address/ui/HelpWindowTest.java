@@ -23,7 +23,6 @@ import javafx.scene.control.ScrollPane;
 import javafx.scene.control.TextArea;
 import javafx.scene.input.MouseButton;
 import javafx.scene.input.MouseEvent;
-import javafx.scene.layout.Region;
 import javafx.scene.layout.VBox;
 import seedu.address.logic.commands.AddBakeryItemCommand;
 import seedu.address.logic.commands.AddClientOrderCommand;
@@ -211,7 +210,7 @@ public class HelpWindowTest {
     }
 
     @Test
-    public void resizeWindow_widthChanges_textAreaGrowsAndShrinksToFitContent() throws Exception {
+    public void resizeWindow_widthChanges_textAreaHeightAdjusts() throws Exception {
         HelpWindow[] helpWindow = new HelpWindow[1];
         TextArea[] longestTextArea = new TextArea[1];
         double[] initialNarrowHeight = new double[1];

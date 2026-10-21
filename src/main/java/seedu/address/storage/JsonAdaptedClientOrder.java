@@ -45,7 +45,7 @@ class JsonAdaptedClientOrder {
     public JsonAdaptedClientOrder(ClientOrder order) {
         id = order.getId().toString();
         clientName = order.getClient().getName().fullName;
-        itemName = order.getItem().getItemName().itemName;
+        itemName = order.getItem().getItemName().getItemName();
         quantity = order.getQuantity().toString();
         deadline = order.getDeadline().toString();
         complete = order.isComplete();
@@ -76,7 +76,7 @@ class JsonAdaptedClientOrder {
         Person client = book.getPersonList().stream().filter(person -> person.getName().fullName.equals(clientName))
                 .findFirst().orElseThrow(() -> new IllegalValueException("Order references a missing client."));
         BakeryItem item = book.getBakeryItemList().stream()
-                .filter(bakeryItem -> bakeryItem.getItemName().itemName.equals(itemName)).findFirst()
+                .filter(bakeryItem -> bakeryItem.getItemName().getItemName().equals(itemName)).findFirst()
                 .orElseThrow(() -> new IllegalValueException("Order references a missing bakery item."));
         return new ClientOrder(orderId, client, item, new Quantity(Integer.parseInt(quantity)),
                 new Deadline(deadline), complete);

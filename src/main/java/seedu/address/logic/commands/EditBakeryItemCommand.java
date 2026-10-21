@@ -120,12 +120,16 @@ public class EditBakeryItemCommand extends Command {
         private BakeryItemName itemName;
         private Price price;
 
+        /**
+         * Creates an empty {@code EditBakeryItemDescriptor}.
+         */
         public EditBakeryItemDescriptor() {}
 
         /**
          * Creates a defensive copy of {@code toCopy}.
          */
         public EditBakeryItemDescriptor(EditBakeryItemDescriptor toCopy) {
+            requireNonNull(toCopy);
             setItemName(toCopy.itemName);
             setPrice(toCopy.price);
         }
