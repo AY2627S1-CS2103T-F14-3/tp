@@ -17,7 +17,7 @@ public class Price {
      */
     public static final String VALIDATION_REGEX = "\\d+(?:\\.\\d{0,2})?|\\.\\d{1,2}";
 
-    public final BigDecimal priceDollars;
+    private final BigDecimal priceDollars;
 
     /**
      * Constructs a {@code Price}.
@@ -51,6 +51,7 @@ public class Price {
      * @throws NumberFormatException If the {@code priceDollarsText} is not in a valid format.
      */
     public static Price fromDollars(String priceDollarsText) {
+        requireNonNull(priceDollarsText);
         String trimmed = priceDollarsText.trim();
 
         if (!isValidPriceDollars(trimmed)) {
@@ -60,7 +61,7 @@ public class Price {
 
         // this should not throw since our validation + normalization guarantees it is correct format
         BigDecimal priceDollars = new BigDecimal(trimmed);
-        // guaranteed not to throw since we already validated > 0 and 2dp
+        // guaranteed not to throw since we already validated a non-negative value with at most 2dp
         return new Price(priceDollars);
     }
 
