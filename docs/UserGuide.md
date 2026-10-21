@@ -277,7 +277,7 @@ Format: `list-orders`
 
 #### Viewing help: `help`
 
-Shows a message explaining how to access the help page.
+Shows a message explaining how to access the help page, and a very brief summary of the commands.
 
 ![help message](images/helpMessage.png)
 
