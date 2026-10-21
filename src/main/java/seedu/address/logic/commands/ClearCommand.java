@@ -2,6 +2,9 @@ package seedu.address.logic.commands;
 
 import static java.util.Objects.requireNonNull;
 
+import java.util.logging.Logger;
+
+import seedu.address.commons.core.LogsCenter;
 import seedu.address.logic.commands.exceptions.CommandException;
 import seedu.address.model.AddressBook;
 import seedu.address.model.Model;
@@ -19,6 +22,7 @@ public class ClearCommand extends Command {
     public static final String MESSAGE_SUCCESS = "Address book has been cleared!";
 
     private final boolean confirmed;
+    private final Logger logger = LogsCenter.getLogger(ClearCommand.class);
 
     /**
      * Creates a clear request that requires explicit confirmation.
@@ -38,11 +42,13 @@ public class ClearCommand extends Command {
     public CommandResult execute(Model model) throws CommandException {
         requireNonNull(model);
         if (!confirmed) {
+            logger.info("Clear blocked: explicit confirmation is required; data remains unchanged.");
             throw new CommandException(MESSAGE_CONFIRMATION);
         }
         model.setAddressBook(new AddressBook());
         model.updateFilteredPersonList(Model.PREDICATE_SHOW_ALL_PERSONS);
         model.updateFilteredBakeryItemList(Model.PREDICATE_SHOW_ALL_BAKERY_ITEMS);
+        logger.fine("Confirmed clear applied in memory; filters reset; awaiting persistence.");
         return new CommandResult(MESSAGE_SUCCESS);
     }
 }
