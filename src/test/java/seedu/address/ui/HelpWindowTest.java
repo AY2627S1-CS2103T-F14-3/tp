@@ -41,6 +41,7 @@ import seedu.address.logic.commands.ListItemsCommand;
 import seedu.address.logic.commands.ListOrdersCommand;
 import seedu.address.logic.commands.MarkOrderCompleteCommand;
 import seedu.address.logic.commands.PopulateCommand;
+import seedu.address.logic.commands.UndoCommand;
 import seedu.address.logic.commands.UnmarkOrderCommand;
 
 public class HelpWindowTest {
@@ -52,6 +53,7 @@ public class HelpWindowTest {
     private static final List<CommandSummary> EXPECTED_COMMAND_SUMMARIES = List.of(
             new CommandSummary(ClearCommand.COMMAND_WORD, ClearCommand.MESSAGE_USAGE),
             new CommandSummary(PopulateCommand.COMMAND_WORD, PopulateCommand.MESSAGE_USAGE),
+            new CommandSummary(UndoCommand.COMMAND_WORD, UndoCommand.MESSAGE_USAGE),
             new CommandSummary(HelpCommand.COMMAND_WORD, HelpCommand.MESSAGE_USAGE),
             new CommandSummary(ExitCommand.COMMAND_WORD, ExitCommand.MESSAGE_USAGE),
             new CommandSummary(AddCommand.COMMAND_WORD, AddCommand.MESSAGE_USAGE),
