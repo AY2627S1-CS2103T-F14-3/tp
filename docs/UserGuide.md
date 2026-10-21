@@ -34,7 +34,7 @@ AddressBook Level 3 (AB3) is a **desktop application for managing contacts, opti
 
    * `add-item n/Banana Muffin p/5.99` : Adds a bakery item named `Banana Muffin` to the Address Book.
 
-   * `clear` : Deletes all clients, bakery items, and orders.
+   * `clear` : Shows a warning. Use `clear confirm` to delete all clients, bakery items, and orders.
 
    * `exit` : Exits the app.
 
@@ -60,7 +60,7 @@ AddressBook Level 3 (AB3) is a **desktop application for managing contacts, opti
 * Parameters can be in any order.<br>
   For example, if the command specifies `n/NAME p/PHONE_NUMBER`, `p/PHONE_NUMBER n/NAME` is also acceptable.
 
-* Extraneous parameters for commands that take no parameters, such as `help`, `list-clients`, `list-items`, `populate`, `exit`, and `clear`, are ignored.<br>
+* Extraneous parameters for commands that take no parameters, such as `help`, `list-clients`, `list-items`, `populate`, and `exit`, are ignored.<br>
   For example, `help 123` is interpreted as `help`.
 
 * If you are using a PDF version of this document, be careful when copying and pasting commands that span multiple lines as space characters surrounding line-breaks may be omitted when copied over to the application.
@@ -297,9 +297,15 @@ Format: `populate`
 
 #### Clearing all entries: `clear`
 
-Removes all clients, bakery items, and orders from the address book.
+Requires explicit confirmation before removing all clients, bakery items, and orders from the address book.
 
-Format: `clear`
+Format: `clear` or `clear confirm`
+
+* `clear` shows a warning without changing or saving any data. Type `clear confirm` to proceed.
+* To cancel, simply continue using other commands. There is no pending action or confirmation dialog.
+* Only the exact, lowercase word `confirm` is accepted. Other arguments (for example, `clear yes` or `clear confirm extra`) are rejected without changing data.
+* `clear confirm` explicitly authorizes deletion, even if you have not typed `clear` first. All records are removed, including records hidden by searches.
+* If saving fails, the previous data and displayed filters are restored. You can retry the confirmed command.
 
 #### Exiting the program: `exit`
 
@@ -383,5 +389,5 @@ Action | Format
 --------|-------
 **Help** | `help`
 **Populate sample data** | `populate`
-**Clear all data** | `clear`
+**Clear all data** | `clear` to show the warning; `clear confirm` to delete
 **Exit** | `exit`
