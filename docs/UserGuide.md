@@ -307,6 +307,25 @@ Format: `clear` or `clear confirm`
 * `clear confirm` explicitly authorizes deletion, even if you have not typed `clear` first. All records are removed, including records hidden by searches.
 * If saving fails, the previous data and displayed filters are restored. You can retry the confirmed command.
 
+##### Interaction with single-step undo
+
+The following applies when the single-step undo feature is included in your build. Clear confirmation alone does not add an `undo` command.
+
+Confirmation prevents accidental deletion; undo allows recovery after a confirmed deletion:
+
+Action | Effect on data and undo
+-------|-----------------------
+`clear` | Shows the warning without changing data or replacing the previous undo opportunity.
+Invalid input such as `clear yes` | Is rejected without changing data or undo history.
+`clear confirm` on a non-empty book | Deletes all records and replaces the undo snapshot with the complete book from before deletion.
+`undo` after confirmed clearing | Restores clients, items, linked orders, and completion statuses, shows all lists, and consumes the single undo snapshot.
+Confirmed clearing that fails to save | Restores data and displayed filters; the earlier undo opportunity remains available.
+`clear confirm` on an already empty book | Does not change data, so it does not replace an existing undo snapshot.
+
+For example, `edit-item 1 p/12`, then `clear`, then `undo` reverses the item edit: the warning did not change data. By contrast, `clear confirm`, then `undo` restores the deleted book.
+
+Only the last successful data change is recoverable. A subsequent data change replaces the snapshot, and restarting the application discards undo history. There is no redo. Undoing a clear cannot also undo an earlier edit; keep backups for longer-term recovery.
+
 #### Exiting the program: `exit`
 
 Exits the program.
