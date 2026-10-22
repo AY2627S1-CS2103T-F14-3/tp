@@ -1,5 +1,6 @@
 package seedu.address.logic;
 
+import javafx.beans.property.ReadOnlyBooleanProperty;
 import javafx.collections.ObservableList;
 import seedu.address.commons.core.GuiSettings;
 import seedu.address.logic.commands.CommandResult;
@@ -13,6 +14,11 @@ import seedu.address.model.person.Person;
  * API of the Logic component
  */
 public interface Logic {
+    /**
+     * Returns whether the last saved data change can be undone.
+     */
+    ReadOnlyBooleanProperty undoAvailableProperty();
+
     /**
      * Executes the command and returns the result.
      * @param commandText The command as entered by the user.
