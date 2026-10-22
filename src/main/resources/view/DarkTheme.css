@@ -132,6 +132,35 @@
     -fx-text-fill: #010504;
 }
 
+#cardPane.order-complete {
+    -fx-background-color: #24543a;
+}
+
+#cardPane.order-incomplete {
+    -fx-background-color: #3c3e3f;
+}
+
+#cardPane.order-overdue {
+    -fx-background-color: #7a2929;
+}
+
+.list-cell:odd #cardPane.order-complete {
+    -fx-background-color: #306a4b;
+}
+
+.list-cell:odd #cardPane.order-incomplete {
+    -fx-background-color: #515658;
+}
+
+.list-cell:odd #cardPane.order-overdue {
+    -fx-background-color: #913a3a;
+}
+
+.order-complete .label, .order-incomplete .label, .order-overdue .label {
+    -fx-text-fill: white;
+    -fx-opacity: 1;
+}
+
 .stack-pane {
      -fx-background-color: derive(#1d1d1d, 20%);
 }

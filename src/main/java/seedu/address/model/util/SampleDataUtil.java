@@ -1,5 +1,6 @@
 package seedu.address.model.util;
 
+import java.time.LocalDate;
 import java.util.Arrays;
 import java.util.Set;
 import java.util.stream.Collectors;
@@ -42,7 +43,25 @@ public class SampleDataUtil {
                 getTagSet("classmates")),
             new Person(new Name("Roy Balakrishnan"), new Phone("92624417"), new Email("royb@example.com"),
                 new Address("Blk 45 Aljunied Street 85, #11-31"),
-                getTagSet("colleagues"))
+                getTagSet("colleagues")),
+            new Person(new Name("Sarah Tan"), new Phone("81234567"), new Email("sarahtan@example.com"),
+                new Address("Blk 15 Bishan Street 12, #05-22"),
+                getTagSet("regular", "birthdays")),
+            new Person(new Name("Marcus Lim"), new Phone("82345678"), new Email("marcuslim@example.com"),
+                new Address("Blk 82 Toa Payoh Lorong 4, #09-15"),
+                getTagSet("corporate")),
+            new Person(new Name("Priya Nair"), new Phone("83456789"), new Email("priyanair@example.com"),
+                new Address("Blk 208 Clementi Avenue 6, #03-18"),
+                getTagSet("regular", "events")),
+            new Person(new Name("Daniel Wong"), new Phone("84567890"), new Email("danielwong@example.com"),
+                new Address("Blk 118 Bukit Merah View, #08-06"),
+                getTagSet("neighbours")),
+            new Person(new Name("Nur Aisyah"), new Phone("85678901"), new Email("nuraisyah@example.com"),
+                new Address("Blk 320 Woodlands Street 32, #12-24"),
+                getTagSet("family", "events")),
+            new Person(new Name("Grace Lee"), new Phone("86789012"), new Email("gracelee@example.com"),
+                new Address("Blk 55 Punggol Field, #04-11"),
+                getTagSet("corporate", "regular"))
         };
     }
 
@@ -54,12 +73,21 @@ public class SampleDataUtil {
             new BakeryItem(new BakeryItemName("Banana Muffin"), Price.fromDollars("1.20")),
             new BakeryItem(new BakeryItemName("Chocolate Cake"), Price.fromDollars("25.00")),
             new BakeryItem(new BakeryItemName("Butter Croissant"), Price.fromDollars("2.80")),
-            new BakeryItem(new BakeryItemName("Chocolate Chip Cookies"), Price.fromDollars("5.50"))
+            new BakeryItem(new BakeryItemName("Chocolate Chip Cookies"), Price.fromDollars("5.50")),
+            new BakeryItem(new BakeryItemName("Blueberry Muffin"), Price.fromDollars("1.80")),
+            new BakeryItem(new BakeryItemName("Chocolate Muffin"), Price.fromDollars("1.60")),
+            new BakeryItem(new BakeryItemName("Almond Croissant"), Price.fromDollars("3.50")),
+            new BakeryItem(new BakeryItemName("Strawberry Shortcake"), Price.fromDollars("32.00")),
+            new BakeryItem(new BakeryItemName("Sourdough Bread"), Price.fromDollars("6.80")),
+            new BakeryItem(new BakeryItemName("Cinnamon Roll"), Price.fromDollars("2.50")),
+            new BakeryItem(new BakeryItemName("Lemon Tart"), Price.fromDollars("4.20")),
+            new BakeryItem(new BakeryItemName("Vanilla Cupcake"), Price.fromDollars("2.20"))
         };
     }
 
     /**
      * Returns a sample book with clients, bakery items, and complete and incomplete orders.
+     * Deadlines are relative to today so overdue, due-today, and upcoming examples remain useful.
      */
     public static ReadOnlyAddressBook getSampleAddressBook() {
         AddressBook sampleAb = new AddressBook();
@@ -71,14 +99,14 @@ public class SampleDataUtil {
         for (BakeryItem sampleItem : items) {
             sampleAb.addBakeryItem(sampleItem);
         }
-        sampleAb.addOrder(ClientOrder.create(persons[0], items[0], new Quantity(12), new Deadline("2026-10-20")));
-        sampleAb.addOrder(ClientOrder.create(persons[1], items[1], new Quantity(1), new Deadline("2026-10-21")));
-        sampleAb.addOrder(ClientOrder.create(persons[0], items[2], new Quantity(6), new Deadline("2026-10-22")));
-        sampleAb.addOrder(ClientOrder.create(persons[2], items[3], new Quantity(3), new Deadline("2026-10-12"))
-                .withCompletion(true));
-        sampleAb.addOrder(ClientOrder.create(persons[3], items[0], new Quantity(8), new Deadline("2026-10-23")));
-        sampleAb.addOrder(ClientOrder.create(persons[4], items[2], new Quantity(4), new Deadline("2026-10-13"))
-                .withCompletion(true));
+        LocalDate today = LocalDate.now();
+        int[] deadlineOffsets = {-3, -1, 0, 0, 1, 2, 3, 5, 7, 10, 14, 21};
+        for (int i = 0; i < persons.length; i++) {
+            sampleAb.addOrder(ClientOrder.create(persons[i], items[i % items.length], new Quantity((i + 1) * 2),
+                    new Deadline(today.plusDays(deadlineOffsets[i]).toString())).withCompletion(i % 3 == 0));
+            sampleAb.addOrder(ClientOrder.create(persons[i], items[(i + 3) % items.length], new Quantity(i + 1),
+                    new Deadline(today.plusDays(deadlineOffsets[i] - 2).toString())).withCompletion(i % 3 != 1));
+        }
         return sampleAb;
     }
 

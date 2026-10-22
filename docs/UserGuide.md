@@ -34,7 +34,7 @@ AddressBook Level 3 (AB3) is a **desktop application for managing contacts, opti
 
    * `add-item n/Banana Muffin p/5.99` : Adds a bakery item named `Banana Muffin` to the Address Book.
 
-   * `clear` : Deletes all clients, bakery items, and orders.
+   * `clear` : Shows a warning. Use `clear confirm` to delete all clients, bakery items, and orders.
 
    * `exit` : Exits the app.
 
@@ -60,7 +60,7 @@ AddressBook Level 3 (AB3) is a **desktop application for managing contacts, opti
 * Parameters can be in any order.<br>
   For example, if the command specifies `n/NAME p/PHONE_NUMBER`, `p/PHONE_NUMBER n/NAME` is also acceptable.
 
-* Extraneous parameters for commands that take no parameters, such as `help`, `list-clients`, `list-items`, `populate`, `exit`, and `clear`, are ignored.<br>
+* Extraneous parameters for commands that take no parameters, such as `help`, `list-clients`, `list-items`, `populate`, and `exit`, are ignored.<br>
   For example, `help 123` is interpreted as `help`.
 
 * If you are using a PDF version of this document, be careful when copying and pasting commands that span multiple lines as space characters surrounding line-breaks may be omitted when copied over to the application.
@@ -187,6 +187,16 @@ Format: `delete-item INDEX`
 Examples:
 * `delete-item 1` deletes the 1st bakery item in the displayed bakery item list.
 
+#### Finding bakery items by name: `find-items`
+
+Format: `find-items KEYWORD [MORE_KEYWORDS]...`
+
+Matches any supplied keyword against whole words in item names, case-insensitively.
+For example, `find-items BANANA chocolate` finds Banana Muffin and Chocolate Muffin;
+`find-items muff` does not match Muffin. An empty search is rejected.
+Use `list-items` to restore all items. The item indices for `add-order`, `edit-item`,
+and `delete-item` refer to this displayed list. Searching does not change stored data.
+
 #### Listing all bakery items: `list-items`
 
 Shows all bakery items in the item panel, with their index, name, and price.
@@ -273,6 +283,14 @@ Searching replaces the previous order search; completion filtering and sorting a
 
 #### Listing all orders: `list-orders`
 
+Order cards use **green** for completed orders, **gray** for incomplete orders due today
+or later, and **red** for incomplete orders with a deadline before today's local date.
+Completed orders remain green even after their deadline. Due today is not overdue.
+Each status color alternates between darker and lighter shades on consecutive rows.
+The cards retain their deadline and status text; overdue cards say `Incomplete (overdue)`.
+Colors update when orders are marked or unmarked and within a second of a date change
+while the app is running (or after it resumes from sleep).
+
 Shows all orders in insertion order, including completed orders. Each card shows its position
 in the order list, item, quantity, client name, that client's own order number, deadline, and completion status.
 
@@ -295,7 +313,7 @@ Format: `list-orders`
 
 Type `undo` or click the **Undo** button above the command input to reverse the last successfully saved data change.
 
-* Supports adding, editing, or deleting clients/items, adding or deleting orders, marking/unmarking orders, `clear`, and `populate`.
+* Supports adding, editing, or deleting clients/items, adding or deleting orders, marking/unmarking orders, `clear confirm`, and `populate`. Running `clear` without confirmation only shows a warning and does not replace undo history.
 * Only one change can be undone. A new saved data change replaces the previous undo opportunity. There is no redo.
 * Listing, searching, help, failed commands, and edits that leave data unchanged do not replace the undo opportunity.
 * Undo restores linked clients, items, and orders together. It shows all clients and items again, so use the refreshed indices.
@@ -330,16 +348,42 @@ This overwrites existing data; it does not append to it. The replacement is save
 
 Format: `populate`
 
-* Loads six sample clients, four bakery items, and six orders, including completed and incomplete orders.
+* Loads 12 sample clients, 12 bakery items, and 24 orders, including completed and incomplete orders.
+* Sample deadlines are relative to the day you run `populate`, with overdue, due-today, and upcoming orders.
 * Resets client and item filters so all sample entries are displayed.
 * Running it again replaces the data with a fresh sample book rather than adding duplicates.
 * If saving fails, the previous data and filters are restored.
 
 #### Clearing all entries: `clear`
 
-Removes all clients, bakery items, and orders from the address book.
+Requires explicit confirmation before removing all clients, bakery items, and orders from the address book.
 
-Format: `clear`
+Format: `clear` or `clear confirm`
+
+* `clear` shows a warning without changing or saving any data. The warning counts all clients, items, and orders in the book, including records hidden by searches. Counts reflect the current book, rather than only the displayed search results.
+* To cancel, simply continue using other commands. There is no pending action or confirmation dialog.
+* Only the exact, lowercase word `confirm` is accepted. Other arguments (for example, `clear yes` or `clear confirm extra`) are rejected without changing data.
+* **`clear confirm` deletes all clients, items, and orders immediately.** It is an intentional, one-shot command for experienced users: you do not need to type `clear` first, and there is no additional confirmation prompt. All records are removed, including records hidden by searches. Review the command before pressing Enter, including when recalling it from command history.
+* If saving fails, the previous data and displayed filters are restored. You can retry the confirmed command.
+
+##### Interaction with single-step undo
+
+Use the `undo` command or the **Undo** button to recover the last saved data change, including a confirmed clear.
+
+Confirmation prevents accidental deletion; undo allows recovery after a confirmed deletion:
+
+Action | Effect on data and undo
+-------|-----------------------
+`clear` | Shows the warning without changing data or replacing the previous undo opportunity.
+Invalid input such as `clear yes` | Is rejected without changing data or undo history.
+`clear confirm` on a non-empty book | Deletes all records and replaces the undo snapshot with the complete book from before deletion.
+`undo` after confirmed clearing | Restores clients, items, linked orders, and completion statuses, shows all lists, and consumes the single undo snapshot.
+Confirmed clearing that fails to save | Restores data and displayed filters; the earlier undo opportunity remains available.
+`clear confirm` on an already empty book | Does not change data, so it does not replace an existing undo snapshot.
+
+For example, `edit-item 1 p/12`, then `clear`, then `undo` reverses the item edit: the warning did not change data. By contrast, `clear confirm`, then `undo` restores the deleted book.
+
+Only the last successful data change is recoverable. A subsequent data change replaces the snapshot, and restarting the application discards undo history. There is no redo. Undoing a clear cannot also undo an earlier edit; keep backups for longer-term recovery.
 
 #### Exiting the program: `exit`
 
@@ -405,6 +449,7 @@ Action | Format, Examples
 **Add bakery item** | `add-item n/ITEM_NAME p/PRICE_DOLLARS`<br>e.g., `add-item n/Banana Muffin p/5.99`
 **Edit bakery item** | `edit-item INDEX [n/ITEM_NAME] [p/PRICE]`<br>e.g., `edit-item 2 n/Blueberry Muffin p/6.50`
 **Delete bakery item** | `delete-item INDEX`<br>e.g., `delete-item 3`
+**Find bakery items** | `find-items KEYWORD [MORE_KEYWORDS]...`
 **List bakery items** | `list-items`
 
 ### Order commands
@@ -425,5 +470,5 @@ Action | Format
 **Help** | `help`
 **Undo last data change** | `undo`
 **Populate sample data** | `populate`
-**Clear all data** | `clear`
+**Clear all data** | `clear` to show the warning and counts; `clear confirm` to delete immediately without another prompt
 **Exit** | `exit`

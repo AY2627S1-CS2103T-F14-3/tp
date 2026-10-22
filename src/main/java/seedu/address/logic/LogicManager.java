@@ -10,6 +10,7 @@ import javafx.beans.property.ReadOnlyBooleanWrapper;
 import javafx.collections.ObservableList;
 import seedu.address.commons.core.GuiSettings;
 import seedu.address.commons.core.LogsCenter;
+import seedu.address.logic.commands.ClearCommand;
 import seedu.address.logic.commands.Command;
 import seedu.address.logic.commands.CommandResult;
 import seedu.address.logic.commands.UndoCommand;
@@ -80,18 +81,27 @@ public class LogicManager implements Logic {
             storage.saveAddressBook(model.getAddressBook());
         } catch (AccessDeniedException e) {
             restoreAfterSaveFailure(beforeCommand, displayedClients, displayedItems, displayedOrders);
+            if (command instanceof ClearCommand) {
+                logger.warning("Confirmed clear could not be saved: access denied; data and filters restored.");
+            }
             if (isUndo) {
                 logger.warning("Undo save denied: current data and filters restored; snapshot retained for retry.");
             }
             throw new CommandException(String.format(FILE_OPS_PERMISSION_ERROR_FORMAT, e.getMessage()), e);
         } catch (IOException ioe) {
             restoreAfterSaveFailure(beforeCommand, displayedClients, displayedItems, displayedOrders);
+            if (command instanceof ClearCommand) {
+                logger.warning("Confirmed clear could not be saved: I/O failure; data and filters restored.");
+            }
             if (isUndo) {
                 logger.warning("Undo save failed: current data and filters restored; snapshot retained for retry.");
             }
             throw new CommandException(String.format(FILE_OPS_ERROR_FORMAT, ioe.getMessage()), ioe);
         }
 
+        if (command instanceof ClearCommand) {
+            logger.info("Confirmed clear saved successfully.");
+        }
         if (isUndo) {
             undoSnapshot = null;
             logger.info("Undo saved successfully; snapshot consumed.");
