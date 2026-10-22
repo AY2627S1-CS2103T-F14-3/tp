@@ -119,6 +119,15 @@ public interface Model {
      */
     ObservableList<ClientOrder> getOrdersForClient(Person client);
 
+    /** Returns the displayed orders without changing stored order associations. */
+    ObservableList<ClientOrder> getFilteredOrderList();
+
+    /** Updates the displayed order filter. */
+    void updateFilteredOrderList(Predicate<ClientOrder> predicate);
+
+    /** Returns the order filter for restoring a failed transaction. */
+    Predicate<ClientOrder> getOrderFilter();
+
     /**
      * Adds an order with existing client and item references.
      */

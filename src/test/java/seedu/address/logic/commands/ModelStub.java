@@ -15,6 +15,20 @@ import seedu.address.model.person.Person;
  * A default model stub that has all of the methods failing.
  */
 class ModelStub implements Model {
+    @Override
+    public ObservableList<ClientOrder> getFilteredOrderList() {
+        throw new AssertionError("This method should not be called.");
+    }
+
+    @Override
+    public void updateFilteredOrderList(Predicate<ClientOrder> predicate) {
+        throw new AssertionError("This method should not be called.");
+    }
+
+    @Override
+    public Predicate<ClientOrder> getOrderFilter() {
+        throw new AssertionError("This method should not be called.");
+    }
 
     @Override
     public Predicate<Person> getPersonFilter() {

@@ -7,6 +7,7 @@ import static seedu.address.testutil.TypicalBakeryItems.BANANA_MUFFIN;
 import static seedu.address.testutil.TypicalPersons.ALICE;
 import static seedu.address.testutil.TypicalPersons.BOB;
 
+import java.io.IOException;
 import java.nio.file.Path;
 import java.util.List;
 
@@ -16,8 +17,11 @@ import org.junit.jupiter.api.io.TempDir;
 
 import javafx.collections.ObservableList;
 import seedu.address.logic.commands.ListOrdersCommand;
+import seedu.address.logic.commands.exceptions.CommandException;
+import seedu.address.logic.parser.exceptions.ParseException;
 import seedu.address.model.AddressBook;
 import seedu.address.model.ModelManager;
+import seedu.address.model.ReadOnlyAddressBook;
 import seedu.address.model.order.ClientOrder;
 import seedu.address.model.order.Deadline;
 import seedu.address.model.order.Quantity;
@@ -59,6 +63,58 @@ public class OrderListingTest {
 
     private ClientOrder createOrder(Person client) {
         return ClientOrder.create(client, BANANA_MUFFIN, new Quantity(2), new Deadline("2026-10-15"));
+    }
+
+    @Test
+    public void findOrders_keywords_matchWholeWordsAcrossBothNamesAndRestore() throws Exception {
+        AddressBook before = new AddressBook(model.getAddressBook());
+        assertEquals("2 orders listed!", logic.execute("find-orders ALICE").getFeedbackToUser());
+        assertEquals(List.of(aliceFirst, aliceSecond), logic.getOrderList());
+        logic.execute("find-orders banana Bob");
+        assertEquals(List.of(bobFirst, aliceFirst, aliceSecond), logic.getOrderList());
+        logic.execute("find-orders muff");
+        assertEquals(List.of(), logic.getOrderList());
+        assertThrows(ParseException.class, () -> logic.execute("find-orders \t"));
+        assertEquals(before, model.getAddressBook());
+        logic.execute("list-orders");
+        assertEquals(List.of(bobFirst, aliceFirst, aliceSecond), logic.getOrderList());
+    }
+
+    @Test
+    public void findOrders_hiddenEarlierOrder_preservesCommandIndicesAndIntegrity() throws Exception {
+        model.addBakeryItem(seedu.address.testutil.TypicalBakeryItems.CHOCOLATE_MUFFIN);
+        ClientOrder chocolateOrder = ClientOrder.create(ALICE,
+                seedu.address.testutil.TypicalBakeryItems.CHOCOLATE_MUFFIN,
+                new Quantity(1), new Deadline("2026-10-16"));
+        model.addOrder(chocolateOrder);
+        logic.execute("find-orders chocolate");
+        assertEquals(List.of(chocolateOrder), logic.getOrderList());
+        assertThrows(CommandException.class, () -> logic.execute("delete-client 2"));
+        assertThrows(CommandException.class, () -> logic.execute("delete-item 1"));
+        logic.execute("mark-order-complete 1 o/3");
+        assertEquals(List.of(chocolateOrder.withCompletion(true)), logic.getOrderList());
+        logic.execute("unmark 1 o/3");
+        assertEquals(List.of(chocolateOrder), logic.getOrderList());
+        logic.execute("delete-order 1 o/3");
+        assertEquals(List.of(), logic.getOrderList());
+        assertEquals(List.of(bobFirst, aliceFirst, aliceSecond), logic.getAllOrderList());
+    }
+
+    @Test
+    public void findOrders_saveFailure_restoresPreviousFilterAndStoredOrders() throws Exception {
+        logic.execute("find-orders Alice");
+        Logic failingLogic = new LogicManager(model, new StorageManager(
+                new JsonAddressBookStorage(directory.resolve("failing.json")) {
+                    @Override
+                    public void saveAddressBook(ReadOnlyAddressBook book) throws IOException {
+                        throw new IOException("Cannot save");
+                    }
+                }, new JsonUserPrefsStorage(directory.resolve("prefs.json"))));
+        assertThrows(CommandException.class, () -> failingLogic.execute("find-orders Bob"));
+        assertEquals(List.of(aliceFirst, aliceSecond), logic.getOrderList());
+        assertThrows(CommandException.class, () -> failingLogic.execute("delete-order 1 o/1"));
+        assertEquals(List.of(aliceFirst, aliceSecond), logic.getOrderList());
+        assertEquals(List.of(bobFirst, aliceFirst, aliceSecond), logic.getAllOrderList());
     }
 
     @Test

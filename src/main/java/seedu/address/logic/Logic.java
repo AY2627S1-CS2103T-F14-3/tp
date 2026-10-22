@@ -36,9 +36,14 @@ public interface Logic {
     ObservableList<BakeryItem> getFilteredBakeryItemList();
 
     /**
-     * Returns an unmodifiable observable list of all orders in insertion order for the UI.
+     * Returns an unmodifiable observable list of displayed orders in insertion order for the UI.
      */
     ObservableList<ClientOrder> getOrderList();
+
+    /** Returns all orders for resolving client-local indices on filtered cards. */
+    default ObservableList<ClientOrder> getAllOrderList() {
+        return getOrderList();
+    }
 
     /**
      * Set the user prefs' GUI settings.

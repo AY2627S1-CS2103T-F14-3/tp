@@ -59,6 +59,24 @@ public class OrderListPanelTest {
     }
 
     @Test
+    public void render_filteredOrders_retainsClientLocalIndex() throws Exception {
+        onJavaFxThread(() -> {
+            ClientOrder first = orderFor(ALICE);
+            ClientOrder second = orderFor(ALICE);
+            ObservableList<ClientOrder> allOrders = FXCollections.observableArrayList(first, second);
+            FilteredList<ClientOrder> displayed = new FilteredList<>(allOrders, order -> order.equals(second));
+            OrderListPanel panel = new OrderListPanel(displayed, FXCollections.observableArrayList(ALICE), allOrders);
+            OrderListPanel.OrderListViewCell cell = panel.new OrderListViewCell();
+            cell.updateIndex(0);
+            cell.updateItem(second, false);
+            assertCard(cell.getGraphic(), 1, ALICE, 2, "Incomplete");
+            allOrders.remove(first);
+            cell.updateItem(second, false);
+            assertCard(cell.getGraphic(), 1, ALICE, 1, "Incomplete");
+        });
+    }
+
+    @Test
     public void render_interleavedClients_showsGlobalAndClientLocalIndices() throws Exception {
         onJavaFxThread(() -> {
             RenderedPanel rendered = new RenderedPanel(orderFor(ALICE), orderFor(BOB), orderFor(ALICE));

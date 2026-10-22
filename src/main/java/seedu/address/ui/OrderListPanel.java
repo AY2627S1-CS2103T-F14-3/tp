@@ -19,17 +19,28 @@ public class OrderListPanel extends UiPart<Region> {
     private ListView<ClientOrder> orderListView;
 
     private final ObservableList<Person> clients;
+    private final ObservableList<ClientOrder> allOrders;
 
     /**
      * Creates a panel with the observable orders and displayed clients used by order commands.
      */
     public OrderListPanel(ObservableList<ClientOrder> orders, ObservableList<Person> clients) {
+        this(orders, clients, orders);
+    }
+
+    /** Creates a filtered panel whose client-local order indices refer to all stored orders. */
+    public OrderListPanel(ObservableList<ClientOrder> orders, ObservableList<Person> clients,
+            ObservableList<ClientOrder> allOrders) {
         super(FXML);
         this.clients = clients;
+        this.allOrders = allOrders;
         orderListView.setItems(orders);
         orderListView.setCellFactory(listView -> new OrderListViewCell());
         orders.addListener((ListChangeListener<ClientOrder>) change -> orderListView.refresh());
         clients.addListener((ListChangeListener<Person>) change -> orderListView.refresh());
+        if (allOrders != orders) {
+            allOrders.addListener((ListChangeListener<ClientOrder>) change -> orderListView.refresh());
+        }
     }
 
     /**
@@ -44,7 +55,7 @@ public class OrderListPanel extends UiPart<Region> {
                 setText(null);
             } else {
                 int clientOrderIndex = 0;
-                for (ClientOrder candidate : orderListView.getItems()) {
+                for (ClientOrder candidate : allOrders) {
                     if (candidate.getClient().equals(order.getClient())) {
                         clientOrderIndex++;
                     }

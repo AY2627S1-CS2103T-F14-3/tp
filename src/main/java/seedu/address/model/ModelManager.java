@@ -25,6 +25,7 @@ public class ModelManager implements Model {
     private final UserPrefs userPrefs;
     private final FilteredList<Person> filteredPersons;
     private final FilteredList<BakeryItem> filteredBakeryItems;
+    private final FilteredList<ClientOrder> filteredOrders;
 
     /**
      * Initializes a ModelManager with the given addressBook and userPrefs.
@@ -38,6 +39,7 @@ public class ModelManager implements Model {
         this.userPrefs = new UserPrefs(userPrefs);
         filteredPersons = new FilteredList<>(this.addressBook.getPersonList(), PREDICATE_SHOW_ALL_PERSONS);
         filteredBakeryItems = new FilteredList<>(this.addressBook.getBakeryItemList(), PREDICATE_SHOW_ALL_BAKERY_ITEMS);
+        filteredOrders = new FilteredList<>(this.addressBook.getOrderList(), order -> true);
     }
 
     public ModelManager() {
@@ -171,6 +173,21 @@ public class ModelManager implements Model {
     @Override
     public void addOrder(ClientOrder order) {
         addressBook.addOrder(order);
+    }
+
+    @Override
+    public ObservableList<ClientOrder> getFilteredOrderList() {
+        return FXCollections.unmodifiableObservableList(filteredOrders);
+    }
+
+    @Override
+    public void updateFilteredOrderList(Predicate<ClientOrder> predicate) {
+        filteredOrders.setPredicate(requireNonNull(predicate));
+    }
+
+    @Override
+    public Predicate<ClientOrder> getOrderFilter() {
+        return filteredOrders.getPredicate()::test;
     }
 
     @Override
