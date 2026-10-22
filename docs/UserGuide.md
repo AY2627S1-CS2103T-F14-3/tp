@@ -260,6 +260,7 @@ Example:
 Order cards use **green** for completed orders, **gray** for incomplete orders due today
 or later, and **red** for incomplete orders with a deadline before today's local date.
 Completed orders remain green even after their deadline. Due today is not overdue.
+Each status color alternates between darker and lighter shades on consecutive rows.
 The cards retain their deadline and status text; overdue cards say `Incomplete (overdue)`.
 Colors update when orders are marked or unmarked and within a second of a date change
 while the app is running (or after it resumes from sleep).

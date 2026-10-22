@@ -137,11 +137,23 @@
 }
 
 #cardPane.order-incomplete {
-    -fx-background-color: #454545;
+    -fx-background-color: #3c3e3f;
 }
 
 #cardPane.order-overdue {
     -fx-background-color: #7a2929;
+}
+
+.list-cell:odd #cardPane.order-complete {
+    -fx-background-color: #306a4b;
+}
+
+.list-cell:odd #cardPane.order-incomplete {
+    -fx-background-color: #515658;
+}
+
+.list-cell:odd #cardPane.order-overdue {
+    -fx-background-color: #913a3a;
 }
 
 .order-complete .label, .order-incomplete .label, .order-overdue .label {

@@ -79,12 +79,40 @@ public class OrderListPanelTest {
                     Scene scene = new Scene(root);
                     scene.getStylesheets().add(OrderCard.class.getResource("/view/DarkTheme.css").toExternalForm());
                     root.applyCss();
-                    Color expected = Color.web(complete ? "#24543a" : days < 0 ? "#7a2929" : "#454545");
+                    Color expected = Color.web(complete ? "#24543a" : days < 0 ? "#7a2929" : "#3c3e3f");
                     assertEquals(expected, card.getBackground().getFills().get(0).getFill());
                     assertEquals(complete ? "Complete" : days < 0 ? "Incomplete (overdue)" : "Incomplete",
                             labelText(card, "status"));
                     assertEquals("Due: " + today.plusDays(days), labelText(card, "deadline"));
                     assertEquals(Color.WHITE, ((Label) card.lookup("#status")).getTextFill());
+                }
+            }
+        });
+    }
+
+    @Test
+    public void render_statusColors_alternateWithDisplayedRowsAndRenumberAfterDeletion() throws Exception {
+        onJavaFxThread(() -> {
+            for (int days : new int[] {-1, 0}) {
+                for (boolean complete : new boolean[] {false, true}) {
+                    Clock clock = Clock.fixed(Instant.parse("2026-10-22T12:00:00Z"), ZoneOffset.UTC);
+                    ClientOrder first = ClientOrder.create(ALICE, BANANA_MUFFIN, new Quantity(2),
+                            new Deadline(LocalDate.now(clock).plusDays(days).toString())).withCompletion(complete);
+                    ClientOrder second = ClientOrder.create(BOB, BANANA_MUFFIN, new Quantity(2),
+                            first.getDeadline()).withCompletion(complete);
+                    RenderedPanel rendered = new RenderedPanel(clock, first, second);
+                    rendered.root.getScene().getStylesheets()
+                            .add(OrderCard.class.getResource("/view/DarkTheme.css").toExternalForm());
+                    List<Node> cards = rendered.cards();
+                    Color darker = Color.web(complete ? "#24543a" : days < 0 ? "#7a2929" : "#3c3e3f");
+                    Color lighter = Color.web(complete ? "#306a4b" : days < 0 ? "#913a3a" : "#515658");
+                    assertEquals(darker, ((Region) cards.get(0)).getBackground().getFills().get(0).getFill());
+                    assertEquals(lighter, ((Region) cards.get(1)).getBackground().getFills().get(0).getFill());
+                    assertEquals(Color.WHITE, ((Label) cards.get(1).lookup("#status")).getTextFill());
+                    rendered.orders.remove(first);
+                    Node remaining = rendered.cards().get(0);
+                    assertEquals(darker, ((Region) remaining).getBackground().getFills().get(0).getFill());
+                    rendered.panel.dispose();
                 }
             }
         });
