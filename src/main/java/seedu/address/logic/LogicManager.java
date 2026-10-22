@@ -2,6 +2,7 @@ package seedu.address.logic;
 
 import java.io.IOException;
 import java.nio.file.AccessDeniedException;
+import java.util.Comparator;
 import java.util.function.Predicate;
 import java.util.logging.Logger;
 
@@ -54,11 +55,12 @@ public class LogicManager implements Logic {
      * Restores data and displayed indices when persistence fails.
      */
     private void restoreAfterSaveFailure(AddressBook beforeCommand, Predicate<Person> clients,
-            Predicate<BakeryItem> items, Predicate<ClientOrder> orders) {
+            Predicate<BakeryItem> items, Predicate<ClientOrder> orders,
+            Comparator<? super ClientOrder> orderComparator) {
         model.setAddressBook(beforeCommand);
         model.updateFilteredPersonList(clients);
         model.updateFilteredBakeryItemList(items);
-        model.updateFilteredOrderList(orders);
+        model.updateFilteredOrderList(orders, orderComparator);
     }
 
     @Override
@@ -75,12 +77,13 @@ public class LogicManager implements Logic {
         Predicate<Person> displayedClients = model.getPersonFilter();
         Predicate<BakeryItem> displayedItems = model.getBakeryItemFilter();
         Predicate<ClientOrder> displayedOrders = model.getOrderFilter();
+        Comparator<? super ClientOrder> orderComparator = model.getOrderComparator();
         commandResult = command.execute(model);
 
         try {
             storage.saveAddressBook(model.getAddressBook());
         } catch (AccessDeniedException e) {
-            restoreAfterSaveFailure(beforeCommand, displayedClients, displayedItems, displayedOrders);
+            restoreAfterSaveFailure(beforeCommand, displayedClients, displayedItems, displayedOrders, orderComparator);
             if (command instanceof ClearCommand) {
                 logger.warning("Confirmed clear could not be saved: access denied; data and filters restored.");
             }
@@ -89,7 +92,7 @@ public class LogicManager implements Logic {
             }
             throw new CommandException(String.format(FILE_OPS_PERMISSION_ERROR_FORMAT, e.getMessage()), e);
         } catch (IOException ioe) {
-            restoreAfterSaveFailure(beforeCommand, displayedClients, displayedItems, displayedOrders);
+            restoreAfterSaveFailure(beforeCommand, displayedClients, displayedItems, displayedOrders, orderComparator);
             if (command instanceof ClearCommand) {
                 logger.warning("Confirmed clear could not be saved: I/O failure; data and filters restored.");
             }

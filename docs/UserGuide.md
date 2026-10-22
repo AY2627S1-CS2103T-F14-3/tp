@@ -279,7 +279,7 @@ the client's full order list. Use the card's client index and order number for
 `mark-order-complete`, `unmark`, and `delete-order`, even when earlier orders are hidden.
 If the client index is hidden, use `list-clients` to show it before acting.
 Hidden orders remain stored and still prevent deletion of their client or item.
-Searching replaces the previous order search or completion view. Sorting is not available yet.
+Searching replaces the previous order search or completion view and restores insertion order.
 
 #### Listing all orders: `list-orders`
 
@@ -294,10 +294,11 @@ while the app is running (or after it resumes from sleep).
 Shows all orders in insertion order, including completed orders. Each card shows its position
 in the order list, item, quantity, client name, that client's own order number, deadline, and completion status.
 
-Format: `list-orders`
+Format: `list-orders [by-deadline]`
 
 * Leaves the displayed client and item lists unchanged.
-* Extra arguments are ignored, like `list-clients`. Clears the order search or completion view.
+* Clears the order search or completion view. Add `by-deadline` to show earliest deadlines first;
+  omit it to restore insertion order. Unknown or additional arguments are rejected.
 * Orders stay visible when clients are filtered with `find-clients`.
 * Row numbers refer to this complete order list. The client line shows the client's displayed
   index and the order number within that client's own orders, for example `Client 2: Bernice Yu — Order 1`.
@@ -309,19 +310,26 @@ Format: `list-orders`
 
 #### Listing completed or incomplete orders: `list-complete-orders`, `list-incomplete-orders`
 
-Format: `list-complete-orders` or `list-incomplete-orders`
+Format: `list-complete-orders [by-deadline]` or `list-incomplete-orders [by-deadline]`
 
 Shows only completed orders or only incomplete orders, respectively, in insertion order.
 Incomplete orders include both overdue orders and orders due today or later.
 
 * Replaces the previous order search or completion view. For example, `find-orders Alice`
   followed by `list-incomplete-orders` shows all incomplete orders across all clients.
-* Leaves the displayed client and item lists unchanged. Extra arguments are ignored, like `list-orders`.
+* Leaves the displayed client and item lists unchanged.
+* Add `by-deadline` to show earliest deadlines first, for example `list-complete-orders by-deadline`.
+  Omit it to restore insertion order. Unknown or additional arguments are rejected.
 * Updates automatically: marking an order complete removes it from the incomplete view;
   running `unmark` removes an order from the completed view.
 * Each card retains its order number within the client's full order list. Use the card's
   client index and order number for order commands, even when earlier orders are hidden.
 * Use `list-orders` to show all orders again. These commands do not change stored orders or undo history.
+
+For all three order-list commands, orders with the same deadline retain their insertion order.
+Sorting changes only the displayed rows; stored orders and client-local order numbers stay unchanged.
+New orders appear in deadline order while sorting is active. Running `find-orders`, `undo`,
+`populate`, or `clear confirm` restores insertion order; sorting is not saved between app sessions.
 
 ### General commands
 
@@ -476,9 +484,9 @@ Action | Format, Examples
 **Delete order** | `delete-order CONTACT_INDEX o/ORDER_INDEX`<br>e.g., `delete-order 1 o/2`
 **Mark order complete** | `mark-order-complete CONTACT_INDEX o/ORDER_INDEX`<br>e.g., `mark-order-complete 1 o/2`
 **Restore order to incomplete** | `unmark CONTACT_INDEX o/ORDER_INDEX`<br>e.g., `unmark 1 o/2`
-**List orders** | `list-orders`
-**List completed orders** | `list-complete-orders`
-**List incomplete orders** | `list-incomplete-orders`
+**List orders** | `list-orders [by-deadline]`
+**List completed orders** | `list-complete-orders [by-deadline]`
+**List incomplete orders** | `list-incomplete-orders [by-deadline]`
 **Find orders** | `find-orders KEYWORD [MORE_KEYWORDS]...`
 
 ### General commands

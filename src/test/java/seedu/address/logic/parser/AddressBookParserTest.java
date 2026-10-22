@@ -119,7 +119,10 @@ public class AddressBookParserTest {
     @Test
     public void parseCommand_listOrders() throws Exception {
         assertTrue(parser.parseCommand(ListOrdersCommand.COMMAND_WORD) instanceof ListOrdersCommand);
-        assertTrue(parser.parseCommand(ListOrdersCommand.COMMAND_WORD + " 3") instanceof ListOrdersCommand);
+        assertTrue(parser.parseCommand(ListOrdersCommand.COMMAND_WORD + " by-deadline") instanceof ListOrdersCommand);
+        assertThrows(ParseException.class,
+                String.format(MESSAGE_INVALID_COMMAND_FORMAT, ListOrdersCommand.MESSAGE_USAGE), () ->
+                        parser.parseCommand(ListOrdersCommand.COMMAND_WORD + " 3"));
     }
 
     @Test

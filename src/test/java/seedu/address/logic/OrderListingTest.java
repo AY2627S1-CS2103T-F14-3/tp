@@ -128,13 +128,13 @@ public class OrderListingTest {
     }
 
     @Test
-    public void listByCompletion_emptyBookAndExtraArguments_succeeds() throws Exception {
+    public void listByCompletion_emptyBook_succeeds() throws Exception {
         model.setAddressBook(new AddressBook());
         assertEquals(ListCompleteOrdersCommand.MESSAGE_SUCCESS,
-                logic.execute("list-complete-orders extra").getFeedbackToUser());
+                logic.execute("list-complete-orders").getFeedbackToUser());
         assertEquals(List.of(), logic.getOrderList());
         assertEquals(ListIncompleteOrdersCommand.MESSAGE_SUCCESS,
-                logic.execute("list-incomplete-orders extra").getFeedbackToUser());
+                logic.execute("list-incomplete-orders").getFeedbackToUser());
         assertEquals(List.of(), logic.getOrderList());
     }
 
@@ -274,9 +274,9 @@ public class OrderListingTest {
     }
 
     @Test
-    public void execute_emptyBookAndExtraArguments_succeeds() throws Exception {
+    public void execute_emptyBook_succeeds() throws Exception {
         model.setAddressBook(new AddressBook());
-        assertEquals(ListOrdersCommand.MESSAGE_SUCCESS, logic.execute("list-orders extra").getFeedbackToUser());
+        assertEquals(ListOrdersCommand.MESSAGE_SUCCESS, logic.execute("list-orders").getFeedbackToUser());
         assertEquals(List.of(), logic.getOrderList());
     }
 

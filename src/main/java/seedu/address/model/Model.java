@@ -1,5 +1,6 @@
 package seedu.address.model;
 
+import java.util.Comparator;
 import java.util.function.Predicate;
 
 import javafx.collections.ObservableList;
@@ -17,6 +18,9 @@ public interface Model {
 
     /** {@code Predicate} that always evaluates to true for bakery items. */
     Predicate<BakeryItem> PREDICATE_SHOW_ALL_BAKERY_ITEMS = unused -> true;
+
+    /** Orders by earliest deadline; equal deadlines retain insertion order. */
+    Comparator<ClientOrder> ORDER_BY_DEADLINE = Comparator.comparing(order -> order.getDeadline().getValue());
 
     /**
      * Returns the user prefs.
@@ -122,8 +126,14 @@ public interface Model {
     /** Returns the displayed orders without changing stored order associations. */
     ObservableList<ClientOrder> getFilteredOrderList();
 
-    /** Updates the displayed order filter. */
+    /** Updates the displayed order filter and restores insertion order. */
     void updateFilteredOrderList(Predicate<ClientOrder> predicate);
+
+    /** Updates the displayed order filter and sort order; null comparator means insertion order. */
+    void updateFilteredOrderList(Predicate<ClientOrder> predicate, Comparator<? super ClientOrder> comparator);
+
+    /** Returns the current order comparator, or null for insertion order, for transaction recovery. */
+    Comparator<? super ClientOrder> getOrderComparator();
 
     /** Returns the order filter for restoring a failed transaction. */
     Predicate<ClientOrder> getOrderFilter();
