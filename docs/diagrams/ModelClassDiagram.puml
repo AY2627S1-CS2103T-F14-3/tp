@@ -20,6 +20,9 @@ Class Name
 Class Phone
 Class Tag
 
+package "bakeryitem" as BakeryItemPackage {
+}
+
 Class I #FFFFFF
 }
 
@@ -44,11 +47,12 @@ Person *--> Address
 Person *--> "*" Tag
 
 Person -[hidden]up--> I
-UniquePersonList -[hidden]right-> I
 
 Name -[hidden]right-> Phone
 Phone -[hidden]right-> Address
 Address -[hidden]right-> Email
 
 ModelManager --> "~* filtered" Person
+AddressBook ..> BakeryItemPackage : stores
+ModelManager ..> BakeryItemPackage : filters
 @enduml

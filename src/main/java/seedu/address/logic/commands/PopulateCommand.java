@@ -22,6 +22,7 @@ public class PopulateCommand extends Command {
         model.setAddressBook(SampleDataUtil.getSampleAddressBook());
         model.updateFilteredPersonList(PREDICATE_SHOW_ALL_PERSONS);
         model.updateFilteredBakeryItemList(PREDICATE_SHOW_ALL_BAKERY_ITEMS);
+        model.updateFilteredOrderList(order -> true);
         return new CommandResult(MESSAGE_SUCCESS);
     }
 }
