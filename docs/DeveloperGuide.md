@@ -156,6 +156,26 @@ Classes used by multiple components are in the `seedu.address.commons` package.
 
 ## **Implementation**
 
+### Clear confirmation
+
+`ClearCommandParser` accepts only no arguments or the exact token `confirm`. An unconfirmed `ClearCommand` throws a `CommandException` containing the warning before modifying the model. This also prevents the normal save path from running. A confirmed command clears the complete bakery book and resets client/item filters; the existing logic-layer save rollback restores data and filters if persistence fails.
+
+The confirmation is explicit in `clear confirm`, with no pending state or dialog. It is a one-shot command for experienced users and executes even without an earlier `clear`; there is no additional confirmation. Users cancel an unconfirmed request by continuing with another command. Both the warning and Help usage explicitly state that `clear confirm` deletes all clients, items, and orders immediately.
+
+The warning formats counts from the complete `ReadOnlyAddressBook` lists, rather than the filtered UI lists, so it includes hidden records. Counts are calculated when `clear` runs and are not a stored preview; `clear confirm` always acts on the book at execution time. Help reuses `ClearCommand.MESSAGE_USAGE`. `ClearConfirmationTest` exercises parsed commands, persistence, hidden records and counts, repeated warnings, invalid confirmations, and save-failure rollback.
+
+#### Integration with single-step undo (issue #97)
+
+Clear confirmation and single-step undo share the normal `LogicManager` persistence path. Confirmation protects against accidental deletion; undo provides one opportunity to restore a successfully cleared book.
+
+* An unconfirmed request throws before changing the model and before saving. Invalid syntax fails in the parser. Neither reaches the undo snapshot update.
+* After a confirmed clear saves successfully, the undo logic compares before/after data. If the book changed, its existing complete pre-command snapshot becomes the one undo opportunity. An already empty book produces no data change and leaves the previous snapshot intact.
+* If saving the clear fails, normal rollback restores all records and both filters. The undo snapshot must remain unchanged because it is updated only after a successful save.
+* Undo restores the complete pre-clear book, including order UUIDs, item/client associations, quantities, deadlines, statuses, and insertion order. It resets displayed filters and consumes its snapshot only after the restored data saves successfully.
+* If saving undo fails, retain the snapshot and restore the empty pre-undo book and its filters so retry remains possible. Later successful data changes replace the snapshot. Restarting discards it; redo is unsupported.
+
+No confirmation flag needs to be stored in the model, data file, or undo snapshot. Use the parsed confirmation flag only for that command execution.
+
 ### Command history
 
 `CommandHistory` holds submitted text, a navigation cursor, and the unsent draft for one application session. `CommandBox` records non-empty submissions before execution, including commands that produce handled errors, and resets navigation after each submission.
@@ -468,6 +488,18 @@ Priorities: Must have - `* * * *`, Nice to have (high) - `* * *`, Nice to have (
 --------------------------------------------------------------------------------------------------------------------
 
 ## **Appendix: Instructions for manual testing**
+
+### Clear confirmation and undo
+
+Use a disposable data folder or back up your book before testing deletion.
+
+1. Load sample data with `populate` and note the total client, item, and order counts before searching for one client. Run `clear`: expect a warning showing those full-book counts, regardless of the search. It must state that confirmed deletion is immediate and has no additional prompt. Expect unchanged data and filters, and no file write. Repeat with `clear yes` and `clear confirm extra`: expect invalid-format errors and unchanged data.
+2. Continue with `list-clients` to cancel. No pending deletion should occur.
+3. Run `clear confirm` directly without first typing `clear`: expect all clients, items, and orders to disappear without another prompt. Restart: expect the saved book to remain empty.
+4. Load sample data, edit an item, then run `clear` and `undo`: expect the item edit to be reversed. The warning must not replace undo history.
+5. Load sample data, run `clear confirm`, then `undo` without restarting: expect the entire book and its linked orders restored. A second `undo` must be unavailable.
+6. Verify that another successful data change replaces recovery of the cleared book, and restarting removes undo availability.
+7. Simulate write failure using the storage test double in `ClearConfirmationTest`: confirmed clearing must restore data and filters, and the previous undo opportunity must remain. Simulate failure while saving undo: expect the pre-undo empty book, unchanged filters, and an available retry.
 
 Given below are instructions to test the app manually.
 

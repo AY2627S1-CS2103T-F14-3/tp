@@ -1,5 +1,6 @@
 package seedu.address.logic.commands;
 
+import static seedu.address.logic.commands.CommandTestUtil.assertCommandFailure;
 import static seedu.address.logic.commands.CommandTestUtil.assertCommandSuccess;
 import static seedu.address.testutil.TypicalPersons.getTypicalAddressBook;
 
@@ -17,7 +18,7 @@ public class ClearCommandTest {
         Model model = new ModelManager();
         Model expectedModel = new ModelManager();
 
-        assertCommandSuccess(new ClearCommand(), model, ClearCommand.MESSAGE_SUCCESS, expectedModel);
+        assertCommandSuccess(new ClearCommand(true), model, ClearCommand.MESSAGE_SUCCESS, expectedModel);
     }
 
     @Test
@@ -26,7 +27,20 @@ public class ClearCommandTest {
         Model expectedModel = new ModelManager(getTypicalAddressBook(), new UserPrefs());
         expectedModel.setAddressBook(new AddressBook());
 
-        assertCommandSuccess(new ClearCommand(), model, ClearCommand.MESSAGE_SUCCESS, expectedModel);
+        assertCommandSuccess(new ClearCommand(true), model, ClearCommand.MESSAGE_SUCCESS, expectedModel);
+    }
+
+    @Test
+    public void execute_unconfirmed_doesNotChangeData() {
+        Model model = new ModelManager(getTypicalAddressBook(), new UserPrefs());
+        assertCommandFailure(new ClearCommand(), model,
+                String.format(ClearCommand.MESSAGE_CONFIRMATION_FORMAT, 7, 0, 0));
+    }
+
+    @Test
+    public void execute_unconfirmedEmptyBook_showsZeroCounts() {
+        assertCommandFailure(new ClearCommand(), new ModelManager(),
+                String.format(ClearCommand.MESSAGE_CONFIRMATION_FORMAT, 0, 0, 0));
     }
 
 }

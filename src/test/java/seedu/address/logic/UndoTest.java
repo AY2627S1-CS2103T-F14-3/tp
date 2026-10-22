@@ -96,7 +96,7 @@ public class UndoTest {
         verifyUndo("mark-order-complete " + testClientIndex + " o/1");
         logic.execute("mark-order-complete " + testClientIndex + " o/1");
         verifyUndo("unmark " + testClientIndex + " o/1");
-        verifyUndo("clear");
+        verifyUndo("clear confirm");
         verifyUndo("populate");
         logic.execute("add-item n/Spare p/1");
         verifyUndo("delete-item " + model.getFilteredBakeryItemList().size());
