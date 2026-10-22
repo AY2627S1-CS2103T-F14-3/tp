@@ -17,6 +17,8 @@ import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.io.TempDir;
 
 import javafx.collections.ObservableList;
+import seedu.address.logic.commands.ListCompleteOrdersCommand;
+import seedu.address.logic.commands.ListIncompleteOrdersCommand;
 import seedu.address.logic.commands.ListOrdersCommand;
 import seedu.address.logic.commands.exceptions.CommandException;
 import seedu.address.logic.parser.exceptions.ParseException;
@@ -64,6 +66,103 @@ public class OrderListingTest {
 
     private ClientOrder createOrder(Person client) {
         return ClientOrder.create(client, BANANA_MUFFIN, new Quantity(2), new Deadline("2026-10-15"));
+    }
+
+    @Test
+    public void listByCompletion_replacesSearchAndPreservesOtherListsAndData() throws Exception {
+        model.setOrderCompletion(bobFirst, true);
+        model.setOrderCompletion(aliceSecond, true);
+        AddressBook before = new AddressBook(model.getAddressBook());
+        model.updateFilteredPersonList(person -> person.equals(BOB));
+        model.updateFilteredBakeryItemList(item -> false);
+
+        logic.execute("find-orders Alice");
+        assertEquals(ListCompleteOrdersCommand.MESSAGE_SUCCESS,
+                logic.execute("list-complete-orders").getFeedbackToUser());
+        assertEquals(List.of(bobFirst.withCompletion(true), aliceSecond.withCompletion(true)), logic.getOrderList());
+        assertEquals(ListIncompleteOrdersCommand.MESSAGE_SUCCESS,
+                logic.execute("list-incomplete-orders").getFeedbackToUser());
+        assertEquals(List.of(aliceFirst), logic.getOrderList());
+        assertEquals(List.of(BOB), logic.getFilteredPersonList());
+        assertEquals(List.of(), logic.getFilteredBakeryItemList());
+        assertEquals(before, model.getAddressBook());
+
+        logic.execute("find-orders Bob");
+        assertEquals(List.of(bobFirst.withCompletion(true)), logic.getOrderList());
+        logic.execute("list-orders");
+        assertEquals(before.getOrderList(), logic.getOrderList());
+    }
+
+    @Test
+    public void listByCompletion_statusChanges_preserveIndicesAndUpdateExistingView() throws Exception {
+        logic.execute("mark-order-complete 1 o/1");
+        logic.execute("list-incomplete-orders");
+        ObservableList<ClientOrder> view = logic.getOrderList();
+        assertEquals(List.of(bobFirst, aliceSecond), view);
+        logic.execute("mark-order-complete 1 o/2");
+        assertEquals(List.of(bobFirst), view);
+
+        logic.execute("list-complete-orders");
+        assertEquals(List.of(aliceFirst.withCompletion(true), aliceSecond.withCompletion(true)), view);
+        logic.execute("unmark 1 o/2");
+        assertEquals(List.of(aliceFirst.withCompletion(true)), view);
+        logic.execute("list-incomplete-orders");
+        assertEquals(List.of(bobFirst, aliceSecond), view);
+    }
+
+    @Test
+    public void listByCompletion_addAndDelete_updateExistingView() throws Exception {
+        logic.execute("list-incomplete-orders");
+        ObservableList<ClientOrder> view = logic.getOrderList();
+        ClientOrder newOrder = createOrder(BOB);
+        model.addOrder(newOrder);
+        assertEquals(List.of(bobFirst, aliceFirst, aliceSecond, newOrder), view);
+        model.deleteOrder(aliceFirst);
+        assertEquals(List.of(bobFirst, aliceSecond, newOrder), view);
+        logic.execute("list-complete-orders");
+        assertEquals(List.of(), view);
+        model.setOrderCompletion(newOrder, true);
+        assertEquals(List.of(newOrder.withCompletion(true)), view);
+        model.deleteOrder(newOrder.withCompletion(true));
+        assertEquals(List.of(), view);
+    }
+
+    @Test
+    public void listByCompletion_emptyBookAndExtraArguments_succeeds() throws Exception {
+        model.setAddressBook(new AddressBook());
+        assertEquals(ListCompleteOrdersCommand.MESSAGE_SUCCESS,
+                logic.execute("list-complete-orders extra").getFeedbackToUser());
+        assertEquals(List.of(), logic.getOrderList());
+        assertEquals(ListIncompleteOrdersCommand.MESSAGE_SUCCESS,
+                logic.execute("list-incomplete-orders extra").getFeedbackToUser());
+        assertEquals(List.of(), logic.getOrderList());
+    }
+
+    @Test
+    public void listByCompletion_saveFailure_restoresPreviousCompletionView() throws Exception {
+        model.setOrderCompletion(aliceFirst, true);
+        logic.execute("list-complete-orders");
+        Logic failing = new LogicManager(model, new StorageManager(
+                new JsonAddressBookStorage(directory.resolve("failing.json")) {
+                    @Override
+                    public void saveAddressBook(ReadOnlyAddressBook book) throws IOException {
+                        throw new IOException("Cannot save");
+                    }
+                }, new JsonUserPrefsStorage(directory.resolve("prefs.json"))));
+        assertThrows(CommandException.class, () -> failing.execute("list-incomplete-orders"));
+        assertEquals(List.of(aliceFirst.withCompletion(true)), logic.getOrderList());
+        assertThrows(CommandException.class, () -> failing.execute("unmark 1 o/1"));
+        assertEquals(List.of(aliceFirst.withCompletion(true)), logic.getOrderList());
+    }
+
+    @Test
+    public void listByCompletion_preservesUndoHistory() throws Exception {
+        logic.execute("mark-order-complete 1 o/1");
+        logic.execute("list-complete-orders");
+        logic.execute("list-incomplete-orders");
+        logic.execute("undo");
+        assertEquals(List.of(bobFirst, aliceFirst, aliceSecond), logic.getOrderList());
+        assertEquals(List.of(bobFirst, aliceFirst, aliceSecond), logic.getAllOrderList());
     }
 
     @Test
@@ -227,5 +326,7 @@ public class OrderListingTest {
     @Test
     public void execute_nullModel_rejected() {
         assertThrows(NullPointerException.class, () -> new ListOrdersCommand().execute(null));
+        assertThrows(NullPointerException.class, () -> new ListCompleteOrdersCommand().execute(null));
+        assertThrows(NullPointerException.class, () -> new ListIncompleteOrdersCommand().execute(null));
     }
 }
