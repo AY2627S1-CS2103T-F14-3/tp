@@ -308,7 +308,8 @@ This overwrites existing data; it does not append to it. The replacement is save
 
 Format: `populate`
 
-* Loads six sample clients, four bakery items, and six orders, including completed and incomplete orders.
+* Loads 12 sample clients, 12 bakery items, and 24 orders, including completed and incomplete orders.
+* Sample deadlines are relative to the day you run `populate`, with overdue, due-today, and upcoming orders.
 * Resets client and item filters so all sample entries are displayed.
 * Running it again replaces the data with a fresh sample book rather than adding duplicates.
 * If saving fails, the previous data and filters are restored.
