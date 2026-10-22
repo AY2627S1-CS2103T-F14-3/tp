@@ -17,6 +17,7 @@ import java.util.List;
 import java.util.concurrent.CompletableFuture;
 import java.util.concurrent.FutureTask;
 import java.util.concurrent.TimeUnit;
+import java.util.concurrent.atomic.AtomicReference;
 
 import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.Test;
@@ -64,6 +65,12 @@ public class OrderListPanelTest {
 
     private static ClientOrder orderFor(Person client) {
         return ClientOrder.create(client, BANANA_MUFFIN, new Quantity(2), new Deadline("2026-10-15"));
+    }
+
+    @Test
+    public void render_defaultCardConstructor_usesCurrentLocalDate() throws Exception {
+        onJavaFxThread(() -> assertCard(new OrderCard(orderFor(ALICE), 1, 1, 1).getRoot(),
+                1, ALICE, 1, "Incomplete"));
     }
 
     @Test
@@ -115,6 +122,27 @@ public class OrderListPanelTest {
                     rendered.panel.dispose();
                 }
             }
+        });
+    }
+
+    @Test
+    public void render_dateTimer_updatesCardsAndStopsWhenDetached() throws Exception {
+        CompletableFuture<Void> timerRead = new CompletableFuture<>();
+        AtomicReference<RenderedPanel> panelRef = new AtomicReference<>();
+        onJavaFxThread(() -> {
+            MutableClock clock = new MutableClock();
+            RenderedPanel rendered = new RenderedPanel(clock, orderFor(ALICE));
+            panelRef.set(rendered);
+            assertTrue(rendered.cards().get(0).getStyleClass().contains("order-incomplete"));
+            clock.instant = clock.instant.plusSeconds(24 * 60 * 60);
+            clock.onRead = () -> timerRead.complete(null);
+        });
+        timerRead.get(10, TimeUnit.SECONDS);
+        onJavaFxThread(() -> {
+            RenderedPanel rendered = panelRef.get();
+            assertTrue(rendered.cards().get(0).getStyleClass().contains("order-overdue"));
+            rendered.root.getChildren().clear();
+            rendered.panel.dispose();
         });
     }
 
@@ -292,6 +320,7 @@ public class OrderListPanelTest {
 
     private static class MutableClock extends Clock {
         private Instant instant = Instant.parse("2026-10-15T12:00:00Z");
+        private Runnable onRead = () -> { };
 
         @Override
         public ZoneId getZone() {
@@ -305,6 +334,7 @@ public class OrderListPanelTest {
 
         @Override
         public Instant instant() {
+            onRead.run();
             return instant;
         }
     }

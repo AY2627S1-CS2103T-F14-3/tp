@@ -91,21 +91,23 @@ public class UndoTest {
         verifyUndo("delete-order 1 o/" + lastOrder);
         verifyUndo("delete-order 1 o/1");
         logic.execute("add-client n/Test p/12345678 e/test@example.com a/Test Road");
-        logic.execute("add-order 7 i/1 q/2 d/2026-10-22");
-        verifyUndo("mark-order-complete 7 o/1");
-        logic.execute("mark-order-complete 7 o/1");
-        verifyUndo("unmark 7 o/1");
+        int testClientIndex = model.getFilteredPersonList().size();
+        logic.execute("add-order " + testClientIndex + " i/1 q/2 d/2026-10-22");
+        verifyUndo("mark-order-complete " + testClientIndex + " o/1");
+        logic.execute("mark-order-complete " + testClientIndex + " o/1");
+        verifyUndo("unmark " + testClientIndex + " o/1");
         verifyUndo("clear");
         verifyUndo("populate");
         logic.execute("add-item n/Spare p/1");
-        verifyUndo("delete-item 5");
+        verifyUndo("delete-item " + model.getFilteredBakeryItemList().size());
         logic.execute("add-client n/Spare p/12345678 e/spare@example.com a/Test Road");
-        verifyUndo("delete-client 8");
+        verifyUndo("delete-client " + model.getFilteredPersonList().size());
     }
 
     @Test
     public void undo_saveFailure_restoresViewAndAllowsRetry() throws Exception {
         logic.execute("populate");
+        AddressBook beforeAddition = snapshot();
         logic.execute("add-item n/Spare p/1");
         AddressBook current = snapshot();
         model.updateFilteredPersonList(person -> false);
@@ -120,8 +122,9 @@ public class UndoTest {
         }
         storage.failure = null;
         logic.execute("undo");
-        assertEquals(6, model.getFilteredPersonList().size());
-        assertEquals(4, model.getFilteredBakeryItemList().size());
+        assertEquals(beforeAddition, model.getAddressBook());
+        assertEquals(beforeAddition.getPersonList(), model.getFilteredPersonList());
+        assertEquals(beforeAddition.getBakeryItemList(), model.getFilteredBakeryItemList());
         assertFalse(logic.undoAvailableProperty().get());
     }
 
