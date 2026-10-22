@@ -1,7 +1,9 @@
 package seedu.address.logic.commands;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertFalse;
 import static org.junit.jupiter.api.Assertions.assertThrows;
+import static org.junit.jupiter.api.Assertions.assertTrue;
 import static seedu.address.testutil.TypicalBakeryItems.BANANA_MUFFIN;
 import static seedu.address.testutil.TypicalBakeryItems.CHOCOLATE_MUFFIN;
 import static seedu.address.testutil.TypicalPersons.ALICE;
@@ -14,9 +16,35 @@ import seedu.address.logic.parser.AddressBookParser;
 import seedu.address.logic.parser.exceptions.ParseException;
 import seedu.address.model.AddressBook;
 import seedu.address.model.ModelManager;
+import seedu.address.model.bakeryitem.ItemNameContainsKeywordsPredicate;
 
 public class FindItemsCommandTest {
     private final AddressBookParser parser = new AddressBookParser();
+
+    @Test
+    public void equals_comparesSearchPredicates() {
+        FindItemsCommand first = new FindItemsCommand(new ItemNameContainsKeywordsPredicate(List.of("banana")));
+        FindItemsCommand same = new FindItemsCommand(new ItemNameContainsKeywordsPredicate(List.of("banana")));
+        FindItemsCommand different = new FindItemsCommand(new ItemNameContainsKeywordsPredicate(List.of("muffin")));
+        assertTrue(first.equals(first));
+        assertTrue(first.equals(same));
+        assertFalse(first.equals(different));
+        assertFalse(first.equals(null));
+        assertFalse(first.equals(new ListItemsCommand()));
+    }
+
+    @Test
+    public void toString_includesPredicate() {
+        ItemNameContainsKeywordsPredicate predicate = new ItemNameContainsKeywordsPredicate(List.of("banana"));
+        assertEquals(FindItemsCommand.class.getCanonicalName() + "{predicate=" + predicate + "}",
+                new FindItemsCommand(predicate).toString());
+    }
+
+    @Test
+    public void execute_nullModel_rejected() {
+        FindItemsCommand command = new FindItemsCommand(new ItemNameContainsKeywordsPredicate(List.of("banana")));
+        assertThrows(NullPointerException.class, () -> command.execute(null));
+    }
 
     @Test
     public void execute_keywords_matchAnyWholeWordIgnoringCaseAndRestore() throws Exception {
