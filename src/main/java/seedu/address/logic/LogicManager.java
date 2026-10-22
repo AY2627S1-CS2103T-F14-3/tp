@@ -54,10 +54,11 @@ public class LogicManager implements Logic {
      * Restores data and displayed indices when persistence fails.
      */
     private void restoreAfterSaveFailure(AddressBook beforeCommand, Predicate<Person> clients,
-            Predicate<BakeryItem> items) {
+            Predicate<BakeryItem> items, Predicate<ClientOrder> orders) {
         model.setAddressBook(beforeCommand);
         model.updateFilteredPersonList(clients);
         model.updateFilteredBakeryItemList(items);
+        model.updateFilteredOrderList(orders);
     }
 
     @Override
@@ -73,12 +74,13 @@ public class LogicManager implements Logic {
         AddressBook beforeCommand = new AddressBook(model.getAddressBook());
         Predicate<Person> displayedClients = model.getPersonFilter();
         Predicate<BakeryItem> displayedItems = model.getBakeryItemFilter();
+        Predicate<ClientOrder> displayedOrders = model.getOrderFilter();
         commandResult = command.execute(model);
 
         try {
             storage.saveAddressBook(model.getAddressBook());
         } catch (AccessDeniedException e) {
-            restoreAfterSaveFailure(beforeCommand, displayedClients, displayedItems);
+            restoreAfterSaveFailure(beforeCommand, displayedClients, displayedItems, displayedOrders);
             if (command instanceof ClearCommand) {
                 logger.warning("Confirmed clear could not be saved: access denied; data and filters restored.");
             }
@@ -87,7 +89,7 @@ public class LogicManager implements Logic {
             }
             throw new CommandException(String.format(FILE_OPS_PERMISSION_ERROR_FORMAT, e.getMessage()), e);
         } catch (IOException ioe) {
-            restoreAfterSaveFailure(beforeCommand, displayedClients, displayedItems);
+            restoreAfterSaveFailure(beforeCommand, displayedClients, displayedItems, displayedOrders);
             if (command instanceof ClearCommand) {
                 logger.warning("Confirmed clear could not be saved: I/O failure; data and filters restored.");
             }
@@ -128,6 +130,11 @@ public class LogicManager implements Logic {
 
     @Override
     public ObservableList<ClientOrder> getOrderList() {
+        return model.getFilteredOrderList();
+    }
+
+    @Override
+    public ObservableList<ClientOrder> getAllOrderList() {
         return model.getAddressBook().getOrderList();
     }
 

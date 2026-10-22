@@ -45,6 +45,7 @@ public class ClearConfirmationTest {
         String saved = Files.readString(storage.getAddressBookFilePath());
         model.updateFilteredPersonList(person -> false);
         model.updateFilteredBakeryItemList(item -> false);
+        model.updateFilteredOrderList(order -> false);
         for (int attempt = 0; attempt < 2; attempt++) {
             CommandException exception = assertThrows(CommandException.class, () -> logic.execute("clear"));
             assertEquals(String.format(ClearCommand.MESSAGE_CONFIRMATION_FORMAT,
@@ -58,8 +59,20 @@ public class ClearConfirmationTest {
         assertEquals(saved, Files.readString(storage.getAddressBookFilePath()));
         assertTrue(model.getFilteredPersonList().isEmpty());
         assertTrue(model.getFilteredBakeryItemList().isEmpty());
+        assertTrue(model.getFilteredOrderList().isEmpty());
         logic.execute("list-clients");
         assertEquals(before, model.getAddressBook());
+    }
+
+    @Test
+    public void clear_confirmed_resetsOrderFilterForNewOrders() throws Exception {
+        model.updateFilteredOrderList(order -> false);
+        logic.execute("clear confirm");
+        logic.execute("add-client n/Test p/12345678 e/test@example.com a/Test Road");
+        logic.execute("add-item n/Cake p/10");
+        logic.execute("add-order 1 i/1 q/2 d/2026-10-22");
+        assertEquals(1, logic.getOrderList().size());
+        assertEquals(model.getAddressBook().getOrderList(), logic.getOrderList());
     }
 
     @Test

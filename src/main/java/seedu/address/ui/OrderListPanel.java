@@ -25,6 +25,7 @@ public class OrderListPanel extends UiPart<Region> {
     private ListView<ClientOrder> orderListView;
 
     private final ObservableList<Person> clients;
+    private final ObservableList<ClientOrder> allOrders;
     private final Clock clock;
     private final Timeline dateRefresh;
     private LocalDate today;
@@ -33,19 +34,35 @@ public class OrderListPanel extends UiPart<Region> {
      * Creates a panel with the observable orders and displayed clients used by order commands.
      */
     public OrderListPanel(ObservableList<ClientOrder> orders, ObservableList<Person> clients) {
-        this(orders, clients, Clock.systemDefaultZone());
+        this(orders, clients, orders, Clock.systemDefaultZone());
+    }
+
+    /** Creates a filtered panel whose client-local order indices refer to all stored orders. */
+    public OrderListPanel(ObservableList<ClientOrder> orders, ObservableList<Person> clients,
+            ObservableList<ClientOrder> allOrders) {
+        this(orders, clients, allOrders, Clock.systemDefaultZone());
     }
 
     /** Creates a panel using the supplied clock for overdue status. */
     OrderListPanel(ObservableList<ClientOrder> orders, ObservableList<Person> clients, Clock clock) {
+        this(orders, clients, orders, clock);
+    }
+
+    /** Creates a filtered panel with stable order indices and the supplied status clock. */
+    OrderListPanel(ObservableList<ClientOrder> orders, ObservableList<Person> clients,
+            ObservableList<ClientOrder> allOrders, Clock clock) {
         super(FXML);
         this.clients = clients;
+        this.allOrders = allOrders;
         this.clock = clock;
         today = LocalDate.now(clock);
         orderListView.setItems(orders);
         orderListView.setCellFactory(listView -> new OrderListViewCell());
         orders.addListener((ListChangeListener<ClientOrder>) change -> orderListView.refresh());
         clients.addListener((ListChangeListener<Person>) change -> orderListView.refresh());
+        if (allOrders != orders) {
+            allOrders.addListener((ListChangeListener<ClientOrder>) change -> orderListView.refresh());
+        }
         dateRefresh = new Timeline(new KeyFrame(Duration.seconds(1), event -> refreshDate()));
         dateRefresh.setCycleCount(Timeline.INDEFINITE);
         getRoot().sceneProperty().addListener((observable, oldScene, newScene) -> {
@@ -84,7 +101,7 @@ public class OrderListPanel extends UiPart<Region> {
                 setText(null);
             } else {
                 int clientOrderIndex = 0;
-                for (ClientOrder candidate : orderListView.getItems()) {
+                for (ClientOrder candidate : allOrders) {
                     if (candidate.getClient().equals(order.getClient())) {
                         clientOrderIndex++;
                     }

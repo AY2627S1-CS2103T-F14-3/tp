@@ -16,6 +16,7 @@ public class ListOrdersCommand extends Command {
     @Override
     public CommandResult execute(Model model) {
         requireNonNull(model);
+        model.updateFilteredOrderList(order -> true);
         return new CommandResult(MESSAGE_SUCCESS);
     }
 }

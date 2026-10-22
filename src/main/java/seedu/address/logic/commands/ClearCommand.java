@@ -55,6 +55,7 @@ public class ClearCommand extends Command {
         model.setAddressBook(new AddressBook());
         model.updateFilteredPersonList(Model.PREDICATE_SHOW_ALL_PERSONS);
         model.updateFilteredBakeryItemList(Model.PREDICATE_SHOW_ALL_BAKERY_ITEMS);
+        model.updateFilteredOrderList(order -> true);
         logger.fine("Confirmed clear applied in memory; filters reset; awaiting persistence.");
         return new CommandResult(MESSAGE_SUCCESS);
     }

@@ -18,6 +18,7 @@ import java.util.concurrent.CompletableFuture;
 import java.util.concurrent.FutureTask;
 import java.util.concurrent.TimeUnit;
 import java.util.concurrent.atomic.AtomicReference;
+import java.util.function.Predicate;
 
 import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.Test;
@@ -164,6 +165,46 @@ public class OrderListPanelTest {
     }
 
     @Test
+    public void render_filteredColoredOrders_preservesIndicesAndAlternatingShades() throws Exception {
+        onJavaFxThread(() -> {
+            ClientOrder hidden = orderFor(ALICE);
+            ClientOrder visible = orderFor(ALICE);
+            Clock clock = Clock.fixed(Instant.parse("2026-10-22T12:00:00Z"), ZoneOffset.UTC);
+            RenderedPanel rendered = new RenderedPanel(clock, order -> !order.getId().equals(hidden.getId()),
+                    hidden, visible, orderFor(BOB));
+            rendered.root.getScene().getStylesheets()
+                    .add(OrderCard.class.getResource("/view/DarkTheme.css").toExternalForm());
+            List<Node> cards = rendered.cards();
+            assertEquals(2, cards.size());
+            assertEquals("Client 1: " + ALICE.getName() + " — Order 2", labelText(cards.get(0), "client"));
+            assertEquals("Incomplete (overdue)", labelText(cards.get(0), "status"));
+            assertEquals(Color.web("#7a2929"), ((Region) cards.get(0)).getBackground().getFills().get(0).getFill());
+            assertEquals(Color.web("#913a3a"), ((Region) cards.get(1)).getBackground().getFills().get(0).getFill());
+            rendered.orders.remove(hidden);
+            assertEquals("Client 1: " + ALICE.getName() + " — Order 1", labelText(rendered.cards().get(0), "client"));
+            rendered.panel.dispose();
+        });
+    }
+
+    @Test
+    public void render_filteredOrders_retainsClientLocalIndex() throws Exception {
+        onJavaFxThread(() -> {
+            ClientOrder first = orderFor(ALICE);
+            ClientOrder second = orderFor(ALICE);
+            ObservableList<ClientOrder> allOrders = FXCollections.observableArrayList(first, second);
+            FilteredList<ClientOrder> displayed = new FilteredList<>(allOrders, order -> order.equals(second));
+            OrderListPanel panel = new OrderListPanel(displayed, FXCollections.observableArrayList(ALICE), allOrders);
+            OrderListPanel.OrderListViewCell cell = panel.new OrderListViewCell();
+            cell.updateIndex(0);
+            cell.updateItem(second, false);
+            assertCard(cell.getGraphic(), 1, ALICE, 2, "Incomplete");
+            allOrders.remove(first);
+            cell.updateItem(second, false);
+            assertCard(cell.getGraphic(), 1, ALICE, 1, "Incomplete");
+        });
+    }
+
+    @Test
     public void render_interleavedClients_showsGlobalAndClientLocalIndices() throws Exception {
         onJavaFxThread(() -> {
             RenderedPanel rendered = new RenderedPanel(orderFor(ALICE), orderFor(BOB), orderFor(ALICE));
@@ -299,8 +340,12 @@ public class OrderListPanelTest {
         }
 
         RenderedPanel(Clock clock, ClientOrder... initialOrders) {
+            this(clock, order -> true, initialOrders);
+        }
+
+        RenderedPanel(Clock clock, Predicate<ClientOrder> predicate, ClientOrder... initialOrders) {
             orders.addAll(initialOrders);
-            panel = new OrderListPanel(FXCollections.unmodifiableObservableList(orders), filteredClients, clock);
+            panel = new OrderListPanel(orders.filtered(predicate), filteredClients, orders, clock);
             root = new StackPane(panel.getRoot());
             new Scene(root, 800, 800);
             root.resize(800, 800);

@@ -265,6 +265,22 @@ Format: `unmark CONTACT_INDEX o/ORDER_INDEX`
 Example:
 * `unmark 1 o/2` restores client 1's second order to incomplete.
 
+#### Finding orders by client or item name: `find-orders`
+
+Format: `find-orders KEYWORD [MORE_KEYWORDS]...`
+
+Matches any supplied keyword against whole words in either the client name or bakery item
+name, case-insensitively. For example, `find-orders Alice muffin` shows Alice's orders and
+all orders for muffins. Partial words do not match, and empty searches are rejected.
+Use `list-orders` to restore all orders. Client and item searches remain unchanged.
+
+The row number follows the search results, but each card retains its order number within
+the client's full order list. Use the card's client index and order number for
+`mark-order-complete`, `unmark`, and `delete-order`, even when earlier orders are hidden.
+If the client index is hidden, use `list-clients` to show it before acting.
+Hidden orders remain stored and still prevent deletion of their client or item.
+Searching replaces the previous order search; completion filtering and sorting are not available yet.
+
 #### Listing all orders: `list-orders`
 
 Order cards use **green** for completed orders, **gray** for incomplete orders due today
@@ -281,7 +297,7 @@ in the order list, item, quantity, client name, that client's own order number, 
 Format: `list-orders`
 
 * Leaves the displayed client and item lists unchanged.
-* Extra arguments are ignored, like `list-clients`. No order filters are supported yet.
+* Extra arguments are ignored, like `list-clients`. Clears the order search.
 * Orders stay visible when clients are filtered with `find-clients`.
 * Row numbers refer to this complete order list. The client line shows the client's displayed
   index and the order number within that client's own orders, for example `Client 2: Bernice Yu — Order 1`.
@@ -445,6 +461,7 @@ Action | Format, Examples
 **Mark order complete** | `mark-order-complete CONTACT_INDEX o/ORDER_INDEX`<br>e.g., `mark-order-complete 1 o/2`
 **Restore order to incomplete** | `unmark CONTACT_INDEX o/ORDER_INDEX`<br>e.g., `unmark 1 o/2`
 **List orders** | `list-orders`
+**Find orders** | `find-orders KEYWORD [MORE_KEYWORDS]...`
 
 ### General commands
 

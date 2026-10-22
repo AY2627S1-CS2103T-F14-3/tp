@@ -112,12 +112,14 @@ public class UndoTest {
         AddressBook current = snapshot();
         model.updateFilteredPersonList(person -> false);
         model.updateFilteredBakeryItemList(item -> false);
+        model.updateFilteredOrderList(order -> false);
         for (IOException failure : new IOException[] {new IOException("disk"), new AccessDeniedException("denied")}) {
             storage.failure = failure;
             assertThrows(CommandException.class, () -> logic.execute("undo"));
             assertEquals(current, model.getAddressBook());
             assertTrue(model.getFilteredPersonList().isEmpty());
             assertTrue(model.getFilteredBakeryItemList().isEmpty());
+            assertTrue(model.getFilteredOrderList().isEmpty());
             assertTrue(logic.undoAvailableProperty().get());
         }
         storage.failure = null;
@@ -125,6 +127,7 @@ public class UndoTest {
         assertEquals(beforeAddition, model.getAddressBook());
         assertEquals(beforeAddition.getPersonList(), model.getFilteredPersonList());
         assertEquals(beforeAddition.getBakeryItemList(), model.getFilteredBakeryItemList());
+        assertEquals(model.getAddressBook().getOrderList(), model.getFilteredOrderList());
         assertFalse(logic.undoAvailableProperty().get());
     }
 

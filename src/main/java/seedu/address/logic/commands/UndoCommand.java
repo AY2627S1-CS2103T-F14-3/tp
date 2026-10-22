@@ -45,6 +45,7 @@ public class UndoCommand extends Command {
         model.setAddressBook(previousData);
         model.updateFilteredPersonList(Model.PREDICATE_SHOW_ALL_PERSONS);
         model.updateFilteredBakeryItemList(Model.PREDICATE_SHOW_ALL_BAKERY_ITEMS);
+        model.updateFilteredOrderList(order -> true);
         logger.fine("Undo snapshot restored in memory; awaiting persistence.");
         return new CommandResult(MESSAGE_SUCCESS);
     }
