@@ -3,12 +3,14 @@ package seedu.address.model;
 import static java.util.Objects.requireNonNull;
 import static seedu.address.commons.util.CollectionUtil.requireAllNonNull;
 
+import java.util.Comparator;
 import java.util.function.Predicate;
 import java.util.logging.Logger;
 
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.collections.transformation.FilteredList;
+import javafx.collections.transformation.SortedList;
 import seedu.address.commons.core.GuiSettings;
 import seedu.address.commons.core.LogsCenter;
 import seedu.address.model.bakeryitem.BakeryItem;
@@ -26,6 +28,8 @@ public class ModelManager implements Model {
     private final FilteredList<Person> filteredPersons;
     private final FilteredList<BakeryItem> filteredBakeryItems;
     private final FilteredList<ClientOrder> filteredOrders;
+    private final SortedList<ClientOrder> sortedOrders;
+    private Comparator<? super ClientOrder> orderComparator;
 
     /**
      * Initializes a ModelManager with the given addressBook and userPrefs.
@@ -40,6 +44,7 @@ public class ModelManager implements Model {
         filteredPersons = new FilteredList<>(this.addressBook.getPersonList(), PREDICATE_SHOW_ALL_PERSONS);
         filteredBakeryItems = new FilteredList<>(this.addressBook.getBakeryItemList(), PREDICATE_SHOW_ALL_BAKERY_ITEMS);
         filteredOrders = new FilteredList<>(this.addressBook.getOrderList(), order -> true);
+        sortedOrders = new SortedList<>(filteredOrders);
     }
 
     public ModelManager() {
@@ -177,12 +182,29 @@ public class ModelManager implements Model {
 
     @Override
     public ObservableList<ClientOrder> getFilteredOrderList() {
-        return FXCollections.unmodifiableObservableList(filteredOrders);
+        return FXCollections.unmodifiableObservableList(sortedOrders);
     }
 
     @Override
     public void updateFilteredOrderList(Predicate<ClientOrder> predicate) {
+        updateFilteredOrderList(predicate, null);
+    }
+
+    @Override
+    public void updateFilteredOrderList(Predicate<ClientOrder> predicate, Comparator<? super ClientOrder> comparator) {
         filteredOrders.setPredicate(requireNonNull(predicate));
+        orderComparator = comparator;
+        if (comparator == null) {
+            sortedOrders.setComparator(null);
+        } else {
+            Comparator<ClientOrder> primaryComparator = (first, second) -> comparator.compare(first, second);
+            sortedOrders.setComparator(primaryComparator.thenComparingInt(addressBook.getOrderList()::indexOf));
+        }
+    }
+
+    @Override
+    public Comparator<? super ClientOrder> getOrderComparator() {
+        return orderComparator;
     }
 
     @Override

@@ -1,5 +1,6 @@
 package seedu.address.logic.commands;
 
+import java.util.Comparator;
 import java.util.function.Predicate;
 
 import javafx.collections.ObservableList;
@@ -16,12 +17,22 @@ import seedu.address.model.person.Person;
  */
 class ModelStub implements Model {
     @Override
-    public ObservableList<ClientOrder> getFilteredOrderList() {
+    public void updateFilteredOrderList(Predicate<ClientOrder> predicate) {
         throw new AssertionError("This method should not be called.");
     }
 
     @Override
-    public void updateFilteredOrderList(Predicate<ClientOrder> predicate) {
+    public void updateFilteredOrderList(Predicate<ClientOrder> predicate, Comparator<? super ClientOrder> comparator) {
+        throw new AssertionError("This method should not be called.");
+    }
+
+    @Override
+    public Comparator<? super ClientOrder> getOrderComparator() {
+        throw new AssertionError("This method should not be called.");
+    }
+
+    @Override
+    public ObservableList<ClientOrder> getFilteredOrderList() {
         throw new AssertionError("This method should not be called.");
     }
 

@@ -10,13 +10,25 @@ import seedu.address.model.Model;
 public class ListIncompleteOrdersCommand extends Command {
     public static final String COMMAND_WORD = "list-incomplete-orders";
     public static final String MESSAGE_USAGE = COMMAND_WORD + ": Lists incomplete orders.\n"
-            + "Example: " + COMMAND_WORD;
+            + "Parameters: [by-deadline]\nExample: " + COMMAND_WORD + " by-deadline";
     public static final String MESSAGE_SUCCESS = "Listed incomplete orders.";
+
+    private final boolean byDeadline;
+
+    public ListIncompleteOrdersCommand() {
+        this(false);
+    }
+
+    /** Creates an incomplete-order listing that optionally sorts by earliest deadline. */
+    public ListIncompleteOrdersCommand(boolean byDeadline) {
+        this.byDeadline = byDeadline;
+    }
 
     @Override
     public CommandResult execute(Model model) {
         requireNonNull(model);
-        model.updateFilteredOrderList(order -> !order.isComplete());
-        return new CommandResult(MESSAGE_SUCCESS);
+        model.updateFilteredOrderList(order -> !order.isComplete(), byDeadline ? Model.ORDER_BY_DEADLINE : null);
+        return new CommandResult(byDeadline
+                ? "Listed incomplete orders by deadline (earliest first)." : MESSAGE_SUCCESS);
     }
 }

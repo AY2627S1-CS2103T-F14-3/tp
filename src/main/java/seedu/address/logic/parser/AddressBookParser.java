@@ -87,9 +87,12 @@ public class AddressBookParser {
             case FindOrdersCommand.COMMAND_WORD -> new FindOrdersCommandParser().parse(arguments);
             case FindCommand.COMMAND_WORD -> new FindCommandParser().parse(arguments);
             case ListCommand.COMMAND_WORD -> new ListCommand();
-            case ListOrdersCommand.COMMAND_WORD -> new ListOrdersCommand();
-            case ListCompleteOrdersCommand.COMMAND_WORD -> new ListCompleteOrdersCommand();
-            case ListIncompleteOrdersCommand.COMMAND_WORD -> new ListIncompleteOrdersCommand();
+            case ListOrdersCommand.COMMAND_WORD -> new ListOrdersCommand(
+                    ParserUtil.parseByDeadline(arguments, ListOrdersCommand.MESSAGE_USAGE));
+            case ListCompleteOrdersCommand.COMMAND_WORD -> new ListCompleteOrdersCommand(
+                    ParserUtil.parseByDeadline(arguments, ListCompleteOrdersCommand.MESSAGE_USAGE));
+            case ListIncompleteOrdersCommand.COMMAND_WORD -> new ListIncompleteOrdersCommand(
+                    ParserUtil.parseByDeadline(arguments, ListIncompleteOrdersCommand.MESSAGE_USAGE));
             case ListItemsCommand.COMMAND_WORD -> new ListItemsCommand();
             case ExitCommand.COMMAND_WORD -> new ExitCommand();
             case HelpCommand.COMMAND_WORD -> new HelpCommand();

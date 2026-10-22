@@ -1,6 +1,7 @@
 package seedu.address.logic.parser;
 
 import static java.util.Objects.requireNonNull;
+import static seedu.address.logic.Messages.MESSAGE_INVALID_COMMAND_FORMAT;
 
 import java.util.Collection;
 import java.util.HashSet;
@@ -25,6 +26,18 @@ import seedu.address.model.tag.Tag;
 public class ParserUtil {
 
     public static final String MESSAGE_INVALID_INDEX = "Index must be a positive integer.";
+
+    /** Parses the optional by-deadline argument, rejecting unknown or additional arguments. */
+    public static boolean parseByDeadline(String arguments, String usage) throws ParseException {
+        String trimmedArguments = requireNonNull(arguments).trim();
+        if (trimmedArguments.isEmpty()) {
+            return false;
+        }
+        if (trimmedArguments.equals("by-deadline")) {
+            return true;
+        }
+        throw new ParseException(String.format(MESSAGE_INVALID_COMMAND_FORMAT, usage));
+    }
 
     /**
      * Parses {@code oneBasedIndex} into an {@code Index} and returns it. Leading and trailing whitespaces will be
