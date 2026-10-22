@@ -187,6 +187,16 @@ Format: `delete-item INDEX`
 Examples:
 * `delete-item 1` deletes the 1st bakery item in the displayed bakery item list.
 
+#### Finding bakery items by name: `find-items`
+
+Format: `find-items KEYWORD [MORE_KEYWORDS]...`
+
+Matches any supplied keyword against whole words in item names, case-insensitively.
+For example, `find-items BANANA chocolate` finds Banana Muffin and Chocolate Muffin;
+`find-items muff` does not match Muffin. An empty search is rejected.
+Use `list-items` to restore all items. The item indices for `add-order`, `edit-item`,
+and `delete-item` refer to this displayed list. Searching does not change stored data.
+
 #### Listing all bakery items: `list-items`
 
 Shows all bakery items in the item panel, with their index, name, and price.
@@ -257,6 +267,14 @@ Example:
 
 #### Listing all orders: `list-orders`
 
+Order cards use **green** for completed orders, **gray** for incomplete orders due today
+or later, and **red** for incomplete orders with a deadline before today's local date.
+Completed orders remain green even after their deadline. Due today is not overdue.
+Each status color alternates between darker and lighter shades on consecutive rows.
+The cards retain their deadline and status text; overdue cards say `Incomplete (overdue)`.
+Colors update when orders are marked or unmarked and within a second of a date change
+while the app is running (or after it resumes from sleep).
+
 Shows all orders in insertion order, including completed orders. Each card shows its position
 in the order list, item, quantity, client name, that client's own order number, deadline, and completion status.
 
@@ -314,7 +332,8 @@ This overwrites existing data; it does not append to it. The replacement is save
 
 Format: `populate`
 
-* Loads six sample clients, four bakery items, and six orders, including completed and incomplete orders.
+* Loads 12 sample clients, 12 bakery items, and 24 orders, including completed and incomplete orders.
+* Sample deadlines are relative to the day you run `populate`, with overdue, due-today, and upcoming orders.
 * Resets client and item filters so all sample entries are displayed.
 * Running it again replaces the data with a fresh sample book rather than adding duplicates.
 * If saving fails, the previous data and filters are restored.
@@ -325,7 +344,7 @@ Requires explicit confirmation before removing all clients, bakery items, and or
 
 Format: `clear` or `clear confirm`
 
-* `clear` shows a warning without changing or saving any data. The warning counts all clients, items, and orders in the book, including records hidden by searches. For example, the sample book contains 6 clients, 4 items, and 6 orders.
+* `clear` shows a warning without changing or saving any data. The warning counts all clients, items, and orders in the book, including records hidden by searches. Counts reflect the current book, rather than only the displayed search results.
 * To cancel, simply continue using other commands. There is no pending action or confirmation dialog.
 * Only the exact, lowercase word `confirm` is accepted. Other arguments (for example, `clear yes` or `clear confirm extra`) are rejected without changing data.
 * **`clear confirm` deletes all clients, items, and orders immediately.** It is an intentional, one-shot command for experienced users: you do not need to type `clear` first, and there is no additional confirmation prompt. All records are removed, including records hidden by searches. Review the command before pressing Enter, including when recalling it from command history.
@@ -414,6 +433,7 @@ Action | Format, Examples
 **Add bakery item** | `add-item n/ITEM_NAME p/PRICE_DOLLARS`<br>e.g., `add-item n/Banana Muffin p/5.99`
 **Edit bakery item** | `edit-item INDEX [n/ITEM_NAME] [p/PRICE]`<br>e.g., `edit-item 2 n/Blueberry Muffin p/6.50`
 **Delete bakery item** | `delete-item INDEX`<br>e.g., `delete-item 3`
+**Find bakery items** | `find-items KEYWORD [MORE_KEYWORDS]...`
 **List bakery items** | `list-items`
 
 ### Order commands

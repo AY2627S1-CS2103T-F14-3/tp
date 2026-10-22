@@ -119,11 +119,14 @@ How the parsing works:
 
 <img src="images/ModelClassDiagram.png" width="450" />
 
+The `bakeryitem` package forms the bakery-item subcomponent of the Model component:
+
+<img src="images/BakeryItemModelClassDiagram.png" width="450" />
 
 The `Model` component,
 
-* stores the address book data i.e., all `Person` objects (which are contained in a `UniquePersonList` object).
-* stores the `Person` objects selected by the current filter, such as search results, in a separate _filtered_ list. It exposes this list as an unmodifiable `ObservableList<Person>` that the UI can observe and bind to, so the UI updates when the list changes.
+* stores client (represented by `Person`) and bakery-item data in unique collections.
+* stores the `Person` and `BakeryItem` objects selected by their current filters in separate _filtered_ lists. It exposes these lists as unmodifiable observable lists that the UI can observe and bind to, so the UI updates when either list changes.
 * stores a `UserPrefs` object that represents the user’s preferences (currently, just the GUI settings). This is exposed to the outside as a `ReadOnlyUserPrefs` object.
 * does not depend on any of the other three components (as the `Model` represents data entities of the domain, they should make sense on their own without depending on other components)
 
@@ -490,7 +493,7 @@ Priorities: Must have - `* * * *`, Nice to have (high) - `* * *`, Nice to have (
 
 Use a disposable data folder or back up your book before testing deletion.
 
-1. Load sample data with `populate`, then search for one client. Run `clear`: expect a warning showing 6 clients, 4 items, and 6 orders, regardless of the search. It must state that confirmed deletion is immediate and has no additional prompt. Expect unchanged data and filters, and no file write. Repeat with `clear yes` and `clear confirm extra`: expect invalid-format errors and unchanged data.
+1. Load sample data with `populate` and note the total client, item, and order counts before searching for one client. Run `clear`: expect a warning showing those full-book counts, regardless of the search. It must state that confirmed deletion is immediate and has no additional prompt. Expect unchanged data and filters, and no file write. Repeat with `clear yes` and `clear confirm extra`: expect invalid-format errors and unchanged data.
 2. Continue with `list-clients` to cancel. No pending deletion should occur.
 3. Run `clear confirm` directly without first typing `clear`: expect all clients, items, and orders to disappear without another prompt. Restart: expect the saved book to remain empty.
 4. Load sample data, edit an item, then run `clear` and `undo`: expect the item edit to be reversed. The warning must not replace undo history.
