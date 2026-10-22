@@ -8,6 +8,7 @@ import static seedu.address.testutil.TypicalPersons.ALICE;
 import static seedu.address.testutil.TypicalPersons.BOB;
 
 import java.io.IOException;
+import java.nio.file.AccessDeniedException;
 import java.nio.file.Path;
 import java.util.List;
 
@@ -115,6 +116,44 @@ public class OrderListingTest {
         assertThrows(CommandException.class, () -> failingLogic.execute("delete-order 1 o/1"));
         assertEquals(List.of(aliceFirst, aliceSecond), logic.getOrderList());
         assertEquals(List.of(bobFirst, aliceFirst, aliceSecond), logic.getAllOrderList());
+    }
+
+    @Test
+    public void findOrders_accessDenied_restoresPreviousFilter() throws Exception {
+        logic.execute("find-orders Alice");
+        Logic failing = new LogicManager(model, new StorageManager(
+                new JsonAddressBookStorage(directory.resolve("denied.json")) {
+                    @Override
+                    public void saveAddressBook(ReadOnlyAddressBook book) throws IOException {
+                        throw new AccessDeniedException("denied");
+                    }
+                }, new JsonUserPrefsStorage(directory.resolve("prefs.json"))));
+        assertThrows(CommandException.class, () -> failing.execute("list-orders"));
+        assertEquals(List.of(aliceFirst, aliceSecond), failing.getOrderList());
+    }
+
+    @Test
+    public void findOrders_undoAndPopulate_showAllOrders() throws Exception {
+        logic.execute("mark-order-complete 1 o/1");
+        logic.execute("find-orders Bob");
+        logic.execute("undo");
+        assertEquals(List.of(bobFirst, aliceFirst, aliceSecond), logic.getOrderList());
+        logic.execute("find-orders missing");
+        logic.execute("populate");
+        assertEquals(model.getAddressBook().getOrderList(), logic.getOrderList());
+        assertFalse(logic.getOrderList().isEmpty());
+    }
+
+    @Test
+    public void findOrders_editNames_updatesExistingFilteredView() throws Exception {
+        logic.execute("find-orders Alice");
+        ObservableList<ClientOrder> view = logic.getOrderList();
+        logic.execute("edit-client 1 n/Carol");
+        assertEquals(List.of(), view);
+        logic.execute("find-orders cake");
+        logic.execute("edit-item 1 n/Banana Cake");
+        assertEquals(3, view.size());
+        assertThrows(NullPointerException.class, () -> model.updateFilteredOrderList(null));
     }
 
     @Test
