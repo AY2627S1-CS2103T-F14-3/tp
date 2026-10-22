@@ -187,6 +187,16 @@ Format: `delete-item INDEX`
 Examples:
 * `delete-item 1` deletes the 1st bakery item in the displayed bakery item list.
 
+#### Finding bakery items by name: `find-items`
+
+Format: `find-items KEYWORD [MORE_KEYWORDS]...`
+
+Matches any supplied keyword against whole words in item names, case-insensitively.
+For example, `find-items BANANA chocolate` finds Banana Muffin and Chocolate Muffin;
+`find-items muff` does not match Muffin. An empty search is rejected.
+Use `list-items` to restore all items. The item indices for `add-order`, `edit-item`,
+and `delete-item` refer to this displayed list. Searching does not change stored data.
+
 #### Listing all bakery items: `list-items`
 
 Shows all bakery items in the item panel, with their index, name, and price.
@@ -389,6 +399,7 @@ Action | Format, Examples
 **Add bakery item** | `add-item n/ITEM_NAME p/PRICE_DOLLARS`<br>e.g., `add-item n/Banana Muffin p/5.99`
 **Edit bakery item** | `edit-item INDEX [n/ITEM_NAME] [p/PRICE]`<br>e.g., `edit-item 2 n/Blueberry Muffin p/6.50`
 **Delete bakery item** | `delete-item INDEX`<br>e.g., `delete-item 3`
+**Find bakery items** | `find-items KEYWORD [MORE_KEYWORDS]...`
 **List bakery items** | `list-items`
 
 ### Order commands
