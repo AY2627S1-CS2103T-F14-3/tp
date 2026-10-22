@@ -2,10 +2,16 @@ package seedu.address.ui;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertNull;
+import static org.junit.jupiter.api.Assertions.assertTrue;
 import static seedu.address.testutil.TypicalBakeryItems.BANANA_MUFFIN;
 import static seedu.address.testutil.TypicalPersons.ALICE;
 import static seedu.address.testutil.TypicalPersons.BOB;
 
+import java.time.Clock;
+import java.time.Instant;
+import java.time.LocalDate;
+import java.time.ZoneId;
+import java.time.ZoneOffset;
 import java.util.Comparator;
 import java.util.List;
 import java.util.concurrent.CompletableFuture;
@@ -23,7 +29,9 @@ import javafx.scene.Node;
 import javafx.scene.Scene;
 import javafx.scene.control.Label;
 import javafx.scene.control.ListCell;
+import javafx.scene.layout.Region;
 import javafx.scene.layout.StackPane;
+import javafx.scene.paint.Color;
 import seedu.address.model.order.ClientOrder;
 import seedu.address.model.order.Deadline;
 import seedu.address.model.order.Quantity;
@@ -56,6 +64,47 @@ public class OrderListPanelTest {
 
     private static ClientOrder orderFor(Person client) {
         return ClientOrder.create(client, BANANA_MUFFIN, new Quantity(2), new Deadline("2026-10-15"));
+    }
+
+    @Test
+    public void render_deadlineAndCompletion_applyReadableStatusColors() throws Exception {
+        onJavaFxThread(() -> {
+            LocalDate today = LocalDate.of(2026, 10, 22);
+            for (int days : new int[] {-1, 0, 1}) {
+                ClientOrder order = ClientOrder.create(ALICE, BANANA_MUFFIN, new Quantity(2),
+                        new Deadline(today.plusDays(days).toString()));
+                for (boolean complete : new boolean[] {false, true}) {
+                    Region card = new OrderCard(order.withCompletion(complete), 1, 1, 1, today).getRoot();
+                    StackPane root = new StackPane(card);
+                    Scene scene = new Scene(root);
+                    scene.getStylesheets().add(OrderCard.class.getResource("/view/DarkTheme.css").toExternalForm());
+                    root.applyCss();
+                    Color expected = Color.web(complete ? "#24543a" : days < 0 ? "#7a2929" : "#454545");
+                    assertEquals(expected, card.getBackground().getFills().get(0).getFill());
+                    assertEquals(complete ? "Complete" : days < 0 ? "Incomplete (overdue)" : "Incomplete",
+                            labelText(card, "status"));
+                    assertEquals("Due: " + today.plusDays(days), labelText(card, "deadline"));
+                    assertEquals(Color.WHITE, ((Label) card.lookup("#status")).getTextFill());
+                }
+            }
+        });
+    }
+
+    @Test
+    public void render_dateChanges_refreshesExistingCards() throws Exception {
+        onJavaFxThread(() -> {
+            MutableClock clock = new MutableClock();
+            ClientOrder incomplete = orderFor(ALICE);
+            RenderedPanel rendered = new RenderedPanel(clock, incomplete, orderFor(BOB).withCompletion(true));
+            assertTrue(rendered.cards().get(0).getStyleClass().contains("order-incomplete"));
+            clock.instant = clock.instant.plusSeconds(24 * 60 * 60);
+            rendered.panel.refreshDate();
+            List<Node> cards = rendered.cards();
+            assertTrue(cards.get(0).getStyleClass().contains("order-overdue"));
+            assertEquals("Incomplete (overdue)", labelText(cards.get(0), "status"));
+            assertTrue(cards.get(1).getStyleClass().contains("order-complete"));
+            rendered.panel.dispose();
+        });
     }
 
     @Test
@@ -168,7 +217,11 @@ public class OrderListPanelTest {
         String clientLabel = clientIndex > 0 ? "Client " + clientIndex : "Client";
         assertEquals(clientLabel + ": " + client.getName() + " — Order " + clientOrder, labelText(card, "client"));
         assertEquals("Due: 2026-10-15", labelText(card, "deadline"));
-        assertEquals(status, labelText(card, "status"));
+        boolean overdue = LocalDate.parse("2026-10-15").isBefore(LocalDate.now());
+        String expectedStatus = status.equals("Incomplete") && overdue ? "Incomplete (overdue)" : status;
+        assertEquals(expectedStatus, labelText(card, "status"));
+        String style = status.equals("Complete") ? "order-complete" : overdue ? "order-overdue" : "order-incomplete";
+        assertTrue(card.getStyleClass().contains(style));
     }
 
     private static String labelText(Node card, String id) {
@@ -183,11 +236,15 @@ public class OrderListPanelTest {
         private final ObservableList<Person> clients = FXCollections.observableArrayList(ALICE, BOB);
         private final FilteredList<Person> filteredClients = new FilteredList<>(clients);
         private final StackPane root;
+        private final OrderListPanel panel;
 
         RenderedPanel(ClientOrder... initialOrders) {
+            this(Clock.systemDefaultZone(), initialOrders);
+        }
+
+        RenderedPanel(Clock clock, ClientOrder... initialOrders) {
             orders.addAll(initialOrders);
-            OrderListPanel panel = new OrderListPanel(FXCollections.unmodifiableObservableList(orders),
-                    filteredClients);
+            panel = new OrderListPanel(FXCollections.unmodifiableObservableList(orders), filteredClients, clock);
             root = new StackPane(panel.getRoot());
             new Scene(root, 800, 800);
             root.resize(800, 800);
@@ -202,6 +259,25 @@ public class OrderListPanelTest {
                     .sorted(Comparator.comparingInt(ListCell::getIndex))
                     .map(ListCell::getGraphic)
                     .toList();
+        }
+    }
+
+    private static class MutableClock extends Clock {
+        private Instant instant = Instant.parse("2026-10-15T12:00:00Z");
+
+        @Override
+        public ZoneId getZone() {
+            return ZoneOffset.UTC;
+        }
+
+        @Override
+        public Clock withZone(ZoneId zone) {
+            return Clock.fixed(instant, zone);
+        }
+
+        @Override
+        public Instant instant() {
+            return instant;
         }
     }
 }

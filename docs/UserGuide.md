@@ -257,6 +257,13 @@ Example:
 
 #### Listing all orders: `list-orders`
 
+Order cards use **green** for completed orders, **gray** for incomplete orders due today
+or later, and **red** for incomplete orders with a deadline before today's local date.
+Completed orders remain green even after their deadline. Due today is not overdue.
+The cards retain their deadline and status text; overdue cards say `Incomplete (overdue)`.
+Colors update when orders are marked or unmarked and within a second of a date change
+while the app is running (or after it resumes from sleep).
+
 Shows all orders in insertion order, including completed orders. Each card shows its position
 in the order list, item, quantity, client name, that client's own order number, deadline, and completion status.
 
