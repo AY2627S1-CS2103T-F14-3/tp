@@ -6,11 +6,15 @@ skinparam classBackgroundColor LOGIC_COLOR
 
 Class "{abstract}\nCommand" as Command
 Class XYZCommand
+Class ClearCommand {
+    -confirmed : boolean
+}
 
 package "Parser classes"{
 Class "<<interface>>\nParser" as Parser
 Class AddressBookParser
 Class XYZCommandParser
+Class ClearCommandParser
 Class CliSyntax
 Class ParserUtil
 Class ArgumentMultimap
@@ -35,4 +39,12 @@ XYZCommandParser ..> ParserUtil
 ParserUtil .down.> Prefix
 ArgumentTokenizer .down.> Prefix
 XYZCommand -up-|> Command
+AddressBookParser ..> ClearCommandParser : <<create>>
+ClearCommandParser ..> ClearCommand : <<create>>
+ClearCommandParser .up.|> Parser
+ClearCommand -up-|> Command
+note left of ClearCommandParser
+  No arguments: confirmed = false
+  Exact "confirm": confirmed = true
+end note
 @enduml
