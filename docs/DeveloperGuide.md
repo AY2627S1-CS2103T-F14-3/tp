@@ -555,10 +555,10 @@ testers are expected to do more *exploratory* testing.
    1. Prerequisites: Run `populate`, followed by `list-items`. The first two items should be `Banana Muffin` and
       `Chocolate Cake`. The sample data should contain orders for `Banana Muffin`.
 
-   1. Test case: `edit-item 1 n/Blueberry Muffin p/2.50`<br>
-      Expected: The first item's name changes to `Blueberry Muffin` and its price changes to `$2.50`. The status
+   1. Test case: `edit-item 1 n/Blueberry Scone p/2.50`<br>
+      Expected: The first item's name changes to `Blueberry Scone` and its price changes to `$2.50`. The status
       message shows the edited item. Existing orders that previously showed `Banana Muffin` now show
-      `Blueberry Muffin`; their clients, quantities, deadlines, order identities, and completion statuses are
+      `Blueberry Scone`; their clients, quantities, deadlines, order identities, and completion statuses are
       unchanged.
 
    1. Test case: Run `populate`, then `edit-item 1 p/3.00`.<br>
