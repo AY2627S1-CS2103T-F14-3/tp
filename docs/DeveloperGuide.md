@@ -434,7 +434,7 @@ Priorities: Must have - `* * * *`, Nice to have (high) - `* * *`, Nice to have (
 
 * 3b. The specified order is already marked as complete
     * 3b1. BakeBase displays a friendly reminder that the specified order is already marked as complete
-    
+
       Use case resumes at step 2.
 
 
