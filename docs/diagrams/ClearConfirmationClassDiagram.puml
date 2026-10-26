@@ -20,7 +20,6 @@ package "Parser classes" {
 ' Layout hints.
 Parser -[hidden]right-> AddressBookParser
 
-
 ' UML relationships.
 AddressBookParser .down.> ClearCommandParser : <<create>>
 ClearCommandParser .up.|> Parser
@@ -31,5 +30,4 @@ note bottom of ClearCommandParser
   No arguments: confirmed = false
   Exact "confirm": confirmed = true
 end note
-
 @enduml
