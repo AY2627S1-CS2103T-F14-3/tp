@@ -361,6 +361,8 @@ While the command input has focus, press **Up** to recall the latest submitted c
 
 Shows a message explaining how to access the help page, and a very brief summary of the commands.
 
+If the Help window is already open, running `help`, using the `Help` menu, or pressing `F1` brings it into focus and restores it if minimized.
+
 ![help message](images/helpMessage.png)
 
 Format: `help`
@@ -450,7 +452,6 @@ _Details coming soon ..._
 ## Known issues
 
 1. **When using multiple screens**, if you move the application to a secondary screen, and later switch to using only the primary screen, the GUI will open off-screen. The remedy is to delete the `preferences.json` file created by the application before running the application again.
-2. **If you minimize the Help Window** and then run the `help` command (or use the `Help` menu, or the keyboard shortcut `F1`) again, the original Help Window will remain minimized, and no new Help Window will appear. The remedy is to manually restore the minimized Help Window.
 
 --------------------------------------------------------------------------------------------------------------------
 
