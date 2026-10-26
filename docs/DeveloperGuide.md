@@ -108,7 +108,7 @@ How the `Logic` component works:
 
 Here are the other classes in `Logic` (omitted from the class diagram above) that are used for parsing a user command:
 
-<img src="images/ParserClasses.png" width="600"/>
+<img src="images/ParserClasses.png" width="850"/>
 
 How the parsing works:
 * When called upon to parse a user command, the `AddressBookParser` class creates an `XYZCommandParser` (`XYZ` is a placeholder for the specific command name, e.g., `AddCommandParser`). The parser uses the other classes shown above to parse the user command and create an `XYZCommand` object (e.g., `AddCommand`). The `AddressBookParser` returns that object as a `Command` object.
@@ -157,6 +157,11 @@ Classes used by multiple components are in the `seedu.address.commons` package.
 ## **Implementation**
 
 ### Clear confirmation
+
+The following class diagram shows how clear-command parsing stores the
+confirmation choice in a `ClearCommand`.
+
+<img src="images/ClearConfirmationClassDiagram.png" width="650" alt="Class diagram showing clear-command parsing and the confirmation flag" />
 
 `ClearCommandParser` accepts only no arguments or the exact token `confirm`. An unconfirmed `ClearCommand` throws a `CommandException` containing the warning before modifying the model. This also prevents the normal save path from running. A confirmed command clears the complete bakery book and resets client/item filters; the existing logic-layer save rollback restores data and filters if persistence fails.
 
@@ -429,7 +434,7 @@ Priorities: Must have - `* * * *`, Nice to have (high) - `* * *`, Nice to have (
 
 * 3b. The specified order is already marked as complete
     * 3b1. BakeBase displays a friendly reminder that the specified order is already marked as complete
-    
+
       Use case resumes at step 2.
 
 
