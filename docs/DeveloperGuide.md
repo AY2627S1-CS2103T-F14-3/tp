@@ -9,7 +9,12 @@ title: Developer Guide
 
 ## **Acknowledgements**
 
-* _{List the sources of reused or adapted ideas, code, documentation, and third-party libraries here, with links to the originals.}_
+* BakeBase is adapted from [AddressBook Level 3 (AB3)](https://github.com/se-edu/addressbook-level3)
+  by the [SE-EDU initiative](https://se-education.org/). Its architecture, implementation, tests, and
+  documentation provide the foundation for this project.
+* Libraries used: [JavaFX](https://openjfx.io/) for the graphical user interface,
+  [Jackson](https://github.com/FasterXML/jackson) for JSON serialization, and
+  [JUnit 5](https://junit.org/junit5/) for automated testing.
 
 --------------------------------------------------------------------------------------------------------------------
 
