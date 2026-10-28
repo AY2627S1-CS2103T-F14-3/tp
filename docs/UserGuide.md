@@ -337,13 +337,13 @@ New orders appear in deadline order while sorting is active. Running `find-order
 
 #### Undoing the last data change: `undo`
 
-Type `undo` or click the **Undo** button above the command input to reverse the last successfully saved data change.
+Type `undo` in the command input to reverse the last successfully saved data change.
 
 * Supports adding, editing, or deleting clients/items, adding or deleting orders, marking/unmarking orders, `clear confirm`, and `populate`. Running `clear` without confirmation only shows a warning and does not replace undo history.
 * Only one change can be undone. A new saved data change replaces the previous undo opportunity. There is no redo.
 * Listing, searching, help, failed commands, and edits that leave data unchanged do not replace the undo opportunity.
 * Undo restores linked clients, items, and orders together. It shows all clients and items again, so use the refreshed indices.
-* The button is disabled when nothing can be undone. Typing `undo` then reports an error without changing data.
+* If nothing can be undone, `undo` reports an error without changing data.
 * If saving undo fails, the current data and displayed filters are restored, and you can retry.
 * Undo history is cleared on restart; successfully restored data remains saved. Extra arguments are rejected.
 
@@ -396,7 +396,7 @@ Format: `clear` or `clear confirm`
 
 ##### Interaction with single-step undo
 
-Use the `undo` command or the **Undo** button to recover the last saved data change, including a confirmed clear.
+Use the `undo` command to recover the last saved data change, including a confirmed clear.
 
 Confirmation prevents accidental deletion; undo allows recovery after a confirmed deletion:
 
