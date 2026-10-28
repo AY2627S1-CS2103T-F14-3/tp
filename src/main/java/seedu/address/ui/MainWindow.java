@@ -5,7 +5,6 @@ import java.util.logging.Logger;
 
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
-import javafx.scene.control.Button;
 import javafx.scene.control.MenuItem;
 import javafx.scene.control.TextInputControl;
 import javafx.scene.input.KeyCombination;
@@ -16,7 +15,6 @@ import seedu.address.commons.core.GuiSettings;
 import seedu.address.commons.core.LogsCenter;
 import seedu.address.logic.Logic;
 import seedu.address.logic.commands.CommandResult;
-import seedu.address.logic.commands.UndoCommand;
 import seedu.address.logic.commands.exceptions.CommandException;
 import seedu.address.logic.parser.exceptions.ParseException;
 
@@ -48,9 +46,6 @@ public class MainWindow extends UiPart<Stage> {
     private MenuItem helpMenuItem;
 
     @FXML
-    private Button undoButton;
-
-    @FXML
     private StackPane personListPanelPlaceholder;
 
     @FXML
@@ -76,7 +71,6 @@ public class MainWindow extends UiPart<Stage> {
         this.primaryStage = primaryStage;
         this.logic = logic;
         this.dataFilePath = dataFilePath;
-        undoButton.disableProperty().bind(logic.undoAvailableProperty().not());
 
         // Configure the UI
         setWindowDefaultSize(logic.getGuiSettings());
@@ -174,18 +168,6 @@ public class MainWindow extends UiPart<Stage> {
 
     void show() {
         primaryStage.show();
-    }
-
-    /**
-     * Undoes the last saved data change through the normal command and persistence path.
-     */
-    @FXML
-    private void handleUndo() {
-        try {
-            executeCommand(UndoCommand.COMMAND_WORD);
-        } catch (CommandException | ParseException e) {
-            // executeCommand displays the error; retain the snapshot so the user can retry.
-        }
     }
 
     /**
