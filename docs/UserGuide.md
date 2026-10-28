@@ -3,7 +3,9 @@ layout: page
 title: User Guide
 ---
 
-AddressBook Level 3 (AB3) is a **desktop application for managing contacts, optimized for use through a Command Line Interface (CLI)** while retaining the benefits of a Graphical User Interface (GUI). If you type quickly, AB3 can help you manage contacts faster than traditional GUI applications.
+BakeBase is a **desktop application for home bakers to manage clients, bakery items, and orders, optimized for use through a Command Line Interface (CLI)** while retaining the benefits of a Graphical User Interface (GUI). If you type quickly, BakeBase can help you manage your home bakery business faster than traditional GUI applications.
+
+Your **bakery book** is the collection of clients, bakery items, and orders stored in BakeBase.
 
 * Table of Contents
 {:toc}
@@ -17,7 +19,7 @@ AddressBook Level 3 (AB3) is a **desktop application for managing contacts, opti
 
 1. Download [BakeBase-v1.3.jar](https://github.com/AY2627S1-CS2103T-F14-3/tp/releases/download/v1.3/BakeBase-v1.3.jar) from the [BakeBase v1.3 release](https://github.com/AY2627S1-CS2103T-F14-3/tp/releases/tag/v1.3).
 
-1. Copy the file to the folder you want to use as the _home folder_ for your AddressBook.
+1. Copy the file to the folder you want to use as the _home folder_ for BakeBase.
 
 1. Open a terminal, `cd` to the folder containing the JAR file, and run `java -jar BakeBase-v1.3.jar`.<br>
    A GUI similar to the one below should appear in a few seconds. Note how the app contains some sample data.<br>
@@ -28,11 +30,11 @@ AddressBook Level 3 (AB3) is a **desktop application for managing contacts, opti
 
    * `list-clients` : Lists all contacts.
 
-   * `add-client n/John Doe p/98765432 e/johnd@example.com a/John street, block 123, #01-01` : Adds a contact named `John Doe` to the Address Book.
+   * `add-client n/John Doe p/98765432 e/johnd@example.com a/John street, block 123, #01-01` : Adds a contact named `John Doe` to the bakery book.
 
    * `delete-client 3` : Deletes the 3rd contact shown in the current list.
 
-   * `add-item n/Banana Muffin p/5.99` : Adds a bakery item named `Banana Muffin` to the Address Book.
+   * `add-item n/Banana Muffin p/5.99` : Adds a bakery item named `Banana Muffin` to the bakery book.
 
    * `clear` : Shows a warning. Use `clear confirm` to delete all clients, bakery items, and orders.
 
@@ -70,7 +72,7 @@ AddressBook Level 3 (AB3) is a **desktop application for managing contacts, opti
 
 #### Adding a client: `add-client`
 
-Adds a client to the address book.
+Adds a client to the bakery book.
 
 Format: `add-client n/NAME p/PHONE_NUMBER e/EMAIL a/ADDRESS [t/TAG]…​`
 
@@ -84,7 +86,7 @@ Examples:
 
 #### Deleting a client: `delete-client`
 
-Deletes the specified client from the address book. If the client has orders, delete those orders first.
+Deletes the specified client from the bakery book. If the client has orders, delete those orders first.
 
 Format: `delete-client INDEX`
 
@@ -93,12 +95,12 @@ Format: `delete-client INDEX`
 * The index **must be a positive integer** 1, 2, 3, …​
 
 Examples:
-* `list-clients` followed by `delete-client 2` deletes the 2nd client in the address book.
+* `list-clients` followed by `delete-client 2` deletes the 2nd client in the bakery book.
 * `find-clients Betsy` followed by `delete-client 1` deletes the 1st client in the results of the `find-clients` command.
 
 #### Editing a client: `edit-client`
 
-Edits an existing client in the address book. The client's existing orders are retained.
+Edits an existing client in the bakery book. The client's existing orders are retained.
 
 Format: `edit-client INDEX [n/NAME] [p/PHONE] [e/EMAIL] [a/ADDRESS] [t/TAG]…​`
 
@@ -114,7 +116,7 @@ Examples:
 
 #### Listing all clients: `list-clients`
 
-Shows a list of all clients in the address book.
+Shows a list of all clients in the bakery book.
 
 Format: `list-clients`
 
@@ -139,7 +141,7 @@ Examples:
 
 #### Adding a bakery item: `add-item`
 
-Adds the specified bakery item to the address book.
+Adds the specified bakery item to the bakery book.
 
 Format: `add-item n/ITEM_NAME p/PRICE_DOLLARS`
 
@@ -176,7 +178,7 @@ Examples:
 
 #### Deleting a bakery item: `delete-item`
 
-Deletes the specified bakery item from the address book. If orders reference this item, delete those orders first.
+Deletes the specified bakery item from the bakery book. If orders reference this item, delete those orders first.
 
 Format: `delete-item INDEX`
 
@@ -382,7 +384,7 @@ Format: `populate`
 
 #### Clearing all entries: `clear`
 
-Requires explicit confirmation before removing all clients, bakery items, and orders from the address book.
+Requires explicit confirmation before removing all clients, bakery items, and orders from the bakery book.
 
 Format: `clear` or `clear confirm`
 
@@ -421,20 +423,20 @@ Format: `exit`
 
 ### Saving the data
 
-AddressBook automatically saves data after every command. You do not need to save manually.
+BakeBase automatically saves data after every command. You do not need to save manually.
 
 Clients, bakery items, orders, and completion statuses are saved together. A successful change is reported only after saving succeeds. If saving fails, an error is shown and the previous in-memory data and displayed filters are restored.
 
 ### Editing the data file
 
-AddressBook data is saved automatically as a JSON file `[JAR file location]/data/addressbook.json`. Advanced users are welcome to update data directly by editing that data file.
+BakeBase data is saved automatically as a JSON file `[JAR file location]/data/addressbook.json`. Advanced users are welcome to update data directly by editing that data file.
 
 <div markdown="span" class="alert alert-warning">:exclamation: **Caution:**
-If your changes make the data file invalid, AddressBook starts with an empty address book at the next run. The invalid file remains on disk until you run a command (AddressBook saves after every command). Still, we recommend backing up the file before editing it.<br>
-Furthermore, certain edits can cause the AddressBook to behave in unexpected ways (e.g., if a value entered is outside of the acceptable range). Therefore, edit the data file only if you are confident that you can update it correctly.
+If your changes make the data file invalid, BakeBase starts with an empty bakery book at the next run. The invalid file remains on disk until you run a command (BakeBase saves after every command). Still, we recommend backing up the file before editing it.<br>
+Furthermore, certain edits can cause BakeBase to behave in unexpected ways (e.g., if a value entered is outside of the acceptable range). Therefore, edit the data file only if you are confident that you can update it correctly.
 </div>
 
-Existing AB3 files remain supported. Orders refer to clients and bakery items by name in the file. If you manually rename one, update its order references as well. Keep each order's UUID unique and use valid quantities, dates, and completion statuses. Incorrect edits can prevent loading and cause data loss, as with AB3; back up the file before editing it.
+Existing AddressBook Level 3 (AB3) files remain supported. Orders refer to clients and bakery items by name in the file. If you manually rename one, update its order references as well. Keep each order's UUID unique and use valid quantities, dates, and completion statuses. Incorrect edits can prevent loading and cause data loss, as with AB3; back up the file before editing it.
 
 ### Archiving data files `[coming in v2.0]`
 
@@ -445,7 +447,7 @@ _Details coming soon ..._
 ## FAQ
 
 **Q**: How do I transfer my data to another computer?<br>
-**A**: Install the app on the other computer and overwrite the data file it creates with the data file from your previous AddressBook home folder.
+**A**: Install the app on the other computer and overwrite the data file it creates with the data file from your previous BakeBase home folder.
 
 --------------------------------------------------------------------------------------------------------------------
 
