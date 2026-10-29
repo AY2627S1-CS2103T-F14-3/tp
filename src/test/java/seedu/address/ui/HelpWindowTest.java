@@ -40,6 +40,8 @@ import seedu.address.logic.commands.FindItemsCommand;
 import seedu.address.logic.commands.FindOrdersCommand;
 import seedu.address.logic.commands.HelpCommand;
 import seedu.address.logic.commands.ListCommand;
+import seedu.address.logic.commands.ListCompleteOrdersCommand;
+import seedu.address.logic.commands.ListIncompleteOrdersCommand;
 import seedu.address.logic.commands.ListItemsCommand;
 import seedu.address.logic.commands.ListOrdersCommand;
 import seedu.address.logic.commands.MarkOrderCompleteCommand;
@@ -76,7 +78,9 @@ public class HelpWindowTest {
                     + MarkOrderCompleteCommand.COMMAND_ALIAS, MarkOrderCompleteCommand.MESSAGE_USAGE),
             new CommandSummary(UnmarkOrderCommand.COMMAND_WORD, UnmarkOrderCommand.MESSAGE_USAGE),
             new CommandSummary(FindOrdersCommand.COMMAND_WORD, FindOrdersCommand.MESSAGE_USAGE),
-            new CommandSummary(ListOrdersCommand.COMMAND_WORD, ListOrdersCommand.MESSAGE_USAGE));
+            new CommandSummary(ListOrdersCommand.COMMAND_WORD, ListOrdersCommand.MESSAGE_USAGE),
+            new CommandSummary(ListCompleteOrdersCommand.COMMAND_WORD, ListCompleteOrdersCommand.MESSAGE_USAGE),
+            new CommandSummary(ListIncompleteOrdersCommand.COMMAND_WORD, ListIncompleteOrdersCommand.MESSAGE_USAGE));
 
     @BeforeAll
     public static void startJavaFx() throws Exception {
