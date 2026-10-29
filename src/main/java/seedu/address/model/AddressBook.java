@@ -215,7 +215,9 @@ public class AddressBook implements ReadOnlyAddressBook {
 
     @Override
     public ObservableList<BakeryItem> getBakeryItemList() {
+        // @@author Yik-Wee
         return bakeryItems.asUnmodifiableObservableList();
+        // @@author
     }
 
     @Override

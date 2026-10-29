@@ -43,9 +43,11 @@ public class CommandBoxTest {
     }
 
     private void onFxThread(Runnable action) throws Exception {
+        // @@author GODMODE899
         FutureTask<Void> task = new FutureTask<>(action, null);
         Platform.runLater(task);
         task.get(10, TimeUnit.SECONDS);
+        // @@author
     }
 
     private TextField input(CommandBox box) {

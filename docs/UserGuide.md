@@ -96,15 +96,21 @@ Examples:
 
 Deletes the specified client from the bakery book. If the client has orders, delete those orders first.
 
+<!-- @@author GODMODE899 -->
 Format: `delete-client INDEX`
 
 * Deletes the client at the specified `INDEX`.
 * The index refers to the index number shown in the displayed client list.
+  <!-- @@author -->
+  <!-- @@author -->
 * The index **must be a positive integer** 1, 2, 3, …​
 
 Examples:
+<!-- @@author -->
 * `list-clients` followed by `delete-client 2` deletes the 2nd client in the bakery book.
+  <!-- @@author GODMODE899 -->
 * `find-clients Betsy` followed by `delete-client 1` deletes the 1st client in the results of the `find-clients` command.
+<!-- @@author -->
 
 #### Editing a client: `edit-client`
 
@@ -155,7 +161,9 @@ Examples:
 
 Adds the specified bakery item to the bakery book.
 
+<!-- @@author Yik-Wee -->
 Format: `add-item n/ITEM_NAME p/PRICE_DOLLARS`
+<!-- @@author -->
 
 * Adds the bakery item with the leading and trailing whitespace removed from `ITEM_NAME`. The name must not be blank and must contain only printable ASCII characters.
 * Printable ASCII is defined as the set of:
@@ -164,11 +172,15 @@ Format: `add-item n/ITEM_NAME p/PRICE_DOLLARS`
   * the ordinary space character
   * the special characters ``!"#$%&'()*+,-./:;<=>?@[\]^_`{|}~``
 * `/` can appear in an item name. However, `n/` and `p/` preceded by whitespace are interpreted as command prefixes and cannot be included literally in an item name. For example, `Cake/Cream` and `Cake / Cream` are accepted, but `Cake n/Cream` and `Cake p/Special` are not. There is no quoting or escaping syntax for these reserved sequences.
+  <!-- @@author Yik-Wee -->
 * Duplicate items are rejected. An item is a duplicate if they have the same item name after trimming, removing extra whitespace and converting to uppercase.
+  <!-- @@author -->
 * `PRICE_DOLLARS` must be non-negative and can have the format `D`, `D.`, `D.c`, `D.cc`, `.c`, or `.cc`, where `D` represents one or more digits and `c` represents one digit.
 
 Examples:
+<!-- @@author Yik-Wee -->
 * `add-item n/Banana Muffin p/5.90`
+<!-- @@author -->
 
 #### Editing a bakery item: `edit-item`
 
@@ -192,14 +204,18 @@ Examples:
 
 Deletes the specified bakery item from the bakery book. If orders reference this item, delete those orders first.
 
+<!-- @@author Yik-Wee -->
 Format: `delete-item INDEX`
 
 * Deletes the bakery item at the specified `INDEX`.
 * The index refers to the index number shown in the displayed bakery item list.
+  <!-- @@author -->
 * The index **must be a positive integer** 1, 2, 3, …​
 
 Examples:
+<!-- @@author Yik-Wee -->
 * `delete-item 1` deletes the 1st bakery item in the displayed bakery item list.
+<!-- @@author -->
 
 #### Finding bakery items by name: `find-items`
 
@@ -333,6 +349,7 @@ The cards retain their deadline and status text; overdue cards say `Incomplete (
 Colors update when orders are marked or unmarked and within a second of a date change
 while the app is running (or after it resumes from sleep).
 
+<!-- @@author GODMODE899 -->
 Shows all orders in insertion order, including completed orders. Each card shows its position
 in the order list, item, quantity, client name, that client's own order number, deadline, and completion status.
 
@@ -349,6 +366,7 @@ Format: `list-orders [by-deadline]`
   their name and order number remain visible, but their client index is omitted.
 * Adding, deleting, or marking an order updates the panel automatically. Deleting an order
   renumbers the remaining rows in the order panel.
+<!-- @@author -->
 
 #### Listing completed or incomplete orders: `list-complete-orders`, `list-incomplete-orders`
 
@@ -405,9 +423,11 @@ Shows a message explaining how to access the help page, and a very brief summary
 
 If the Help window is already open, running `help`, using the `Help` menu, or pressing `F1` brings it into focus and restores it if minimized.
 
+<!-- @@author -->
 ![help message](images/helpMessage.png)
 
 Format: `help`
+<!-- @@author -->
 
 #### Replacing all entries with sample data: `populate`
 
@@ -511,8 +531,14 @@ Action | Format, Examples
 
 ### Bakery item commands
 
+{% comment %}
+<!-- @@author -->
+{% endcomment -%}
 Action | Format, Examples
 --------|------------------
+{% comment %}
+<!-- @@author -->
+{% endcomment -%}
 **Add bakery item** | `add-item n/ITEM_NAME p/PRICE_DOLLARS`<br>e.g., `add-item n/Banana Muffin p/5.99`
 **Edit bakery item** | `edit-item INDEX [n/ITEM_NAME] [p/PRICE]`<br>e.g., `edit-item 2 n/Blueberry Muffin p/6.50`
 **Delete bakery item** | `delete-item INDEX`<br>e.g., `delete-item 3`
@@ -521,8 +547,14 @@ Action | Format, Examples
 
 ### Order commands
 
+{% comment %}
+<!-- @@author -->
+{% endcomment -%}
 Action | Format, Examples
 --------|------------------
+{% comment %}
+<!-- @@author -->
+{% endcomment -%}
 **Edit order** | `edit-order CONTACT_INDEX o/ORDER_INDEX [i/ITEM_INDEX] [q/QUANTITY] [d/DEADLINE]`<br>e.g., `edit-order 1 o/2 q/13`
 **Add order** | `add-order CONTACT_INDEX i/ITEM_INDEX q/QUANTITY d/DEADLINE`<br>e.g., `add-order 1 i/2 q/5 d/2026-10-15`
 **Delete order** | `delete-order CONTACT_INDEX o/ORDER_INDEX`<br>e.g., `delete-order 1 o/2`
