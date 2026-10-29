@@ -177,7 +177,8 @@ public class HelpWindow extends UiPart<Stage> {
 
         addCommandSummary(AddClientOrderCommand.COMMAND_WORD, AddClientOrderCommand.MESSAGE_USAGE);
         addCommandSummary(DeleteClientOrderCommand.COMMAND_WORD, DeleteClientOrderCommand.MESSAGE_USAGE);
-        addCommandSummary(MarkOrderCompleteCommand.COMMAND_WORD, MarkOrderCompleteCommand.MESSAGE_USAGE);
+        addCommandSummary(MarkOrderCompleteCommand.COMMAND_WORD + " / " + MarkOrderCompleteCommand.COMMAND_ALIAS,
+                MarkOrderCompleteCommand.MESSAGE_USAGE);
         addCommandSummary(UnmarkOrderCommand.COMMAND_WORD, UnmarkOrderCommand.MESSAGE_USAGE);
         addCommandSummary(FindOrdersCommand.COMMAND_WORD, FindOrdersCommand.MESSAGE_USAGE);
         addCommandSummary(ListOrdersCommand.COMMAND_WORD, ListOrdersCommand.MESSAGE_USAGE);

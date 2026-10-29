@@ -76,7 +76,8 @@ public class AddressBookParser {
             case AddCommand.COMMAND_WORD -> new AddCommandParser().parse(arguments);
             case AddClientOrderCommand.COMMAND_WORD -> new AddClientOrderCommandParser().parse(arguments);
             case DeleteClientOrderCommand.COMMAND_WORD -> new DeleteClientOrderCommandParser().parse(arguments);
-            case MarkOrderCompleteCommand.COMMAND_WORD -> new MarkOrderCompleteCommandParser().parse(arguments);
+            case MarkOrderCompleteCommand.COMMAND_WORD, MarkOrderCompleteCommand.COMMAND_ALIAS ->
+                new MarkOrderCompleteCommandParser().parse(arguments);
             case UnmarkOrderCommand.COMMAND_WORD -> new UnmarkOrderCommandParser().parse(arguments);
             case EditCommand.COMMAND_WORD -> new EditCommandParser().parse(arguments);
             case EditBakeryItemCommand.COMMAND_WORD -> new EditBakeryItemCommandParser().parse(arguments);

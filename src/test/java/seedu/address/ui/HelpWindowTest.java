@@ -70,7 +70,8 @@ public class HelpWindowTest {
             new CommandSummary(ListItemsCommand.COMMAND_WORD, ListItemsCommand.MESSAGE_USAGE),
             new CommandSummary(AddClientOrderCommand.COMMAND_WORD, AddClientOrderCommand.MESSAGE_USAGE),
             new CommandSummary(DeleteClientOrderCommand.COMMAND_WORD, DeleteClientOrderCommand.MESSAGE_USAGE),
-            new CommandSummary(MarkOrderCompleteCommand.COMMAND_WORD, MarkOrderCompleteCommand.MESSAGE_USAGE),
+            new CommandSummary(MarkOrderCompleteCommand.COMMAND_WORD + " / "
+                    + MarkOrderCompleteCommand.COMMAND_ALIAS, MarkOrderCompleteCommand.MESSAGE_USAGE),
             new CommandSummary(UnmarkOrderCommand.COMMAND_WORD, UnmarkOrderCommand.MESSAGE_USAGE),
             new CommandSummary(FindOrdersCommand.COMMAND_WORD, FindOrdersCommand.MESSAGE_USAGE),
             new CommandSummary(ListOrdersCommand.COMMAND_WORD, ListOrdersCommand.MESSAGE_USAGE));
