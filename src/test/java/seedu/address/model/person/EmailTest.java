@@ -67,6 +67,34 @@ public class EmailTest {
     }
 
     @Test
+    public void isValidEmail_adjacentPermittedCharacters_returnsTrue() {
+        assertTrue(Email.isValidEmail("alice+_orders@example.com"));
+        assertTrue(Email.isValidEmail("a++b@example.com"));
+        assertTrue(Email.isValidEmail("alice.-_+orders@example.com"));
+        assertTrue(Email.isValidEmail("a.+b@example.com"));
+    }
+
+    @Test
+    public void isValidEmail_adjacentCharactersDoNotBypassRestrictions_returnsFalse() {
+        assertFalse(Email.isValidEmail("+_alice@example.com"));
+        assertFalse(Email.isValidEmail("alice+_@example.com"));
+        assertFalse(Email.isValidEmail("alice+.._orders@example.com"));
+        assertFalse(Email.isValidEmail("alice+ _orders@example.com"));
+        assertFalse(Email.isValidEmail("alice!orders@example.com"));
+    }
+
+    @Test
+    public void isValidEmail_internalDomainHyphens_returnsTrue() {
+        assertTrue(Email.isValidEmail("alice@xn--bcher-kva.de"));
+        assertTrue(Email.isValidEmail("alice@my--bakery.com"));
+        assertTrue(Email.isValidEmail("alice@a-b"));
+        assertTrue(Email.isValidEmail("alice@ab-c"));
+        assertFalse(Email.isValidEmail("alice@-bakery.com"));
+        assertFalse(Email.isValidEmail("alice@bakery-.com"));
+        assertFalse(Email.isValidEmail("alice@bakery.c"));
+    }
+
+    @Test
     public void equals() {
         Email email = new Email("valid@email");
 
