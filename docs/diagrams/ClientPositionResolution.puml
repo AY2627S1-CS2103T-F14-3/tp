@@ -1,0 +1,25 @@
+@startuml
+title Target v1.5: client-local order selection
+start
+:Parse positive CONTACT_INDEX and ORDER_INDEX;
+:Read the full stored client list;
+if (CONTACT_INDEX within full list?) then (yes)
+  :Select client at CONTACT_INDEX - 1;
+  :Read all stored orders for that client;
+  if (ORDER_INDEX within client orders?) then (yes)
+    :Select order at ORDER_INDEX - 1;
+    :Apply validated operation;
+    :Save, or roll back on failure;
+  else (no)
+    :Report invalid client-local order number;
+  endif
+else (no)
+  :Report invalid full-list client number;
+endif
+stop
+legend bottom
+  Client/order filters change visibility only.
+  Order-row numbers are not command targets.
+  Optional item indices still use the displayed item list.
+endlegend
+@enduml

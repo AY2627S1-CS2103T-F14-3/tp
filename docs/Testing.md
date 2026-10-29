@@ -26,6 +26,12 @@ You can run tests in two ways.
 
 ## Types of tests
 
+For the target v1.5 numbering migration, also follow the
+[full-list client numbering manual checks](DeveloperGuide.md#full-list-client-numbering-migration)
+against the integrated release JAR. These cover gaps in filtered client lists, hidden targets,
+deletion/undo renumbering, item-index compatibility, save-failure rollback and scrolling order cards.
+The documentation-only change does not enable the new behavior in an older JAR.
+
 This project has three types of tests:
 
 1. *Unit tests* target the lowest-level methods and classes.<br>

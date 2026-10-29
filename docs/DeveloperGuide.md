@@ -5,6 +5,17 @@ title: Developer Guide
 * Table of Contents
 {:toc}
 
+<div markdown="block" class="alert alert-warning">
+
+**Target v1.5 client-numbering contract (issue #141):** The full-list position rules in this guide
+describe the coordinated migration, not behavior enabled by this documentation-only change.
+The current pre-migration implementation uses filtered client positions. Complete and jointly verify
+the #142–#149 implementation tasks tracked by [#141](https://github.com/AY2627S1-CS2103T-F14-3/tp/issues/141) before publishing these instructions
+with a release. The `mark` alias ([#132](https://github.com/AY2627S1-CS2103T-F14-3/tp/issues/132)) and
+`edit-order` ([#133](https://github.com/AY2627S1-CS2103T-F14-3/tp/issues/133)) remain separate deliveries.
+
+</div>
+
 --------------------------------------------------------------------------------------------------------------------
 
 ## **Acknowledgements**
@@ -66,6 +77,9 @@ The *Sequence Diagram* below shows how the components interact with each other f
 
 <img src="images/ArchitectureSequenceDiagram.png" width="574" />
 
+For the v1.5 numbering contract, `1` selects the first client in the full stored list, even when
+another client is the first search result. This high-level diagram omits index resolution.
+
 Each of the four main components (also shown in the diagram above),
 
 * defines its *API* in an `interface` with the same name as the Component.
@@ -94,6 +108,12 @@ The `UI` component,
 * keeps a reference to the `Logic` component, because the `UI` relies on the `Logic` to execute commands.
 * depends on some classes in the `Model` component because it displays `Person` objects from the model.
 
+For the numbering migration, the UI needs both the filtered observable client list (visible membership)
+and the full observable client list (number lookup). `PersonListPanel` and `OrderListPanel` must derive
+client labels from the same full list. Order cards always include the client number, even for hidden
+clients. Filtering, scrolling/reuse of cells, deletion, undo and data replacement must not leave stale labels.
+The UI class diagram above is structural; these numbering responsibilities are implemented in #142/#143.
+
 ### Logic component
 
 **API** : [`Logic.java`](https://github.com/AY2627S1-CS2103T-F14-3/tp/tree/master/src/main/java/seedu/address/logic/Logic.java)
@@ -105,6 +125,10 @@ Here's a (partial) class diagram of the `Logic` component:
 The sequence diagram below illustrates the interactions within the `Logic` component, taking `execute("delete-client 1")` API call as an example.
 
 ![Interactions Inside the Logic Component for the `delete-client 1` Command](images/DeleteSequenceDiagram.png)
+
+In the target contract, resolve the parsed position against `model.getAddressBook().getPersonList()`
+before calling `deletePerson` with the selected `Person`. A search-result count is not the upper bound.
+The full-list selection is detailed in the client-position diagram below; the sequence above summarizes deletion.
 
 <div markdown="span" class="alert alert-info">:information_source: **Note:** The lifeline for `DeleteCommandParser` should end at the destroy marker (X), but due to a limitation of PlantUML, it continues to the end of the diagram.
 </div>
@@ -145,6 +169,12 @@ The `Model` component,
 * stores a `UserPrefs` object that represents the user’s preferences (currently, just the GUI settings). This is exposed to the outside as a `ReadOnlyUserPrefs` object.
 * does not depend on any of the other three components (as the `Model` represents data entities of the domain, they should make sense on their own without depending on other components)
 
+The `all` and `filtered` associations in the model diagrams have different purposes. Full client-list
+order defines client positions, while the filtered client list only defines visibility. The existing
+full-book `ReadOnlyAddressBook#getPersonList()` is the source for command resolution. The `Logic` API
+must expose a complete observable client source for UI numbering as part of #142/#143; a filtered-list
+fallback cannot supply full-list positions. Bakery-item commands continue to use displayed item positions.
+
 <div markdown="span" class="alert alert-info">:information_source: **Note:** The alternative, arguably more object-oriented, design below keeps a unique list of tags in `AddressBook`, and each `Person` references tags from that list. This lets `AddressBook` maintain one `Tag` object per unique tag instead of each `Person` holding its own `Tag` objects.<br>
 
 <img src="images/BetterModelClassDiagram.png" width="450" />
@@ -170,6 +200,65 @@ Classes used by multiple components are in the `seedu.address.commons` package.
 --------------------------------------------------------------------------------------------------------------------
 
 ## **Implementation**
+
+### Full-list client positions (target v1.5)
+
+Client numbers are 1-based positions in `ReadOnlyAddressBook#getPersonList()`, not persisted IDs.
+Filtering never changes that sequence. For full-list clients Alex 1, Bernice 2 and Charlotte 3,
+`find-clients bernice charlotte` shows 2 and 3; `find-clients charlotte` shows 3 alone.
+Orders for hidden Bernice still show client 2 and remain addressable through `2 o/ORDER_INDEX`.
+
+<img src="images/ClientPositionResolution.png" width="620" alt="Target v1.5 resolution: validate the client position against the full client list, resolve that client, then resolve the client-local order independently of filters" />
+
+This activity diagram specifies the migration target. The filtered client list does not participate
+in command selection. A position of 3 can be valid when the search has only two results; conversely,
+a positive position beyond the full list is invalid even if an old card or command history contains it.
+
+Consumer | Resolution and responsibilities
+---------|--------------------------------
+`find-clients`, `list-clients` / `PersonListPanel` | Change visible membership; calculate labels from the full list and allow gaps.
+`OrderListPanel` / `OrderCard` | Always calculate client labels from the full list, and client-local order numbers from all stored orders for that client. Refresh cached/reused cells after changes.
+`AddClientOrderCommand` | Resolve client from the full list and item from the displayed item list; retain the active order view.
+`OrderCommandUtil#findOrder()` | Check the client index against the full list, resolve that client, then check the order index against that client's full stored orders.
+`DeleteClientOrderCommand`, `MarkOrderCompleteCommand`, `UnmarkOrderCommand` | Share the resolver; active order searches/completion filters do not restrict targets. The `mark` alias, when delivered, must share the same path.
+`EditCommand`, `DeleteCommand` | Select from the full client list. Preserve duplicate checks, linked-order updates and referenced-client deletion protection.
+`EditClientOrderCommand` (when delivered) | Use the same client/order resolver; resolve optional `i/` from the displayed item list. Retain order UUID, client, completion status and insertion position.
+
+The command parameter names and storage schema do not change for this migration. Client-local order
+positions are distinct from order-view row positions; filtering/sorting only changes the latter.
+Deleting an order renumbers later orders for that client. Deleting a client renumbers later clients,
+requiring both client and order panels to refresh, including rows that were off-screen. Editing a
+client does not change its position. Undo restores the snapshot's stored sequence; populate and clear
+replace the book, so previously recalled numbers can identify different records or become invalid.
+Command history continues to store text rather than record identities.
+
+Save-failure rollback must restore the stored sequence, all active predicates and the order comparator;
+the UI must then show labels derived from the restored data. Do not keep a second mutable number map
+that can diverge from the authoritative full list. The storage name references and order UUIDs remain
+separate from these transient positions; no new permanent numeric client ID is introduced here.
+
+#### Release dependencies and documentation audit
+
+This issue changes documentation and diagram assets only. Before a release advertises this contract:
+
+* Complete #142 (client list) and #143 (all order cards, including scroll/refresh behavior).
+* Complete #144–#147 (add/delete/mark/unmark orders) and #148/#149 (edit/delete clients).
+* Align #133's `edit-order` implementation when included. Keep #132's alias on the same resolver as marking.
+* Update code-owned usage/help strings and errors in those implementation issues. They must explain
+  full-list client positions without changing the displayed-item index rule.
+* Run the migration manual checks below against the final packaged JAR, including hidden targets,
+  client-list gaps, invalid indices, deletion, undo and save-failure rollback.
+* Capture a real filtered-view screenshot after #142/#143 are integrated; do not manufacture a screenshot
+  of pending behavior. Existing all-clients screenshots remain layout illustrations. The old filtered
+  screenshot is no longer embedded in the UG because its numbering contradicts the new contract.
+* Coordinate the published UG/DG and release JAR. The older v1.4 release/tag guide remains the reference
+  for filtered-index behavior; this branch is not evidence that a new executable has shipped.
+
+Audit scope: the entire UG and DG, their command summaries, numbering examples, backend descriptions,
+manual instructions, architecture/model/UI captions and linked guide pages/PlantUML sources were
+checked for client-index semantics. The operational changes are in these two guides and the new
+resolution diagram. The general setup, documentation, testing, logging and DevOps pages contain no
+alternative client-index contract; the testing guide links to the migration checks for release QA.
 
 ### Clear confirmation
 
@@ -234,8 +323,9 @@ _{Explain here how the data archiving feature will be implemented}_
 
 ### Client order backend
 
-`add-order CONTACT_INDEX i/ITEM_INDEX q/QUANTITY d/DEADLINE` resolves indices from the displayed
-client and bakery item lists and adds an incomplete order. Identical orders are accepted with separate UUIDs.
+Under the target v1.5 contract, `add-order CONTACT_INDEX i/ITEM_INDEX q/QUANTITY d/DEADLINE` resolves
+the client from the full stored client list and the item from the displayed bakery item list, and adds
+an incomplete order. Hidden clients remain valid targets. Identical orders have separate UUIDs.
 Quantities remain integers from 1 to 9,999; deadlines use strict YYYY-MM-DD calendar dates, including past dates.
 Missing, repeated, malformed, overflowing, and out-of-range arguments cannot change data.
 
@@ -257,7 +347,7 @@ references, invalid values, and null entries are rejected during loading; no par
 Commands return success only after persistence succeeds. The storage writes a temporary JSON file beside the
 destination and replaces the destination, using an atomic move where supported. A failed save restores the
 previous model and displayed lists. The shared order APIs support deleting an order and replacing completion
-status; those commands are implemented separately on their respective feature branches.
+status; these operations resolve the full-list client and its full client-local order collection under the migration.
 
 `add-item` from team PR #34 is integrated with the shared item model and storage so orders can reference real
 bakery goods. Order views and list commands remain the assigned teammate's GUI work.
@@ -280,14 +370,14 @@ This retains the order's UUID, client, quantity, deadline, and completion status
 edited item. The command then displays the complete bakery item list. Persistence and rollback on a save failure
 follow the same Logic transaction used by other data-changing commands.
 
-### delete-order parsing increment
+### Order selection and lifecycle commands
 
-The current increment recognizes `delete-order CONTACT_INDEX o/ORDER_INDEX`, for example
+The parser recognizes `delete-order CONTACT_INDEX o/ORDER_INDEX`, for example
 `delete-order 1 o/2`, as specified in [issue #38](https://github.com/AY2627S1-CS2103T-F14-3/tp/issues/38).
-It validates and retains the indices in a command; execution is deferred until the order model is integrated.
-Executing a valid request returns `Deleting client orders is not available yet. No order has been deleted.` and leaves existing data unchanged.
+It validates and retains the indices in a command. Execution uses `OrderCommandUtil` to resolve
+the client and order, deletes only that order, and saves through `LogicManager`.
 
-Requirements for this increment:
+Parsing requirements:
 
 * Require one client index before the prefixes and exactly one `o/` order index.
 * Accept indices from 1 through `Integer.MAX_VALUE`, consistent with AB3's index representation.
@@ -295,16 +385,21 @@ Requirements for this increment:
 * Reject missing, duplicate, empty, malformed, overflowing, or extra arguments with usage or field-specific errors.
 * Register the command with the top-level parser and verify parsing and safe execution with automated tests.
 
-The client index refers to the displayed client list. The order index refers to that client's own orders,
-not the consolidated list of all orders. Indices are transient displayed positions, not persistent identifiers.
-Existence checks, order changes, persistence, UI updates, and user-facing help are deferred to model integration.
-No successful data change is claimed by this parsing increment.
-### mark-order-complete parsing increment
+Under the target v1.5 contract the client index selects from the full stored client list, even when hidden.
+The order index selects from that client's complete order list, regardless of order filtering or sorting.
+Neither number is the consolidated order-view row number. Client/order bounds are checked before mutation.
 
-The current increment recognizes `mark-order-complete CONTACT_INDEX o/ORDER_INDEX`, for example
+### Marking and unmarking orders
+
+The parser recognizes `mark-order-complete CONTACT_INDEX o/ORDER_INDEX`, for example
 `mark-order-complete 1 o/2`, as specified in [issue #39](https://github.com/AY2627S1-CS2103T-F14-3/tp/issues/39).
-It validates and retains the indices in a command; execution is deferred until the order model is integrated.
-Executing a valid request returns `Marking orders as complete is not available yet. No order status has been changed.` and leaves existing data unchanged.
+It validates and retains the indices, then updates only the selected order's completion status.
+`unmark CONTACT_INDEX o/ORDER_INDEX` reverses the completion status. Both share `OrderCommandUtil`;
+their migration must select the full-list client and then the full client-local order list.
+Already-applied statuses are rejected without mutation. Mark/unmark keep identities and stored order
+positions, although the changed order may leave the current completion view. Persistence, rollback
+and single-step undo use the common Logic path. The `mark` alias, when included via #132, must delegate
+to the same parser/command and use the same full-list selection; do not implement a separate index rule.
 
 ## **Appendix: Requirements**
 
@@ -510,6 +605,57 @@ Priorities: Must have - `* * * *`, Nice to have (high) - `* * *`, Nice to have (
 
 ## **Appendix: Instructions for manual testing**
 
+### Full-list client numbering migration
+
+Run these checks only after the implementation dependencies above are integrated. A pre-migration
+JAR is expected to use the older filtered-index behavior and cannot validate this target contract.
+Use a disposable writable folder, verify Java 25 with `java -version`, and launch with
+`java -jar "BakeBase-v1.5.jar"` (adapt the filename to the actual release asset).
+
+Before each independent test below, run `clear confirm` and create this controlled book. Do not
+perform these destructive setup steps in a folder containing real bakery data:
+
+```text
+add-client n/Alex Yeoh p/12345678 e/alex@example.com a/One Road
+add-client n/Bernice Yu p/23456789 e/bernice@example.com a/Two Road
+add-client n/Charlotte Oliveiro p/34567890 e/charlotte@example.com a/Three Road
+add-client n/Daria Tan p/45678901 e/daria@example.com a/Four Road
+add-item n/Cake p/10
+add-item n/Tart p/5
+add-order 2 i/1 q/2 d/2026-11-01
+add-order 2 i/2 q/3 d/2026-11-05
+add-order 3 i/1 q/4 d/2026-11-03
+mark-order-complete 2 o/2
+```
+
+Alex and Daria have no orders; Bernice has two (the second complete), and Charlotte has one.
+
+Test | Commands after setup | Expected result
+-----|----------------------|----------------
+Search with gaps | `find-clients bernice charlotte`, then `find-clients charlotte`, then `list-clients` | The first search shows Bernice 2 and Charlotte 3; the second shows only Charlotte 3; the full view shows 1–4. All order cards retain client 2 or 3 throughout.
+Full-list bound vs result count | `find-clients bernice charlotte`, then `mark-order-complete 3 o/1` | Charlotte's order is completed even though the search contains only two clients. Repeat with `mark 3 o/1` in a fresh fixture when the alias is included.
+Add to a hidden client; item rule | `find-clients charlotte`, `find-items Tart`, then `add-order 2 i/1 q/5 d/2026-11-06` | Bernice gains local order 3 for Tart. Client 2 comes from the full list; item 1 comes from the filtered item list. Neither number selects Charlotte or Cake.
+Delete a hidden order | `find-clients charlotte`, `list-incomplete-orders by-deadline`, then `delete-order 2 o/2` | Bernice's hidden completed Tart order alone is deleted; the client filter and sorted incomplete view remain valid.
+Mark a hidden client | `find-clients charlotte`, `list-incomplete-orders`, then `mark-order-complete 2 o/1` | Bernice's first order becomes complete and leaves the incomplete view. Client numbers and her other local order number do not change.
+Unmark a hidden client | `find-clients charlotte`, `list-complete-orders`, then `unmark 2 o/2` | Bernice's second order becomes incomplete and leaves the completed view; identities and stored positions remain unchanged.
+Edit a hidden client | `find-clients charlotte`, then `edit-client 2 p/99999999` | Bernice's phone changes, her number remains 2, and her linked orders remain attached. Any existing post-edit view reset must not renumber clients.
+Delete and renumber | `find-clients bernice charlotte`, then `delete-client 1`, then `list-clients` | Hidden Alex is deleted because he has no orders. Bernice becomes 1, Charlotte 2, Daria 3, and all order cards update. `undo` restores Alex 1, Bernice 2 and Charlotte 3; a recalled client number must be rechecked.
+Referenced-client protection | `find-clients charlotte`, then `delete-client 2` | Bernice's hidden orders block deletion; data, numbering and the existing undo opportunity remain unchanged.
+Invalid full-list position | `find-clients charlotte`, then try `edit-client 5 p/99999999`, `delete-client 5`, `add-order 5 i/1 q/1 d/2026-11-06`, `delete-order 5 o/1`, `mark-order-complete 5 o/1`, `unmark 5 o/1` | All reject without mutation because the full list has only four clients. Also check 0, negative, malformed and overflowing indices.
+Order editing (when delivered) | `find-clients charlotte`, `find-items Tart`, then `edit-order 2 o/1 i/1 q/7` | Bernice's first order changes to Tart, quantity 7, retaining UUID, client, incomplete status and local position. Undo restores it. Client 5 is still invalid.
+
+For every mutation, compare the saved JSON before/after and restart to check associations and stored
+order. Inject I/O and permission failures through the storage test double: check unchanged data,
+client/item/order predicates, order comparator and prior undo; visible numbers must match the restored book.
+Repeat rendering checks after undo, `populate`, and `clear confirm`. Populate replaces the numbering
+with the sample sequence; clear removes all positions; immediate undo restores the pre-clear sequence.
+
+Exercise virtualization with `populate` as a separate setup: scroll the order panel to the bottom,
+run `find-clients bernice charlotte`, then scroll through every order and back to the top. Hidden
+clients' numbers must remain present and correct, with no mixture of stale and updated labels.
+Repeat after permitted client deletion and undo, with order searches, both completion views and deadline
+sorting. Compare cards to `list-clients`; order-view row changes must never change their client number.
+
 ### Clear confirmation and undo
 
 Use a disposable data folder or back up your book before testing deletion.
@@ -535,14 +681,15 @@ testers are expected to do more *exploratory* testing.
 
    1. Download the JAR file and copy it into an empty folder.
 
-   1. Double-click the JAR file.<br>
+   1. Run `java -version` to verify Java 25, then launch with `java -jar "BakeBase-v1.5.jar"`
+      from that folder, adapting the filename to the downloaded asset.<br>
       Expected: The GUI opens with a set of sample contacts. The window size may not be optimal.
 
 1. Saving window preferences
 
    1. Resize the window to an optimal size. Move the window to a different location. Close the window.
 
-   1. Relaunch the app by double-clicking the JAR file.<br>
+   1. Relaunch the app using the same `java -jar` command.<br>
        Expected: The most recent window size and location are retained.
 
 1. _{ more test cases …​ }_
@@ -551,7 +698,8 @@ testers are expected to do more *exploratory* testing.
 
 1. Deleting a person while all persons are being shown
 
-   1. Prerequisites: List all persons using the `list-clients` command, with multiple persons in the list.
+   1. Prerequisites: Use the controlled migration fixture above and run `list-clients`.
+      Alex is full-list client 1 and has no orders, so deletion is permitted.
 
    1. Test case: `delete-client 1`<br>
       Expected: The first contact is deleted from the list. The status message shows the deleted contact's details.
@@ -559,7 +707,7 @@ testers are expected to do more *exploratory* testing.
    1. Test case: `delete-client 0`<br>
       Expected: No person is deleted. The status message shows error details.
 
-   1. Other incorrect delete commands to try: `delete-client`, `delete-client x`, `...` (where x is larger than the list size)<br>
+   1. Other incorrect delete commands to try: `delete-client`, `delete-client x`, `...` (where x is larger than the full stored client list size)<br>
       Expected: Similar to previous.
 
 1. _{ more test cases …​ }_
@@ -597,12 +745,23 @@ testers are expected to do more *exploratory* testing.
 
 ### unmark backend
 
-Restore only the selected completed order to incomplete, retaining its identity and associations. `OrderCommandUtil` resolves the displayed client and then the order's position within that client. Invalid indices and repeated status changes report specific errors without mutation. Successful changes are saved by LogicManager; save failures restore data and displayed filters.
+Restore only the selected completed order to incomplete, retaining its identity and associations.
+For target v1.5, `OrderCommandUtil` resolves the full-list client (including hidden clients), then the
+order's position in that client's full order list. The completed-only view removes an unmarked order.
+Invalid indices and repeated statuses reject without mutation. LogicManager saves successful changes;
+save failures restore data, predicates, sort order and numbering. See the migration tests above.
 
 ### mark-order-complete backend
 
-Mark only the selected order complete, retaining its identity and associations. `OrderCommandUtil` resolves the displayed client and then the order's position within that client. Invalid indices and repeated status changes report specific errors without mutation. Successful changes are saved by LogicManager; save failures restore data and displayed filters.
+Mark only the selected order complete, retaining its identity and associations. For target v1.5,
+`OrderCommandUtil` resolves the full-list client and its full client-local order list, including hidden
+targets. The `mark` alias, when delivered, follows the same path. An incomplete-only view removes
+the completed order. Invalid indices and repeated statuses reject without mutation; save failures
+restore data, filters, sorting and numbering. See the migration tests above.
 
 ### delete-order backend
 
-Delete only the selected order; subsequent client-local indices shift down. `OrderCommandUtil` resolves the displayed client and then the order's position within that client. Invalid indices and repeated status changes report specific errors without mutation. Successful changes are saved by LogicManager; save failures restore data and displayed filters.
+Delete only the selected order; subsequent client-local indices shift down. For target v1.5,
+`OrderCommandUtil` resolves the full-list client, then its full order list, regardless of client/order
+filters. Other clients keep their client numbers. Successful changes are saved; failures restore data,
+filters, sorting and prior numbering. See the migration tests above, including hidden-order deletion.

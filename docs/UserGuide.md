@@ -10,6 +10,20 @@ Your **bakery book** is the collection of clients, bakery items, and orders stor
 * Table of Contents
 {:toc}
 
+<div markdown="block" class="alert alert-warning">
+
+**v1.5 numbering migration — release preparation:** This page documents the agreed full-list client
+positions for v1.5. The documentation change alone does not enable that behavior. It must ship together
+with the client-list, order-card, and command updates (#142–#149) tracked by
+[the numbering migration](https://github.com/AY2627S1-CS2103T-F14-3/tp/issues/141).
+The `mark` alias and `edit-order` also require their separate implementations before use.
+The v1.5 download below is a release target until that release is published and verified.
+For the older v1.4 JAR, use the
+[v1.4 guide](https://github.com/AY2627S1-CS2103T-F14-3/tp/blob/v1.4/docs/UserGuide.md):
+it uses positions in the filtered client list, so the numbering instructions below do not apply to it.
+
+</div>
+
 --------------------------------------------------------------------------------------------------------------------
 
 ## Quick start
@@ -25,6 +39,10 @@ Your **bakery book** is the collection of clients, bakery items, and orders stor
    A GUI similar to the one below should appear in a few seconds. Note how the app contains some sample data.<br>
    ![Ui](images/Ui.png)
 
+   This existing all-clients screenshot illustrates the layout. It does not demonstrate the pending
+   v1.5 filtered-view numbering; the worked tables below specify that contract until a real screenshot
+   of the integrated implementation is available.
+
 1. Type a command in the command box and press Enter to execute it. For example, type **`help`** and press Enter to open the help window.<br>
    Some example commands you can try:
 
@@ -32,7 +50,7 @@ Your **bakery book** is the collection of clients, bakery items, and orders stor
 
    * `add-client n/John Doe p/98765432 e/johnd@example.com a/John street, block 123, #01-01` : Adds a contact named `John Doe` to the bakery book.
 
-   * `delete-client 3` : Deletes the 3rd contact shown in the current list.
+   * `delete-client 3` : Deletes client 3 in the full client list, even if hidden by a search.
 
    * `add-item n/Banana Muffin p/5.99` : Adds a bakery item named `Banana Muffin` to the bakery book.
 
@@ -68,6 +86,40 @@ Your **bakery book** is the collection of clients, bakery items, and orders stor
 * If you are using a PDF version of this document, be careful when copying and pasting commands that span multiple lines as space characters surrounding line-breaks may be omitted when copied over to the application.
 </div>
 
+### Understanding client, item, and order numbers
+
+The number shown beside a client is their **1-based position in the full stored client list**.
+`find-clients` changes which clients are visible without changing their numbers. Gaps in search results
+are intentional. All commands that take a client number use this full-list position, including commands
+for clients hidden by the current search. Use `list-clients` to inspect the complete list when unsure.
+
+Number | Meaning | Effect of filtering
+-------|---------|--------------------
+Client `INDEX` or `CONTACT_INDEX` | Position in the full stored client list | Unchanged by client searches; hidden clients remain addressable.
+Item `INDEX` or `i/ITEM_INDEX` | Position in the currently displayed bakery item list | Item searches can renumber these positions.
+`o/ORDER_INDEX` | Position among all stored orders for the selected client | Unchanged by order searches, completion filters, or deadline sorting.
+Order-panel row number | Position in the current order view | Can change with order searches, filtering, and sorting; do not use it as `o/ORDER_INDEX`.
+
+These positions are **not permanent IDs**. Deleting a client shifts later clients' numbers down;
+deleting an order shifts later order numbers for that client down. Undo can restore earlier positions,
+and `populate` or `clear confirm` can replace or remove the entire book. Check the current numbers
+after such changes, including before resubmitting a command from history. Editing a client's details
+keeps that client's full-list position; searching alone never assigns a new client number.
+
+For example, suppose the full client list starts with `1. Alex Yeoh`, `2. Bernice Yu`, and
+`3. Charlotte Oliveiro`:
+
+Command | Visible clients | Number used by client/order commands
+--------|-----------------|------------------------------------
+`list-clients` | Alex, Bernice, Charlotte (and any later clients) | Alex 1, Bernice 2, Charlotte 3
+`find-clients bernice charlotte` | `2. Bernice Yu`, `3. Charlotte Oliveiro` | Bernice 2, Charlotte 3
+`find-clients charlotte` | `3. Charlotte Oliveiro` | Charlotte 3; hidden Bernice is still 2
+
+With these clients and their orders still stored, `mark-order-complete 2 o/1` targets Bernice's first
+order in any of the views above. To mark Charlotte's first order, use `mark-order-complete 3 o/1`.
+Order cards always show the full-list client number, including for clients hidden by a search.
+If an earlier client is subsequently deleted, recheck the numbers before running either command.
+
 ### Client commands
 
 #### Adding a client: `add-client`
@@ -80,6 +132,8 @@ Format: `add-client n/NAME p/PHONE_NUMBER e/EMAIL a/ADDRESS [t/TAG]…​`
 A client can have any number of tags, including zero.
 </div>
 
+New clients are appended to the full list, so adding a client does not renumber existing clients.
+
 Examples:
 * `add-client n/John Doe p/98765432 e/johnd@example.com a/John street, block 123, #01-01`
 * `add-client n/Betsy Crowe t/friend e/betsycrowe@example.com a/Newgate Prison p/1234567 t/criminal`
@@ -91,12 +145,14 @@ Deletes the specified client from the bakery book. If the client has orders, del
 Format: `delete-client INDEX`
 
 * Deletes the client at the specified `INDEX`.
-* The index refers to the index number shown in the displayed client list.
-* The index **must be a positive integer** 1, 2, 3, …​
+* `INDEX` is the client's position in the full stored client list. A hidden client can also be deleted.
+* The index **must be a positive integer** within the full client list, regardless of the number of search results.
+* After deletion, later clients are renumbered in both the client panel and all order cards.
 
 Examples:
 * `list-clients` followed by `delete-client 2` deletes the 2nd client in the bakery book.
-* `find-clients Betsy` followed by `delete-client 1` deletes the 1st client in the results of the `find-clients` command.
+* If Betsy is client 7 in the full list, `find-clients Betsy` shows `7. Betsy ...`; `delete-client 7`
+  deletes Betsy if she has no orders. `delete-client 1` still targets full-list client 1.
 
 #### Editing a client: `edit-client`
 
@@ -104,11 +160,14 @@ Edits an existing client in the bakery book. The client's existing orders are re
 
 Format: `edit-client INDEX [n/NAME] [p/PHONE] [e/EMAIL] [a/ADDRESS] [t/TAG]…​`
 
-* Edits the client at the specified `INDEX`. The index refers to the index number shown in the displayed client list. The index **must be a positive integer** 1, 2, 3, …​
+* Edits the client at full-list position `INDEX`, even if hidden by the current client search.
+  The index **must be a positive integer** within the full stored client list.
 * At least one of the optional fields must be provided.
 * Existing values will be updated to the input values.
 * When editing tags, all of the client's existing tags are removed; adding tags is not cumulative.
 * To remove all of a client's tags, enter `t/` without a tag after it.
+* Editing retains the client's position and linked orders. If the edit shows all clients again,
+  their full-list numbers remain unchanged.
 
 Examples:
 *  `edit-client 1 p/91234567 e/johndoe@example.com` Edits the phone number and email address of the 1st client to be `91234567` and `johndoe@example.com` respectively.
@@ -117,6 +176,9 @@ Examples:
 #### Listing all clients: `list-clients`
 
 Shows a list of all clients in the bakery book.
+
+Restores the complete view after a search. It does not assign new client numbers or change the item
+or order filters. Each client displays the same full-list position used by client/order commands.
 
 Format: `list-clients`
 
@@ -131,11 +193,14 @@ Format: `find-clients KEYWORD [MORE_KEYWORDS]`
 * The search considers only names.
 * Only full words match; for example, `Han` does not match `Hans`.
 * Clients matching at least one keyword are returned (an `OR` search); for example, `Hans Bo` returns `Hans Gruber` and `Bo Yang`.
+* Matching clients retain their full-list numbers; results do not restart at 1. Order and item views
+  remain unchanged. Hidden clients remain addressable by their full-list numbers.
 
 Examples:
 * `find-clients John` returns `john` and `John Doe`
-* `find-clients alex david` returns `Alex Yeoh`, `David Li`<br>
-  ![result for finding Alex and David](images/findAlexDavidResult.png)
+* If Alex Yeoh is client 1 and David Li is client 4, `find-clients alex david` displays
+  `1. Alex Yeoh` and `4. David Li`. See the worked numbering example above. A new filtered-view
+  screenshot will be captured after the v1.5 implementation is available.
 
 ### Bakery item commands
 
@@ -210,9 +275,11 @@ The displayed item indices can be used with `edit-item`, `delete-item`, and `add
 
 ### Order commands
 
-Order commands use the displayed client and item lists. Create the client and bakery item before adding an order.
+Order commands use full-list client positions and displayed item positions. Create the client and
+bakery item before adding an order. See [Understanding client, item, and order numbers](#understanding-client-item-and-order-numbers).
 
-* `CONTACT_INDEX` is the client's index in the displayed client list. Use `list-clients` to show all clients after a search.
+* `CONTACT_INDEX` is the client's position in the full stored client list. Client searches never
+  renumber it, and the client need not be visible. A valid client number can be larger than the search-result count.
 * `ITEM_INDEX` is the item's index in the displayed bakery item list.
 * `ORDER_INDEX` is the order's position within that client's own orders, as shown on the order card. It is not the row number in the complete order list.
 * Indices must be positive integers. Invalid indices or input fields leave existing data unchanged.
@@ -228,9 +295,31 @@ Format: `add-order CONTACT_INDEX i/ITEM_INDEX q/QUANTITY d/DEADLINE`
 * `DEADLINE` must be a real calendar date in `YYYY-MM-DD` format. Past dates are accepted for record-keeping.
 * Identical repeat orders are allowed and can be managed separately.
 * The success message includes the new order's index within the client's orders.
+* A hidden client remains a valid target. The active order view is retained, so a new incomplete
+  order may be hidden when viewing completed orders. Check `list-orders` before adding it again.
 
 Example:
 * `add-order 1 i/1 q/5 d/2026-10-15` adds an order for five units of item 1 to client 1.
+* With the example clients above, `find-clients charlotte`, then `add-order 2 i/1 q/5 d/2026-10-15`
+  still adds to hidden Bernice (client 2), using item 1 from the displayed bakery item list.
+
+#### Editing an order: `edit-order` (when delivered)
+
+This command is tracked separately in [#133](https://github.com/AY2627S1-CS2103T-F14-3/tp/issues/133);
+use it only in a release that includes it.
+
+Format: `edit-order CONTACT_INDEX o/ORDER_INDEX [i/ITEM_INDEX] [q/QUANTITY] [d/DEADLINE]`
+
+Select the client by full-list position and the order by that client's full order list, including
+hidden clients/orders. Provide at least one editable field; omitted fields retain their values.
+An optional `i/` still selects from the displayed item list. Quantities and deadlines use the
+`add-order` validation rules. An edit retains the order's identity, owning client, completion status,
+and client-local position. Use marking/unmarking commands to change completion status.
+
+For example, after `find-clients charlotte`, `edit-order 2 o/1 q/13` edits hidden Bernice's first
+order. Searches, completion filters, and sorting remain applied; an edited order can leave a search
+or move within a sorted view. Successful edits are saved and undoable; save failures restore data
+and views. An equal-value edit leaves the earlier undo opportunity intact.
 
 #### Deleting an order: `delete-order`
 
@@ -240,6 +329,8 @@ Format: `delete-order CONTACT_INDEX o/ORDER_INDEX`
 
 * Deletes only the selected order; other orders, including identical repeat orders, are retained.
 * Later order indices for that client shift down after deletion. Use the updated numbers shown on the cards.
+* The client number is its full-list position. Both a hidden client and a hidden stored order remain
+  addressable; an order search or completion view does not restrict the target collection.
 
 Example:
 * `delete-order 1 o/2` deletes client 1's second order.
@@ -250,7 +341,11 @@ Marks the selected client order as complete.
 
 Format: `mark-order-complete CONTACT_INDEX o/ORDER_INDEX`
 
-* The order remains visible in the order panel.
+When the separately implemented `mark` alias is included, `mark CONTACT_INDEX o/ORDER_INDEX`
+has exactly the same selection, validation, persistence, and undo behavior.
+
+* The client number is its full-list position, even for a hidden client; `o/` uses that client's full order list.
+* The order remains stored. It disappears from an incomplete-only view after being marked complete.
 * If the order is already complete, an error is shown and no data is changed.
 
 Example:
@@ -263,6 +358,8 @@ Restores the selected completed order to incomplete.
 Format: `unmark CONTACT_INDEX o/ORDER_INDEX`
 
 * If the order is already incomplete, an error is shown and no data is changed.
+* The client number is its full-list position, even for a hidden client; `o/` uses that client's full order list.
+  Unmarking removes the order from a completed-only view without renumbering its client or client-local order position.
 
 Example:
 * `unmark 1 o/2` restores client 1's second order to incomplete.
@@ -279,7 +376,8 @@ Use `list-orders` to restore all orders. Client and item searches remain unchang
 The row number follows the search results, but each card retains its order number within
 the client's full order list. Use the card's client index and order number for
 `mark-order-complete`, `unmark`, and `delete-order`, even when earlier orders are hidden.
-If the client index is hidden, use `list-clients` to show it before acting.
+Client numbers remain visible on all order cards, even when their clients are hidden by a client search.
+The same targeting rule also applies to `edit-order` when delivered.
 Hidden orders remain stored and still prevent deletion of their client or item.
 Searching replaces the previous order search or completion view and restores insertion order.
 
@@ -302,11 +400,11 @@ Format: `list-orders [by-deadline]`
 * Clears the order search or completion view. Add `by-deadline` to show earliest deadlines first;
   omit it to restore insertion order. Unknown or additional arguments are rejected.
 * Orders stay visible when clients are filtered with `find-clients`.
-* Row numbers refer to this complete order list. The client line shows the client's displayed
-  index and the order number within that client's own orders, for example `Client 2: Bernice Yu — Order 1`.
+* Row numbers refer to this order view. The client line always shows the client's full-list
+  position and the order number within that client's own orders, for example `Client 2: Bernice Yu — Order 1`.
   Existing order commands take these two indices, for example `delete-order 2 o/1`.
-  Client indices update with the displayed client list. If a client is hidden by a search,
-  their name and order number remain visible, but their client index is omitted.
+  Client searches never change these client numbers or omit them. They can change after a preceding
+  client is deleted or the book is replaced/restored, so use the refreshed cards after those operations.
 * Adding, deleting, or marking an order updates the panel automatically. Deleting an order
   renumbers the remaining rows in the order panel.
 
@@ -342,7 +440,9 @@ Type `undo` in the command input to reverse the last successfully saved data cha
 * Supports adding, editing, or deleting clients/items, adding or deleting orders, marking/unmarking orders, `clear confirm`, and `populate`. Running `clear` without confirmation only shows a warning and does not replace undo history.
 * Only one change can be undone. A new saved data change replaces the previous undo opportunity. There is no redo.
 * Listing, searching, help, failed commands, and edits that leave data unchanged do not replace the undo opportunity.
-* Undo restores linked clients, items, and orders together. It shows all clients and items again, so use the refreshed indices.
+* Undo restores linked clients, items, and orders together, including their stored order. It shows all
+  lists again. Undoing a deletion can restore earlier client/order numbers; check the refreshed cards.
+  Item indices follow the restored displayed item list.
 * If nothing can be undone, `undo` reports an error without changing data.
 * If saving undo fails, the current data and displayed filters are restored, and you can retry.
 * Undo history is cleared on restart; successfully restored data remains saved. Extra arguments are rejected.
@@ -358,6 +458,9 @@ While the command input has focus, press **Up** to recall the latest submitted c
 * Non-empty submissions, including commands that produce errors, are remembered. Empty submissions are ignored.
 * At the oldest entry, further Up presses keep that entry. Down at the draft keeps the current input.
 * History lasts only for the current application session. Modified arrow shortcuts keep their normal behavior.
+* History recalls text, not the original target records. Client searches preserve client numbers, but
+  deleting clients or replacing/restoring the book can change them. Deleting orders can change `o/` numbers,
+  and item searches can change `i/` numbers. Check all current targets before submitting recalled text.
 
 #### Viewing help: `help`
 
@@ -379,6 +482,7 @@ Format: `populate`
 * Loads 12 sample clients, 12 bakery items, and 24 orders, including completed and incomplete orders.
 * Sample deadlines are relative to the day you run `populate`, with overdue, due-today, and upcoming orders.
 * Resets client and item filters so all sample entries are displayed.
+* Replaces the full client list: previous client numbers do not identify your old clients in the sample book.
 * Running it again replaces the data with a fresh sample book rather than adding duplicates.
 * If saving fails, the previous data and filters are restored.
 
@@ -393,6 +497,8 @@ Format: `clear` or `clear confirm`
 * Only the exact, lowercase word `confirm` is accepted. Other arguments (for example, `clear yes` or `clear confirm extra`) are rejected without changing data.
 * **`clear confirm` deletes all clients, items, and orders immediately.** It is an intentional, one-shot command for experienced users: you do not need to type `clear` first, and there is no additional confirmation prompt. All records are removed, including records hidden by searches. Review the command before pressing Enter, including when recalling it from command history.
 * If saving fails, the previous data and displayed filters are restored. You can retry the confirmed command.
+* Clearing removes every client position. `undo` can restore the prior book and its positions; after a
+  later data replacement or addition, inspect the full list before reusing an old client number.
 
 ##### Interaction with single-step undo
 
@@ -438,6 +544,10 @@ Furthermore, certain edits can cause BakeBase to behave in unexpected ways (e.g.
 
 Existing AddressBook Level 3 (AB3) files remain supported. Orders refer to clients and bakery items by name in the file. If you manually rename one, update its order references as well. Keep each order's UUID unique and use valid quantities, dates, and completion statuses. Incorrect edits can prevent loading and cause data loss, as with AB3; back up the file before editing it.
 
+Client numbers are calculated from the saved client-list order, not stored as permanent IDs.
+Reordering clients manually in the data file changes their full-list numbers at the next launch;
+check `list-clients` before using previously noted numbers.
+
 ### Archiving data files `[coming in v2.0]`
 
 _Details coming soon ..._
@@ -461,6 +571,9 @@ _Details coming soon ..._
 
 ### Client commands
 
+`INDEX` below always means a full-list client position, including hidden clients.
+Filtering preserves these positions; deletion can renumber later clients.
+
 Action | Format, Examples
 --------|------------------
 **Add client** | `add-client n/NAME p/PHONE_NUMBER e/EMAIL a/ADDRESS [t/TAG]…​`<br>e.g., `add-client n/James Ho p/22224444 e/jamesho@example.com a/123, Clementi Rd, 1234665 t/friend`
@@ -481,11 +594,16 @@ Action | Format, Examples
 
 ### Order commands
 
+`CONTACT_INDEX` means a full-list client position; `o/ORDER_INDEX` means the client's full order list.
+`i/ITEM_INDEX` continues to mean the displayed bakery item list. See the numbering section for examples.
+
 Action | Format, Examples
 --------|------------------
 **Add order** | `add-order CONTACT_INDEX i/ITEM_INDEX q/QUANTITY d/DEADLINE`<br>e.g., `add-order 1 i/2 q/5 d/2026-10-15`
 **Delete order** | `delete-order CONTACT_INDEX o/ORDER_INDEX`<br>e.g., `delete-order 1 o/2`
 **Mark order complete** | `mark-order-complete CONTACT_INDEX o/ORDER_INDEX`<br>e.g., `mark-order-complete 1 o/2`
+**Mark alias (when delivered)** | `mark CONTACT_INDEX o/ORDER_INDEX` — same targeting as `mark-order-complete`
+**Edit order (when delivered)** | `edit-order CONTACT_INDEX o/ORDER_INDEX [i/ITEM_INDEX] [q/QUANTITY] [d/DEADLINE]`
 **Restore order to incomplete** | `unmark CONTACT_INDEX o/ORDER_INDEX`<br>e.g., `unmark 1 o/2`
 **List orders** | `list-orders [by-deadline]`
 **List completed orders** | `list-complete-orders [by-deadline]`
