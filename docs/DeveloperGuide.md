@@ -16,6 +16,12 @@ title: Developer Guide
   [Jackson](https://github.com/FasterXML/jackson) for JSON serialization, and
   [JUnit 5](https://junit.org/junit5/) for automated testing.
 
+Notable uses of AI:
+
+* Codex was used extensively to generate or update almost all of the code and test cases.
+* Codex was used to update most of the DG and UG. This includes the `.puml` files and exported diagrams.
+* Codex was used for finding bugs, generating GitHub issues, PRs, and sometimes for PR reviews.
+
 --------------------------------------------------------------------------------------------------------------------
 
 ## **Setting up, getting started**
