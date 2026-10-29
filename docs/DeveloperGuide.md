@@ -202,9 +202,9 @@ This section describes some noteworthy details on how certain features are imple
 
 The parser recognizes `undo` without arguments. Logic supplies the snapshot to `UndoCommand`, which restores all clients, items, and orders and resets the displayed client/item filters. The normal persistence path saves the result. Only a successful save consumes the snapshot; on save failure, the existing rollback restores pre-undo data and filters, retaining the snapshot for retry.
 
-`undoAvailableProperty` exposes read-only availability to the UI. The Undo button binds its disabled state to this property and invokes the same command path as typed input. Snapshots preserve immutable records, their associations, order UUIDs, and insertion order. No redo or persistent history is provided.
+Users invoke undo by typing `undo` in the command input. When no snapshot is available, the command reports an error without changing data. Snapshots preserve immutable records, their associations, order UUIDs, and insertion order. No redo or persistent history is provided.
 
-A complete snapshot keeps recovery consistent across linked entities without implementing a separate inverse for each command. It uses memory proportional to one bakery book. `UndoTest` covers persistence, linked records, duplicate orders, snapshot replacement, no-op/failed commands, and save failure. `UndoButtonTest` verifies the real FXML button and its availability binding.
+A complete snapshot keeps recovery consistent across linked entities without implementing a separate inverse for each command. It uses memory proportional to one bakery book. `UndoTest` covers persistence, linked records, duplicate orders, snapshot replacement, no-op/failed commands, and save failure. `UndoCommandUiTest` verifies command-box submission, persisted recovery, and feedback when undo succeeds or is unavailable.
 
 ### \[Proposed\] Data archiving
 

@@ -14,9 +14,11 @@ import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.io.TempDir;
 
 import javafx.application.Platform;
-import javafx.scene.control.Button;
+import javafx.event.ActionEvent;
 import javafx.scene.control.TextArea;
+import javafx.scene.control.TextField;
 import javafx.stage.Stage;
+import javafx.stage.WindowEvent;
 import seedu.address.logic.LogicManager;
 import seedu.address.logic.commands.UndoCommand;
 import seedu.address.model.ModelManager;
@@ -24,7 +26,7 @@ import seedu.address.storage.JsonAddressBookStorage;
 import seedu.address.storage.JsonUserPrefsStorage;
 import seedu.address.storage.StorageManager;
 
-public class UndoButtonTest {
+public class UndoCommandUiTest {
     @TempDir
     public Path directory;
 
@@ -44,7 +46,7 @@ public class UndoButtonTest {
     }
 
     @Test
-    public void button_dataChangeAndUndo_updatesAvailabilityAndFeedback() throws Exception {
+    public void command_dataChangeAndUndo_updatesDataAndFeedback() throws Exception {
         FutureTask<Void> task = new FutureTask<>(() -> {
             ModelManager model = new ModelManager();
             Path book = directory.resolve("book.json");
@@ -55,19 +57,26 @@ public class UndoButtonTest {
             try {
                 MainWindow window = new MainWindow(stage, logic, book);
                 window.fillInnerParts();
-                Button button = (Button) stage.getScene().lookup("#undoButton");
-                assertTrue(button.isDisabled());
+                TextField commandInput = (TextField) stage.getScene().lookup("#commandTextField");
                 logic.execute("add-item n/Cake p/10");
-                assertFalse(button.isDisabled());
+                assertTrue(logic.undoAvailableProperty().get());
                 logic.execute("list-items");
-                assertFalse(button.isDisabled());
-                button.fire();
+                assertTrue(logic.undoAvailableProperty().get());
+                commandInput.setText("undo");
+                commandInput.fireEvent(new ActionEvent());
                 assertTrue(model.getAddressBook().getBakeryItemList().isEmpty());
                 assertTrue(storage.readAddressBook().orElseThrow().getBakeryItemList().isEmpty());
-                assertTrue(button.isDisabled());
+                assertFalse(logic.undoAvailableProperty().get());
+                assertEquals("", commandInput.getText());
                 TextArea feedback = (TextArea) stage.getScene().lookup("#resultDisplay");
                 assertEquals(UndoCommand.MESSAGE_SUCCESS, feedback.getText());
+
+                commandInput.setText("undo");
+                commandInput.fireEvent(new ActionEvent());
+                assertEquals(UndoCommand.MESSAGE_UNAVAILABLE, feedback.getText());
+                assertTrue(model.getAddressBook().getBakeryItemList().isEmpty());
             } finally {
+                stage.fireEvent(new WindowEvent(stage, WindowEvent.WINDOW_CLOSE_REQUEST));
                 stage.close();
             }
             return null;
