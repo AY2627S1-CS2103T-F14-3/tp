@@ -632,8 +632,10 @@ Delete only the selected order; subsequent client-local indices shift down. `Ord
 
 ### Editing a client order
 
-1. In a writable folder, verify Java 25 using `java -version` and launch the release with
-   `java -jar "addressbook.jar"`. Create a client and two items, then add two identical orders for client 1.
+1. In a disposable writable folder, never one containing real bakery data, verify Java 25 using
+   `java -version` and launch the release with `java -jar "addressbook.jar"`.
+   Run `clear confirm` to remove the initial sample data. Create one client and two items,
+   then add two identical orders for client 1.
 2. Mark the second order complete. Run `edit-order 1 o/2 q/13` and verify only its quantity changes.
    Its item, deadline, completed status, and client-local number must remain unchanged.
 3. Run `undo` immediately: both original orders should return, and another undo must be unavailable.
