@@ -13,7 +13,6 @@ You can reach us at the email `bakebase@comp.nus.edu.sg`
 
 <img src="images/yik-wee.png" width="200px">
 
-[[homepage](https://yik-wee.github.io)]
 [[github](https://github.com/yik-wee)]
 
 * Role: Team Lead
@@ -37,4 +36,3 @@ You can reach us at the email `bakebase@comp.nus.edu.sg`
 
 * Role: Documenter and QC
 * Responsibilities: Documentation, code quality
-
