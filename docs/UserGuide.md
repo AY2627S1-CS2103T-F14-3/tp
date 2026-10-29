@@ -269,16 +269,19 @@ Format: `delete-order CONTACT_INDEX o/ORDER_INDEX`
 Example:
 * `delete-order 1 o/2` deletes client 1's second order.
 
-#### Marking an order complete: `mark-order-complete`
+#### Marking an order complete: `mark-order-complete` (alias: `mark`)
 
 Marks the selected client order as complete.
 
-Format: `mark-order-complete CONTACT_INDEX o/ORDER_INDEX`
+Format: `mark-order-complete CONTACT_INDEX o/ORDER_INDEX` or `mark CONTACT_INDEX o/ORDER_INDEX`
+
+Both forms use the same validation, save, and undo behavior.
 
 * The order remains visible in the order panel.
 * If the order is already complete, an error is shown and no data is changed.
 
 Example:
+* `mark 1 o/2` is the shorter equivalent of `mark-order-complete 1 o/2`.
 * `mark-order-complete 1 o/2` marks client 1's second order complete.
 
 #### Restoring an order to incomplete: `unmark`
@@ -511,7 +514,7 @@ Action | Format, Examples
 **Edit order** | `edit-order CONTACT_INDEX o/ORDER_INDEX [i/ITEM_INDEX] [q/QUANTITY] [d/DEADLINE]`<br>e.g., `edit-order 1 o/2 q/13`
 **Add order** | `add-order CONTACT_INDEX i/ITEM_INDEX q/QUANTITY d/DEADLINE`<br>e.g., `add-order 1 i/2 q/5 d/2026-10-15`
 **Delete order** | `delete-order CONTACT_INDEX o/ORDER_INDEX`<br>e.g., `delete-order 1 o/2`
-**Mark order complete** | `mark-order-complete CONTACT_INDEX o/ORDER_INDEX`<br>e.g., `mark-order-complete 1 o/2`
+**Mark order complete** | `mark-order-complete CONTACT_INDEX o/ORDER_INDEX` or `mark CONTACT_INDEX o/ORDER_INDEX`<br>e.g., `mark-order-complete 1 o/2`
 **Restore order to incomplete** | `unmark CONTACT_INDEX o/ORDER_INDEX`<br>e.g., `unmark 1 o/2`
 **List orders** | `list-orders [by-deadline]`
 **List completed orders** | `list-complete-orders [by-deadline]`

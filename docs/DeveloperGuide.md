@@ -321,12 +321,20 @@ The client index refers to the displayed client list. The order index refers to 
 not the consolidated list of all orders. Indices are transient displayed positions, not persistent identifiers.
 Existence checks, order changes, persistence, UI updates, and user-facing help are deferred to model integration.
 No successful data change is claimed by this parsing increment.
-### mark-order-complete parsing increment
+### Order completion alias
 
-The current increment recognizes `mark-order-complete CONTACT_INDEX o/ORDER_INDEX`, for example
-`mark-order-complete 1 o/2`, as specified in [issue #39](https://github.com/AY2627S1-CS2103T-F14-3/tp/issues/39).
-It validates and retains the indices in a command; execution is deferred until the order model is integrated.
-Executing a valid request returns `Marking orders as complete is not available yet. No order status has been changed.` and leaves existing data unchanged.
+`AddressBookParser` dispatches both `mark CONTACT_INDEX o/ORDER_INDEX` and
+`mark-order-complete CONTACT_INDEX o/ORDER_INDEX` to `MarkOrderCompleteCommandParser`.
+Both produce the same `MarkOrderCompleteCommand`, so validation, client-local order selection,
+already-complete errors, persistence, save-failure rollback, and single-step undo remain shared.
+The command usage and help window list both spellings.
+
+Manual check: launch the JAR in a disposable writable folder, never a folder containing real bakery data.
+Run `clear confirm` to remove the initial sample data, then create one client, one item, and two identical
+orders for client 1. Run `mark 1 o/2` and verify that
+only the second order becomes complete. Restart to verify persistence, then run `unmark 1 o/2`,
+`mark 1 o/2`, and `undo` to verify the second order returns to incomplete. Try both command spellings
+with missing indices, `o/0`, and repeated `o/` prefixes; verify identical errors and no data changes.
 
 ## **Appendix: Requirements**
 
