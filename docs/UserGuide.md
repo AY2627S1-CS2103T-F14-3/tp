@@ -32,9 +32,9 @@ Your **bakery book** is the collection of clients, bakery items, and orders stor
 
    * `add-client n/John Doe p/98765432 e/johnd@example.com a/John street, block 123, #01-01` : Adds a contact named `John Doe` to the bakery book.
 
-   * `delete-client 3` : Deletes the 3rd contact shown in the current list.
+   * After adding `John Doe` above, run `find-clients John`, then `delete-client 1` : Deletes John from the displayed search results. The preloaded sample clients have orders and cannot be deleted until their orders are removed.
 
-   * `add-item n/Banana Muffin p/5.99` : Adds a bakery item named `Banana Muffin` to the bakery book.
+   * `add-item n/Honey Scone p/5.99` : Adds a bakery item named `Honey Scone`, which is not in the preloaded sample catalogue.
 
    * `clear` : Shows a warning. Use `clear confirm` to delete all clients, bakery items, and orders.
 
@@ -489,7 +489,7 @@ Clients, bakery items, orders, and completion statuses are saved together. A suc
 
 ### Editing the data file
 
-BakeBase data is saved automatically as a JSON file `[JAR file location]/data/addressbook.json`. Advanced users are welcome to update data directly by editing that data file.
+BakeBase data is saved automatically as a JSON file `[working directory]/data/addressbook.json`. The working directory is the folder your terminal is in when you launch BakeBase. Following the quick-start instructions to `cd` into the JAR folder makes this the JAR folder. Launching the JAR from another folder uses that other folder's `data/addressbook.json`, even if the JAR itself has not moved. Advanced users are welcome to update data directly by editing that data file while BakeBase is closed.
 
 <div markdown="span" class="alert alert-warning">:exclamation: **Caution:**
 If your changes make the data file invalid, BakeBase starts with an empty bakery book at the next run. The invalid file remains on disk until you run a command (BakeBase saves after every command). Still, we recommend backing up the file before editing it.<br>

@@ -302,25 +302,24 @@ This retains the order's UUID, client, quantity, deadline, and completion status
 edited item. The command then displays the complete bakery item list. Persistence and rollback on a save failure
 follow the same Logic transaction used by other data-changing commands.
 
-### delete-order parsing increment
+### Deleting a client order
 
-The current increment recognizes `delete-order CONTACT_INDEX o/ORDER_INDEX`, for example
-`delete-order 1 o/2`, as specified in [issue #38](https://github.com/AY2627S1-CS2103T-F14-3/tp/issues/38).
-It validates and retains the indices in a command; execution is deferred until the order model is integrated.
-Executing a valid request returns `Deleting client orders is not available yet. No order has been deleted.` and leaves existing data unchanged.
+`AddressBookParser` dispatches `delete-order CONTACT_INDEX o/ORDER_INDEX` to
+`DeleteClientOrderCommandParser`, which requires a positive client index and exactly one positive
+`o/` order index. Missing, repeated, empty, malformed, overflowing, or extra arguments are rejected.
 
-Requirements for this increment:
+`DeleteClientOrderCommand` uses `OrderCommandUtil#findOrder()` to resolve the client from the displayed
+client list and the order from that client's full order list, including orders hidden by an order filter.
+Out-of-range indices report an error before any data changes. These positions are not persistent identifiers.
 
-* Require one client index before the prefixes and exactly one `o/` order index.
-* Accept indices from 1 through `Integer.MAX_VALUE`, consistent with AB3's index representation.
-* Accept surrounding whitespace, including tabs, and leading zeros in indices.
-* Reject missing, duplicate, empty, malformed, overflowing, or extra arguments with usage or field-specific errors.
-* Register the command with the top-level parser and verify parsing and safe execution with automated tests.
+The command passes the selected `ClientOrder` to `Model#deleteOrder()`. Only that order is removed;
+identical repeat orders retain their separate identities. Observable order views update automatically,
+and later order numbers within the same client shift down after deletion.
 
-The client index refers to the displayed client list. The order index refers to that client's own orders,
-not the consolidated list of all orders. Indices are transient displayed positions, not persistent identifiers.
-Existence checks, order changes, persistence, UI updates, and user-facing help are deferred to model integration.
-No successful data change is claimed by this parsing increment.
+`LogicManager` saves the updated book before returning the `Order deleted:` success message. A save
+failure restores the previous data, displayed filters, and order comparator. A successful deletion becomes
+the single-step undo opportunity, allowing `undo` to restore the deleted order and its associations.
+
 ### Order completion alias
 
 `AddressBookParser` dispatches both `mark CONTACT_INDEX o/ORDER_INDEX` and
@@ -581,7 +580,10 @@ testers are expected to do more *exploratory* testing.
 
 1. Deleting a person while all persons are being shown
 
-   1. Prerequisites: List all persons using the `list-clients` command, with multiple persons in the list.
+   1. Prerequisites: In a disposable writable data folder, run `populate` to load the sample book.
+      This replaces any existing data. Run `delete-order 1 o/2`, then `delete-order 1 o/1` to remove
+      both orders belonging to Alex Yeoh. Run `list-clients` to show all clients. Alex is client 1
+      and can now be deleted; clients with linked orders cannot be deleted.
 
    1. Test case: `delete-client 1`<br>
       Expected: The first contact is deleted from the list. The status message shows the deleted contact's details.
