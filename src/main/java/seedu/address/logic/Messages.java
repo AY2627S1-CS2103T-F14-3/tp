@@ -1,5 +1,6 @@
 package seedu.address.logic;
 
+import java.util.List;
 import java.util.Set;
 import java.util.stream.Collectors;
 import java.util.stream.Stream;
@@ -21,6 +22,21 @@ public class Messages {
     public static final String MESSAGE_PERSONS_LISTED_OVERVIEW = "%1$d client(s) listed!";
     public static final String MESSAGE_DUPLICATE_FIELDS =
             "Multiple values specified for the following single-valued field(s): ";
+    public static final String MESSAGE_SIMILAR_CLIENT_WARNING =
+            "\nWarning: Another client has a similar name (ignoring case and extra spaces):\n%1$s\n"
+            + "The change succeeded. If this was accidental, use undo before making another data change.";
+
+    /**
+     * Returns an advisory warning for similar names, excluding the changed client itself.
+     */
+    public static String getSimilarClientWarning(Person changedPerson, List<Person> clients) {
+        String matches = clients.stream()
+                .filter(client -> !client.equals(changedPerson))
+                .filter(client -> client.getName().isSimilarTo(changedPerson.getName()))
+                .map(Messages::format)
+                .collect(Collectors.joining("\n"));
+        return matches.isEmpty() ? "" : String.format(MESSAGE_SIMILAR_CLIENT_WARNING, matches);
+    }
 
     /**
      * Returns an error message indicating the duplicate prefixes.

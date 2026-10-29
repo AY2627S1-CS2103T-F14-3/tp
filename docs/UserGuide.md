@@ -74,6 +74,10 @@ Your **bakery book** is the collection of clients, bakery items, and orders stor
 
 Adds a client to the bakery book.
 
+* Clients with exactly the same name are rejected, even if their contact details differ. Letter case and internal spacing are significant for this check.
+* If another client's name matches after ignoring case and collapsing repeated spaces, the addition succeeds with a possible-duplicate warning showing the matching client's details. Names are not rewritten and records are not merged. For example, `Alex Tan` and `alex  tan` trigger a warning, but `AlexTan` does not match `Alex Tan`.
+* If the addition was accidental, run `undo` immediately to reverse it. Otherwise, keep the separate client record. These warnings compare names only; they do not identify every possible duplicate customer.
+
 Format: `add-client n/NAME p/PHONE_NUMBER e/EMAIL a/ADDRESS [t/TAG]…​`
 
 <div markdown="span" class="alert alert-primary">:bulb: **Tip:**
@@ -101,6 +105,8 @@ Examples:
 #### Editing a client: `edit-client`
 
 Edits an existing client in the bakery book. The client's existing orders are retained.
+
+The same exact-name rejection and similar-name warning rules as `add-client` apply. The client being edited is excluded from the warning comparison. A warning means the edit succeeded; use `undo` immediately if it was accidental.
 
 Format: `edit-client INDEX [n/NAME] [p/PHONE] [e/EMAIL] [a/ADDRESS] [t/TAG]…​`
 

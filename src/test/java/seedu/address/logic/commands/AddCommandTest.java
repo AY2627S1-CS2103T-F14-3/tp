@@ -36,6 +36,18 @@ public class AddCommandTest {
         assertEquals(String.format(AddCommand.MESSAGE_SUCCESS, Messages.format(validPerson)),
                 commandResult.getFeedbackToUser());
         assertEquals(List.of(validPerson), modelStub.personsAdded);
+
+        Person similarPerson = new PersonBuilder(validPerson).withName("aMY  bEE").build();
+        CommandResult similarResult = new AddCommand(similarPerson).execute(modelStub);
+        assertEquals(String.format(AddCommand.MESSAGE_SUCCESS, Messages.format(similarPerson))
+                + String.format(Messages.MESSAGE_SIMILAR_CLIENT_WARNING, Messages.format(validPerson)),
+                similarResult.getFeedbackToUser());
+        assertEquals(List.of(validPerson, similarPerson), modelStub.personsAdded);
+        assertEquals("aMY  bEE", similarPerson.getName().fullName);
+
+        Person distinctPerson = new PersonBuilder(validPerson).withName("AmyBee").build();
+        assertEquals(String.format(AddCommand.MESSAGE_SUCCESS, Messages.format(distinctPerson)),
+                new AddCommand(distinctPerson).execute(modelStub).getFeedbackToUser());
     }
 
     @Test
@@ -116,7 +128,9 @@ public class AddCommandTest {
 
         @Override
         public ReadOnlyAddressBook getAddressBook() {
-            return new AddressBook();
+            AddressBook book = new AddressBook();
+            personsAdded.forEach(book::addPerson);
+            return book;
         }
     }
 
