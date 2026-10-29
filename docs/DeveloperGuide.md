@@ -12,7 +12,7 @@ describe the coordinated migration, not behavior enabled by this documentation-o
 The current pre-migration implementation uses filtered client positions. Complete and jointly verify
 the #142–#149 implementation tasks tracked by [#141](https://github.com/AY2627S1-CS2103T-F14-3/tp/issues/141) before publishing these instructions
 with a release. The `mark` alias ([#132](https://github.com/AY2627S1-CS2103T-F14-3/tp/issues/132)) and
-`edit-order` ([#133](https://github.com/AY2627S1-CS2103T-F14-3/tp/issues/133)) remain separate deliveries.
+`edit-order` ([#133](https://github.com/AY2627S1-CS2103T-F14-3/tp/issues/133)) are now integrated; their full-list client targeting remains part of this migration.
 
 </div>
 
@@ -220,9 +220,9 @@ Consumer | Resolution and responsibilities
 `OrderListPanel` / `OrderCard` | Always calculate client labels from the full list, and client-local order numbers from all stored orders for that client. Refresh cached/reused cells after changes.
 `AddClientOrderCommand` | Resolve client from the full list and item from the displayed item list; retain the active order view.
 `OrderCommandUtil#findOrder()` | Check the client index against the full list, resolve that client, then check the order index against that client's full stored orders.
-`DeleteClientOrderCommand`, `MarkOrderCompleteCommand`, `UnmarkOrderCommand` | Share the resolver; active order searches/completion filters do not restrict targets. The `mark` alias, when delivered, must share the same path.
+`DeleteClientOrderCommand`, `MarkOrderCompleteCommand`, `UnmarkOrderCommand` | Share the resolver; active order searches/completion filters do not restrict targets. The `mark` alias, must share the same path.
 `EditCommand`, `DeleteCommand` | Select from the full client list. Preserve duplicate checks, linked-order updates and referenced-client deletion protection.
-`EditClientOrderCommand` (when delivered) | Use the same client/order resolver; resolve optional `i/` from the displayed item list. Retain order UUID, client, completion status and insertion position.
+`EditClientOrderCommand` | Use the same client/order resolver; resolve optional `i/` from the displayed item list. Retain order UUID, client, completion status and insertion position.
 
 The command parameter names and storage schema do not change for this migration. Client-local order
 positions are distinct from order-view row positions; filtering/sorting only changes the latter.
@@ -346,11 +346,34 @@ references, invalid values, and null entries are rejected during loading; no par
 
 Commands return success only after persistence succeeds. The storage writes a temporary JSON file beside the
 destination and replaces the destination, using an atomic move where supported. A failed save restores the
-previous model and displayed lists. The shared order APIs support deleting an order and replacing completion
-status; these operations resolve the full-list client and its full client-local order collection under the migration.
+previous model, displayed filters, and order comparator. The shared order APIs support deletion,
+completion changes, and replacement of order details in place.
+Under the migration, these operations resolve the full-list client and its full client-local order collection.
 
 `add-item` from team PR #34 is integrated with the shared item model and storage so orders can reference real
 bakery goods. Order views and list commands remain the assigned teammate's GUI work.
+
+### Client order editing
+
+`edit-order CONTACT_INDEX o/ORDER_INDEX [i/ITEM_INDEX] [q/QUANTITY] [d/DEADLINE]` is dispatched
+to `EditClientOrderCommandParser`. The parser normalizes whitespace and requires a client index,
+exactly one order prefix, and at least one editable field. It rejects repeated prefixes and validates
+indices, quantity, and strict calendar dates using the existing parsers, including valid past deadlines.
+
+Under the target numbering contract, `EditClientOrderCommand` resolves the full-list client and its full order list through
+`OrderCommandUtil#findOrder()`. An optional item index resolves against the displayed bakery item list.
+It constructs an immutable replacement, retaining omitted values, UUID, client, and completion status.
+Only after all validation succeeds does `ModelManager#setOrder()` delegate to `AddressBook#setOrder()`.
+The latter validates the existing target and the replacement's retained fields and item reference,
+then replaces the selected element at its original position. Repeat orders retain separate identities.
+
+Observable filtered/sorted views update from the replacement without resetting predicates or comparators.
+An edit can change search membership or deadline ordering while retaining the client-local order number.
+`LogicManager` saves the complete book before returning success. I/O or permission failures restore
+the snapshot, all three filters, and the order comparator, retaining any prior undo opportunity.
+A saved change becomes the single-step undo snapshot; an equal-value edit skips replacement and does
+not replace undo history. Undo restores the prior book and shows all lists, following existing behavior.
+No storage schema change is needed.
 
 ### Bakery item editing
 
@@ -400,6 +423,21 @@ Already-applied statuses are rejected without mutation. Mark/unmark keep identit
 positions, although the changed order may leave the current completion view. Persistence, rollback
 and single-step undo use the common Logic path. The `mark` alias, when included via #132, must delegate
 to the same parser/command and use the same full-list selection; do not implement a separate index rule.
+
+### Order completion alias
+
+`AddressBookParser` dispatches both `mark CONTACT_INDEX o/ORDER_INDEX` and
+`mark-order-complete CONTACT_INDEX o/ORDER_INDEX` to `MarkOrderCompleteCommandParser`.
+Both produce the same `MarkOrderCompleteCommand`, so validation, client-local order selection,
+already-complete errors, persistence, save-failure rollback, and single-step undo remain shared.
+The command usage and help window list both spellings.
+
+Manual check: launch the JAR in a disposable writable folder, never a folder containing real bakery data.
+Run `clear confirm` to remove the initial sample data, then create one client, one item, and two identical
+orders for client 1. Run `mark 1 o/2` and verify that
+only the second order becomes complete. Restart to verify persistence, then run `unmark 1 o/2`,
+`mark 1 o/2`, and `undo` to verify the second order returns to incomplete. Try both command spellings
+with missing indices, `o/0`, and repeated `o/` prefixes; verify identical errors and no data changes.
 
 ## **Appendix: Requirements**
 
@@ -642,7 +680,7 @@ Edit a hidden client | `find-clients charlotte`, then `edit-client 2 p/99999999`
 Delete and renumber | `find-clients bernice charlotte`, then `delete-client 1`, then `list-clients` | Hidden Alex is deleted because he has no orders. Bernice becomes 1, Charlotte 2, Daria 3, and all order cards update. `undo` restores Alex 1, Bernice 2 and Charlotte 3; a recalled client number must be rechecked.
 Referenced-client protection | `find-clients charlotte`, then `delete-client 2` | Bernice's hidden orders block deletion; data, numbering and the existing undo opportunity remain unchanged.
 Invalid full-list position | `find-clients charlotte`, then try `edit-client 5 p/99999999`, `delete-client 5`, `add-order 5 i/1 q/1 d/2026-11-06`, `delete-order 5 o/1`, `mark-order-complete 5 o/1`, `unmark 5 o/1` | All reject without mutation because the full list has only four clients. Also check 0, negative, malformed and overflowing indices.
-Order editing (when delivered) | `find-clients charlotte`, `find-items Tart`, then `edit-order 2 o/1 i/1 q/7` | Bernice's first order changes to Tart, quantity 7, retaining UUID, client, incomplete status and local position. Undo restores it. Client 5 is still invalid.
+Order editing | `find-clients charlotte`, `find-items Tart`, then `edit-order 2 o/1 i/1 q/7` | Bernice's first order changes to Tart, quantity 7, retaining UUID, client, incomplete status and local position. Undo restores it. Client 5 is still invalid.
 
 For every mutation, compare the saved JSON before/after and restart to check associations and stored
 order. Inject I/O and permission failures through the storage test double: check unchanged data,
@@ -755,7 +793,7 @@ save failures restore data, predicates, sort order and numbering. See the migrat
 
 Mark only the selected order complete, retaining its identity and associations. For target v1.5,
 `OrderCommandUtil` resolves the full-list client and its full client-local order list, including hidden
-targets. The `mark` alias, when delivered, follows the same path. An incomplete-only view removes
+targets. The `mark` alias, follows the same path. An incomplete-only view removes
 the completed order. Invalid indices and repeated statuses reject without mutation; save failures
 restore data, filters, sorting and numbering. See the migration tests above.
 
@@ -765,3 +803,27 @@ Delete only the selected order; subsequent client-local indices shift down. For 
 `OrderCommandUtil` resolves the full-list client, then its full order list, regardless of client/order
 filters. Other clients keep their client numbers. Successful changes are saved; failures restore data,
 filters, sorting and prior numbering. See the migration tests above, including hidden-order deletion.
+
+
+### Editing a client order
+
+1. In a disposable writable folder, never one containing real bakery data, verify Java 25 using
+   `java -version` and launch the release with `java -jar "addressbook.jar"`.
+   Run `clear confirm` to remove the initial sample data. Create one client and two items,
+   then add two identical orders for client 1.
+2. Mark the second order complete. Run `edit-order 1 o/2 q/13` and verify only its quantity changes.
+   Its item, deadline, completed status, and client-local number must remain unchanged.
+3. Run `undo` immediately: both original orders should return, and another undo must be unavailable.
+4. Run `edit-order 1 o/2 i/2 q/9999 d/2020-02-29`. Restart and verify that all fields and the completed
+   status persist, with the same UUID and position in the JSON file.
+5. Filter clients and items; keep full-list client numbers and use displayed item indices. With `list-complete-orders by-deadline`,
+   edit a deadline and verify chronological movement without changing its client-local number. Use
+   `find-orders` for the old item name, then change that item's order to the other item: it should leave
+   the search results. An order hidden by a completion filter remains addressable by its client-local index.
+6. Try `edit-order 1 o/2`, `edit-order 1 o/2 q/0`, `edit-order 1 o/2 q/10000`,
+   `edit-order 1 o/2 d/2026-02-29`, repeated `q/` prefixes, and out-of-range client/order/item indices.
+   Each must report an error without changing any data.
+7. Make a real edit, repeat the same values, then undo: the original edit must still be reversible.
+8. Automated `EditOrderTest` injects both I/O and permission failures during saving and verifies restored
+   data, client/item/order filters, sorting, and prior undo. It also checks parser boundaries, filtered
+   indices, repeat-order isolation, omitted fields, persistence after reload, and single-step undo.

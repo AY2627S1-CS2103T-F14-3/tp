@@ -17,7 +17,9 @@ import seedu.address.model.order.ClientOrder;
  */
 public class MarkOrderCompleteCommand extends Command {
     public static final String COMMAND_WORD = "mark-order-complete";
-    public static final String MESSAGE_USAGE = COMMAND_WORD + ": Requests to mark a client order as complete. "
+    public static final String COMMAND_ALIAS = "mark";
+    public static final String MESSAGE_USAGE = COMMAND_WORD + " (alias: " + COMMAND_ALIAS
+            + "): Requests to mark a client order as complete. "
             + "Parameters: CONTACT_INDEX (positive integer) "
             + PREFIX_ORDER_INDEX + "ORDER_INDEX (positive integer)\n"
             + "Example: " + COMMAND_WORD + " 1 o/2";

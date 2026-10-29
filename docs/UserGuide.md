@@ -16,7 +16,8 @@ Your **bakery book** is the collection of clients, bakery items, and orders stor
 positions for v1.5. The documentation change alone does not enable that behavior. It must ship together
 with the client-list, order-card, and command updates (#142–#149) tracked by
 [the numbering migration](https://github.com/AY2627S1-CS2103T-F14-3/tp/issues/141).
-The `mark` alias and `edit-order` also require their separate implementations before use.
+The `mark` alias and `edit-order` are integrated into master; their client targeting still requires
+this numbering migration before the full-list instructions apply.
 The v1.5 download below is a release target until that release is published and verified.
 For the older v1.4 JAR, use the
 [v1.4 guide](https://github.com/AY2627S1-CS2103T-F14-3/tp/blob/v1.4/docs/UserGuide.md):
@@ -261,7 +262,7 @@ Format: `find-items KEYWORD [MORE_KEYWORDS]...`
 Matches any supplied keyword against whole words in item names, case-insensitively.
 For example, `find-items BANANA chocolate` finds Banana Muffin and Chocolate Muffin;
 `find-items muff` does not match Muffin. An empty search is rejected.
-Use `list-items` to restore all items. The item indices for `add-order`, `edit-item`,
+Use `list-items` to restore all items. The item indices for `add-order`, `edit-order`, `edit-item`,
 and `delete-item` refer to this displayed list. Searching does not change stored data.
 
 #### Listing all bakery items: `list-items`
@@ -271,7 +272,7 @@ Shows all bakery items in the item panel, with their index, name, and price.
 Format: `list-items`
 
 Like `list-clients`, this command ignores extra arguments. It does not change the displayed client list.
-The displayed item indices can be used with `edit-item`, `delete-item`, and `add-order`.
+The displayed item indices can be used with `edit-item`, `delete-item`, `add-order`, and `edit-order`.
 
 ### Order commands
 
@@ -303,23 +304,30 @@ Example:
 * With the example clients above, `find-clients charlotte`, then `add-order 2 i/1 q/5 d/2026-10-15`
   still adds to hidden Bernice (client 2), using item 1 from the displayed bakery item list.
 
-#### Editing an order: `edit-order` (when delivered)
+#### Editing an order: `edit-order`
 
-This command is tracked separately in [#133](https://github.com/AY2627S1-CS2103T-F14-3/tp/issues/133);
-use it only in a release that includes it.
+Corrects the selected order's item, quantity, deadline, or any combination of these fields.
 
 Format: `edit-order CONTACT_INDEX o/ORDER_INDEX [i/ITEM_INDEX] [q/QUANTITY] [d/DEADLINE]`
 
-Select the client by full-list position and the order by that client's full order list, including
-hidden clients/orders. Provide at least one editable field; omitted fields retain their values.
-An optional `i/` still selects from the displayed item list. Quantities and deadlines use the
-`add-order` validation rules. An edit retains the order's identity, owning client, completion status,
-and client-local position. Use marking/unmarking commands to change completion status.
+* Provide at least one of `i/`, `q/`, or `d/`. Omitted fields keep their current values.
+* Prefixes may appear in any order, but each may occur only once. Empty values are rejected.
+* The client index refers to its full-list position, including hidden clients. The optional item index
+  still refers to the displayed item list. The order index refers to the client's full stored order list.
+* Quantities must be whole numbers from 1 to 9,999. Deadlines must be real calendar dates in
+  `YYYY-MM-DD` format; past deadlines are accepted.
+* The order retains its identity, client, completion status, and client-local number. Identical repeat
+  orders remain separate. Use `mark-order-complete` or `unmark` to change completion status.
+* Active searches, completion filters, and deadline sorting remain applied. An edited order may
+  disappear from a search result or move within a sorted view; its client-local number stays the same.
+* Success is reported after saving. A save failure restores data, filters, and sorting.
+* `undo` reverses a successful edit. Supplying existing values reports unchanged details and retains
+  the previous undo opportunity.
 
-For example, after `find-clients charlotte`, `edit-order 2 o/1 q/13` edits hidden Bernice's first
-order. Searches, completion filters, and sorting remain applied; an edited order can leave a search
-or move within a sorted view. Successful edits are saved and undoable; save failures restore data
-and views. An equal-value edit leaves the earlier undo opportunity intact.
+Examples:
+
+* `edit-order 1 o/2 q/13` changes only the quantity of client 1's second order.
+* `edit-order 1 o/2 i/1 q/5 d/2026-10-15` replaces all three editable fields.
 
 #### Deleting an order: `delete-order`
 
@@ -335,20 +343,20 @@ Format: `delete-order CONTACT_INDEX o/ORDER_INDEX`
 Example:
 * `delete-order 1 o/2` deletes client 1's second order.
 
-#### Marking an order complete: `mark-order-complete`
+#### Marking an order complete: `mark-order-complete` (alias: `mark`)
 
 Marks the selected client order as complete.
 
-Format: `mark-order-complete CONTACT_INDEX o/ORDER_INDEX`
+Format: `mark-order-complete CONTACT_INDEX o/ORDER_INDEX` or `mark CONTACT_INDEX o/ORDER_INDEX`
 
-When the separately implemented `mark` alias is included, `mark CONTACT_INDEX o/ORDER_INDEX`
-has exactly the same selection, validation, persistence, and undo behavior.
+Both forms use the same validation, save, and undo behavior.
 
 * The client number is its full-list position, even for a hidden client; `o/` uses that client's full order list.
 * The order remains stored. It disappears from an incomplete-only view after being marked complete.
 * If the order is already complete, an error is shown and no data is changed.
 
 Example:
+* `mark 1 o/2` is the shorter equivalent of `mark-order-complete 1 o/2`.
 * `mark-order-complete 1 o/2` marks client 1's second order complete.
 
 #### Restoring an order to incomplete: `unmark`
@@ -375,9 +383,8 @@ Use `list-orders` to restore all orders. Client and item searches remain unchang
 
 The row number follows the search results, but each card retains its order number within
 the client's full order list. Use the card's client index and order number for
-`mark-order-complete`, `unmark`, and `delete-order`, even when earlier orders are hidden.
+`mark-order-complete` (or `mark`), `unmark`, `edit-order`, and `delete-order`, even when earlier orders are hidden.
 Client numbers remain visible on all order cards, even when their clients are hidden by a client search.
-The same targeting rule also applies to `edit-order` when delivered.
 Hidden orders remain stored and still prevent deletion of their client or item.
 Searching replaces the previous order search or completion view and restores insertion order.
 
@@ -437,7 +444,7 @@ New orders appear in deadline order while sorting is active. Running `find-order
 
 Type `undo` in the command input to reverse the last successfully saved data change.
 
-* Supports adding, editing, or deleting clients/items, adding or deleting orders, marking/unmarking orders, `clear confirm`, and `populate`. Running `clear` without confirmation only shows a warning and does not replace undo history.
+* Supports adding, editing, or deleting clients/items, adding, editing, or deleting orders, marking/unmarking orders, `clear confirm`, and `populate`. Running `clear` without confirmation only shows a warning and does not replace undo history.
 * Only one change can be undone. A new saved data change replaces the previous undo opportunity. There is no redo.
 * Listing, searching, help, failed commands, and edits that leave data unchanged do not replace the undo opportunity.
 * Undo restores linked clients, items, and orders together, including their stored order. It shows all
@@ -599,11 +606,10 @@ Action | Format, Examples
 
 Action | Format, Examples
 --------|------------------
+**Edit order** | `edit-order CONTACT_INDEX o/ORDER_INDEX [i/ITEM_INDEX] [q/QUANTITY] [d/DEADLINE]`<br>e.g., `edit-order 1 o/2 q/13`
 **Add order** | `add-order CONTACT_INDEX i/ITEM_INDEX q/QUANTITY d/DEADLINE`<br>e.g., `add-order 1 i/2 q/5 d/2026-10-15`
 **Delete order** | `delete-order CONTACT_INDEX o/ORDER_INDEX`<br>e.g., `delete-order 1 o/2`
-**Mark order complete** | `mark-order-complete CONTACT_INDEX o/ORDER_INDEX`<br>e.g., `mark-order-complete 1 o/2`
-**Mark alias (when delivered)** | `mark CONTACT_INDEX o/ORDER_INDEX` — same targeting as `mark-order-complete`
-**Edit order (when delivered)** | `edit-order CONTACT_INDEX o/ORDER_INDEX [i/ITEM_INDEX] [q/QUANTITY] [d/DEADLINE]`
+**Mark order complete** | `mark-order-complete CONTACT_INDEX o/ORDER_INDEX` or `mark CONTACT_INDEX o/ORDER_INDEX`<br>e.g., `mark-order-complete 1 o/2`
 **Restore order to incomplete** | `unmark CONTACT_INDEX o/ORDER_INDEX`<br>e.g., `unmark 1 o/2`
 **List orders** | `list-orders [by-deadline]`
 **List completed orders** | `list-complete-orders [by-deadline]`
