@@ -17,6 +17,7 @@ import seedu.address.logic.commands.DeleteBakeryItemCommand;
 import seedu.address.logic.commands.DeleteClientOrderCommand;
 import seedu.address.logic.commands.DeleteCommand;
 import seedu.address.logic.commands.EditBakeryItemCommand;
+import seedu.address.logic.commands.EditClientOrderCommand;
 import seedu.address.logic.commands.EditCommand;
 import seedu.address.logic.commands.ExitCommand;
 import seedu.address.logic.commands.FindCommand;
@@ -78,6 +79,7 @@ public class AddressBookParser {
             case DeleteClientOrderCommand.COMMAND_WORD -> new DeleteClientOrderCommandParser().parse(arguments);
             case MarkOrderCompleteCommand.COMMAND_WORD -> new MarkOrderCompleteCommandParser().parse(arguments);
             case UnmarkOrderCommand.COMMAND_WORD -> new UnmarkOrderCommandParser().parse(arguments);
+            case EditClientOrderCommand.COMMAND_WORD -> new EditClientOrderCommandParser().parse(arguments);
             case EditCommand.COMMAND_WORD -> new EditCommandParser().parse(arguments);
             case EditBakeryItemCommand.COMMAND_WORD -> new EditBakeryItemCommandParser().parse(arguments);
             case DeleteCommand.COMMAND_WORD -> new DeleteCommandParser().parse(arguments);

@@ -196,7 +196,7 @@ Format: `find-items KEYWORD [MORE_KEYWORDS]...`
 Matches any supplied keyword against whole words in item names, case-insensitively.
 For example, `find-items BANANA chocolate` finds Banana Muffin and Chocolate Muffin;
 `find-items muff` does not match Muffin. An empty search is rejected.
-Use `list-items` to restore all items. The item indices for `add-order`, `edit-item`,
+Use `list-items` to restore all items. The item indices for `add-order`, `edit-order`, `edit-item`,
 and `delete-item` refer to this displayed list. Searching does not change stored data.
 
 #### Listing all bakery items: `list-items`
@@ -206,7 +206,7 @@ Shows all bakery items in the item panel, with their index, name, and price.
 Format: `list-items`
 
 Like `list-clients`, this command ignores extra arguments. It does not change the displayed client list.
-The displayed item indices can be used with `edit-item`, `delete-item`, and `add-order`.
+The displayed item indices can be used with `edit-item`, `delete-item`, `add-order`, and `edit-order`.
 
 ### Order commands
 
@@ -231,6 +231,31 @@ Format: `add-order CONTACT_INDEX i/ITEM_INDEX q/QUANTITY d/DEADLINE`
 
 Example:
 * `add-order 1 i/1 q/5 d/2026-10-15` adds an order for five units of item 1 to client 1.
+
+#### Editing an order: `edit-order`
+
+Corrects the selected order's item, quantity, deadline, or any combination of these fields.
+
+Format: `edit-order CONTACT_INDEX o/ORDER_INDEX [i/ITEM_INDEX] [q/QUANTITY] [d/DEADLINE]`
+
+* Provide at least one of `i/`, `q/`, or `d/`. Omitted fields keep their current values.
+* Prefixes may appear in any order, but each may occur only once. Empty values are rejected.
+* The client and optional item indices refer to their displayed lists. The order index refers to the
+  client's full order list, including orders hidden by searches or completion filters.
+* Quantities must be whole numbers from 1 to 9,999. Deadlines must be real calendar dates in
+  `YYYY-MM-DD` format; past deadlines are accepted.
+* The order retains its identity, client, completion status, and client-local number. Identical repeat
+  orders remain separate. Use `mark-order-complete` or `unmark` to change completion status.
+* Active searches, completion filters, and deadline sorting remain applied. An edited order may
+  disappear from a search result or move within a sorted view; its client-local number stays the same.
+* Success is reported after saving. A save failure restores data, filters, and sorting.
+* `undo` reverses a successful edit. Supplying existing values reports unchanged details and retains
+  the previous undo opportunity.
+
+Examples:
+
+* `edit-order 1 o/2 q/13` changes only the quantity of client 1's second order.
+* `edit-order 1 o/2 i/1 q/5 d/2026-10-15` replaces all three editable fields.
 
 #### Deleting an order: `delete-order`
 
@@ -278,7 +303,7 @@ Use `list-orders` to restore all orders. Client and item searches remain unchang
 
 The row number follows the search results, but each card retains its order number within
 the client's full order list. Use the card's client index and order number for
-`mark-order-complete`, `unmark`, and `delete-order`, even when earlier orders are hidden.
+`mark-order-complete`, `unmark`, `edit-order`, and `delete-order`, even when earlier orders are hidden.
 If the client index is hidden, use `list-clients` to show it before acting.
 Hidden orders remain stored and still prevent deletion of their client or item.
 Searching replaces the previous order search or completion view and restores insertion order.
@@ -339,7 +364,7 @@ New orders appear in deadline order while sorting is active. Running `find-order
 
 Type `undo` in the command input to reverse the last successfully saved data change.
 
-* Supports adding, editing, or deleting clients/items, adding or deleting orders, marking/unmarking orders, `clear confirm`, and `populate`. Running `clear` without confirmation only shows a warning and does not replace undo history.
+* Supports adding, editing, or deleting clients/items, adding, editing, or deleting orders, marking/unmarking orders, `clear confirm`, and `populate`. Running `clear` without confirmation only shows a warning and does not replace undo history.
 * Only one change can be undone. A new saved data change replaces the previous undo opportunity. There is no redo.
 * Listing, searching, help, failed commands, and edits that leave data unchanged do not replace the undo opportunity.
 * Undo restores linked clients, items, and orders together. It shows all clients and items again, so use the refreshed indices.
@@ -483,6 +508,7 @@ Action | Format, Examples
 
 Action | Format, Examples
 --------|------------------
+**Edit order** | `edit-order CONTACT_INDEX o/ORDER_INDEX [i/ITEM_INDEX] [q/QUANTITY] [d/DEADLINE]`<br>e.g., `edit-order 1 o/2 q/13`
 **Add order** | `add-order CONTACT_INDEX i/ITEM_INDEX q/QUANTITY d/DEADLINE`<br>e.g., `add-order 1 i/2 q/5 d/2026-10-15`
 **Delete order** | `delete-order CONTACT_INDEX o/ORDER_INDEX`<br>e.g., `delete-order 1 o/2`
 **Mark order complete** | `mark-order-complete CONTACT_INDEX o/ORDER_INDEX`<br>e.g., `mark-order-complete 1 o/2`
