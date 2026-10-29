@@ -105,11 +105,13 @@ public class ModelManager implements Model {
         addressBook.setPerson(target, editedPerson);
     }
 
+    // @@author Yik-Wee
     @Override
     public void deleteBakeryItem(BakeryItem target) {
         addressBook.removeBakeryItem(target);
         logger.fine("Deleted bakery item: " + target);
     }
+    // @@author
 
     //=========== Filtered Person List Accessors =============================================================
 

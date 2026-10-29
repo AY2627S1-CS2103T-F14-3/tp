@@ -30,6 +30,7 @@ public class UndoCommandUiTest {
     @TempDir
     public Path directory;
 
+    // @@author GODMODE899
     @BeforeAll
     public static void startJavaFx() throws Exception {
         CompletableFuture<Void> started = new CompletableFuture<>();
@@ -44,6 +45,7 @@ public class UndoCommandUiTest {
         }
         started.get(10, TimeUnit.SECONDS);
     }
+    // @@author
 
     @Test
     public void command_dataChangeAndUndo_updatesDataAndFeedback() throws Exception {
