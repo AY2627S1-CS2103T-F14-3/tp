@@ -27,11 +27,22 @@ public class NameTest {
         // invalid name
         assertFalse(Name.isValidName("")); // empty string
         assertFalse(Name.isValidName(" ")); // spaces only
-        assertFalse(Name.isValidName("^")); // only non-alphanumeric characters
-        assertFalse(Name.isValidName("peter*")); // contains non-alphanumeric characters
+        assertFalse(Name.isValidName(" Peter")); // leading space
+        assertFalse(Name.isValidName("Anne\tMarie")); // tab
+        assertFalse(Name.isValidName("Anne\nMarie")); // newline
+        assertFalse(Name.isValidName("Anne\rMarie")); // carriage return
+        assertFalse(Name.isValidName("Anne\u0000Marie")); // null character
+        assertFalse(Name.isValidName("Anne\u007fMarie")); // delete character
+        assertFalse(Name.isValidName("O\u2019Neil")); // non-ASCII apostrophe
 
         // valid name
         assertTrue(Name.isValidName("peter jack")); // alphabets only
+        assertTrue(Name.isValidName("Anne-Marie O'Neil"));
+        assertTrue(Name.isValidName("Siti d/o Rahim"));
+        assertTrue(Name.isValidName("Raj s/o Kumar"));
+        assertTrue(Name.isValidName("Dr. Tan (Jr.)"));
+        assertTrue(Name.isValidName("^")); // printable punctuation
+        assertTrue(Name.isValidName("peter*"));
         assertTrue(Name.isValidName("12345")); // numbers only
         assertTrue(Name.isValidName("peter the 2nd")); // alphanumeric characters
         assertTrue(Name.isValidName("Capital Tan")); // with capital letters

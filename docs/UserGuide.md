@@ -76,6 +76,10 @@ Adds a client to the bakery book.
 
 Format: `add-client n/NAME p/PHONE_NUMBER e/EMAIL a/ADDRESS [t/TAG]…​`
 
+* Names must not be blank and must contain only printable ASCII characters. Leading and trailing whitespace is removed. Apostrophes (`'`), hyphens (`-`), periods (`.`), and slashes (`/`) are accepted, for example `Anne-Marie O'Neil` and `Siti d/o Rahim`. Curly apostrophes and other non-ASCII characters are not supported.
+* The sequences `n/`, `p/`, `e/`, `a/`, and `t/` immediately after a space are command prefixes and cannot be entered literally within a name. There is no quoting or escaping syntax for them. The slash in `d/o` or `s/o` does not conflict with these prefixes.
+* Clients with exactly the same name are duplicates, including letter case, punctuation, and internal spacing. Punctuation is preserved rather than removed or normalized.
+
 <div markdown="span" class="alert alert-primary">:bulb: **Tip:**
 A client can have any number of tags, including zero.
 </div>
@@ -107,6 +111,7 @@ Format: `edit-client INDEX [n/NAME] [p/PHONE] [e/EMAIL] [a/ADDRESS] [t/TAG]…�
 * Edits the client at the specified `INDEX`. The index refers to the index number shown in the displayed client list. The index **must be a positive integer** 1, 2, 3, …​
 * At least one of the optional fields must be provided.
 * Existing values will be updated to the input values.
+* Names follow the same rules as `add-client`. Renaming a client updates their linked orders; renaming to another client's exact name is rejected.
 * When editing tags, all of the client's existing tags are removed; adding tags is not cumulative.
 * To remove all of a client's tags, enter `t/` without a tag after it.
 
@@ -130,6 +135,7 @@ Format: `find-clients KEYWORD [MORE_KEYWORDS]`
 * Keyword order does not matter; for example, `Hans Bo` matches `Bo Hans`.
 * The search considers only names.
 * Only full words match; for example, `Han` does not match `Hans`.
+* Punctuation stays part of a word: `anne-marie` matches `Anne-Marie`, and `o'neil` matches `O'Neil`; `Anne` does not match `Anne-Marie`. The same rule applies to client names in `find-orders`.
 * Clients matching at least one keyword are returned (an `OR` search); for example, `Hans Bo` returns `Hans Gruber` and `Bo Yang`.
 
 Examples:
