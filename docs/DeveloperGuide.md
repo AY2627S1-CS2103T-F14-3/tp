@@ -307,7 +307,9 @@ Both produce the same `MarkOrderCompleteCommand`, so validation, client-local or
 already-complete errors, persistence, save-failure rollback, and single-step undo remain shared.
 The command usage and help window list both spellings.
 
-Manual check: create a client, an item, and two identical orders. Run `mark 1 o/2` and verify that
+Manual check: launch the JAR in a disposable writable folder, never a folder containing real bakery data.
+Run `clear confirm` to remove the initial sample data, then create one client, one item, and two identical
+orders for client 1. Run `mark 1 o/2` and verify that
 only the second order becomes complete. Restart to verify persistence, then run `unmark 1 o/2`,
 `mark 1 o/2`, and `undo` to verify the second order returns to incomplete. Try both command spellings
 with missing indices, `o/0`, and repeated `o/` prefixes; verify identical errors and no data changes.
