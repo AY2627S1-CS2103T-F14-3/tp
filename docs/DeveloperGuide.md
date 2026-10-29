@@ -256,11 +256,33 @@ references, invalid values, and null entries are rejected during loading; no par
 
 Commands return success only after persistence succeeds. The storage writes a temporary JSON file beside the
 destination and replaces the destination, using an atomic move where supported. A failed save restores the
-previous model and displayed lists. The shared order APIs support deleting an order and replacing completion
-status; those commands are implemented separately on their respective feature branches.
+previous model, displayed filters, and order comparator. The shared order APIs support deletion,
+completion changes, and replacement of order details in place.
 
 `add-item` from team PR #34 is integrated with the shared item model and storage so orders can reference real
 bakery goods. Order views and list commands remain the assigned teammate's GUI work.
+
+### Client order editing
+
+`edit-order CONTACT_INDEX o/ORDER_INDEX [i/ITEM_INDEX] [q/QUANTITY] [d/DEADLINE]` is dispatched
+to `EditClientOrderCommandParser`. The parser normalizes whitespace and requires a client index,
+exactly one order prefix, and at least one editable field. It rejects repeated prefixes and validates
+indices, quantity, and strict calendar dates using the existing parsers, including valid past deadlines.
+
+`EditClientOrderCommand` resolves the displayed client and its full client-local order list through
+`OrderCommandUtil#findOrder()`. An optional item index resolves against the displayed bakery item list.
+It constructs an immutable replacement, retaining omitted values, UUID, client, and completion status.
+Only after all validation succeeds does `ModelManager#setOrder()` delegate to `AddressBook#setOrder()`.
+The latter validates the existing target and the replacement's retained fields and item reference,
+then replaces the selected element at its original position. Repeat orders retain separate identities.
+
+Observable filtered/sorted views update from the replacement without resetting predicates or comparators.
+An edit can change search membership or deadline ordering while retaining the client-local order number.
+`LogicManager` saves the complete book before returning success. I/O or permission failures restore
+the snapshot, all three filters, and the order comparator, retaining any prior undo opportunity.
+A saved change becomes the single-step undo snapshot; an equal-value edit skips replacement and does
+not replace undo history. Undo restores the prior book and shows all lists, following existing behavior.
+No storage schema change is needed.
 
 ### Bakery item editing
 
@@ -606,3 +628,25 @@ Mark only the selected order complete, retaining its identity and associations. 
 ### delete-order backend
 
 Delete only the selected order; subsequent client-local indices shift down. `OrderCommandUtil` resolves the displayed client and then the order's position within that client. Invalid indices and repeated status changes report specific errors without mutation. Successful changes are saved by LogicManager; save failures restore data and displayed filters.
+
+
+### Editing a client order
+
+1. In a writable folder, verify Java 25 using `java -version` and launch the release with
+   `java -jar "addressbook.jar"`. Create a client and two items, then add two identical orders for client 1.
+2. Mark the second order complete. Run `edit-order 1 o/2 q/13` and verify only its quantity changes.
+   Its item, deadline, completed status, and client-local number must remain unchanged.
+3. Run `undo` immediately: both original orders should return, and another undo must be unavailable.
+4. Run `edit-order 1 o/2 i/2 q/9999 d/2020-02-29`. Restart and verify that all fields and the completed
+   status persist, with the same UUID and position in the JSON file.
+5. Filter clients and items, then use their displayed indices. With `list-complete-orders by-deadline`,
+   edit a deadline and verify chronological movement without changing its client-local number. Use
+   `find-orders` for the old item name, then change that item's order to the other item: it should leave
+   the search results. An order hidden by a completion filter remains addressable by its client-local index.
+6. Try `edit-order 1 o/2`, `edit-order 1 o/2 q/0`, `edit-order 1 o/2 q/10000`,
+   `edit-order 1 o/2 d/2026-02-29`, repeated `q/` prefixes, and out-of-range client/order/item indices.
+   Each must report an error without changing any data.
+7. Make a real edit, repeat the same values, then undo: the original edit must still be reversible.
+8. Automated `EditOrderTest` injects both I/O and permission failures during saving and verifies restored
+   data, client/item/order filters, sorting, and prior undo. It also checks parser boundaries, filtered
+   indices, repeat-order isolation, omitted fields, persistence after reload, and single-step undo.

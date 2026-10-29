@@ -17,6 +17,11 @@ import seedu.address.model.person.Person;
  */
 class ModelStub implements Model {
     @Override
+    public void setOrder(ClientOrder target, ClientOrder editedOrder) {
+        throw new AssertionError("This method should not be called.");
+    }
+
+    @Override
     public void updateFilteredOrderList(Predicate<ClientOrder> predicate) {
         throw new AssertionError("This method should not be called.");
     }

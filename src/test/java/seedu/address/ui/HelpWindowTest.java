@@ -32,6 +32,7 @@ import seedu.address.logic.commands.DeleteBakeryItemCommand;
 import seedu.address.logic.commands.DeleteClientOrderCommand;
 import seedu.address.logic.commands.DeleteCommand;
 import seedu.address.logic.commands.EditBakeryItemCommand;
+import seedu.address.logic.commands.EditClientOrderCommand;
 import seedu.address.logic.commands.EditCommand;
 import seedu.address.logic.commands.ExitCommand;
 import seedu.address.logic.commands.FindCommand;
@@ -69,6 +70,7 @@ public class HelpWindowTest {
             new CommandSummary(FindItemsCommand.COMMAND_WORD, FindItemsCommand.MESSAGE_USAGE),
             new CommandSummary(ListItemsCommand.COMMAND_WORD, ListItemsCommand.MESSAGE_USAGE),
             new CommandSummary(AddClientOrderCommand.COMMAND_WORD, AddClientOrderCommand.MESSAGE_USAGE),
+            new CommandSummary(EditClientOrderCommand.COMMAND_WORD, EditClientOrderCommand.MESSAGE_USAGE),
             new CommandSummary(DeleteClientOrderCommand.COMMAND_WORD, DeleteClientOrderCommand.MESSAGE_USAGE),
             new CommandSummary(MarkOrderCompleteCommand.COMMAND_WORD, MarkOrderCompleteCommand.MESSAGE_USAGE),
             new CommandSummary(UnmarkOrderCommand.COMMAND_WORD, UnmarkOrderCommand.MESSAGE_USAGE),

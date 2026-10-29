@@ -152,4 +152,9 @@ public interface Model {
      * Sets completion status for the specified existing order.
      */
     void setOrderCompletion(ClientOrder order, boolean isComplete);
+
+    /**
+     * Replaces an order in place, retaining its identity, owner, and completion status.
+     */
+    void setOrder(ClientOrder target, ClientOrder editedOrder);
 }
