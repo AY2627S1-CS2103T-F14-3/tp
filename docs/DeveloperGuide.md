@@ -128,10 +128,14 @@ The `bakeryitem` package forms the bakery-item subcomponent of the Model compone
 
 <img src="images/BakeryItemModelClassDiagram.png" width="450" />
 
+The `order` package forms the client orders subcomponent of the Model component.
+
+<img src="images/OrderModelClassDiagram.png" width="450" />
+
 The `Model` component,
 
-* stores client (represented by `Person`) and bakery-item data in unique collections.
-* stores the `Person` and `BakeryItem` objects selected by their current filters in separate _filtered_ lists. It exposes these lists as unmodifiable observable lists that the UI can observe and bind to, so the UI updates when either list changes.
+* stores client (represented by `Person`), bakery-item, and order data in unique collections.
+* stores the `Person`, `BakeryItem`, and `ClientOrder` objects selected by their current filters in separate _filtered_ lists. It exposes these lists as unmodifiable observable lists that the UI can observe and bind to, so the UI updates when any of these lists changes.
 * stores a `UserPrefs` object that represents the user’s preferences (currently, just the GUI settings). This is exposed to the outside as a `ReadOnlyUserPrefs` object.
 * does not depend on any of the other three components (as the `Model` represents data entities of the domain, they should make sense on their own without depending on other components)
 
@@ -483,6 +487,7 @@ Priorities: Must have - `* * * *`, Nice to have (high) - `* * *`, Nice to have (
 * **Private contact detail**: A contact detail that is not meant to be shared with others
 * **Baker**: The user who manages clients, bakery goods and orders in BakeBase.
 * **Client**: A customer whose contact details are stored in BakeBase.
+* **Bakery book**: The collection of client, bakery item, and order data inside BakeBase. This is represented by `AddressBook` in the code and was adapted from the address book in AB3.
 * **Bakery good**: A baked product that a baker offers and can add to a client order.
 * **Bakery item**: Another term for a bakery good. The terms are used interchangeably in this guide.
 * **Client order**: A record of a client’s request for a bakery good, including its quantity and, if specified, its deadline and status.

@@ -23,6 +23,9 @@ Class Tag
 package "bakeryitem" as BakeryItemPackage {
 }
 
+package "order" as OrderPackage {
+}
+
 Class I #FFFFFF
 }
 
@@ -52,7 +55,9 @@ Name -[hidden]right-> Phone
 Phone -[hidden]right-> Address
 Address -[hidden]right-> Email
 
-ModelManager --> "~* filtered" Person
 AddressBook ..> BakeryItemPackage : stores
 ModelManager ..> BakeryItemPackage : filters
+ModelManager --> "~* filtered" Person
+AddressBook ..> OrderPackage : stores
+ModelManager ..> OrderPackage : filters
 @enduml
