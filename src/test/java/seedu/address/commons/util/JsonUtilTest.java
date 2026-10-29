@@ -1,12 +1,17 @@
 package seedu.address.commons.util;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertFalse;
+import static org.junit.jupiter.api.Assertions.assertThrows;
 
 import java.io.IOException;
+import java.nio.file.Files;
 import java.nio.file.Path;
 
 import org.junit.jupiter.api.Test;
+import org.junit.jupiter.api.io.TempDir;
 
+import seedu.address.commons.exceptions.DataLoadingException;
 import seedu.address.testutil.SerializableTestClass;
 import seedu.address.testutil.TestUtil;
 
@@ -16,6 +21,24 @@ import seedu.address.testutil.TestUtil;
 public class JsonUtilTest {
 
     private static final Path SERIALIZATION_FILE = TestUtil.getFilePathInSandboxFolder("serialize.json");
+
+    @TempDir
+    public Path testFolder;
+
+    @Test
+    public void readJsonFile_nullRoot_throwsDataLoadingExceptionWithoutChangingFile() throws IOException {
+        Path filePath = testFolder.resolve("null.json");
+        String contents = " \nnull\n ";
+        Files.writeString(filePath, contents);
+
+        assertThrows(DataLoadingException.class, () -> JsonUtil.readJsonFile(filePath, SerializableTestClass.class));
+        assertEquals(contents, Files.readString(filePath));
+    }
+
+    @Test
+    public void readJsonFile_missingFile_returnsEmpty() throws DataLoadingException {
+        assertFalse(JsonUtil.readJsonFile(testFolder.resolve("missing.json"), SerializableTestClass.class).isPresent());
+    }
 
     @Test
     public void serializeObjectToJsonFile_noExceptionThrown() throws IOException {
