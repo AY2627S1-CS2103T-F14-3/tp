@@ -33,6 +33,8 @@ import seedu.address.logic.commands.FindItemsCommand;
 import seedu.address.logic.commands.FindOrdersCommand;
 import seedu.address.logic.commands.HelpCommand;
 import seedu.address.logic.commands.ListCommand;
+import seedu.address.logic.commands.ListCompleteOrdersCommand;
+import seedu.address.logic.commands.ListIncompleteOrdersCommand;
 import seedu.address.logic.commands.ListItemsCommand;
 import seedu.address.logic.commands.ListOrdersCommand;
 import seedu.address.logic.commands.MarkOrderCompleteCommand;
@@ -184,6 +186,8 @@ public class HelpWindow extends UiPart<Stage> {
         addCommandSummary(UnmarkOrderCommand.COMMAND_WORD, UnmarkOrderCommand.MESSAGE_USAGE);
         addCommandSummary(FindOrdersCommand.COMMAND_WORD, FindOrdersCommand.MESSAGE_USAGE);
         addCommandSummary(ListOrdersCommand.COMMAND_WORD, ListOrdersCommand.MESSAGE_USAGE);
+        addCommandSummary(ListCompleteOrdersCommand.COMMAND_WORD, ListCompleteOrdersCommand.MESSAGE_USAGE);
+        addCommandSummary(ListIncompleteOrdersCommand.COMMAND_WORD, ListIncompleteOrdersCommand.MESSAGE_USAGE);
     }
 
     private void addCommandSummary(String commandWord, String commandUsage) {
