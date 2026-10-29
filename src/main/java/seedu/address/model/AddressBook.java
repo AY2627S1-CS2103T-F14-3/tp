@@ -191,6 +191,28 @@ public class AddressBook implements ReadOnlyAddressBook {
         orders.set(position, order.withCompletion(isComplete));
     }
 
+    /**
+     * Replaces an order in place after validating its retained identity, owner, status, and item reference.
+     */
+    public void setOrder(ClientOrder target, ClientOrder editedOrder) {
+        requireNonNull(target);
+        requireNonNull(editedOrder);
+        int position = orders.indexOf(target);
+        if (position < 0) {
+            throw new IllegalArgumentException("Order not found.");
+        }
+        if (!target.getId().equals(editedOrder.getId())
+                || !target.getClient().equals(editedOrder.getClient())
+                || target.isComplete() != editedOrder.isComplete()) {
+            throw new IllegalArgumentException(
+                    "An order edit must retain its identity, client, and completion status.");
+        }
+        if (!getBakeryItemList().contains(editedOrder.getItem())) {
+            throw new IllegalArgumentException("An order must reference an existing bakery item.");
+        }
+        orders.set(position, editedOrder);
+    }
+
     @Override
     public ObservableList<BakeryItem> getBakeryItemList() {
         // @@author Yik-Wee

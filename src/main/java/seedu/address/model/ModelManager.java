@@ -220,6 +220,11 @@ public class ModelManager implements Model {
     }
 
     @Override
+    public void setOrder(ClientOrder target, ClientOrder editedOrder) {
+        addressBook.setOrder(target, editedOrder);
+    }
+
+    @Override
     public void setOrderCompletion(ClientOrder order, boolean isComplete) {
         addressBook.setOrderCompletion(order, isComplete);
     }
