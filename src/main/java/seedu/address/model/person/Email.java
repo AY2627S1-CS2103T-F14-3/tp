@@ -9,7 +9,7 @@ import static seedu.address.commons.util.AppUtil.checkArgument;
  */
 public class Email {
 
-    private static final String SPECIAL_CHARACTERS = "+_.-";
+    private static final String SPECIAL_CHARACTERS = "+_.'-";
     public static final String MESSAGE_CONSTRAINTS = "Emails should be of the format local-part@domain "
             + "and adhere to the following constraints:\n"
             + "1. The local-part should only contain alphanumeric characters and these special characters, excluding "
@@ -24,7 +24,7 @@ public class Email {
     private static final String ALPHANUMERIC = "[\\p{Alnum}]";
     // Permitted local-part symbols can be adjacent, except for consecutive periods.
     private static final String LOCAL_PART_REGEX = "^(?![^@]*\\.\\.)" + ALPHANUMERIC
-            + "(?:[\\p{Alnum}+_.-]*" + ALPHANUMERIC + ")?";
+            + "(?:[\\p{Alnum}+_.'-]*" + ALPHANUMERIC + ")?";
     private static final String DOMAIN_PART_REGEX = ALPHANUMERIC + "(?:[\\p{Alnum}-]*" + ALPHANUMERIC + ")?";
     // The final label has at least two characters; hyphens are permitted only inside a label.
     private static final String DOMAIN_LAST_PART_REGEX = ALPHANUMERIC + "[\\p{Alnum}-]*" + ALPHANUMERIC + "$";

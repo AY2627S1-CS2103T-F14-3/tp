@@ -104,6 +104,18 @@ public class JsonAddressBookStorageTest {
     }
 
     @Test
+    public void readAndSaveAddressBook_apostropheEmail_preservesClient() throws Exception {
+        Path filePath = testFolder.resolve("apostropheEmailAddressBook.json");
+        AddressBook original = new AddressBook();
+        original.addPerson(new PersonBuilder(ALICE).withEmail("o'neil@example.com").build());
+        JsonAddressBookStorage storage = new JsonAddressBookStorage(filePath);
+
+        storage.saveAddressBook(original);
+
+        assertEquals(original, new AddressBook(storage.readAddressBook().orElseThrow()));
+    }
+
+    @Test
     public void readAndSaveAddressBook_adjacentEmailCharacters_preservesClient() throws Exception {
         Path filePath = testFolder.resolve("emailAddressBook.json");
         AddressBook original = new AddressBook();

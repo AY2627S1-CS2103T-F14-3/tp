@@ -55,6 +55,12 @@ public class EditCommandParserTest {
     private EditCommandParser parser = new EditCommandParser();
 
     @Test
+    public void parse_apostropheEmail_success() {
+        EditPersonDescriptor descriptor = new EditPersonDescriptorBuilder().withEmail("o'neil@example.com").build();
+        assertParseSuccess(parser, "1 e/o'neil@example.com", new EditCommand(INDEX_FIRST_PERSON, descriptor));
+    }
+
+    @Test
     public void parse_missingParts_failure() {
         // no index specified
         assertParseFailure(parser, VALID_NAME_AMY, MESSAGE_INVALID_FORMAT);
