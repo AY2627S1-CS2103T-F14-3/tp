@@ -70,6 +70,8 @@ Your **bakery book** is the collection of clients, bakery items, and orders stor
 
 ### Client commands
 
+Hover over an address in the client list to view its full text in a tooltip.
+
 #### Adding a client: `add-client`
 
 Adds a client to the bakery book.
