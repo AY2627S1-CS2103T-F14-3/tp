@@ -69,6 +69,12 @@ public class JsonAdaptedPersonTest {
     }
 
     @Test
+    public void toModelType_emptyEmail_returnsPersonWithoutEmail() throws Exception {
+        JsonAdaptedPerson person = new JsonAdaptedPerson(VALID_NAME, VALID_PHONE, "", VALID_ADDRESS, VALID_TAGS);
+        assertEquals("", person.toModelType().getEmail().value);
+    }
+
+    @Test
     public void toModelType_invalidEmail_throwsIllegalValueException() {
         JsonAdaptedPerson person =
                 new JsonAdaptedPerson(VALID_NAME, VALID_PHONE, INVALID_EMAIL, VALID_ADDRESS, VALID_TAGS);
