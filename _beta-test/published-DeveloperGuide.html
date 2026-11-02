@@ -1,0 +1,1086 @@
+<!DOCTYPE html>
+<html lang="en"><head>
+  <meta charset="utf-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+
+  <link rel="stylesheet" href="/tp/assets/css/style.css">
+<title>Developer Guide</title>
+
+</head>
+<body><header class="site-header">
+
+  <div class="wrapper">
+<a class="site-title" rel="author" href="/tp/">BakeBase</a><nav class="site-nav">
+        <input type="checkbox" id="nav-trigger" class="nav-trigger">
+        <label for="nav-trigger">
+          <span class="menu-icon">
+            <svg viewbox="0 0 18 15" width="18px" height="15px">
+              <path d="M18,1.484c0,0.82-0.665,1.484-1.484,1.484H1.484C0.665,2.969,0,2.304,0,1.484l0,0C0,0.665,0.665,0,1.484,0 h15.032C17.335,0,18,0.665,18,1.484L18,1.484z M18,7.516C18,8.335,17.335,9,16.516,9H1.484C0.665,9,0,8.335,0,7.516l0,0 c0-0.82,0.665-1.484,1.484-1.484h15.032C17.335,6.031,18,6.696,18,7.516L18,7.516z M18,13.516C18,14.335,17.335,15,16.516,15H1.484 C0.665,15,0,14.335,0,13.516l0,0c0-0.82,0.665-1.483,1.484-1.483h15.032C17.335,12.031,18,12.695,18,13.516L18,13.516z"></path>
+            </svg>
+          </span>
+        </label>
+
+        <div class="trigger">
+<a class="page-link" href="/tp/UserGuide.html">User Guide</a><a class="page-link" href="/tp/DeveloperGuide.html">Developer Guide</a><a class="page-link" href="/tp/AboutUs.html">About Us</a><a class="page-link no-hover" href="https://github.com/AY2627S1-CS2103T-F14-3/tp">
+            <img src="/tp/images/github-icon.png" class="icon" alt="View on GitHub">
+          </a>
+</div>
+      </nav>
+</div>
+</header>
+<main class="page-content" aria-label="Content">
+      <div class="wrapper">
+        <article class="post">
+
+  <header class="post-header">
+    <h1 class="post-title">Developer Guide</h1>
+  </header>
+
+  <div class="post-content">
+    <ul id="markdown-toc">
+  <li><a href="#acknowledgements" id="markdown-toc-acknowledgements"><strong>Acknowledgements</strong></a></li>
+  <li><a href="#setting-up-getting-started" id="markdown-toc-setting-up-getting-started"><strong>Setting up, getting started</strong></a></li>
+  <li>
+<a href="#design" id="markdown-toc-design"><strong>Design</strong></a>    <ul>
+      <li><a href="#architecture" id="markdown-toc-architecture">Architecture</a></li>
+      <li><a href="#ui-component" id="markdown-toc-ui-component">UI component</a></li>
+      <li><a href="#logic-component" id="markdown-toc-logic-component">Logic component</a></li>
+      <li><a href="#model-component" id="markdown-toc-model-component">Model component</a></li>
+      <li><a href="#storage-component" id="markdown-toc-storage-component">Storage component</a></li>
+      <li><a href="#common-classes" id="markdown-toc-common-classes">Common classes</a></li>
+    </ul>
+  </li>
+  <li>
+<a href="#implementation" id="markdown-toc-implementation"><strong>Implementation</strong></a>    <ul>
+      <li>
+<a href="#clear-confirmation" id="markdown-toc-clear-confirmation">Clear confirmation</a>        <ul>
+          <li><a href="#integration-with-single-step-undo-issue-97" id="markdown-toc-integration-with-single-step-undo-issue-97">Integration with single-step undo (issue #97)</a></li>
+        </ul>
+      </li>
+      <li><a href="#command-history" id="markdown-toc-command-history">Command history</a></li>
+      <li><a href="#single-step-undo" id="markdown-toc-single-step-undo">Single-step undo</a></li>
+      <li><a href="#proposed-data-archiving" id="markdown-toc-proposed-data-archiving">[Proposed] Data archiving</a></li>
+    </ul>
+  </li>
+  <li>
+<a href="#documentation-logging-testing-dev-ops" id="markdown-toc-documentation-logging-testing-dev-ops"><strong>Documentation, logging, testing, dev-ops</strong></a>    <ul>
+      <li><a href="#client-order-backend" id="markdown-toc-client-order-backend">Client order backend</a></li>
+      <li><a href="#client-order-editing" id="markdown-toc-client-order-editing">Client order editing</a></li>
+      <li><a href="#bakery-item-editing" id="markdown-toc-bakery-item-editing">Bakery item editing</a></li>
+      <li><a href="#deleting-a-client-order" id="markdown-toc-deleting-a-client-order">Deleting a client order</a></li>
+      <li><a href="#order-completion-alias" id="markdown-toc-order-completion-alias">Order completion alias</a></li>
+    </ul>
+  </li>
+  <li>
+<a href="#appendix-requirements" id="markdown-toc-appendix-requirements"><strong>Appendix: Requirements</strong></a>    <ul>
+      <li><a href="#product-scope" id="markdown-toc-product-scope">Product scope</a></li>
+      <li><a href="#user-stories" id="markdown-toc-user-stories">User stories</a></li>
+      <li><a href="#use-cases" id="markdown-toc-use-cases">Use cases</a></li>
+      <li><a href="#non-functional-requirements" id="markdown-toc-non-functional-requirements">Non-Functional Requirements</a></li>
+      <li><a href="#glossary" id="markdown-toc-glossary">Glossary</a></li>
+    </ul>
+  </li>
+  <li>
+<a href="#appendix-instructions-for-manual-testing" id="markdown-toc-appendix-instructions-for-manual-testing"><strong>Appendix: Instructions for manual testing</strong></a>    <ul>
+      <li><a href="#clear-confirmation-and-undo" id="markdown-toc-clear-confirmation-and-undo">Clear confirmation and undo</a></li>
+      <li><a href="#launch-and-shutdown" id="markdown-toc-launch-and-shutdown">Launch and shutdown</a></li>
+      <li><a href="#deleting-a-person" id="markdown-toc-deleting-a-person">Deleting a person</a></li>
+      <li><a href="#editing-a-bakery-item" id="markdown-toc-editing-a-bakery-item">Editing a bakery item</a></li>
+      <li><a href="#saving-data" id="markdown-toc-saving-data">Saving data</a></li>
+      <li><a href="#unmark-backend" id="markdown-toc-unmark-backend">unmark backend</a></li>
+      <li><a href="#mark-order-complete-backend" id="markdown-toc-mark-order-complete-backend">mark-order-complete backend</a></li>
+      <li><a href="#delete-order-backend" id="markdown-toc-delete-order-backend">delete-order backend</a></li>
+      <li><a href="#editing-a-client-order" id="markdown-toc-editing-a-client-order">Editing a client order</a></li>
+    </ul>
+  </li>
+</ul>
+
+<hr>
+
+<h2 id="acknowledgements"><strong>Acknowledgements</strong></h2>
+
+<ul>
+  <li>BakeBase is adapted from <a href="https://github.com/se-edu/addressbook-level3">AddressBook Level 3 (AB3)</a>
+by the <a href="https://se-education.org/">SE-EDU initiative</a>. Its architecture, implementation, tests, and
+documentation provide the foundation for this project.</li>
+  <li>Libraries used: <a href="https://openjfx.io/">JavaFX</a> for the graphical user interface,
+<a href="https://github.com/FasterXML/jackson">Jackson</a> for JSON serialization, and
+<a href="https://junit.org/junit5/">JUnit 5</a> for automated testing.</li>
+</ul>
+
+<p>Notable uses of AI:</p>
+
+<ul>
+  <li>Codex was used extensively to generate or update almost all of the code and test cases.</li>
+  <li>Codex was used to update most of the DG and UG. This includes the <code class="language-plaintext highlighter-rouge">.puml</code> files and exported diagrams.</li>
+  <li>Codex was used for finding bugs, generating GitHub issues, PRs, and sometimes for PR reviews.</li>
+</ul>
+
+<hr>
+
+<h2 id="setting-up-getting-started"><strong>Setting up, getting started</strong></h2>
+
+<p>Refer to the guide <a href="/tp/SettingUp.html"><em>Setting up and getting started</em></a>.</p>
+
+<hr>
+
+<h2 id="design"><strong>Design</strong></h2>
+
+<div class="alert alert-primary">
+
+<img class="emoji" title=":bulb:" alt=":bulb:" src="https://github.githubassets.com/images/icons/emoji/unicode/1f4a1.png" height="20" width="20"> <strong>Tip:</strong> The <code class="language-plaintext highlighter-rouge">.puml</code> files used to create diagrams are in <code class="language-plaintext highlighter-rouge">docs/diagrams</code>. Refer to the <a href="https://se-education.org/guides/tutorials/plantUml.html"><em>PlantUML Tutorial</em> at se-edu/guides</a> to learn how to create and edit diagrams.
+</div>
+
+<h3 id="architecture">Architecture</h3>
+
+<p><img src="images/ArchitectureDiagram.png" width="280"></p>
+
+<p>The <strong><em>Architecture Diagram</em></strong> given above explains the high-level design of the App.</p>
+
+<p>The following provides a quick overview of the main components and their interactions.</p>
+
+<p><strong>Main components of the architecture</strong></p>
+
+<p><strong><code class="language-plaintext highlighter-rouge">Main</code></strong> (consisting of classes <a href="https://github.com/AY2627S1-CS2103T-F14-3/tp/tree/master/src/main/java/seedu/address/Main.java"><code class="language-plaintext highlighter-rouge">Main</code></a> and <a href="https://github.com/AY2627S1-CS2103T-F14-3/tp/tree/master/src/main/java/seedu/address/MainApp.java"><code class="language-plaintext highlighter-rouge">MainApp</code></a>) is in charge of the app launch and shut down.</p>
+<ul>
+  <li>At app launch, it initializes the other components in the correct sequence, and connects them up with each other.</li>
+  <li>At shut down, it shuts down the other components and invokes cleanup methods where necessary.</li>
+</ul>
+
+<p>The bulk of the app’s work is done by the following four components:</p>
+
+<ul>
+  <li>
+<a href="#ui-component"><strong><code class="language-plaintext highlighter-rouge">UI</code></strong></a>: The UI of the App.</li>
+  <li>
+<a href="#logic-component"><strong><code class="language-plaintext highlighter-rouge">Logic</code></strong></a>: The command executor.</li>
+  <li>
+<a href="#model-component"><strong><code class="language-plaintext highlighter-rouge">Model</code></strong></a>: Holds the data of the App in memory.</li>
+  <li>
+<a href="#storage-component"><strong><code class="language-plaintext highlighter-rouge">Storage</code></strong></a>: Reads data from, and writes data to, the hard disk.</li>
+</ul>
+
+<p><a href="#common-classes"><strong><code class="language-plaintext highlighter-rouge">Commons</code></strong></a> represents a collection of classes used by multiple other components.</p>
+
+<p><strong>How the architecture components interact with each other</strong></p>
+
+<p>The <em>Sequence Diagram</em> below shows how the components interact with each other for the scenario where the user issues the command <code class="language-plaintext highlighter-rouge">delete-client 1</code>.</p>
+
+<p><img src="images/ArchitectureSequenceDiagram.png" width="574"></p>
+
+<p>Each of the four main components (also shown in the diagram above),</p>
+
+<ul>
+  <li>defines its <em>API</em> in an <code class="language-plaintext highlighter-rouge">interface</code> with the same name as the Component.</li>
+  <li>provides its functionality through a concrete <code class="language-plaintext highlighter-rouge">{Component Name}Manager</code> class that implements the corresponding API interface.</li>
+</ul>
+
+<p>For example, the <code class="language-plaintext highlighter-rouge">Logic</code> component defines its API in <code class="language-plaintext highlighter-rouge">Logic.java</code> and implements it in <code class="language-plaintext highlighter-rouge">LogicManager.java</code>. Other components interact with a component through its interface rather than its concrete class, preventing them from coupling to that component’s implementation, as illustrated in the following partial class diagram.</p>
+
+<p><img src="images/ComponentManagers.png" width="300"></p>
+
+<p>The sections below give more details of each component.</p>
+
+<h3 id="ui-component">UI component</h3>
+
+<p>The <strong>API</strong> of this component is specified in <a href="https://github.com/AY2627S1-CS2103T-F14-3/tp/tree/master/src/main/java/seedu/address/ui/Ui.java"><code class="language-plaintext highlighter-rouge">Ui.java</code></a></p>
+
+<p><img src="/tp/images/UiClassDiagram.png" alt="Structure of the UI Component"></p>
+
+<p>The UI consists of a <code class="language-plaintext highlighter-rouge">MainWindow</code> and its parts, such as <code class="language-plaintext highlighter-rouge">CommandBox</code>, <code class="language-plaintext highlighter-rouge">ResultDisplay</code>, <code class="language-plaintext highlighter-rouge">PersonListPanel</code>, and <code class="language-plaintext highlighter-rouge">StatusBarFooter</code>. All of these, including <code class="language-plaintext highlighter-rouge">MainWindow</code>, inherit from the abstract <code class="language-plaintext highlighter-rouge">UiPart</code> class, which captures common behavior among classes that represent visible GUI parts.</p>
+
+<p>The <code class="language-plaintext highlighter-rouge">UI</code> component uses the JavaFX UI framework. The layouts of these UI parts are defined in matching <code class="language-plaintext highlighter-rouge">.fxml</code> files in <code class="language-plaintext highlighter-rouge">src/main/resources/view</code>. For example, <a href="https://github.com/AY2627S1-CS2103T-F14-3/tp/tree/master/src/main/resources/view/MainWindow.fxml"><code class="language-plaintext highlighter-rouge">MainWindow.fxml</code></a> specifies the layout of <a href="https://github.com/AY2627S1-CS2103T-F14-3/tp/tree/master/src/main/java/seedu/address/ui/MainWindow.java"><code class="language-plaintext highlighter-rouge">MainWindow</code></a>.</p>
+
+<p>The <code class="language-plaintext highlighter-rouge">UI</code> component,</p>
+
+<ul>
+  <li>executes user commands using the <code class="language-plaintext highlighter-rouge">Logic</code> component.</li>
+  <li>listens for changes to <code class="language-plaintext highlighter-rouge">Model</code> data so that the UI can be updated with the modified data.</li>
+  <li>keeps a reference to the <code class="language-plaintext highlighter-rouge">Logic</code> component, because the <code class="language-plaintext highlighter-rouge">UI</code> relies on the <code class="language-plaintext highlighter-rouge">Logic</code> to execute commands.</li>
+  <li>depends on some classes in the <code class="language-plaintext highlighter-rouge">Model</code> component because it displays <code class="language-plaintext highlighter-rouge">Person</code> objects from the model.</li>
+</ul>
+
+<h3 id="logic-component">Logic component</h3>
+
+<p><strong>API</strong> : <a href="https://github.com/AY2627S1-CS2103T-F14-3/tp/tree/master/src/main/java/seedu/address/logic/Logic.java"><code class="language-plaintext highlighter-rouge">Logic.java</code></a></p>
+
+<p>Here’s a (partial) class diagram of the <code class="language-plaintext highlighter-rouge">Logic</code> component:</p>
+
+<p><img src="images/LogicClassDiagram.png" width="550"></p>
+
+<p>The sequence diagram below illustrates the interactions within the <code class="language-plaintext highlighter-rouge">Logic</code> component, taking <code class="language-plaintext highlighter-rouge">execute("delete-client 1")</code> API call as an example.</p>
+
+<p><img src="/tp/images/DeleteSequenceDiagram.png" alt="Interactions Inside the Logic Component for the `delete-client 1` Command"></p>
+
+<div class="alert alert-info">
+<img class="emoji" title=":information_source:" alt=":information_source:" src="https://github.githubassets.com/images/icons/emoji/unicode/2139.png" height="20" width="20"> <strong>Note:</strong> The lifeline for <code class="language-plaintext highlighter-rouge">DeleteCommandParser</code> should end at the destroy marker (X), but due to a limitation of PlantUML, it continues to the end of the diagram.
+</div>
+
+<p>How the <code class="language-plaintext highlighter-rouge">Logic</code> component works:</p>
+
+<ol>
+  <li>When <code class="language-plaintext highlighter-rouge">Logic</code> is called upon to execute a command, the command is passed to an <code class="language-plaintext highlighter-rouge">AddressBookParser</code> object, which in turn creates a parser that matches the command (e.g., <code class="language-plaintext highlighter-rouge">DeleteCommandParser</code>) and uses it to parse the command.</li>
+  <li>This results in a <code class="language-plaintext highlighter-rouge">Command</code> object (more precisely, an object of one of its subclasses e.g., <code class="language-plaintext highlighter-rouge">DeleteCommand</code>) which is executed by the <code class="language-plaintext highlighter-rouge">LogicManager</code>.</li>
+  <li>The command can communicate with the <code class="language-plaintext highlighter-rouge">Model</code> when it is executed (e.g. to delete a person).<br>
+Note that although this is shown as a single step in the diagram above for simplicity, the code can require several interactions between the command object and the <code class="language-plaintext highlighter-rouge">Model</code> to complete the operation.</li>
+  <li>The result of the command execution is encapsulated as a <code class="language-plaintext highlighter-rouge">CommandResult</code> object which is returned from <code class="language-plaintext highlighter-rouge">Logic</code>.</li>
+</ol>
+
+<p>Here are the other classes in <code class="language-plaintext highlighter-rouge">Logic</code> (omitted from the class diagram above) that are used for parsing a user command:</p>
+
+<p><img src="images/ParserClasses.png" width="850"></p>
+
+<p>How the parsing works:</p>
+<ul>
+  <li>When called upon to parse a user command, the <code class="language-plaintext highlighter-rouge">AddressBookParser</code> class creates an <code class="language-plaintext highlighter-rouge">XYZCommandParser</code> (<code class="language-plaintext highlighter-rouge">XYZ</code> is a placeholder for the specific command name, e.g., <code class="language-plaintext highlighter-rouge">AddCommandParser</code>). The parser uses the other classes shown above to parse the user command and create an <code class="language-plaintext highlighter-rouge">XYZCommand</code> object (e.g., <code class="language-plaintext highlighter-rouge">AddCommand</code>). The <code class="language-plaintext highlighter-rouge">AddressBookParser</code> returns that object as a <code class="language-plaintext highlighter-rouge">Command</code> object.</li>
+  <li>All <code class="language-plaintext highlighter-rouge">XYZCommandParser</code> classes, such as <code class="language-plaintext highlighter-rouge">AddCommandParser</code> and <code class="language-plaintext highlighter-rouge">DeleteCommandParser</code>, implement the <code class="language-plaintext highlighter-rouge">Parser</code> interface so they can be treated similarly where appropriate, for example during testing.</li>
+</ul>
+
+<h3 id="model-component">Model component</h3>
+<p><strong>API</strong> : <a href="https://github.com/AY2627S1-CS2103T-F14-3/tp/tree/master/src/main/java/seedu/address/model/Model.java"><code class="language-plaintext highlighter-rouge">Model.java</code></a></p>
+
+<p><img src="images/ModelClassDiagram.png" width="450"></p>
+
+<p>The <code class="language-plaintext highlighter-rouge">bakeryitem</code> package forms the bakery-item subcomponent of the Model component:</p>
+
+<p><img src="images/BakeryItemModelClassDiagram.png" width="450"></p>
+
+<p>The <code class="language-plaintext highlighter-rouge">order</code> package forms the client orders subcomponent of the Model component.</p>
+
+<p><img src="images/OrderModelClassDiagram.png" width="450"></p>
+
+<p>The <code class="language-plaintext highlighter-rouge">Model</code> component,</p>
+
+<ul>
+  <li>stores client (represented by <code class="language-plaintext highlighter-rouge">Person</code>), bakery-item, and order data in unique collections.</li>
+  <li>stores the <code class="language-plaintext highlighter-rouge">Person</code>, <code class="language-plaintext highlighter-rouge">BakeryItem</code>, and <code class="language-plaintext highlighter-rouge">ClientOrder</code> objects selected by their current filters in separate <em>filtered</em> lists. It exposes these lists as unmodifiable observable lists that the UI can observe and bind to, so the UI updates when any of these lists changes.</li>
+  <li>stores a <code class="language-plaintext highlighter-rouge">UserPrefs</code> object that represents the user’s preferences (currently, just the GUI settings). This is exposed to the outside as a <code class="language-plaintext highlighter-rouge">ReadOnlyUserPrefs</code> object.</li>
+  <li>does not depend on any of the other three components (as the <code class="language-plaintext highlighter-rouge">Model</code> represents data entities of the domain, they should make sense on their own without depending on other components)</li>
+</ul>
+
+<div class="alert alert-info">
+<img class="emoji" title=":information_source:" alt=":information_source:" src="https://github.githubassets.com/images/icons/emoji/unicode/2139.png" height="20" width="20"> <strong>Note:</strong> The alternative, arguably more object-oriented, design below keeps a unique list of tags in <code class="language-plaintext highlighter-rouge">AddressBook</code>, and each <code class="language-plaintext highlighter-rouge">Person</code> references tags from that list. This lets <code class="language-plaintext highlighter-rouge">AddressBook</code> maintain one <code class="language-plaintext highlighter-rouge">Tag</code> object per unique tag instead of each <code class="language-plaintext highlighter-rouge">Person</code> holding its own <code class="language-plaintext highlighter-rouge">Tag</code> objects.<br>
+
+<img src="images/BetterModelClassDiagram.png" width="450">
+
+</div>
+
+<h3 id="storage-component">Storage component</h3>
+
+<p><strong>API</strong> : <a href="https://github.com/AY2627S1-CS2103T-F14-3/tp/tree/master/src/main/java/seedu/address/storage/Storage.java"><code class="language-plaintext highlighter-rouge">Storage.java</code></a></p>
+
+<p><img src="images/StorageClassDiagram.png" width="550"></p>
+
+<p>The <code class="language-plaintext highlighter-rouge">Storage</code> component,</p>
+<ul>
+  <li>can save both bakery book data and user preference data in JSON format, and read them back into corresponding objects.</li>
+  <li>is implemented by <code class="language-plaintext highlighter-rouge">StorageManager</code>, which delegates the actual JSON file access to <code class="language-plaintext highlighter-rouge">JsonAddressBookStorage</code> and <code class="language-plaintext highlighter-rouge">JsonUserPrefsStorage</code> (one class per data file).</li>
+  <li>depends on some classes in the <code class="language-plaintext highlighter-rouge">Model</code> component (because the <code class="language-plaintext highlighter-rouge">Storage</code> component’s job is to save/retrieve objects that belong to the <code class="language-plaintext highlighter-rouge">Model</code>)</li>
+</ul>
+
+<h3 id="common-classes">Common classes</h3>
+
+<p>Classes used by multiple components are in the <code class="language-plaintext highlighter-rouge">seedu.address.commons</code> package.</p>
+
+<hr>
+
+<h2 id="implementation"><strong>Implementation</strong></h2>
+
+<h3 id="clear-confirmation">Clear confirmation</h3>
+
+<p>The following class diagram shows how clear-command parsing stores the
+confirmation choice in a <code class="language-plaintext highlighter-rouge">ClearCommand</code>.</p>
+
+<p><img src="images/ClearConfirmationClassDiagram.png" width="650" alt="Class diagram showing clear-command parsing and the confirmation flag"></p>
+
+<p><code class="language-plaintext highlighter-rouge">ClearCommandParser</code> accepts only no arguments or the exact token <code class="language-plaintext highlighter-rouge">confirm</code>. An unconfirmed <code class="language-plaintext highlighter-rouge">ClearCommand</code> throws a <code class="language-plaintext highlighter-rouge">CommandException</code> containing the warning before modifying the model. This also prevents the normal save path from running. A confirmed command clears the complete bakery book and resets client/item filters; the existing logic-layer save rollback restores data and filters if persistence fails.</p>
+
+<p>The confirmation is explicit in <code class="language-plaintext highlighter-rouge">clear confirm</code>, with no pending state or dialog. It is a one-shot command for experienced users and executes even without an earlier <code class="language-plaintext highlighter-rouge">clear</code>; there is no additional confirmation. Users cancel an unconfirmed request by continuing with another command. Both the warning and Help usage explicitly state that <code class="language-plaintext highlighter-rouge">clear confirm</code> deletes all clients, items, and orders immediately.</p>
+
+<p>The warning formats counts from the complete <code class="language-plaintext highlighter-rouge">ReadOnlyAddressBook</code> lists, rather than the filtered UI lists, so it includes hidden records. Counts are calculated when <code class="language-plaintext highlighter-rouge">clear</code> runs and are not a stored preview; <code class="language-plaintext highlighter-rouge">clear confirm</code> always acts on the book at execution time. Help reuses <code class="language-plaintext highlighter-rouge">ClearCommand.MESSAGE_USAGE</code>. <code class="language-plaintext highlighter-rouge">ClearConfirmationTest</code> exercises parsed commands, persistence, hidden records and counts, repeated warnings, invalid confirmations, and save-failure rollback.</p>
+
+<h4 id="integration-with-single-step-undo-issue-97">Integration with single-step undo (issue #97)</h4>
+
+<p>Clear confirmation and single-step undo share the normal <code class="language-plaintext highlighter-rouge">LogicManager</code> persistence path. Confirmation protects against accidental deletion; undo provides one opportunity to restore a successfully cleared book.</p>
+
+<ul>
+  <li>An unconfirmed request throws before changing the model and before saving. Invalid syntax fails in the parser. Neither reaches the undo snapshot update.</li>
+  <li>After a confirmed clear saves successfully, the undo logic compares before/after data. If the book changed, its existing complete pre-command snapshot becomes the one undo opportunity. An already empty book produces no data change and leaves the previous snapshot intact.</li>
+  <li>If saving the clear fails, normal rollback restores all records and both filters. The undo snapshot must remain unchanged because it is updated only after a successful save.</li>
+  <li>Undo restores the complete pre-clear book, including order UUIDs, item/client associations, quantities, deadlines, statuses, and insertion order. It resets displayed filters and consumes its snapshot only after the restored data saves successfully.</li>
+  <li>If saving undo fails, retain the snapshot and restore the empty pre-undo book and its filters so retry remains possible. Later successful data changes replace the snapshot. Restarting discards it; redo is unsupported.</li>
+</ul>
+
+<p>No confirmation flag needs to be stored in the model, data file, or undo snapshot. Use the parsed confirmation flag only for that command execution.</p>
+
+<h3 id="command-history">Command history</h3>
+
+<p><code class="language-plaintext highlighter-rouge">CommandHistory</code> holds submitted text, a navigation cursor, and the unsent draft for one application session. <code class="language-plaintext highlighter-rouge">CommandBox</code> records non-empty submissions before execution, including commands that produce handled errors, and resets navigation after each submission.</p>
+
+<p>An event filter consumes unmodified Up/Down key presses. Up saves the draft when navigation starts and recalls older commands; Down recalls newer commands and eventually restores the draft. Recalled text is copied into the input with the caret at its end, so editing it does not modify a stored entry. Other keys and modified arrow shortcuts retain their existing behavior. History does not change the model or storage.</p>
+
+<p><code class="language-plaintext highlighter-rouge">CommandHistoryTest</code> covers boundaries, draft restoration, repeat submissions, and editing. <code class="language-plaintext highlighter-rouge">CommandBoxTest</code> dispatches JavaFX key/action events to verify integration and recovery of failed commands.</p>
+
+<p>This section describes some noteworthy details on how certain features are implemented.</p>
+
+<h3 id="single-step-undo">Single-step undo</h3>
+
+<p><code class="language-plaintext highlighter-rouge">LogicManager</code> keeps one in-memory <code class="language-plaintext highlighter-rouge">AddressBook</code> snapshot. After a command saves successfully, it compares the before/after data and replaces the snapshot only if data changed. Read-only commands, no-op edits, and failed commands leave it intact.</p>
+
+<p>The parser recognizes <code class="language-plaintext highlighter-rouge">undo</code> without arguments. Logic supplies the snapshot to <code class="language-plaintext highlighter-rouge">UndoCommand</code>, which restores all clients, items, and orders and resets the displayed client/item filters. The normal persistence path saves the result. Only a successful save consumes the snapshot; on save failure, the existing rollback restores pre-undo data and filters, retaining the snapshot for retry.</p>
+
+<p>Users invoke undo by typing <code class="language-plaintext highlighter-rouge">undo</code> in the command input. When no snapshot is available, the command reports an error without changing data. Snapshots preserve immutable records, their associations, order UUIDs, and insertion order. No redo or persistent history is provided.</p>
+
+<p>A complete snapshot keeps recovery consistent across linked entities without implementing a separate inverse for each command. It uses memory proportional to one bakery book. <code class="language-plaintext highlighter-rouge">UndoTest</code> covers persistence, linked records, duplicate orders, snapshot replacement, no-op/failed commands, and save failure. <code class="language-plaintext highlighter-rouge">UndoCommandUiTest</code> verifies command-box submission, persisted recovery, and feedback when undo succeeds or is unavailable.</p>
+
+<h3 id="proposed-data-archiving">[Proposed] Data archiving</h3>
+
+<p><em>{Explain here how the data archiving feature will be implemented}</em></p>
+
+<hr>
+
+<h2 id="documentation-logging-testing-dev-ops"><strong>Documentation, logging, testing, dev-ops</strong></h2>
+
+<ul>
+  <li><a href="/tp/Documentation.html">Documentation guide</a></li>
+  <li><a href="/tp/Testing.html">Testing guide</a></li>
+  <li><a href="/tp/Logging.html">Logging guide</a></li>
+  <li><a href="/tp/DevOps.html">DevOps guide</a></li>
+</ul>
+
+<hr>
+
+<h3 id="client-order-backend">Client order backend</h3>
+
+<p><code class="language-plaintext highlighter-rouge">add-order CONTACT_INDEX i/ITEM_INDEX q/QUANTITY d/DEADLINE</code> resolves indices from the displayed
+client and bakery item lists and adds an incomplete order. Identical orders are accepted with separate UUIDs.
+Quantities remain integers from 1 to 9,999; deadlines use strict YYYY-MM-DD calendar dates, including past dates.
+Missing, repeated, malformed, overflowing, and out-of-range arguments cannot change data.</p>
+
+<p><code class="language-plaintext highlighter-rouge">AddressBook</code> owns observable client, bakery item, and order collections. Orders reference immutable clients and
+items rather than displayed positions. Editing a client or bakery item updates its order references while retaining
+order IDs and the other order details.
+Deleting a referenced client or item is blocked until its orders are removed. Clearing the book clears all three
+collections together. The model exposes displayed item lists and client-local order lists; the logic exposes
+unmodifiable observable item and order lists for the teammate’s list and GUI implementation.</p>
+
+<p>The JSON file contains <code class="language-plaintext highlighter-rouge">persons</code>, <code class="language-plaintext highlighter-rouge">bakeryItems</code>, and <code class="language-plaintext highlighter-rouge">orders</code>. Legacy AB3 files without items or orders remain
+supported. Each order stores an <code class="language-plaintext highlighter-rouge">id</code> UUID, <code class="language-plaintext highlighter-rouge">clientName</code>, <code class="language-plaintext highlighter-rouge">itemName</code>, <code class="language-plaintext highlighter-rouge">quantity</code>, <code class="language-plaintext highlighter-rouge">deadline</code>, and <code class="language-plaintext highlighter-rouge">complete</code> status.
+Client and item names reference their respective unique collection entries, preserving associations if the
+collections are reordered. In-app client and bakery item edits update both the edited record and its order
+references.
+Manual renames in JSON must update the corresponding order references too. Duplicate order UUIDs, missing
+references, invalid values, and null entries are rejected during loading; no partially loaded model is returned.</p>
+
+<p>Commands return success only after persistence succeeds. The storage writes a temporary JSON file beside the
+destination and replaces the destination, using an atomic move where supported. A failed save restores the
+previous model, displayed filters, and order comparator. The shared order APIs support deletion,
+completion changes, and replacement of order details in place.</p>
+
+<p><code class="language-plaintext highlighter-rouge">add-item</code> from team PR #34 is integrated with the shared item model and storage so orders can reference real
+bakery goods. Order views and list commands remain the assigned teammate’s GUI work.</p>
+
+<h3 id="client-order-editing">Client order editing</h3>
+
+<p><code class="language-plaintext highlighter-rouge">edit-order CONTACT_INDEX o/ORDER_INDEX [i/ITEM_INDEX] [q/QUANTITY] [d/DEADLINE]</code> is dispatched
+to <code class="language-plaintext highlighter-rouge">EditClientOrderCommandParser</code>. The parser normalizes whitespace and requires a client index,
+exactly one order prefix, and at least one editable field. It rejects repeated prefixes and validates
+indices, quantity, and strict calendar dates using the existing parsers, including valid past deadlines.</p>
+
+<p><code class="language-plaintext highlighter-rouge">EditClientOrderCommand</code> resolves the displayed client and its full client-local order list through
+<code class="language-plaintext highlighter-rouge">OrderCommandUtil#findOrder()</code>. An optional item index resolves against the displayed bakery item list.
+It constructs an immutable replacement, retaining omitted values, UUID, client, and completion status.
+Only after all validation succeeds does <code class="language-plaintext highlighter-rouge">ModelManager#setOrder()</code> delegate to <code class="language-plaintext highlighter-rouge">AddressBook#setOrder()</code>.
+The latter validates the existing target and the replacement’s retained fields and item reference,
+then replaces the selected element at its original position. Repeat orders retain separate identities.</p>
+
+<p>Observable filtered/sorted views update from the replacement without resetting predicates or comparators.
+An edit can change search membership or deadline ordering while retaining the client-local order number.
+<code class="language-plaintext highlighter-rouge">LogicManager</code> saves the complete book before returning success. I/O or permission failures restore
+the snapshot, all three filters, and the order comparator, retaining any prior undo opportunity.
+A saved change becomes the single-step undo snapshot; an equal-value edit skips replacement and does
+not replace undo history. Undo restores the prior book and shows all lists, following existing behavior.
+No storage schema change is needed.</p>
+
+<h3 id="bakery-item-editing">Bakery item editing</h3>
+
+<p><code class="language-plaintext highlighter-rouge">edit-item INDEX [n/ITEM_NAME] [p/PRICE]</code> edits an item selected from the displayed bakery item list. The
+<code class="language-plaintext highlighter-rouge">AddressBookParser</code> delegates to <code class="language-plaintext highlighter-rouge">EditBakeryItemCommandParser</code>, which parses the index and the optional name and
+price into an <code class="language-plaintext highlighter-rouge">EditBakeryItemDescriptor</code>. It rejects malformed or non-positive indices, repeated prefixes, invalid
+field values, and requests that provide neither editable field.</p>
+
+<p>During execution, <code class="language-plaintext highlighter-rouge">EditBakeryItemCommand</code> resolves <code class="language-plaintext highlighter-rouge">INDEX</code> against <code class="language-plaintext highlighter-rouge">Model#getFilteredBakeryItemList()</code> and creates
+an immutable replacement item. An index outside the displayed list is rejected without mutation, and omitted fields
+retain their existing values. Before mutation, the command rejects a new name that matches another item’s name after
+case and whitespace normalization.</p>
+
+<p>For a successful edit, <code class="language-plaintext highlighter-rouge">ModelManager#setBakeryItem()</code> delegates to <code class="language-plaintext highlighter-rouge">AddressBook#setBakeryItem()</code>. The unique bakery
+item list replaces the original item, and each order that references it is replaced using <code class="language-plaintext highlighter-rouge">ClientOrder#withItem()</code>.
+This retains the order’s UUID, client, quantity, deadline, and completion status while associating it with the
+edited item. The command then displays the complete bakery item list. Persistence and rollback on a save failure
+follow the same Logic transaction used by other data-changing commands.</p>
+
+<h3 id="deleting-a-client-order">Deleting a client order</h3>
+
+<p><code class="language-plaintext highlighter-rouge">AddressBookParser</code> dispatches <code class="language-plaintext highlighter-rouge">delete-order CONTACT_INDEX o/ORDER_INDEX</code> to
+<code class="language-plaintext highlighter-rouge">DeleteClientOrderCommandParser</code>, which requires a positive client index and exactly one positive
+<code class="language-plaintext highlighter-rouge">o/</code> order index. Missing, repeated, empty, malformed, overflowing, or extra arguments are rejected.</p>
+
+<p><code class="language-plaintext highlighter-rouge">DeleteClientOrderCommand</code> uses <code class="language-plaintext highlighter-rouge">OrderCommandUtil#findOrder()</code> to resolve the client from the displayed
+client list and the order from that client’s full order list, including orders hidden by an order filter.
+Out-of-range indices report an error before any data changes. These positions are not persistent identifiers.</p>
+
+<p>The command passes the selected <code class="language-plaintext highlighter-rouge">ClientOrder</code> to <code class="language-plaintext highlighter-rouge">Model#deleteOrder()</code>. Only that order is removed;
+identical repeat orders retain their separate identities. Observable order views update automatically,
+and later order numbers within the same client shift down after deletion.</p>
+
+<p><code class="language-plaintext highlighter-rouge">LogicManager</code> saves the updated book before returning the <code class="language-plaintext highlighter-rouge">Order deleted:</code> success message. A save
+failure restores the previous data, displayed filters, and order comparator. A successful deletion becomes
+the single-step undo opportunity, allowing <code class="language-plaintext highlighter-rouge">undo</code> to restore the deleted order and its associations.</p>
+
+<h3 id="order-completion-alias">Order completion alias</h3>
+
+<p><code class="language-plaintext highlighter-rouge">AddressBookParser</code> dispatches both <code class="language-plaintext highlighter-rouge">mark CONTACT_INDEX o/ORDER_INDEX</code> and
+<code class="language-plaintext highlighter-rouge">mark-order-complete CONTACT_INDEX o/ORDER_INDEX</code> to <code class="language-plaintext highlighter-rouge">MarkOrderCompleteCommandParser</code>.
+Both produce the same <code class="language-plaintext highlighter-rouge">MarkOrderCompleteCommand</code>, so validation, client-local order selection,
+already-complete errors, persistence, save-failure rollback, and single-step undo remain shared.
+The command usage and help window list both spellings.</p>
+
+<p>Manual check: launch the JAR in a disposable writable folder, never a folder containing real bakery data.
+Run <code class="language-plaintext highlighter-rouge">clear confirm</code> to remove the initial sample data, then create one client, one item, and two identical
+orders for client 1. Run <code class="language-plaintext highlighter-rouge">mark 1 o/2</code> and verify that
+only the second order becomes complete. Restart to verify persistence, then run <code class="language-plaintext highlighter-rouge">unmark 1 o/2</code>,
+<code class="language-plaintext highlighter-rouge">mark 1 o/2</code>, and <code class="language-plaintext highlighter-rouge">undo</code> to verify the second order returns to incomplete. Try both command spellings
+with missing indices, <code class="language-plaintext highlighter-rouge">o/0</code>, and repeated <code class="language-plaintext highlighter-rouge">o/</code> prefixes; verify identical errors and no data changes.</p>
+
+<h2 id="appendix-requirements"><strong>Appendix: Requirements</strong></h2>
+
+<h3 id="product-scope">Product scope</h3>
+
+<p><strong>Target user profile</strong>:</p>
+
+<ul>
+  <li>runs a home bakery business</li>
+  <li>has a need to manage a significant number of client contacts</li>
+  <li>has a need to manage a significant number of client order details</li>
+  <li>prefers desktop apps over other types of applications</li>
+  <li>can type fast</li>
+  <li>prefers typing to mouse interactions</li>
+  <li>is reasonably comfortable using CLI apps</li>
+</ul>
+
+<p><strong>Value proposition</strong>: Help home bakers running a home bakery business manage client contacts and orders faster than with a typical mouse-driven GUI application.</p>
+
+<h3 id="user-stories">User stories</h3>
+
+<p>Priorities: Must have - <code class="language-plaintext highlighter-rouge">* * * *</code>, Nice to have (high) - <code class="language-plaintext highlighter-rouge">* * *</code>, Nice to have (medium) - <code class="language-plaintext highlighter-rouge">* *</code>, Nice to have (low) - <code class="language-plaintext highlighter-rouge">*</code></p>
+
+<table>
+  <thead>
+    <tr>
+      <th>Priority</th>
+      <th>As a …​</th>
+      <th>I want to …​</th>
+      <th>So that I can…​</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td><code class="language-plaintext highlighter-rouge">* * * *</code></td>
+      <td>Baker</td>
+      <td>Add client contacts</td>
+      <td>keep track of client contacts</td>
+    </tr>
+    <tr>
+      <td><code class="language-plaintext highlighter-rouge">* * * *</code></td>
+      <td>Baker</td>
+      <td>Delete client contacts</td>
+      <td>remove mistakes</td>
+    </tr>
+    <tr>
+      <td><code class="language-plaintext highlighter-rouge">* * *</code></td>
+      <td>Baker</td>
+      <td>Search specific client contacts</td>
+      <td>quickly retrieve specific information</td>
+    </tr>
+    <tr>
+      <td><code class="language-plaintext highlighter-rouge">* * * *</code></td>
+      <td>Baker</td>
+      <td>List all client contacts</td>
+      <td>view all client information</td>
+    </tr>
+    <tr>
+      <td><code class="language-plaintext highlighter-rouge">* * *</code></td>
+      <td>Baker</td>
+      <td>Edit client contacts</td>
+      <td>keep contact information up to date</td>
+    </tr>
+    <tr>
+      <td><code class="language-plaintext highlighter-rouge">* * * *</code></td>
+      <td>Baker</td>
+      <td>Add new bakery goods</td>
+      <td>keep track of bakery goods</td>
+    </tr>
+    <tr>
+      <td><code class="language-plaintext highlighter-rouge">* * * *</code></td>
+      <td>Baker</td>
+      <td>Delete bakery goods</td>
+      <td>remove mistakes</td>
+    </tr>
+    <tr>
+      <td><code class="language-plaintext highlighter-rouge">* * * *</code></td>
+      <td>Baker</td>
+      <td>List all bakery goods</td>
+      <td>view all bakery goods</td>
+    </tr>
+    <tr>
+      <td><code class="language-plaintext highlighter-rouge">* * *</code></td>
+      <td>Baker</td>
+      <td>Edit bakery goods</td>
+      <td>keep bakery items’ inventory up to date</td>
+    </tr>
+    <tr>
+      <td><code class="language-plaintext highlighter-rouge">* * * *</code></td>
+      <td>Baker</td>
+      <td>Add client orders</td>
+      <td>keep track of client orders easily</td>
+    </tr>
+    <tr>
+      <td><code class="language-plaintext highlighter-rouge">* *</code></td>
+      <td>Baker</td>
+      <td>Add deadlines to orders</td>
+      <td>track when an order is due</td>
+    </tr>
+    <tr>
+      <td><code class="language-plaintext highlighter-rouge">* *</code></td>
+      <td>Baker</td>
+      <td>Add priorities to orders</td>
+      <td>prioritise different orders easily</td>
+    </tr>
+    <tr>
+      <td><code class="language-plaintext highlighter-rouge">* *</code></td>
+      <td>Popular Baker</td>
+      <td>Add recurring orders</td>
+      <td>don’t have to repeatedly add the same orders that a customer orders recurrently</td>
+    </tr>
+    <tr>
+      <td><code class="language-plaintext highlighter-rouge">* * * *</code></td>
+      <td>Baker</td>
+      <td>Delete orders</td>
+      <td>remove mistakes</td>
+    </tr>
+    <tr>
+      <td><code class="language-plaintext highlighter-rouge">* * *</code></td>
+      <td>Baker</td>
+      <td>Edit orders</td>
+      <td>keep order information correct if there was a mistake</td>
+    </tr>
+    <tr>
+      <td><code class="language-plaintext highlighter-rouge">* *</code></td>
+      <td>Baker</td>
+      <td>Sort orders by priority</td>
+      <td>prioritise baking the most important orders first</td>
+    </tr>
+    <tr>
+      <td><code class="language-plaintext highlighter-rouge">* * * *</code></td>
+      <td>Baker</td>
+      <td>Mark orders as complete</td>
+      <td>focus on orders that are incomplete</td>
+    </tr>
+    <tr>
+      <td><code class="language-plaintext highlighter-rouge">* * * *</code></td>
+      <td>Baker</td>
+      <td>Unmark orders as complete</td>
+      <td>remove mistakes</td>
+    </tr>
+    <tr>
+      <td><code class="language-plaintext highlighter-rouge">* * * *</code></td>
+      <td>Baker</td>
+      <td>List all orders</td>
+      <td>view all orders quickly</td>
+    </tr>
+    <tr>
+      <td><code class="language-plaintext highlighter-rouge">* * *</code></td>
+      <td>Baker</td>
+      <td>View incomplete orders</td>
+      <td>focus on orders that are incomplete</td>
+    </tr>
+    <tr>
+      <td><code class="language-plaintext highlighter-rouge">* * *</code></td>
+      <td>Baker</td>
+      <td>View completed orders</td>
+      <td>have a record of past orders</td>
+    </tr>
+    <tr>
+      <td><code class="language-plaintext highlighter-rouge">*</code></td>
+      <td>Professional Baker</td>
+      <td>Add membership tiers</td>
+      <td>track membership discounts / options</td>
+    </tr>
+    <tr>
+      <td><code class="language-plaintext highlighter-rouge">*</code></td>
+      <td>Professional Baker</td>
+      <td>Register a client under a membership tier</td>
+      <td>track which clients belong to which membership tiers</td>
+    </tr>
+    <tr>
+      <td><code class="language-plaintext highlighter-rouge">*</code></td>
+      <td>Professional Baker</td>
+      <td>Add limited edition bakery goods</td>
+      <td>track goods that are available for a limited time only</td>
+    </tr>
+    <tr>
+      <td><code class="language-plaintext highlighter-rouge">*</code></td>
+      <td>Baker</td>
+      <td>Add a pick-up time to orders</td>
+      <td>track when users want to pick up their order</td>
+    </tr>
+    <tr>
+      <td><code class="language-plaintext highlighter-rouge">*</code></td>
+      <td>Baker</td>
+      <td>Add notes / special instructions to orders</td>
+      <td>track which orders need special instructions (e.g. allergies)</td>
+    </tr>
+    <tr>
+      <td><code class="language-plaintext highlighter-rouge">*</code></td>
+      <td>Baker</td>
+      <td>Add ingredients required for baking</td>
+      <td>track if I have enough ingredients to complete an order</td>
+    </tr>
+    <tr>
+      <td><code class="language-plaintext highlighter-rouge">*</code></td>
+      <td>Baker</td>
+      <td>Delete ingredients required for baking</td>
+      <td>remove mistakes</td>
+    </tr>
+    <tr>
+      <td><code class="language-plaintext highlighter-rouge">*</code></td>
+      <td>Baker</td>
+      <td>Automatically deduct remaining ingredients after completing an order</td>
+      <td>not be trouble with updating ingredients</td>
+    </tr>
+  </tbody>
+</table>
+
+<h3 id="use-cases">Use cases</h3>
+
+<p>(For all use cases below, the <strong>System</strong> is the <code class="language-plaintext highlighter-rouge">BakeBase</code> and the <strong>Actor</strong> is the <code class="language-plaintext highlighter-rouge">user</code>, unless specified otherwise)</p>
+
+<p><strong>Use case: Delete a person</strong></p>
+
+<p><strong>MSS</strong></p>
+
+<ol>
+  <li>User requests to list persons</li>
+  <li>BakeBase shows a list of persons</li>
+  <li>User requests to delete a specific person in the list</li>
+  <li>
+    <p>BakeBase deletes the person</p>
+
+    <p>Use case ends.</p>
+  </li>
+</ol>
+
+<p><strong>Extensions</strong></p>
+
+<ul>
+  <li>
+    <p>2a. The list is empty.</p>
+
+    <p>Use case ends.</p>
+  </li>
+  <li>
+    <p>3a. The given index is invalid.</p>
+
+    <ul>
+      <li>
+        <p>3a1. BakeBase shows an error message.</p>
+
+        <p>Use case resumes at step 2.</p>
+      </li>
+    </ul>
+  </li>
+</ul>
+
+<p><strong>Use case: Edit a bakery item</strong></p>
+
+<p><strong>MSS</strong></p>
+
+<ol>
+  <li>User requests to list bakery items</li>
+  <li>BakeBase shows the bakery item list</li>
+  <li>User requests to edit the name, price, or both fields of a specific bakery item in the list</li>
+  <li>
+    <p>BakeBase updates the bakery item and retains its existing order associations</p>
+
+    <p>Use case ends.</p>
+  </li>
+</ol>
+
+<p><strong>Extensions</strong></p>
+
+<ul>
+  <li>
+    <p>2a. The list is empty.</p>
+
+    <p>Use case ends.</p>
+  </li>
+  <li>
+    <p>3a. The given index is invalid.</p>
+
+    <ul>
+      <li>
+        <p>3a1. BakeBase shows an error message.</p>
+
+        <p>Use case resumes at step 2.</p>
+      </li>
+    </ul>
+  </li>
+  <li>
+    <p>3b. No editable field is provided, or a field value is invalid.</p>
+
+    <ul>
+      <li>
+        <p>3b1. BakeBase shows an error message.</p>
+
+        <p>Use case resumes at step 2.</p>
+      </li>
+    </ul>
+  </li>
+  <li>
+    <p>3c. The new item name duplicates another bakery item.</p>
+
+    <ul>
+      <li>
+        <p>3c1. BakeBase shows an error message and does not change the item or its orders.</p>
+
+        <p>Use case resumes at step 2.</p>
+      </li>
+    </ul>
+  </li>
+</ul>
+
+<p><strong>Use case: Mark an order as complete</strong></p>
+
+<p><strong>MSS</strong></p>
+
+<ol>
+  <li>User requests to list orders</li>
+  <li>BakeBase shows a list of orders</li>
+  <li>User requests to mark a specific order in the list as complete</li>
+  <li>
+    <p>BakeBase marks the order as complete</p>
+
+    <p>Use case ends.</p>
+  </li>
+</ol>
+
+<p><strong>Extensions</strong></p>
+
+<ul>
+  <li>
+    <p>2a. The list is empty.</p>
+
+    <p>Use case ends.</p>
+  </li>
+  <li>
+    <p>3a. The given index is invalid.</p>
+
+    <ul>
+      <li>
+        <p>3a1. BakeBase shows an error message.</p>
+
+        <p>Use case resumes at step 2.</p>
+      </li>
+    </ul>
+  </li>
+  <li>
+    <p>3b. The specified order is already marked as complete</p>
+    <ul>
+      <li>
+        <p>3b1. BakeBase displays a friendly reminder that the specified order is already marked as complete</p>
+
+        <p>Use case resumes at step 2.</p>
+      </li>
+    </ul>
+  </li>
+</ul>
+
+<p><strong>Use case: Display unfulfilled orders with deadline soon</strong></p>
+
+<p><strong>MSS</strong></p>
+
+<ol>
+  <li>User requests to list orders with filters incomplete and deadline by specified date</li>
+  <li>
+    <p>BakeBase shows a list of filtered orders accordingly</p>
+
+    <p>Use case ends.</p>
+  </li>
+</ol>
+
+<p><strong>Extensions</strong></p>
+
+<ul>
+  <li>
+    <p>2a. No orders match the filters.</p>
+
+    <ul>
+      <li>
+        <p>2a1. BakeBase displays a message indicating that no incomplete orders are due on or before the specified date.</p>
+
+        <p>Use case ends.</p>
+      </li>
+    </ul>
+  </li>
+</ul>
+
+<p><em>{More to be added}</em></p>
+
+<h3 id="non-functional-requirements">Non-Functional Requirements</h3>
+
+<ol>
+  <li>
+    <p>The application should run on any mainstream operating system with Java 25 installed.</p>
+  </li>
+  <li>
+    <p>With up to 100 client contacts, 100 bakery goods and 1000 orders, the application should display the results of a list, search or filter command within 3 seconds on the project team’s reference machine running Java 25.</p>
+  </li>
+  <li>
+    <p>After a data-changing command reports success, the affected client, bakery good or order data should be retained after the application is closed and reopened, with its values and associations unchanged.</p>
+  </li>
+  <li>
+    <p>A first-time user with basic computer literacy should be able to use the in-app help to add a client, bakery good and order within 15 minutes, without outside assistance.</p>
+  </li>
+  <li>
+    <p>Client contact, bakery good and order data should remain on the user’s computer. The application should not transmit this data over a network.</p>
+  </li>
+</ol>
+
+<h3 id="glossary">Glossary</h3>
+
+<ul>
+  <li>
+<strong>Mainstream OS</strong>: Windows, Linux, Unix, or macOS</li>
+  <li>
+<strong>Private contact detail</strong>: A contact detail that is not meant to be shared with others</li>
+  <li>
+<strong>Baker</strong>: The user who manages clients, bakery goods and orders in BakeBase.</li>
+  <li>
+<strong>Client</strong>: A customer whose contact details are stored in BakeBase.</li>
+  <li>
+<strong>Bakery book</strong>: The collection of client, bakery item, and order data inside BakeBase. This is represented by <code class="language-plaintext highlighter-rouge">AddressBook</code> in the code and was adapted from the address book in AB3.</li>
+  <li>
+<strong>Bakery good</strong>: A baked product that a baker offers and can add to a client order.</li>
+  <li>
+<strong>Bakery item</strong>: Another term for a bakery good. The terms are used interchangeably in this guide.</li>
+  <li>
+<strong>Client order</strong>: A record of a client’s request for a bakery good, including its quantity and, if specified, its deadline and status.</li>
+  <li>
+<strong>Order deadline</strong>: The date by which a client order is due.</li>
+  <li>
+<strong>Incomplete order</strong>: An order that has not been marked as complete.</li>
+  <li>
+<strong>Completed order</strong>: An order that the baker has marked as complete.</li>
+  <li>
+<strong>Recurring order</strong>: An order pattern saved for reuse when a client regularly requests the same order.</li>
+  <li>
+<strong>Membership tier</strong>: A client category that determines the membership options or discounts available to that client.</li>
+  <li>
+<strong>Limited-edition bakery good</strong>: A bakery good offered for a limited period.</li>
+  <li>
+<strong>Special instructions</strong>: Notes associated with an order, such as allergy information or preparation requests.</li>
+  <li>
+<strong>Ingredient inventory</strong>: The recorded quantities of ingredients available for fulfilling orders.</li>
+</ul>
+
+<hr>
+
+<h2 id="appendix-instructions-for-manual-testing"><strong>Appendix: Instructions for manual testing</strong></h2>
+
+<h3 id="clear-confirmation-and-undo">Clear confirmation and undo</h3>
+
+<p>Use a disposable data folder or back up your book before testing deletion.</p>
+
+<ol>
+  <li>Load sample data with <code class="language-plaintext highlighter-rouge">populate</code> and note the total client, item, and order counts before searching for one client. Run <code class="language-plaintext highlighter-rouge">clear</code>: expect a warning showing those full-book counts, regardless of the search. It must state that confirmed deletion is immediate and has no additional prompt. Expect unchanged data and filters, and no file write. Repeat with <code class="language-plaintext highlighter-rouge">clear yes</code> and <code class="language-plaintext highlighter-rouge">clear confirm extra</code>: expect invalid-format errors and unchanged data.</li>
+  <li>Continue with <code class="language-plaintext highlighter-rouge">list-clients</code> to cancel. No pending deletion should occur.</li>
+  <li>Run <code class="language-plaintext highlighter-rouge">clear confirm</code> directly without first typing <code class="language-plaintext highlighter-rouge">clear</code>: expect all clients, items, and orders to disappear without another prompt. Restart: expect the saved book to remain empty.</li>
+  <li>Load sample data, edit an item, then run <code class="language-plaintext highlighter-rouge">clear</code> and <code class="language-plaintext highlighter-rouge">undo</code>: expect the item edit to be reversed. The warning must not replace undo history.</li>
+  <li>Load sample data, run <code class="language-plaintext highlighter-rouge">clear confirm</code>, then <code class="language-plaintext highlighter-rouge">undo</code> without restarting: expect the entire book and its linked orders restored. A second <code class="language-plaintext highlighter-rouge">undo</code> must be unavailable.</li>
+  <li>Verify that another successful data change replaces recovery of the cleared book, and restarting removes undo availability.</li>
+  <li>Simulate write failure using the storage test double in <code class="language-plaintext highlighter-rouge">ClearConfirmationTest</code>: confirmed clearing must restore data and filters, and the previous undo opportunity must remain. Simulate failure while saving undo: expect the pre-undo empty book, unchanged filters, and an available retry.</li>
+</ol>
+
+<p>Given below are instructions to test the app manually.</p>
+
+<div class="alert alert-info">
+<img class="emoji" title=":information_source:" alt=":information_source:" src="https://github.githubassets.com/images/icons/emoji/unicode/2139.png" height="20" width="20"> <strong>Note:</strong> These instructions only provide a starting point for testers to work on;
+testers are expected to do more <em>exploratory</em> testing.
+
+</div>
+
+<h3 id="launch-and-shutdown">Launch and shutdown</h3>
+
+<ol>
+  <li>
+    <p>Initial launch</p>
+
+    <ol>
+      <li>
+        <p>Download the JAR file and copy it into an empty folder.</p>
+      </li>
+      <li>
+        <p>Double-click the JAR file.<br>
+Expected: The GUI opens with a set of sample contacts. The window size may not be optimal.</p>
+      </li>
+    </ol>
+  </li>
+  <li>
+    <p>Saving window preferences</p>
+
+    <ol>
+      <li>
+        <p>Resize the window to an optimal size. Move the window to a different location. Close the window.</p>
+      </li>
+      <li>
+        <p>Relaunch the app by double-clicking the JAR file.<br>
+ Expected: The most recent window size and location are retained.</p>
+      </li>
+    </ol>
+  </li>
+  <li>
+    <p><em>{ more test cases …​ }</em></p>
+  </li>
+</ol>
+
+<h3 id="deleting-a-person">Deleting a person</h3>
+
+<ol>
+  <li>
+    <p>Deleting a person while all persons are being shown</p>
+
+    <ol>
+      <li>
+        <p>Prerequisites: In a disposable writable data folder, run <code class="language-plaintext highlighter-rouge">populate</code> to load the sample book.
+This replaces any existing data. Run <code class="language-plaintext highlighter-rouge">delete-order 1 o/2</code>, then <code class="language-plaintext highlighter-rouge">delete-order 1 o/1</code> to remove
+both orders belonging to Alex Yeoh. Run <code class="language-plaintext highlighter-rouge">list-clients</code> to show all clients. Alex is client 1
+and can now be deleted; clients with linked orders cannot be deleted.</p>
+      </li>
+      <li>
+        <p>Test case: <code class="language-plaintext highlighter-rouge">delete-client 1</code><br>
+Expected: The first contact is deleted from the list. The status message shows the deleted contact’s details.</p>
+      </li>
+      <li>
+        <p>Test case: <code class="language-plaintext highlighter-rouge">delete-client 0</code><br>
+Expected: No person is deleted. The status message shows error details.</p>
+      </li>
+      <li>
+        <p>Other incorrect delete commands to try: <code class="language-plaintext highlighter-rouge">delete-client</code>, <code class="language-plaintext highlighter-rouge">delete-client x</code>, <code class="language-plaintext highlighter-rouge">...</code> (where x is larger than the list size)<br>
+Expected: Similar to previous.</p>
+      </li>
+    </ol>
+  </li>
+  <li>
+    <p><em>{ more test cases …​ }</em></p>
+  </li>
+</ol>
+
+<h3 id="editing-a-bakery-item">Editing a bakery item</h3>
+
+<ol>
+  <li>
+    <p>Editing a bakery item while all items are shown</p>
+
+    <ol>
+      <li>
+        <p>Prerequisites: Run <code class="language-plaintext highlighter-rouge">populate</code>, followed by <code class="language-plaintext highlighter-rouge">list-items</code>. The first two items should be <code class="language-plaintext highlighter-rouge">Banana Muffin</code> and
+<code class="language-plaintext highlighter-rouge">Chocolate Cake</code>. The sample data should contain orders for <code class="language-plaintext highlighter-rouge">Banana Muffin</code>.</p>
+      </li>
+      <li>
+        <p>Test case: <code class="language-plaintext highlighter-rouge">edit-item 1 n/Blueberry Scone p/2.50</code><br>
+Expected: The first item’s name changes to <code class="language-plaintext highlighter-rouge">Blueberry Scone</code> and its price changes to <code class="language-plaintext highlighter-rouge">$2.50</code>. The status
+message shows the edited item. Existing orders that previously showed <code class="language-plaintext highlighter-rouge">Banana Muffin</code> now show
+<code class="language-plaintext highlighter-rouge">Blueberry Scone</code>; their clients, quantities, deadlines, order identities, and completion statuses are
+unchanged.</p>
+      </li>
+      <li>
+        <p>Test case: Run <code class="language-plaintext highlighter-rouge">populate</code>, then <code class="language-plaintext highlighter-rouge">edit-item 1 p/3.00</code>.<br>
+Expected: The first item’s price changes to <code class="language-plaintext highlighter-rouge">$3.00</code>, while its name remains <code class="language-plaintext highlighter-rouge">Banana Muffin</code>.</p>
+      </li>
+      <li>
+        <p>Test case: Run <code class="language-plaintext highlighter-rouge">populate</code>, then <code class="language-plaintext highlighter-rouge">edit-item 1 n/Chocolate Cake</code>.<br>
+Expected: No item or order is changed. The status message reports that the bakery item already exists.</p>
+      </li>
+      <li>
+        <p>Other incorrect edit commands to try: <code class="language-plaintext highlighter-rouge">edit-item</code>, <code class="language-plaintext highlighter-rouge">edit-item 0 p/2.50</code>, <code class="language-plaintext highlighter-rouge">edit-item 1</code>,
+<code class="language-plaintext highlighter-rouge">edit-item 1 p/1.234</code>, and <code class="language-plaintext highlighter-rouge">edit-item 1 n/Cake n/Tart</code>.<br>
+Expected: No item or order is changed. The status message shows the relevant error details.</p>
+      </li>
+    </ol>
+  </li>
+</ol>
+
+<h3 id="saving-data">Saving data</h3>
+
+<ol>
+  <li>
+    <p>Dealing with missing/corrupted data files</p>
+
+    <ol>
+      <li><em>{Explain how to simulate missing or corrupted data files and state the expected behavior.}</em></li>
+    </ol>
+  </li>
+  <li>
+    <p><em>{ more test cases …​ }</em></p>
+  </li>
+</ol>
+
+<h3 id="unmark-backend">unmark backend</h3>
+
+<p>Restore only the selected completed order to incomplete, retaining its identity and associations. <code class="language-plaintext highlighter-rouge">OrderCommandUtil</code> resolves the displayed client and then the order’s position within that client. Invalid indices and repeated status changes report specific errors without mutation. Successful changes are saved by LogicManager; save failures restore data and displayed filters.</p>
+
+<h3 id="mark-order-complete-backend">mark-order-complete backend</h3>
+
+<p>Mark only the selected order complete, retaining its identity and associations. <code class="language-plaintext highlighter-rouge">OrderCommandUtil</code> resolves the displayed client and then the order’s position within that client. Invalid indices and repeated status changes report specific errors without mutation. Successful changes are saved by LogicManager; save failures restore data and displayed filters.</p>
+
+<h3 id="delete-order-backend">delete-order backend</h3>
+
+<p>Delete only the selected order; subsequent client-local indices shift down. <code class="language-plaintext highlighter-rouge">OrderCommandUtil</code> resolves the displayed client and then the order’s position within that client. Invalid indices and repeated status changes report specific errors without mutation. Successful changes are saved by LogicManager; save failures restore data and displayed filters.</p>
+
+<h3 id="editing-a-client-order">Editing a client order</h3>
+
+<ol>
+  <li>In a disposable writable folder, never one containing real bakery data, verify Java 25 using
+<code class="language-plaintext highlighter-rouge">java -version</code> and launch the release with <code class="language-plaintext highlighter-rouge">java -jar "addressbook.jar"</code>.
+Run <code class="language-plaintext highlighter-rouge">clear confirm</code> to remove the initial sample data. Create one client and two items,
+then add two identical orders for client 1.</li>
+  <li>Mark the second order complete. Run <code class="language-plaintext highlighter-rouge">edit-order 1 o/2 q/13</code> and verify only its quantity changes.
+Its item, deadline, completed status, and client-local number must remain unchanged.</li>
+  <li>Run <code class="language-plaintext highlighter-rouge">undo</code> immediately: both original orders should return, and another undo must be unavailable.</li>
+  <li>Run <code class="language-plaintext highlighter-rouge">edit-order 1 o/2 i/2 q/9999 d/2020-02-29</code>. Restart and verify that all fields and the completed
+status persist, with the same UUID and position in the JSON file.</li>
+  <li>Filter clients and items, then use their displayed indices. With <code class="language-plaintext highlighter-rouge">list-complete-orders by-deadline</code>,
+edit a deadline and verify chronological movement without changing its client-local number. Use
+<code class="language-plaintext highlighter-rouge">find-orders</code> for the old item name, then change that item’s order to the other item: it should leave
+the search results. An order hidden by a completion filter remains addressable by its client-local index.</li>
+  <li>Try <code class="language-plaintext highlighter-rouge">edit-order 1 o/2</code>, <code class="language-plaintext highlighter-rouge">edit-order 1 o/2 q/0</code>, <code class="language-plaintext highlighter-rouge">edit-order 1 o/2 q/10000</code>,
+<code class="language-plaintext highlighter-rouge">edit-order 1 o/2 d/2026-02-29</code>, repeated <code class="language-plaintext highlighter-rouge">q/</code> prefixes, and out-of-range client/order/item indices.
+Each must report an error without changing any data.</li>
+  <li>Make a real edit, repeat the same values, then undo: the original edit must still be reversible.</li>
+  <li>Automated <code class="language-plaintext highlighter-rouge">EditOrderTest</code> injects both I/O and permission failures during saving and verifies restored
+data, client/item/order filters, sorting, and prior undo. It also checks parser boundaries, filtered
+indices, repeat-order isolation, omitted fields, persistence after reload, and single-step undo.</li>
+</ol>
+
+  </div>
+
+</article>
+
+      </div>
+    </main>
+
+  </body>
+
+</html>

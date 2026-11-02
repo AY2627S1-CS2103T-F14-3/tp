@@ -1,0 +1,10 @@
+{
+  "persons": [ ],
+  "bakeryItems": [ {
+    "itemName": "Banana Muffin",
+    "price": "1.20"
+  }, {
+    "itemName": "Chocolate Muffin",
+    "price": "1.50"
+  } ]
+}

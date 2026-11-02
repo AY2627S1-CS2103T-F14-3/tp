@@ -1,0 +1,188 @@
+Release JAR 100 clients / 100 items / 1000 orders
+Java 25.0.4; OS Windows 11 amd64; processors 24
+Includes parse, full-book snapshot, command, full JSON serialization, atomic file replacement; excludes GUI rendering.
+Two complete warmup cycles, then five measured cycles. Model constructed directly and persisted once before warmup.
+Oct 30, 2026 3:23:22 PM seedu.address.logic.LogicManager execute
+INFO: ----------------[USER COMMAND][list-clients]
+Oct 30, 2026 3:23:22 PM seedu.address.logic.LogicManager execute
+INFO: ----------------[USER COMMAND][find-clients Client]
+Oct 30, 2026 3:23:22 PM seedu.address.logic.LogicManager execute
+INFO: ----------------[USER COMMAND][list-items]
+Oct 30, 2026 3:23:22 PM seedu.address.logic.LogicManager execute
+INFO: ----------------[USER COMMAND][find-items Muffin]
+Oct 30, 2026 3:23:22 PM seedu.address.logic.LogicManager execute
+INFO: ----------------[USER COMMAND][list-orders]
+Oct 30, 2026 3:23:22 PM seedu.address.logic.LogicManager execute
+INFO: ----------------[USER COMMAND][list-orders by-deadline]
+Oct 30, 2026 3:23:22 PM seedu.address.logic.LogicManager execute
+INFO: ----------------[USER COMMAND][find-orders Client]
+Oct 30, 2026 3:23:22 PM seedu.address.logic.LogicManager execute
+INFO: ----------------[USER COMMAND][find-orders 42]
+Oct 30, 2026 3:23:22 PM seedu.address.logic.LogicManager execute
+INFO: ----------------[USER COMMAND][list-complete-orders]
+Oct 30, 2026 3:23:22 PM seedu.address.logic.LogicManager execute
+INFO: ----------------[USER COMMAND][list-complete-orders by-deadline]
+Oct 30, 2026 3:23:22 PM seedu.address.logic.LogicManager execute
+INFO: ----------------[USER COMMAND][list-incomplete-orders]
+Oct 30, 2026 3:23:22 PM seedu.address.logic.LogicManager execute
+INFO: ----------------[USER COMMAND][list-incomplete-orders by-deadline]
+Oct 30, 2026 3:23:22 PM seedu.address.logic.LogicManager execute
+INFO: ----------------[USER COMMAND][list-clients]
+Oct 30, 2026 3:23:22 PM seedu.address.logic.LogicManager execute
+INFO: ----------------[USER COMMAND][find-clients Client]
+Oct 30, 2026 3:23:22 PM seedu.address.logic.LogicManager execute
+INFO: ----------------[USER COMMAND][list-items]
+Oct 30, 2026 3:23:23 PM seedu.address.logic.LogicManager execute
+INFO: ----------------[USER COMMAND][find-items Muffin]
+Oct 30, 2026 3:23:23 PM seedu.address.logic.LogicManager execute
+INFO: ----------------[USER COMMAND][list-orders]
+Oct 30, 2026 3:23:23 PM seedu.address.logic.LogicManager execute
+INFO: ----------------[USER COMMAND][list-orders by-deadline]
+Oct 30, 2026 3:23:23 PM seedu.address.logic.LogicManager execute
+INFO: ----------------[USER COMMAND][find-orders Client]
+Oct 30, 2026 3:23:23 PM seedu.address.logic.LogicManager execute
+INFO: ----------------[USER COMMAND][find-orders 42]
+Oct 30, 2026 3:23:23 PM seedu.address.logic.LogicManager execute
+INFO: ----------------[USER COMMAND][list-complete-orders]
+Oct 30, 2026 3:23:23 PM seedu.address.logic.LogicManager execute
+INFO: ----------------[USER COMMAND][list-complete-orders by-deadline]
+Oct 30, 2026 3:23:23 PM seedu.address.logic.LogicManager execute
+INFO: ----------------[USER COMMAND][list-incomplete-orders]
+Oct 30, 2026 3:23:23 PM seedu.address.logic.LogicManager execute
+INFO: ----------------[USER COMMAND][list-incomplete-orders by-deadline]
+Oct 30, 2026 3:23:23 PM seedu.address.logic.LogicManager execute
+INFO: ----------------[USER COMMAND][list-clients]
+Oct 30, 2026 3:23:23 PM seedu.address.logic.LogicManager execute
+INFO: ----------------[USER COMMAND][find-clients Client]
+Oct 30, 2026 3:23:23 PM seedu.address.logic.LogicManager execute
+INFO: ----------------[USER COMMAND][list-items]
+Oct 30, 2026 3:23:23 PM seedu.address.logic.LogicManager execute
+INFO: ----------------[USER COMMAND][find-items Muffin]
+Oct 30, 2026 3:23:23 PM seedu.address.logic.LogicManager execute
+INFO: ----------------[USER COMMAND][list-orders]
+Oct 30, 2026 3:23:23 PM seedu.address.logic.LogicManager execute
+INFO: ----------------[USER COMMAND][list-orders by-deadline]
+Oct 30, 2026 3:23:23 PM seedu.address.logic.LogicManager execute
+INFO: ----------------[USER COMMAND][find-orders Client]
+Oct 30, 2026 3:23:23 PM seedu.address.logic.LogicManager execute
+INFO: ----------------[USER COMMAND][find-orders 42]
+Oct 30, 2026 3:23:23 PM seedu.address.logic.LogicManager execute
+INFO: ----------------[USER COMMAND][list-complete-orders]
+Oct 30, 2026 3:23:23 PM seedu.address.logic.LogicManager execute
+INFO: ----------------[USER COMMAND][list-complete-orders by-deadline]
+Oct 30, 2026 3:23:23 PM seedu.address.logic.LogicManager execute
+INFO: ----------------[USER COMMAND][list-incomplete-orders]
+Oct 30, 2026 3:23:23 PM seedu.address.logic.LogicManager execute
+INFO: ----------------[USER COMMAND][list-incomplete-orders by-deadline]
+Oct 30, 2026 3:23:23 PM seedu.address.logic.LogicManager execute
+INFO: ----------------[USER COMMAND][list-clients]
+Oct 30, 2026 3:23:23 PM seedu.address.logic.LogicManager execute
+INFO: ----------------[USER COMMAND][find-clients Client]
+Oct 30, 2026 3:23:23 PM seedu.address.logic.LogicManager execute
+INFO: ----------------[USER COMMAND][list-items]
+Oct 30, 2026 3:23:23 PM seedu.address.logic.LogicManager execute
+INFO: ----------------[USER COMMAND][find-items Muffin]
+Oct 30, 2026 3:23:23 PM seedu.address.logic.LogicManager execute
+INFO: ----------------[USER COMMAND][list-orders]
+Oct 30, 2026 3:23:23 PM seedu.address.logic.LogicManager execute
+INFO: ----------------[USER COMMAND][list-orders by-deadline]
+Oct 30, 2026 3:23:23 PM seedu.address.logic.LogicManager execute
+INFO: ----------------[USER COMMAND][find-orders Client]
+Oct 30, 2026 3:23:23 PM seedu.address.logic.LogicManager execute
+INFO: ----------------[USER COMMAND][find-orders 42]
+Oct 30, 2026 3:23:23 PM seedu.address.logic.LogicManager execute
+INFO: ----------------[USER COMMAND][list-complete-orders]
+Oct 30, 2026 3:23:23 PM seedu.address.logic.LogicManager execute
+INFO: ----------------[USER COMMAND][list-complete-orders by-deadline]
+Oct 30, 2026 3:23:23 PM seedu.address.logic.LogicManager execute
+INFO: ----------------[USER COMMAND][list-incomplete-orders]
+Oct 30, 2026 3:23:23 PM seedu.address.logic.LogicManager execute
+INFO: ----------------[USER COMMAND][list-incomplete-orders by-deadline]
+Oct 30, 2026 3:23:23 PM seedu.address.logic.LogicManager execute
+INFO: ----------------[USER COMMAND][list-clients]
+Oct 30, 2026 3:23:23 PM seedu.address.logic.LogicManager execute
+INFO: ----------------[USER COMMAND][find-clients Client]
+Oct 30, 2026 3:23:23 PM seedu.address.logic.LogicManager execute
+INFO: ----------------[USER COMMAND][list-items]
+Oct 30, 2026 3:23:23 PM seedu.address.logic.LogicManager execute
+INFO: ----------------[USER COMMAND][find-items Muffin]
+Oct 30, 2026 3:23:23 PM seedu.address.logic.LogicManager execute
+INFO: ----------------[USER COMMAND][list-orders]
+Oct 30, 2026 3:23:23 PM seedu.address.logic.LogicManager execute
+INFO: ----------------[USER COMMAND][list-orders by-deadline]
+Oct 30, 2026 3:23:23 PM seedu.address.logic.LogicManager execute
+INFO: ----------------[USER COMMAND][find-orders Client]
+Oct 30, 2026 3:23:24 PM seedu.address.logic.LogicManager execute
+INFO: ----------------[USER COMMAND][find-orders 42]
+Oct 30, 2026 3:23:24 PM seedu.address.logic.LogicManager execute
+INFO: ----------------[USER COMMAND][list-complete-orders]
+Oct 30, 2026 3:23:24 PM seedu.address.logic.LogicManager execute
+INFO: ----------------[USER COMMAND][list-complete-orders by-deadline]
+Oct 30, 2026 3:23:24 PM seedu.address.logic.LogicManager execute
+INFO: ----------------[USER COMMAND][list-incomplete-orders]
+Oct 30, 2026 3:23:24 PM seedu.address.logic.LogicManager execute
+INFO: ----------------[USER COMMAND][list-incomplete-orders by-deadline]
+Oct 30, 2026 3:23:24 PM seedu.address.logic.LogicManager execute
+INFO: ----------------[USER COMMAND][list-clients]
+Oct 30, 2026 3:23:24 PM seedu.address.logic.LogicManager execute
+INFO: ----------------[USER COMMAND][find-clients Client]
+Oct 30, 2026 3:23:24 PM seedu.address.logic.LogicManager execute
+INFO: ----------------[USER COMMAND][list-items]
+Oct 30, 2026 3:23:24 PM seedu.address.logic.LogicManager execute
+INFO: ----------------[USER COMMAND][find-items Muffin]
+Oct 30, 2026 3:23:24 PM seedu.address.logic.LogicManager execute
+INFO: ----------------[USER COMMAND][list-orders]
+Oct 30, 2026 3:23:24 PM seedu.address.logic.LogicManager execute
+INFO: ----------------[USER COMMAND][list-orders by-deadline]
+Oct 30, 2026 3:23:24 PM seedu.address.logic.LogicManager execute
+INFO: ----------------[USER COMMAND][find-orders Client]
+Oct 30, 2026 3:23:24 PM seedu.address.logic.LogicManager execute
+INFO: ----------------[USER COMMAND][find-orders 42]
+Oct 30, 2026 3:23:24 PM seedu.address.logic.LogicManager execute
+INFO: ----------------[USER COMMAND][list-complete-orders]
+Oct 30, 2026 3:23:24 PM seedu.address.logic.LogicManager execute
+INFO: ----------------[USER COMMAND][list-complete-orders by-deadline]
+Oct 30, 2026 3:23:24 PM seedu.address.logic.LogicManager execute
+INFO: ----------------[USER COMMAND][list-incomplete-orders]
+Oct 30, 2026 3:23:24 PM seedu.address.logic.LogicManager execute
+INFO: ----------------[USER COMMAND][list-incomplete-orders by-deadline]
+Oct 30, 2026 3:23:24 PM seedu.address.logic.LogicManager execute
+INFO: ----------------[USER COMMAND][list-clients]
+Oct 30, 2026 3:23:24 PM seedu.address.logic.LogicManager execute
+INFO: ----------------[USER COMMAND][find-clients Client]
+Oct 30, 2026 3:23:24 PM seedu.address.logic.LogicManager execute
+INFO: ----------------[USER COMMAND][list-items]
+Oct 30, 2026 3:23:24 PM seedu.address.logic.LogicManager execute
+INFO: ----------------[USER COMMAND][find-items Muffin]
+Oct 30, 2026 3:23:24 PM seedu.address.logic.LogicManager execute
+INFO: ----------------[USER COMMAND][list-orders]
+Oct 30, 2026 3:23:24 PM seedu.address.logic.LogicManager execute
+INFO: ----------------[USER COMMAND][list-orders by-deadline]
+Oct 30, 2026 3:23:24 PM seedu.address.logic.LogicManager execute
+INFO: ----------------[USER COMMAND][find-orders Client]
+Oct 30, 2026 3:23:24 PM seedu.address.logic.LogicManager execute
+INFO: ----------------[USER COMMAND][find-orders 42]
+Oct 30, 2026 3:23:24 PM seedu.address.logic.LogicManager execute
+INFO: ----------------[USER COMMAND][list-complete-orders]
+Oct 30, 2026 3:23:24 PM seedu.address.logic.LogicManager execute
+INFO: ----------------[USER COMMAND][list-complete-orders by-deadline]
+Oct 30, 2026 3:23:24 PM seedu.address.logic.LogicManager execute
+INFO: ----------------[USER COMMAND][list-incomplete-orders]
+Oct 30, 2026 3:23:24 PM seedu.address.logic.LogicManager execute
+INFO: ----------------[USER COMMAND][list-incomplete-orders by-deadline]
+list-clients                         median=   20.35 ms max=   28.23 ms samples=[20.3527, 28.2339, 11.9988, 22.8852, 9.0305]
+find-clients Client                  median=   13.34 ms max=   25.08 ms samples=[25.0755, 16.326, 13.3355, 8.8083, 7.8303]
+list-items                           median=    7.60 ms max=   28.07 ms samples=[7.6012, 10.5375, 28.0728, 7.2887, 6.6756]
+find-items Muffin                    median=   15.17 ms max=   22.90 ms samples=[7.1812, 15.1668, 22.895, 8.6396, 22.3042]
+list-orders                          median=   20.72 ms max=   35.78 ms samples=[15.0072, 20.7249, 33.9006, 19.4557, 35.7815]
+list-orders by-deadline              median=   33.92 ms max=   52.73 ms samples=[33.9245, 33.0792, 31.4576, 47.1066, 52.7268]
+find-orders Client                   median=   30.94 ms max=   57.46 ms samples=[23.4995, 19.5346, 57.4623, 33.7036, 30.9386]
+find-orders 42                       median=   18.81 ms max=   23.19 ms samples=[23.1939, 9.1694, 18.8144, 16.8099, 20.3096]
+list-complete-orders                 median=   22.26 ms max=   28.34 ms samples=[18.9251, 28.3422, 22.5955, 20.19, 22.2621]
+list-complete-orders by-deadline     median=    9.71 ms max=   27.05 ms samples=[14.116, 9.7113, 27.0499, 8.4939, 8.9323]
+list-incomplete-orders               median=   22.16 ms max=   30.66 ms samples=[30.6563, 26.3438, 22.1582, 11.2584, 13.9961]
+list-incomplete-orders by-deadline   median=   25.09 ms max=   35.86 ms samples=[25.0879, 14.3051, 27.5639, 35.8554, 22.3698]
+Oct 30, 2026 3:23:24 PM seedu.address.commons.util.JsonUtil readJsonFile
+INFO: JSON file _beta-test\performance-data\addressbook.json found.
+Maximum warmed observation 57.46 ms; all below 3000ms on this host.
+Scope: cannot certify the DG NFR on the team's unspecified reference machine or end-to-end GUI response time. Cold start excluded.

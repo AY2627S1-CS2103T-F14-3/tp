@@ -1,0 +1,21 @@
+{
+  "persons" : [ {
+    "name" : "Alexandra Catherine Tan",
+    "phone" : "91234567",
+    "email" : "alexandra.tan@example.com",
+    "address" : "123 Ang Mo Kio Avenue 3 #12-456 Singapore 560123",
+    "tags" : [ ]
+  } ],
+  "bakeryItems" : [ {
+    "itemName" : "Chocolate Hazelnut Birthday Cake",
+    "price" : "55.90"
+  } ],
+  "orders" : [ {
+    "id" : "30e0f976-9f3e-4e54-b318-242b921b0392",
+    "clientName" : "Alexandra Catherine Tan",
+    "itemName" : "Chocolate Hazelnut Birthday Cake",
+    "quantity" : "2",
+    "deadline" : "2026-11-03",
+    "complete" : false
+  } ]
+}

@@ -1,0 +1,22 @@
+[
+  {
+    "number": 173,
+    "title": "Refresh the UG Help screenshot to show clear confirmation and undo",
+    "url": "https://github.com/AY2627S1-CS2103T-F14-3/tp/issues/173"
+  },
+  {
+    "number": 174,
+    "title": "Correct the release JAR filename in the DG order-editing manual test",
+    "url": "https://github.com/AY2627S1-CS2103T-F14-3/tp/issues/174"
+  },
+  {
+    "number": 175,
+    "title": "Qualify the UG claim that marked orders remain visible under completion filters",
+    "url": "https://github.com/AY2627S1-CS2103T-F14-3/tp/issues/175"
+  },
+  {
+    "number": 176,
+    "title": "Replace the DG storage-testing placeholder with executable recovery tests",
+    "url": "https://github.com/AY2627S1-CS2103T-F14-3/tp/issues/176"
+  }
+]

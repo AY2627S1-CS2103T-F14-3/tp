@@ -1,0 +1,101 @@
+> add-client n/Alice p/1234567 e/alice@example.com a/Alpha Road
+New client added: Alice; Phone: 1234567; Email: alice@example.com; Address: Alpha Road; Tags: 
+> add-client n/Bob p/1234567 e/bob@example.com a/Beta Road
+New client added: Bob; Phone: 1234567; Email: bob@example.com; Address: Beta Road; Tags: 
+> add-item n/Cake p/2.00
+New bakery item added: Cake; Price: $2.00
+> add-item n/Muffin p/.50
+New bakery item added: Muffin; Price: $0.50
+> add-order 1 i/1 q/9999 d/0000-01-01
+New order added to contact: Alice: 9999 x Cake (Due: 0000-01-01; incomplete) (Order index for this client: 1)
+> add-order 1 i/1 q/9999 d/0000-02-29
+New order added to contact: Alice: 9999 x Cake (Due: 0000-02-29; incomplete) (Order index for this client: 2)
+> add-order 1 i/1 q/9999 d/0001-01-01
+New order added to contact: Alice: 9999 x Cake (Due: 0001-01-01; incomplete) (Order index for this client: 3)
+> add-order 1 i/1 q/9999 d/2000-02-29
+New order added to contact: Alice: 9999 x Cake (Due: 2000-02-29; incomplete) (Order index for this client: 4)
+> add-order 1 i/1 q/9999 d/9999-12-31
+New order added to contact: Alice: 9999 x Cake (Due: 9999-12-31; incomplete) (Order index for this client: 5)
+> add-order\t2\tq/0001\ti/2\td/2026-10-30
+New order added to contact: Bob: 1 x Muffin (Due: 2026-10-30; incomplete) (Order index for this client: 1)
+> add-order 1i/1 q/1 d/2026-10-30
+REJECTED: Invalid command format!
+add-order: Adds an order to a client. Parameters: CONTACT_INDEX (positive integer) i/ITEM_INDEX (positive integer) q/QUANTITY (1 to 9,999) d/DEADLINE (YYYY-MM-DD)
+Example: add-order 1 i/2 q/5 d/2026-10-15
+> add-order 1 i/1q/1 d/2026-10-30
+REJECTED: Invalid command format!
+add-order: Adds an order to a client. Parameters: CONTACT_INDEX (positive integer) i/ITEM_INDEX (positive integer) q/QUANTITY (1 to 9,999) d/DEADLINE (YYYY-MM-DD)
+Example: add-order 1 i/2 q/5 d/2026-10-15
+> add-order 1 i/1 q/1d/2026-10-30
+REJECTED: Invalid command format!
+add-order: Adds an order to a client. Parameters: CONTACT_INDEX (positive integer) i/ITEM_INDEX (positive integer) q/QUANTITY (1 to 9,999) d/DEADLINE (YYYY-MM-DD)
+Example: add-order 1 i/2 q/5 d/2026-10-15
+> add-order 1 x/1 q/1 d/2026-10-30
+REJECTED: Invalid command format!
+add-order: Adds an order to a client. Parameters: CONTACT_INDEX (positive integer) i/ITEM_INDEX (positive integer) q/QUANTITY (1 to 9,999) d/DEADLINE (YYYY-MM-DD)
+Example: add-order 1 i/2 q/5 d/2026-10-15
+> add-order 1 i/1 q/1 x/a d/2026-10-30
+REJECTED: Order quantity must be a whole number between 1 and 9,999.
+> add-order 1 i/1 q/1 d/2026-10-30 x/a
+REJECTED: Deadline must be a valid calendar date in YYYY-MM-DD format.
+> add-order 1 i/1 q/1 d/9999-12-32
+REJECTED: Deadline must be a valid calendar date in YYYY-MM-DD format.
+> add-order 1 i/1 q/1 d/1900-02-29
+REJECTED: Deadline must be a valid calendar date in YYYY-MM-DD format.
+> add-order 1 i/1 q/1 d/10000-01-01
+REJECTED: Deadline must be a valid calendar date in YYYY-MM-DD format.
+> add-order 1 i/1 q/1 d/-001-01-01
+REJECTED: Deadline must be a valid calendar date in YYYY-MM-DD format.
+> edit-order 1 o/1 q/1 q/2
+REJECTED: Multiple values specified for the following single-valued field(s): q/
+> edit-order 1 o/1
+REJECTED: Provide at least one of i/, q/, or d/ to edit an order.
+> delete-order 1 o/1 o/2
+REJECTED: Multiple values specified for the following single-valued field(s): o/
+> mark 1 o/1 x/foo
+REJECTED: The order index must be a positive integer.
+> list-orders by-deadline
+Listed all orders by deadline (earliest first).
+> edit-order 1 o/5 d/0000-01-01
+Order edited: Alice: 9999 x Cake (Due: 0000-01-01; incomplete)
+> undo
+Last data change undone. All lists are shown.
+> find-clients Bob
+1 client(s) listed!
+> find-items Muffin
+1 bakery items listed!
+> add-order 1 i/1 q/2 d/2026-11-01
+New order added to contact: Bob: 2 x Muffin (Due: 2026-11-01; incomplete) (Order index for this client: 2)
+> list-incomplete-orders by-deadline
+Listed incomplete orders by deadline (earliest first).
+> mark 1 o/2
+Order marked as complete: Bob: 2 x Muffin (Due: 2026-11-01; complete)
+> list-complete-orders
+Listed completed orders.
+> unmark 1 o/2
+Order marked as incomplete: Bob: 2 x Muffin (Due: 2026-11-01; incomplete)
+> undo
+Last data change undone. All lists are shown.
+> find-orders Cake
+5 orders listed!
+> edit-order 1 o/2 i/2
+Order edited: Alice: 9999 x Muffin (Due: 0000-02-29; incomplete)
+> edit-order 1 o/2 i/2
+Order details are unchanged: Alice: 9999 x Muffin (Due: 0000-02-29; incomplete)
+> undo
+Last data change undone. All lists are shown.
+> find-orders Alice
+5 orders listed!
+> edit-client 1 n/Alicia
+Edited client: Alicia; Phone: 1234567; Email: alice@example.com; Address: Alpha Road; Tags: 
+> find-orders Cake
+5 orders listed!
+> edit-item 1 n/Pie
+Edited bakery item: Pie; Price: $2.00
+> list-orders
+Listed all orders.
+> delete-client 1
+REJECTED: Cannot delete this client: existing orders reference this client. Delete those orders first.
+> delete-item 1
+REJECTED: Cannot delete this item: existing orders reference this item. Delete those orders first.
+PASS 59 real-persistence order logic checks against released JAR.

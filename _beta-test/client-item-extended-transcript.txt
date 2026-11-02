@@ -1,0 +1,181 @@
+
+FIXTURE realistic-inputs C:\Users\neoki\NUS\Y2S1\cs2103t\tp\_beta-test\client-item-extended\realistic-inputs-46eb5e74-c417-43ed-b562-adefd52540d6\addressbook.json
+
+> add-client n/John Tan p/91234567 e/john@one.com a/Block 1
+Oct 30, 2026 3:22:47 PM seedu.address.logic.LogicManager execute
+INFO: ----------------[USER COMMAND][add-client n/John Tan p/91234567 e/john@one.com a/Block 1]
+SUCCESS New client added: John Tan; Phone: 91234567; Email: john@one.com; Address: Block 1; Tags: 
+PASS first John accepted
+
+> add-client n/John Tan p/98765432 e/john@two.com a/Block 2
+Oct 30, 2026 3:22:47 PM seedu.address.logic.LogicManager execute
+INFO: ----------------[USER COMMAND][add-client n/John Tan p/98765432 e/john@two.com a/Block 2]
+CommandException: This client already exists in the address book.
+PASS distinct second John rejected
+PASS only one client stored
+
+> add-client n/José Tan p/91234568 e/jose@example.com a/Block 3
+Oct 30, 2026 3:22:47 PM seedu.address.logic.LogicManager execute
+INFO: ----------------[USER COMMAND][add-client n/José Tan p/91234568 e/jose@example.com a/Block 3]
+ParseException: Names should only contain printable ASCII characters, and should not be blank
+PASS accented name rejected
+
+> add-client n/王小明 p/91234569 e/wang@example.com a/Block 4
+Oct 30, 2026 3:22:47 PM seedu.address.logic.LogicManager execute
+INFO: ----------------[USER COMMAND][add-client n/王小明 p/91234569 e/wang@example.com a/Block 4]
+ParseException: Names should only contain printable ASCII characters, and should not be blank
+PASS Chinese name rejected
+
+> add-client n/Anne O’Neil p/91234560 e/anne@example.com a/Block 5
+Oct 30, 2026 3:22:47 PM seedu.address.logic.LogicManager execute
+INFO: ----------------[USER COMMAND][add-client n/Anne O’Neil p/91234560 e/anne@example.com a/Block 5]
+ParseException: Names should only contain printable ASCII characters, and should not be blank
+PASS curly apostrophe name rejected
+
+> add-client n/Anne O'Neil p/91234560 e/anne@example.com a/Block 5
+Oct 30, 2026 3:22:47 PM seedu.address.logic.LogicManager execute
+INFO: ----------------[USER COMMAND][add-client n/Anne O'Neil p/91234560 e/anne@example.com a/Block 5]
+SUCCESS New client added: Anne O'Neil; Phone: 91234560; Email: anne@example.com; Address: Block 5; Tags: 
+PASS straight apostrophe control accepted
+
+> add-client n/Mary Lee p/+6591234567 e/mary@example.com a/Block 6
+Oct 30, 2026 3:22:47 PM seedu.address.logic.LogicManager execute
+INFO: ----------------[USER COMMAND][add-client n/Mary Lee p/+6591234567 e/mary@example.com a/Block 6]
+ParseException: Phone numbers should only contain digits, and should be at least 3 digits long
+PASS plus phone rejected
+
+> add-client n/Mary Lee p/9123 4567 e/mary@example.com a/Block 6
+Oct 30, 2026 3:22:47 PM seedu.address.logic.LogicManager execute
+INFO: ----------------[USER COMMAND][add-client n/Mary Lee p/9123 4567 e/mary@example.com a/Block 6]
+ParseException: Phone numbers should only contain digits, and should be at least 3 digits long
+PASS spaced phone rejected
+
+> add-client n/Mary Lee p/6591234567 e/mary@example.com a/Block 6
+Oct 30, 2026 3:22:47 PM seedu.address.logic.LogicManager execute
+INFO: ----------------[USER COMMAND][add-client n/Mary Lee p/6591234567 e/mary@example.com a/Block 6]
+SUCCESS New client added: Mary Lee; Phone: 6591234567; Email: mary@example.com; Address: Block 6; Tags: 
+PASS digits-only phone control accepted
+
+FIXTURE populate-recovery C:\Users\neoki\NUS\Y2S1\cs2103t\tp\_beta-test\client-item-extended\populate-recovery-5a11dc09-9b6a-468b-b953-230ad206b106\addressbook.json
+
+> add-client n/Real Customer p/91234567 e/real@example.com a/Real Address
+Oct 30, 2026 3:22:47 PM seedu.address.logic.LogicManager execute
+INFO: ----------------[USER COMMAND][add-client n/Real Customer p/91234567 e/real@example.com a/Real Address]
+SUCCESS New client added: Real Customer; Phone: 91234567; Email: real@example.com; Address: Real Address; Tags: 
+PASS real business record added
+
+> populate
+Oct 30, 2026 3:22:47 PM seedu.address.logic.LogicManager execute
+INFO: ----------------[USER COMMAND][populate]
+SUCCESS Replaced all clients, bakery items, and orders with sample data.
+PASS populate succeeds without confirmation
+PASS business record absent after populate
+
+> add-client n/New Customer p/98765432 e/new@example.com a/New Address
+Oct 30, 2026 3:22:47 PM seedu.address.logic.LogicManager execute
+INFO: ----------------[USER COMMAND][add-client n/New Customer p/98765432 e/new@example.com a/New Address]
+SUCCESS New client added: New Customer; Phone: 98765432; Email: new@example.com; Address: New Address; Tags: 
+PASS ordinary subsequent add succeeds
+
+> undo
+Oct 30, 2026 3:22:48 PM seedu.address.logic.LogicManager execute
+INFO: ----------------[USER COMMAND][undo]
+Oct 30, 2026 3:22:48 PM seedu.address.logic.LogicManager execute
+INFO: Undo saved successfully; snapshot consumed.
+SUCCESS Last data change undone. All lists are shown.
+PASS undo after subsequent add succeeds
+PASS undo only restores sample book
+Oct 30, 2026 3:22:48 PM seedu.address.commons.util.JsonUtil readJsonFile
+INFO: JSON file C:\Users\neoki\NUS\Y2S1\cs2103t\tp\_beta-test\client-item-extended\populate-recovery-5a11dc09-9b6a-468b-b953-230ad206b106\addressbook.json found.
+PASS reload still contains only sample book
+
+> undo
+Oct 30, 2026 3:22:48 PM seedu.address.logic.LogicManager execute
+INFO: ----------------[USER COMMAND][undo]
+Oct 30, 2026 3:22:48 PM seedu.address.logic.commands.UndoCommand execute
+INFO: Undo rejected: no saved data change is available.
+CommandException: There is no data change to undo.
+PASS no earlier undo remains
+
+FIXTURE save-rollback C:\Users\neoki\NUS\Y2S1\cs2103t\tp\_beta-test\client-item-extended\save-rollback-40805cd9-7325-4a81-b03b-9039d0f4c3ad\addressbook.json
+
+> add-client n/Alice p/91234567 e/alice@example.com a/Alice Original Address
+Oct 30, 2026 3:22:48 PM seedu.address.logic.LogicManager execute
+INFO: ----------------[USER COMMAND][add-client n/Alice p/91234567 e/alice@example.com a/Alice Original Address]
+SUCCESS New client added: Alice; Phone: 91234567; Email: alice@example.com; Address: Alice Original Address; Tags: 
+
+> add-client n/Bob p/98765432 e/bob@example.com a/Bob Original Address
+Oct 30, 2026 3:22:48 PM seedu.address.logic.LogicManager execute
+INFO: ----------------[USER COMMAND][add-client n/Bob p/98765432 e/bob@example.com a/Bob Original Address]
+SUCCESS New client added: Bob; Phone: 98765432; Email: bob@example.com; Address: Bob Original Address; Tags: 
+
+> add-item n/Cake p/5
+Oct 30, 2026 3:22:48 PM seedu.address.logic.LogicManager execute
+INFO: ----------------[USER COMMAND][add-item n/Cake p/5]
+SUCCESS New bakery item added: Cake; Price: $5.00
+
+> add-item n/Bread p/2
+Oct 30, 2026 3:22:48 PM seedu.address.logic.LogicManager execute
+INFO: ----------------[USER COMMAND][add-item n/Bread p/2]
+SUCCESS New bakery item added: Bread; Price: $2.00
+
+> add-order 1 i/1 q/2 d/2026-11-01
+Oct 30, 2026 3:22:48 PM seedu.address.logic.LogicManager execute
+INFO: ----------------[USER COMMAND][add-order 1 i/1 q/2 d/2026-11-01]
+SUCCESS New order added to contact: Alice: 2 x Cake (Due: 2026-11-01; incomplete) (Order index for this client: 1)
+
+> find-clients Bob
+Oct 30, 2026 3:22:48 PM seedu.address.logic.LogicManager execute
+INFO: ----------------[USER COMMAND][find-clients Bob]
+SUCCESS 1 client(s) listed!
+
+> find-items Bread
+Oct 30, 2026 3:22:48 PM seedu.address.logic.LogicManager execute
+INFO: ----------------[USER COMMAND][find-items Bread]
+SUCCESS 1 bakery items listed!
+
+> list-incomplete-orders by-deadline
+Oct 30, 2026 3:22:48 PM seedu.address.logic.LogicManager execute
+INFO: ----------------[USER COMMAND][list-incomplete-orders by-deadline]
+SUCCESS Listed incomplete orders by deadline (earliest first).
+PASS undo available before save failure
+BLOCKED SAVE: empty directory now occupies exact data-file path
+
+> edit-client 1 a/Bob New Address
+Oct 30, 2026 3:22:48 PM seedu.address.logic.LogicManager execute
+INFO: ----------------[USER COMMAND][edit-client 1 a/Bob New Address]
+CommandException: Could not save data to file C:\Users\neoki\NUS\Y2S1\cs2103t\tp\_beta-test\client-item-extended\save-rollback-40805cd9-7325-4a81-b03b-9039d0f4c3ad\bakebase-16572701898827056217.json.tmp -> C:\Users\neoki\NUS\Y2S1\cs2103t\tp\_beta-test\client-item-extended\save-rollback-40805cd9-7325-4a81-b03b-9039d0f4c3ad\addressbook.json due to insufficient permissions to write to the file or the folder.
+PASS edit fails when destination is directory
+PASS failed edit restores entire book
+PASS failed edit restores client/item/order filters and sorting
+PASS failed edit retains earlier undo
+Oct 30, 2026 3:22:48 PM seedu.address.commons.util.JsonUtil readJsonFile
+INFO: JSON file C:\Users\neoki\NUS\Y2S1\cs2103t\tp\_beta-test\client-item-extended\save-rollback-40805cd9-7325-4a81-b03b-9039d0f4c3ad\before-blocked-save.json found.
+PASS failed save preserves original disk backup
+
+> undo
+Oct 30, 2026 3:22:48 PM seedu.address.logic.LogicManager execute
+INFO: ----------------[USER COMMAND][undo]
+Oct 30, 2026 3:22:48 PM seedu.address.logic.LogicManager execute
+WARNING: Undo save denied: current data and filters restored; snapshot retained for retry.
+CommandException: Could not save data to file C:\Users\neoki\NUS\Y2S1\cs2103t\tp\_beta-test\client-item-extended\save-rollback-40805cd9-7325-4a81-b03b-9039d0f4c3ad\bakebase-4228821497519606685.json.tmp -> C:\Users\neoki\NUS\Y2S1\cs2103t\tp\_beta-test\client-item-extended\save-rollback-40805cd9-7325-4a81-b03b-9039d0f4c3ad\addressbook.json due to insufficient permissions to write to the file or the folder.
+PASS undo itself also fails under blocked save
+PASS failed undo restores current book
+PASS failed undo restores views
+PASS failed undo retains snapshot for retry
+
+> undo
+Oct 30, 2026 3:22:48 PM seedu.address.logic.LogicManager execute
+INFO: ----------------[USER COMMAND][undo]
+Oct 30, 2026 3:22:48 PM seedu.address.logic.LogicManager execute
+INFO: Undo saved successfully; snapshot consumed.
+SUCCESS Last data change undone. All lists are shown.
+PASS undo retries after disk repair
+PASS earlier successful order addition was undone
+PASS successful retry shows all lists and resets sorting
+PASS successful retry consumes undo
+Oct 30, 2026 3:22:48 PM seedu.address.commons.util.JsonUtil readJsonFile
+INFO: JSON file C:\Users\neoki\NUS\Y2S1\cs2103t\tp\_beta-test\client-item-extended\save-rollback-40805cd9-7325-4a81-b03b-9039d0f4c3ad\addressbook.json found.
+PASS retry result persisted
+
+COMPLETED 33 checks

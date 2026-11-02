@@ -1,0 +1,1000 @@
+<!DOCTYPE html>
+<html lang="en"><head>
+  <meta charset="utf-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+
+  <link rel="stylesheet" href="/tp/assets/css/style.css">
+<title>User Guide</title>
+
+</head>
+<body><header class="site-header">
+
+  <div class="wrapper">
+<a class="site-title" rel="author" href="/tp/">BakeBase</a><nav class="site-nav">
+        <input type="checkbox" id="nav-trigger" class="nav-trigger">
+        <label for="nav-trigger">
+          <span class="menu-icon">
+            <svg viewbox="0 0 18 15" width="18px" height="15px">
+              <path d="M18,1.484c0,0.82-0.665,1.484-1.484,1.484H1.484C0.665,2.969,0,2.304,0,1.484l0,0C0,0.665,0.665,0,1.484,0 h15.032C17.335,0,18,0.665,18,1.484L18,1.484z M18,7.516C18,8.335,17.335,9,16.516,9H1.484C0.665,9,0,8.335,0,7.516l0,0 c0-0.82,0.665-1.484,1.484-1.484h15.032C17.335,6.031,18,6.696,18,7.516L18,7.516z M18,13.516C18,14.335,17.335,15,16.516,15H1.484 C0.665,15,0,14.335,0,13.516l0,0c0-0.82,0.665-1.483,1.484-1.483h15.032C17.335,12.031,18,12.695,18,13.516L18,13.516z"></path>
+            </svg>
+          </span>
+        </label>
+
+        <div class="trigger">
+<a class="page-link" href="/tp/UserGuide.html">User Guide</a><a class="page-link" href="/tp/DeveloperGuide.html">Developer Guide</a><a class="page-link" href="/tp/AboutUs.html">About Us</a><a class="page-link no-hover" href="https://github.com/AY2627S1-CS2103T-F14-3/tp">
+            <img src="/tp/images/github-icon.png" class="icon" alt="View on GitHub">
+          </a>
+</div>
+      </nav>
+</div>
+</header>
+<main class="page-content" aria-label="Content">
+      <div class="wrapper">
+        <article class="post">
+
+  <header class="post-header">
+    <h1 class="post-title">User Guide</h1>
+  </header>
+
+  <div class="post-content">
+    <p>BakeBase is a <strong>desktop application for home bakers to manage clients, bakery items, and orders, optimized for use through a Command Line Interface (CLI)</strong> while retaining the benefits of a Graphical User Interface (GUI). If you type quickly, BakeBase can help you manage your home bakery business faster than traditional GUI applications.</p>
+
+<p>Your <strong>bakery book</strong> is the collection of clients, bakery items, and orders stored in BakeBase.</p>
+
+<ul id="markdown-toc">
+  <li><a href="#quick-start" id="markdown-toc-quick-start">Quick start</a></li>
+  <li>
+<a href="#features" id="markdown-toc-features">Features</a>    <ul>
+      <li>
+<a href="#client-commands" id="markdown-toc-client-commands">Client commands</a>        <ul>
+          <li><a href="#adding-a-client-add-client" id="markdown-toc-adding-a-client-add-client">Adding a client: <code class="language-plaintext highlighter-rouge">add-client</code></a></li>
+          <li><a href="#deleting-a-client-delete-client" id="markdown-toc-deleting-a-client-delete-client">Deleting a client: <code class="language-plaintext highlighter-rouge">delete-client</code></a></li>
+          <li><a href="#editing-a-client-edit-client" id="markdown-toc-editing-a-client-edit-client">Editing a client: <code class="language-plaintext highlighter-rouge">edit-client</code></a></li>
+          <li><a href="#listing-all-clients-list-clients" id="markdown-toc-listing-all-clients-list-clients">Listing all clients: <code class="language-plaintext highlighter-rouge">list-clients</code></a></li>
+          <li><a href="#locating-clients-by-name-find-clients" id="markdown-toc-locating-clients-by-name-find-clients">Locating clients by name: <code class="language-plaintext highlighter-rouge">find-clients</code></a></li>
+        </ul>
+      </li>
+      <li>
+<a href="#bakery-item-commands" id="markdown-toc-bakery-item-commands">Bakery item commands</a>        <ul>
+          <li><a href="#adding-a-bakery-item-add-item" id="markdown-toc-adding-a-bakery-item-add-item">Adding a bakery item: <code class="language-plaintext highlighter-rouge">add-item</code></a></li>
+          <li><a href="#editing-a-bakery-item-edit-item" id="markdown-toc-editing-a-bakery-item-edit-item">Editing a bakery item: <code class="language-plaintext highlighter-rouge">edit-item</code></a></li>
+          <li><a href="#deleting-a-bakery-item-delete-item" id="markdown-toc-deleting-a-bakery-item-delete-item">Deleting a bakery item: <code class="language-plaintext highlighter-rouge">delete-item</code></a></li>
+          <li><a href="#finding-bakery-items-by-name-find-items" id="markdown-toc-finding-bakery-items-by-name-find-items">Finding bakery items by name: <code class="language-plaintext highlighter-rouge">find-items</code></a></li>
+          <li><a href="#listing-all-bakery-items-list-items" id="markdown-toc-listing-all-bakery-items-list-items">Listing all bakery items: <code class="language-plaintext highlighter-rouge">list-items</code></a></li>
+        </ul>
+      </li>
+      <li>
+<a href="#order-commands" id="markdown-toc-order-commands">Order commands</a>        <ul>
+          <li><a href="#adding-an-order-add-order" id="markdown-toc-adding-an-order-add-order">Adding an order: <code class="language-plaintext highlighter-rouge">add-order</code></a></li>
+          <li><a href="#editing-an-order-edit-order" id="markdown-toc-editing-an-order-edit-order">Editing an order: <code class="language-plaintext highlighter-rouge">edit-order</code></a></li>
+          <li><a href="#deleting-an-order-delete-order" id="markdown-toc-deleting-an-order-delete-order">Deleting an order: <code class="language-plaintext highlighter-rouge">delete-order</code></a></li>
+          <li><a href="#marking-an-order-complete-mark-order-complete-alias-mark" id="markdown-toc-marking-an-order-complete-mark-order-complete-alias-mark">Marking an order complete: <code class="language-plaintext highlighter-rouge">mark-order-complete</code> (alias: <code class="language-plaintext highlighter-rouge">mark</code>)</a></li>
+          <li><a href="#restoring-an-order-to-incomplete-unmark" id="markdown-toc-restoring-an-order-to-incomplete-unmark">Restoring an order to incomplete: <code class="language-plaintext highlighter-rouge">unmark</code></a></li>
+          <li><a href="#finding-orders-by-client-or-item-name-find-orders" id="markdown-toc-finding-orders-by-client-or-item-name-find-orders">Finding orders by client or item name: <code class="language-plaintext highlighter-rouge">find-orders</code></a></li>
+          <li><a href="#listing-all-orders-list-orders" id="markdown-toc-listing-all-orders-list-orders">Listing all orders: <code class="language-plaintext highlighter-rouge">list-orders</code></a></li>
+          <li><a href="#listing-completed-or-incomplete-orders-list-complete-orders-list-incomplete-orders" id="markdown-toc-listing-completed-or-incomplete-orders-list-complete-orders-list-incomplete-orders">Listing completed or incomplete orders: <code class="language-plaintext highlighter-rouge">list-complete-orders</code>, <code class="language-plaintext highlighter-rouge">list-incomplete-orders</code></a></li>
+        </ul>
+      </li>
+      <li>
+<a href="#general-commands" id="markdown-toc-general-commands">General commands</a>        <ul>
+          <li><a href="#undoing-the-last-data-change-undo" id="markdown-toc-undoing-the-last-data-change-undo">Undoing the last data change: <code class="language-plaintext highlighter-rouge">undo</code></a></li>
+          <li><a href="#recalling-commands-with-up-and-down" id="markdown-toc-recalling-commands-with-up-and-down">Recalling commands with Up and Down</a></li>
+          <li><a href="#viewing-help-help" id="markdown-toc-viewing-help-help">Viewing help: <code class="language-plaintext highlighter-rouge">help</code></a></li>
+          <li><a href="#replacing-all-entries-with-sample-data-populate" id="markdown-toc-replacing-all-entries-with-sample-data-populate">Replacing all entries with sample data: <code class="language-plaintext highlighter-rouge">populate</code></a></li>
+          <li>
+<a href="#clearing-all-entries-clear" id="markdown-toc-clearing-all-entries-clear">Clearing all entries: <code class="language-plaintext highlighter-rouge">clear</code></a>            <ul>
+              <li><a href="#interaction-with-single-step-undo" id="markdown-toc-interaction-with-single-step-undo">Interaction with single-step undo</a></li>
+            </ul>
+          </li>
+          <li><a href="#exiting-the-program-exit" id="markdown-toc-exiting-the-program-exit">Exiting the program: <code class="language-plaintext highlighter-rouge">exit</code></a></li>
+        </ul>
+      </li>
+    </ul>
+  </li>
+  <li>
+<a href="#data-storage" id="markdown-toc-data-storage">Data storage</a>    <ul>
+      <li><a href="#saving-the-data" id="markdown-toc-saving-the-data">Saving the data</a></li>
+      <li><a href="#editing-the-data-file" id="markdown-toc-editing-the-data-file">Editing the data file</a></li>
+      <li><a href="#archiving-data-files-coming-in-v20" id="markdown-toc-archiving-data-files-coming-in-v20">Archiving data files <code class="language-plaintext highlighter-rouge">[coming in v2.0]</code></a></li>
+    </ul>
+  </li>
+  <li><a href="#faq" id="markdown-toc-faq">FAQ</a></li>
+  <li><a href="#known-issues" id="markdown-toc-known-issues">Known issues</a></li>
+  <li>
+<a href="#command-summary" id="markdown-toc-command-summary">Command summary</a>    <ul>
+      <li><a href="#client-commands-1" id="markdown-toc-client-commands-1">Client commands</a></li>
+      <li><a href="#bakery-item-commands-1" id="markdown-toc-bakery-item-commands-1">Bakery item commands</a></li>
+      <li><a href="#order-commands-1" id="markdown-toc-order-commands-1">Order commands</a></li>
+      <li><a href="#general-commands-1" id="markdown-toc-general-commands-1">General commands</a></li>
+    </ul>
+  </li>
+</ul>
+
+<hr>
+
+<h2 id="quick-start">Quick start</h2>
+
+<ol>
+  <li>
+    <p>Ensure that Java <code class="language-plaintext highlighter-rouge">25</code> or later is installed on your computer.<br>
+<strong>Mac users:</strong> Ensure you have the precise JDK version prescribed <a href="https://se-education.org/guides/tutorials/javaInstallationMac.html">here</a>.</p>
+  </li>
+  <li>
+    <p>Download <a href="https://github.com/AY2627S1-CS2103T-F14-3/tp/releases/download/v1.5/BakeBase-v1.5.jar">BakeBase-v1.5.jar</a> from the <a href="https://github.com/AY2627S1-CS2103T-F14-3/tp/releases/tag/v1.5">BakeBase v1.5 release</a>.</p>
+  </li>
+  <li>
+    <p>Copy the file to the folder you want to use as the <em>home folder</em> for BakeBase.</p>
+  </li>
+  <li>
+    <p>Open a terminal, <code class="language-plaintext highlighter-rouge">cd</code> to the folder containing the JAR file, and run <code class="language-plaintext highlighter-rouge">java -jar BakeBase-v1.5.jar</code>.<br>
+A GUI similar to the one below should appear in a few seconds. Note how the app contains some sample data.<br>
+<img src="/tp/images/Ui.png" alt="Ui"></p>
+  </li>
+  <li>
+    <p>Type a command in the command box and press Enter to execute it. For example, type <strong><code class="language-plaintext highlighter-rouge">help</code></strong> and press Enter to open the help window.<br>
+Some example commands you can try:</p>
+
+    <ul>
+      <li>
+        <p><code class="language-plaintext highlighter-rouge">list-clients</code> : Lists all contacts.</p>
+      </li>
+      <li>
+        <p><code class="language-plaintext highlighter-rouge">add-client n/John Doe p/98765432 e/johnd@example.com a/John street, block 123, #01-01</code> : Adds a contact named <code class="language-plaintext highlighter-rouge">John Doe</code> to the bakery book.</p>
+      </li>
+      <li>
+        <p>After adding <code class="language-plaintext highlighter-rouge">John Doe</code> above, run <code class="language-plaintext highlighter-rouge">find-clients John</code>, then <code class="language-plaintext highlighter-rouge">delete-client 1</code> : Deletes John from the displayed search results. The preloaded sample clients have orders and cannot be deleted until their orders are removed.</p>
+      </li>
+      <li>
+        <p><code class="language-plaintext highlighter-rouge">add-item n/Honey Scone p/5.99</code> : Adds a bakery item named <code class="language-plaintext highlighter-rouge">Honey Scone</code>, which is not in the preloaded sample catalogue.</p>
+      </li>
+      <li>
+        <p><code class="language-plaintext highlighter-rouge">clear</code> : Shows a warning. Use <code class="language-plaintext highlighter-rouge">clear confirm</code> to delete all clients, bakery items, and orders.</p>
+      </li>
+      <li>
+        <p><code class="language-plaintext highlighter-rouge">exit</code> : Exits the app.</p>
+      </li>
+    </ul>
+  </li>
+  <li>
+    <p>Refer to the <a href="#features">Features</a> section below for details of each command.</p>
+  </li>
+</ol>
+
+<hr>
+
+<h2 id="features">Features</h2>
+
+<div class="alert alert-info">
+
+  <p><strong><img class="emoji" title=":information_source:" alt=":information_source:" src="https://github.githubassets.com/images/icons/emoji/unicode/2139.png" height="20" width="20"> Notes about the command format:</strong><br></p>
+
+  <ul>
+    <li>
+      <p>Words in <code class="language-plaintext highlighter-rouge">UPPER_CASE</code> are the parameters to be supplied by the user.<br>
+For example, in <code class="language-plaintext highlighter-rouge">add-client n/NAME</code>, replace <code class="language-plaintext highlighter-rouge">NAME</code> with a value such as <code class="language-plaintext highlighter-rouge">John Doe</code>.</p>
+    </li>
+    <li>
+      <p>Items in square brackets are optional.<br>
+For example, <code class="language-plaintext highlighter-rouge">n/NAME [t/TAG]</code> can be used as <code class="language-plaintext highlighter-rouge">n/John Doe t/friend</code> or as <code class="language-plaintext highlighter-rouge">n/John Doe</code>.</p>
+    </li>
+    <li>
+      <p>Items followed by <code class="language-plaintext highlighter-rouge">…</code>​ can appear zero or more times.<br>
+For example, <code class="language-plaintext highlighter-rouge">[t/TAG]…​</code> may be omitted, or written as <code class="language-plaintext highlighter-rouge">t/friend</code> or <code class="language-plaintext highlighter-rouge">t/friend t/family</code>.</p>
+    </li>
+    <li>
+      <p>Parameters can be in any order.<br>
+For example, if the command specifies <code class="language-plaintext highlighter-rouge">n/NAME p/PHONE_NUMBER</code>, <code class="language-plaintext highlighter-rouge">p/PHONE_NUMBER n/NAME</code> is also acceptable.</p>
+    </li>
+    <li>
+      <p>Extraneous parameters for commands that take no parameters, such as <code class="language-plaintext highlighter-rouge">help</code>, <code class="language-plaintext highlighter-rouge">list-clients</code>, <code class="language-plaintext highlighter-rouge">list-items</code>, <code class="language-plaintext highlighter-rouge">populate</code>, and <code class="language-plaintext highlighter-rouge">exit</code>, are ignored.<br>
+For example, <code class="language-plaintext highlighter-rouge">help 123</code> is interpreted as <code class="language-plaintext highlighter-rouge">help</code>.</p>
+    </li>
+    <li>
+      <p>If you are using a PDF version of this document, be careful when copying and pasting commands that span multiple lines as space characters surrounding line-breaks may be omitted when copied over to the application.</p>
+    </li>
+  </ul>
+</div>
+
+<h3 id="client-commands">Client commands</h3>
+
+<h4 id="adding-a-client-add-client">Adding a client: <code class="language-plaintext highlighter-rouge">add-client</code>
+</h4>
+
+<p>Adds a client to the bakery book.</p>
+
+<ul>
+  <li>Clients with exactly the same name are rejected, even if their contact details differ. Letter case and internal spacing are significant for this check.</li>
+  <li>If another client’s name matches after ignoring case and collapsing repeated spaces, the addition succeeds with a possible-duplicate warning showing the matching client’s details. Names are not rewritten and records are not merged. For example, <code class="language-plaintext highlighter-rouge">Alex Tan</code> and <code class="language-plaintext highlighter-rouge">alex  tan</code> trigger a warning, but <code class="language-plaintext highlighter-rouge">AlexTan</code> does not match <code class="language-plaintext highlighter-rouge">Alex Tan</code>.</li>
+  <li>If the addition was accidental, run <code class="language-plaintext highlighter-rouge">undo</code> immediately to reverse it. Otherwise, keep the separate client record. These warnings compare names only; they do not identify every possible duplicate customer.</li>
+</ul>
+
+<p>Format: <code class="language-plaintext highlighter-rouge">add-client n/NAME p/PHONE_NUMBER e/EMAIL a/ADDRESS [t/TAG]…​</code></p>
+
+<ul>
+  <li>Names must not be blank and must contain only printable ASCII characters. Leading and trailing whitespace is removed. Apostrophes (<code class="language-plaintext highlighter-rouge">'</code>), hyphens (<code class="language-plaintext highlighter-rouge">-</code>), periods (<code class="language-plaintext highlighter-rouge">.</code>), and slashes (<code class="language-plaintext highlighter-rouge">/</code>) are accepted, for example <code class="language-plaintext highlighter-rouge">Anne-Marie O'Neil</code> and <code class="language-plaintext highlighter-rouge">Siti d/o Rahim</code>. Curly apostrophes and other non-ASCII characters are not supported.</li>
+  <li>The sequences <code class="language-plaintext highlighter-rouge">n/</code>, <code class="language-plaintext highlighter-rouge">p/</code>, <code class="language-plaintext highlighter-rouge">e/</code>, <code class="language-plaintext highlighter-rouge">a/</code>, and <code class="language-plaintext highlighter-rouge">t/</code> immediately after a space are command prefixes and cannot be entered literally within a name. There is no quoting or escaping syntax for them. The slash in <code class="language-plaintext highlighter-rouge">d/o</code> or <code class="language-plaintext highlighter-rouge">s/o</code> does not conflict with these prefixes.</li>
+  <li>Clients with exactly the same name are duplicates, including letter case, punctuation, and internal spacing. Punctuation is preserved rather than removed or normalized.</li>
+</ul>
+
+<div class="alert alert-primary">
+<img class="emoji" title=":bulb:" alt=":bulb:" src="https://github.githubassets.com/images/icons/emoji/unicode/1f4a1.png" height="20" width="20"> <strong>Tip:</strong>
+A client can have any number of tags, including zero.
+</div>
+
+<p>Examples:</p>
+<ul>
+  <li><code class="language-plaintext highlighter-rouge">add-client n/John Doe p/98765432 e/johnd@example.com a/John street, block 123, #01-01</code></li>
+  <li><code class="language-plaintext highlighter-rouge">add-client n/Betsy Crowe t/friend e/betsycrowe@example.com a/Newgate Prison p/1234567 t/criminal</code></li>
+</ul>
+
+<h4 id="deleting-a-client-delete-client">Deleting a client: <code class="language-plaintext highlighter-rouge">delete-client</code>
+</h4>
+
+<p>Deletes the specified client from the bakery book. If the client has orders, delete those orders first.</p>
+
+<!-- @@author GODMODE899 -->
+<p>Format: <code class="language-plaintext highlighter-rouge">delete-client INDEX</code></p>
+
+<ul>
+  <li>Deletes the client at the specified <code class="language-plaintext highlighter-rouge">INDEX</code>.</li>
+  <li>The index refers to the index number shown in the displayed client list.
+<!-- @@author -->
+<!-- @@author -->
+</li>
+  <li>The index <strong>must be a positive integer</strong> 1, 2, 3, …​</li>
+</ul>
+
+<p>Examples:
+<!-- @@author --></p>
+<ul>
+  <li>
+<code class="language-plaintext highlighter-rouge">list-clients</code> followed by <code class="language-plaintext highlighter-rouge">delete-client 2</code> deletes the 2nd client in the bakery book.
+<!-- @@author GODMODE899 -->
+</li>
+  <li>
+<code class="language-plaintext highlighter-rouge">find-clients Betsy</code> followed by <code class="language-plaintext highlighter-rouge">delete-client 1</code> deletes the 1st client in the results of the <code class="language-plaintext highlighter-rouge">find-clients</code> command.
+<!-- @@author -->
+</li>
+</ul>
+
+<h4 id="editing-a-client-edit-client">Editing a client: <code class="language-plaintext highlighter-rouge">edit-client</code>
+</h4>
+
+<p>Edits an existing client in the bakery book. The client’s existing orders are retained.</p>
+
+<p>The same exact-name rejection and similar-name warning rules as <code class="language-plaintext highlighter-rouge">add-client</code> apply. The client being edited is excluded from the warning comparison. A warning means the edit succeeded; use <code class="language-plaintext highlighter-rouge">undo</code> immediately if it was accidental.</p>
+
+<p>Format: <code class="language-plaintext highlighter-rouge">edit-client INDEX [n/NAME] [p/PHONE] [e/EMAIL] [a/ADDRESS] [t/TAG]…​</code></p>
+
+<ul>
+  <li>Edits the client at the specified <code class="language-plaintext highlighter-rouge">INDEX</code>. The index refers to the index number shown in the displayed client list. The index <strong>must be a positive integer</strong> 1, 2, 3, …​</li>
+  <li>At least one of the optional fields must be provided.</li>
+  <li>Existing values will be updated to the input values.</li>
+  <li>Names follow the same rules as <code class="language-plaintext highlighter-rouge">add-client</code>. Renaming a client updates their linked orders; renaming to another client’s exact name is rejected.</li>
+  <li>When editing tags, all of the client’s existing tags are removed; adding tags is not cumulative.</li>
+  <li>To remove all of a client’s tags, enter <code class="language-plaintext highlighter-rouge">t/</code> without a tag after it.</li>
+</ul>
+
+<p>Examples:</p>
+<ul>
+  <li>
+<code class="language-plaintext highlighter-rouge">edit-client 1 p/91234567 e/johndoe@example.com</code> Edits the phone number and email address of the 1st client to be <code class="language-plaintext highlighter-rouge">91234567</code> and <code class="language-plaintext highlighter-rouge">johndoe@example.com</code> respectively.</li>
+  <li>
+<code class="language-plaintext highlighter-rouge">edit-client 2 n/Betsy Crower t/</code> Edits the name of the 2nd client to be <code class="language-plaintext highlighter-rouge">Betsy Crower</code> and clears all existing tags.</li>
+</ul>
+
+<h4 id="listing-all-clients-list-clients">Listing all clients: <code class="language-plaintext highlighter-rouge">list-clients</code>
+</h4>
+
+<p>Shows a list of all clients in the bakery book.</p>
+
+<p>Format: <code class="language-plaintext highlighter-rouge">list-clients</code></p>
+
+<h4 id="locating-clients-by-name-find-clients">Locating clients by name: <code class="language-plaintext highlighter-rouge">find-clients</code>
+</h4>
+
+<p>Finds clients whose names contain any of the given keywords.</p>
+
+<p>Format: <code class="language-plaintext highlighter-rouge">find-clients KEYWORD [MORE_KEYWORDS]</code></p>
+
+<ul>
+  <li>The search is case-insensitive; for example, <code class="language-plaintext highlighter-rouge">hans</code> matches <code class="language-plaintext highlighter-rouge">Hans</code>.</li>
+  <li>Keyword order does not matter; for example, <code class="language-plaintext highlighter-rouge">Hans Bo</code> matches <code class="language-plaintext highlighter-rouge">Bo Hans</code>.</li>
+  <li>The search considers only names.</li>
+  <li>Only full words match; for example, <code class="language-plaintext highlighter-rouge">Han</code> does not match <code class="language-plaintext highlighter-rouge">Hans</code>.</li>
+  <li>Punctuation stays part of a word: <code class="language-plaintext highlighter-rouge">anne-marie</code> matches <code class="language-plaintext highlighter-rouge">Anne-Marie</code>, and <code class="language-plaintext highlighter-rouge">o'neil</code> matches <code class="language-plaintext highlighter-rouge">O'Neil</code>; <code class="language-plaintext highlighter-rouge">Anne</code> does not match <code class="language-plaintext highlighter-rouge">Anne-Marie</code>. The same rule applies to client names in <code class="language-plaintext highlighter-rouge">find-orders</code>.</li>
+  <li>Clients matching at least one keyword are returned (an <code class="language-plaintext highlighter-rouge">OR</code> search); for example, <code class="language-plaintext highlighter-rouge">Hans Bo</code> returns <code class="language-plaintext highlighter-rouge">Hans Gruber</code> and <code class="language-plaintext highlighter-rouge">Bo Yang</code>.</li>
+</ul>
+
+<p>Examples:</p>
+<ul>
+  <li>
+<code class="language-plaintext highlighter-rouge">find-clients John</code> returns <code class="language-plaintext highlighter-rouge">john</code> and <code class="language-plaintext highlighter-rouge">John Doe</code>
+</li>
+  <li>
+<code class="language-plaintext highlighter-rouge">find-clients alex david</code> returns <code class="language-plaintext highlighter-rouge">Alex Yeoh</code>, <code class="language-plaintext highlighter-rouge">David Li</code><br>
+<img src="/tp/images/findAlexDavidResult.png" alt="result for finding Alex and David">
+</li>
+</ul>
+
+<h3 id="bakery-item-commands">Bakery item commands</h3>
+
+<h4 id="adding-a-bakery-item-add-item">Adding a bakery item: <code class="language-plaintext highlighter-rouge">add-item</code>
+</h4>
+
+<p>Adds the specified bakery item to the bakery book.</p>
+
+<!-- @@author Yik-Wee -->
+<p>Format: <code class="language-plaintext highlighter-rouge">add-item n/ITEM_NAME p/PRICE_DOLLARS</code>
+<!-- @@author --></p>
+
+<ul>
+  <li>Adds the bakery item with the leading and trailing whitespace removed from <code class="language-plaintext highlighter-rouge">ITEM_NAME</code>. The name must not be blank and must contain only printable ASCII characters.</li>
+  <li>Printable ASCII is defined as the set of:
+    <ul>
+      <li>lowercase letters <code class="language-plaintext highlighter-rouge">a</code>–<code class="language-plaintext highlighter-rouge">z</code> and uppercase letters <code class="language-plaintext highlighter-rouge">A</code>-<code class="language-plaintext highlighter-rouge">Z</code>
+</li>
+      <li>digits <code class="language-plaintext highlighter-rouge">0</code>-<code class="language-plaintext highlighter-rouge">9</code>
+</li>
+      <li>the ordinary space character</li>
+      <li>the special characters <code class="language-plaintext highlighter-rouge">!"#$%&amp;'()*+,-./:;&lt;=&gt;?@[\]^_`{|}~</code>
+</li>
+    </ul>
+  </li>
+  <li>
+<code class="language-plaintext highlighter-rouge">/</code> can appear in an item name. However, <code class="language-plaintext highlighter-rouge">n/</code> and <code class="language-plaintext highlighter-rouge">p/</code> preceded by whitespace are interpreted as command prefixes and cannot be included literally in an item name. For example, <code class="language-plaintext highlighter-rouge">Cake/Cream</code> and <code class="language-plaintext highlighter-rouge">Cake / Cream</code> are accepted, but <code class="language-plaintext highlighter-rouge">Cake n/Cream</code> and <code class="language-plaintext highlighter-rouge">Cake p/Special</code> are not. There is no quoting or escaping syntax for these reserved sequences.
+<!-- @@author Yik-Wee -->
+</li>
+  <li>Duplicate items are rejected. An item is a duplicate if they have the same item name after trimming, removing extra whitespace and converting to uppercase.
+<!-- @@author -->
+</li>
+  <li>
+<code class="language-plaintext highlighter-rouge">PRICE_DOLLARS</code> must be non-negative and can have the format <code class="language-plaintext highlighter-rouge">D</code>, <code class="language-plaintext highlighter-rouge">D.</code>, <code class="language-plaintext highlighter-rouge">D.c</code>, <code class="language-plaintext highlighter-rouge">D.cc</code>, <code class="language-plaintext highlighter-rouge">.c</code>, or <code class="language-plaintext highlighter-rouge">.cc</code>, where <code class="language-plaintext highlighter-rouge">D</code> represents one or more digits and <code class="language-plaintext highlighter-rouge">c</code> represents one digit.</li>
+</ul>
+
+<p>Examples:
+<!-- @@author Yik-Wee --></p>
+<ul>
+  <li>
+<code class="language-plaintext highlighter-rouge">add-item n/Banana Muffin p/5.90</code>
+<!-- @@author -->
+</li>
+</ul>
+
+<h4 id="editing-a-bakery-item-edit-item">Editing a bakery item: <code class="language-plaintext highlighter-rouge">edit-item</code>
+</h4>
+
+<p>Edits the name, price, or both fields of an existing bakery item. Existing orders for the item are retained; if the item is renamed, its order cards show the new name.</p>
+
+<p>Format: <code class="language-plaintext highlighter-rouge">edit-item INDEX [n/ITEM_NAME] [p/PRICE]</code></p>
+
+<ul>
+  <li>Edits the bakery item at the specified <code class="language-plaintext highlighter-rouge">INDEX</code> in the displayed bakery item list.</li>
+  <li>The index <strong>must be a positive integer</strong> 1, 2, 3, …​ and must not exceed the number of displayed bakery items.</li>
+  <li>At least one of <code class="language-plaintext highlighter-rouge">n/ITEM_NAME</code> or <code class="language-plaintext highlighter-rouge">p/PRICE</code> must be provided. An omitted field is left unchanged.</li>
+  <li>
+<code class="language-plaintext highlighter-rouge">ITEM_NAME</code> and <code class="language-plaintext highlighter-rouge">PRICE</code> follow the same validation rules as the <a href="#adding-a-bakery-item-add-item"><code class="language-plaintext highlighter-rouge">add-item</code></a> command.</li>
+  <li>The edit is rejected without changing any data if the new item name duplicates another bakery item’s normalized name. Letter case and repeated whitespace do not distinguish item names.</li>
+  <li>Each of the <code class="language-plaintext highlighter-rouge">n/</code> and <code class="language-plaintext highlighter-rouge">p/</code> prefixes can appear at most once.</li>
+</ul>
+
+<p>Examples:</p>
+<ul>
+  <li>
+<code class="language-plaintext highlighter-rouge">edit-item 1 n/Blueberry Muffin</code> changes only the name of the 1st displayed bakery item.</li>
+  <li>
+<code class="language-plaintext highlighter-rouge">edit-item 2 p/6.50</code> changes only the price of the 2nd displayed bakery item.</li>
+  <li>
+<code class="language-plaintext highlighter-rouge">edit-item 3 n/Chocolate Tart p/18.90</code> changes both the name and price of the 3rd displayed bakery item.</li>
+</ul>
+
+<h4 id="deleting-a-bakery-item-delete-item">Deleting a bakery item: <code class="language-plaintext highlighter-rouge">delete-item</code>
+</h4>
+
+<p>Deletes the specified bakery item from the bakery book. If orders reference this item, delete those orders first.</p>
+
+<!-- @@author Yik-Wee -->
+<p>Format: <code class="language-plaintext highlighter-rouge">delete-item INDEX</code></p>
+
+<ul>
+  <li>Deletes the bakery item at the specified <code class="language-plaintext highlighter-rouge">INDEX</code>.</li>
+  <li>The index refers to the index number shown in the displayed bakery item list.
+<!-- @@author -->
+</li>
+  <li>The index <strong>must be a positive integer</strong> 1, 2, 3, …​</li>
+</ul>
+
+<p>Examples:
+<!-- @@author Yik-Wee --></p>
+<ul>
+  <li>
+<code class="language-plaintext highlighter-rouge">delete-item 1</code> deletes the 1st bakery item in the displayed bakery item list.
+<!-- @@author -->
+</li>
+</ul>
+
+<h4 id="finding-bakery-items-by-name-find-items">Finding bakery items by name: <code class="language-plaintext highlighter-rouge">find-items</code>
+</h4>
+
+<p>Format: <code class="language-plaintext highlighter-rouge">find-items KEYWORD [MORE_KEYWORDS]...</code></p>
+
+<p>Matches any supplied keyword against whole words in item names, case-insensitively.
+For example, <code class="language-plaintext highlighter-rouge">find-items BANANA chocolate</code> finds Banana Muffin and Chocolate Muffin;
+<code class="language-plaintext highlighter-rouge">find-items muff</code> does not match Muffin. An empty search is rejected.
+Use <code class="language-plaintext highlighter-rouge">list-items</code> to restore all items. The item indices for <code class="language-plaintext highlighter-rouge">add-order</code>, <code class="language-plaintext highlighter-rouge">edit-order</code>, <code class="language-plaintext highlighter-rouge">edit-item</code>,
+and <code class="language-plaintext highlighter-rouge">delete-item</code> refer to this displayed list. Searching does not change stored data.</p>
+
+<h4 id="listing-all-bakery-items-list-items">Listing all bakery items: <code class="language-plaintext highlighter-rouge">list-items</code>
+</h4>
+
+<p>Shows all bakery items in the item panel, with their index, name, and price.</p>
+
+<p>Format: <code class="language-plaintext highlighter-rouge">list-items</code></p>
+
+<p>Like <code class="language-plaintext highlighter-rouge">list-clients</code>, this command ignores extra arguments. It does not change the displayed client list.
+The displayed item indices can be used with <code class="language-plaintext highlighter-rouge">edit-item</code>, <code class="language-plaintext highlighter-rouge">delete-item</code>, <code class="language-plaintext highlighter-rouge">add-order</code>, and <code class="language-plaintext highlighter-rouge">edit-order</code>.</p>
+
+<h3 id="order-commands">Order commands</h3>
+
+<p>Order commands use the displayed client and item lists. Create the client and bakery item before adding an order.</p>
+
+<ul>
+  <li>
+<code class="language-plaintext highlighter-rouge">CONTACT_INDEX</code> is the client’s index in the displayed client list. Use <code class="language-plaintext highlighter-rouge">list-clients</code> to show all clients after a search.</li>
+  <li>
+<code class="language-plaintext highlighter-rouge">ITEM_INDEX</code> is the item’s index in the displayed bakery item list.</li>
+  <li>
+<code class="language-plaintext highlighter-rouge">ORDER_INDEX</code> is the order’s position within that client’s own orders, as shown on the order card. It is not the row number in the complete order list.</li>
+  <li>Indices must be positive integers. Invalid indices or input fields leave existing data unchanged.</li>
+</ul>
+
+<h4 id="adding-an-order-add-order">Adding an order: <code class="language-plaintext highlighter-rouge">add-order</code>
+</h4>
+
+<p>Adds a new incomplete order for an existing client and bakery item.</p>
+
+<p>Format: <code class="language-plaintext highlighter-rouge">add-order CONTACT_INDEX i/ITEM_INDEX q/QUANTITY d/DEADLINE</code></p>
+
+<ul>
+  <li>Required <code class="language-plaintext highlighter-rouge">i/</code>, <code class="language-plaintext highlighter-rouge">q/</code>, and <code class="language-plaintext highlighter-rouge">d/</code> fields may appear in any order.</li>
+  <li>
+<code class="language-plaintext highlighter-rouge">QUANTITY</code> must be a whole number from 1 to 9,999.</li>
+  <li>
+<code class="language-plaintext highlighter-rouge">DEADLINE</code> must be a real calendar date in <code class="language-plaintext highlighter-rouge">YYYY-MM-DD</code> format. Past dates are accepted for record-keeping.</li>
+  <li>Identical repeat orders are allowed and can be managed separately.</li>
+  <li>The success message includes the new order’s index within the client’s orders.</li>
+</ul>
+
+<p>Example:</p>
+<ul>
+  <li>
+<code class="language-plaintext highlighter-rouge">add-order 1 i/1 q/5 d/2026-10-15</code> adds an order for five units of item 1 to client 1.</li>
+</ul>
+
+<h4 id="editing-an-order-edit-order">Editing an order: <code class="language-plaintext highlighter-rouge">edit-order</code>
+</h4>
+
+<p>Corrects the selected order’s item, quantity, deadline, or any combination of these fields.</p>
+
+<p>Format: <code class="language-plaintext highlighter-rouge">edit-order CONTACT_INDEX o/ORDER_INDEX [i/ITEM_INDEX] [q/QUANTITY] [d/DEADLINE]</code></p>
+
+<ul>
+  <li>Provide at least one of <code class="language-plaintext highlighter-rouge">i/</code>, <code class="language-plaintext highlighter-rouge">q/</code>, or <code class="language-plaintext highlighter-rouge">d/</code>. Omitted fields keep their current values.</li>
+  <li>Prefixes may appear in any order, but each may occur only once. Empty values are rejected.</li>
+  <li>The client and optional item indices refer to their displayed lists. The order index refers to the
+client’s full order list, including orders hidden by searches or completion filters.</li>
+  <li>Quantities must be whole numbers from 1 to 9,999. Deadlines must be real calendar dates in
+<code class="language-plaintext highlighter-rouge">YYYY-MM-DD</code> format; past deadlines are accepted.</li>
+  <li>The order retains its identity, client, completion status, and client-local number. Identical repeat
+orders remain separate. Use <code class="language-plaintext highlighter-rouge">mark-order-complete</code> or <code class="language-plaintext highlighter-rouge">unmark</code> to change completion status.</li>
+  <li>Active searches, completion filters, and deadline sorting remain applied. An edited order may
+disappear from a search result or move within a sorted view; its client-local number stays the same.</li>
+  <li>Success is reported after saving. A save failure restores data, filters, and sorting.</li>
+  <li>
+<code class="language-plaintext highlighter-rouge">undo</code> reverses a successful edit. Supplying existing values reports unchanged details and retains
+the previous undo opportunity.</li>
+</ul>
+
+<p>Examples:</p>
+
+<ul>
+  <li>
+<code class="language-plaintext highlighter-rouge">edit-order 1 o/2 q/13</code> changes only the quantity of client 1’s second order.</li>
+  <li>
+<code class="language-plaintext highlighter-rouge">edit-order 1 o/2 i/1 q/5 d/2026-10-15</code> replaces all three editable fields.</li>
+</ul>
+
+<h4 id="deleting-an-order-delete-order">Deleting an order: <code class="language-plaintext highlighter-rouge">delete-order</code>
+</h4>
+
+<p>Deletes the selected order from the specified client.</p>
+
+<p>Format: <code class="language-plaintext highlighter-rouge">delete-order CONTACT_INDEX o/ORDER_INDEX</code></p>
+
+<ul>
+  <li>Deletes only the selected order; other orders, including identical repeat orders, are retained.</li>
+  <li>Later order indices for that client shift down after deletion. Use the updated numbers shown on the cards.</li>
+</ul>
+
+<p>Example:</p>
+<ul>
+  <li>
+<code class="language-plaintext highlighter-rouge">delete-order 1 o/2</code> deletes client 1’s second order.</li>
+</ul>
+
+<h4 id="marking-an-order-complete-mark-order-complete-alias-mark">Marking an order complete: <code class="language-plaintext highlighter-rouge">mark-order-complete</code> (alias: <code class="language-plaintext highlighter-rouge">mark</code>)</h4>
+
+<p>Marks the selected client order as complete.</p>
+
+<p>Format: <code class="language-plaintext highlighter-rouge">mark-order-complete CONTACT_INDEX o/ORDER_INDEX</code> or <code class="language-plaintext highlighter-rouge">mark CONTACT_INDEX o/ORDER_INDEX</code></p>
+
+<p>Both forms use the same validation, save, and undo behavior.</p>
+
+<ul>
+  <li>The order remains visible in the order panel.</li>
+  <li>If the order is already complete, an error is shown and no data is changed.</li>
+</ul>
+
+<p>Example:</p>
+<ul>
+  <li>
+<code class="language-plaintext highlighter-rouge">mark 1 o/2</code> is the shorter equivalent of <code class="language-plaintext highlighter-rouge">mark-order-complete 1 o/2</code>.</li>
+  <li>
+<code class="language-plaintext highlighter-rouge">mark-order-complete 1 o/2</code> marks client 1’s second order complete.</li>
+</ul>
+
+<h4 id="restoring-an-order-to-incomplete-unmark">Restoring an order to incomplete: <code class="language-plaintext highlighter-rouge">unmark</code>
+</h4>
+
+<p>Restores the selected completed order to incomplete.</p>
+
+<p>Format: <code class="language-plaintext highlighter-rouge">unmark CONTACT_INDEX o/ORDER_INDEX</code></p>
+
+<ul>
+  <li>If the order is already incomplete, an error is shown and no data is changed.</li>
+</ul>
+
+<p>Example:</p>
+<ul>
+  <li>
+<code class="language-plaintext highlighter-rouge">unmark 1 o/2</code> restores client 1’s second order to incomplete.</li>
+</ul>
+
+<h4 id="finding-orders-by-client-or-item-name-find-orders">Finding orders by client or item name: <code class="language-plaintext highlighter-rouge">find-orders</code>
+</h4>
+
+<p>Format: <code class="language-plaintext highlighter-rouge">find-orders KEYWORD [MORE_KEYWORDS]...</code></p>
+
+<p>Matches any supplied keyword against whole words in either the client name or bakery item
+name, case-insensitively. For example, <code class="language-plaintext highlighter-rouge">find-orders Alice muffin</code> shows Alice’s orders and
+all orders for muffins. Partial words do not match, and empty searches are rejected.
+Use <code class="language-plaintext highlighter-rouge">list-orders</code> to restore all orders. Client and item searches remain unchanged.</p>
+
+<p>The row number follows the search results, but each card retains its order number within
+the client’s full order list. Use the card’s client index and order number for
+<code class="language-plaintext highlighter-rouge">mark-order-complete</code>, <code class="language-plaintext highlighter-rouge">unmark</code>, <code class="language-plaintext highlighter-rouge">edit-order</code>, and <code class="language-plaintext highlighter-rouge">delete-order</code>, even when earlier orders are hidden.
+If the client index is hidden, use <code class="language-plaintext highlighter-rouge">list-clients</code> to show it before acting.
+Hidden orders remain stored and still prevent deletion of their client or item.
+Searching replaces the previous order search or completion view and restores insertion order.</p>
+
+<h4 id="listing-all-orders-list-orders">Listing all orders: <code class="language-plaintext highlighter-rouge">list-orders</code>
+</h4>
+
+<p>Order cards use <strong>green</strong> for completed orders, <strong>gray</strong> for incomplete orders due today
+or later, and <strong>red</strong> for incomplete orders with a deadline before today’s local date.
+Completed orders remain green even after their deadline. Due today is not overdue.
+Each status color alternates between darker and lighter shades on consecutive rows.
+The cards retain their deadline and status text; overdue cards say <code class="language-plaintext highlighter-rouge">Incomplete (overdue)</code>.
+Colors update when orders are marked or unmarked and within a second of a date change
+while the app is running (or after it resumes from sleep).</p>
+
+<!-- @@author GODMODE899 -->
+<p>Shows all orders in insertion order, including completed orders. Each card shows its position
+in the order list, item, quantity, client name, that client’s own order number, deadline, and completion status.</p>
+
+<p>Format: <code class="language-plaintext highlighter-rouge">list-orders [by-deadline]</code></p>
+
+<ul>
+  <li>Leaves the displayed client and item lists unchanged.</li>
+  <li>Clears the order search or completion view. Add <code class="language-plaintext highlighter-rouge">by-deadline</code> to show earliest deadlines first;
+omit it to restore insertion order. Unknown or additional arguments are rejected.</li>
+  <li>Orders stay visible when clients are filtered with <code class="language-plaintext highlighter-rouge">find-clients</code>.</li>
+  <li>Row numbers refer to this complete order list. The client line shows the client’s displayed
+index and the order number within that client’s own orders, for example <code class="language-plaintext highlighter-rouge">Client 2: Bernice Yu — Order 1</code>.
+Existing order commands take these two indices, for example <code class="language-plaintext highlighter-rouge">delete-order 2 o/1</code>.
+Client indices update with the displayed client list. If a client is hidden by a search,
+their name and order number remain visible, but their client index is omitted.</li>
+  <li>Adding, deleting, or marking an order updates the panel automatically. Deleting an order
+renumbers the remaining rows in the order panel.
+<!-- @@author -->
+</li>
+</ul>
+
+<h4 id="listing-completed-or-incomplete-orders-list-complete-orders-list-incomplete-orders">Listing completed or incomplete orders: <code class="language-plaintext highlighter-rouge">list-complete-orders</code>, <code class="language-plaintext highlighter-rouge">list-incomplete-orders</code>
+</h4>
+
+<p>Format: <code class="language-plaintext highlighter-rouge">list-complete-orders [by-deadline]</code> or <code class="language-plaintext highlighter-rouge">list-incomplete-orders [by-deadline]</code></p>
+
+<p>Shows only completed orders or only incomplete orders, respectively, in insertion order.
+Incomplete orders include both overdue orders and orders due today or later.</p>
+
+<ul>
+  <li>Replaces the previous order search or completion view. For example, <code class="language-plaintext highlighter-rouge">find-orders Alice</code>
+followed by <code class="language-plaintext highlighter-rouge">list-incomplete-orders</code> shows all incomplete orders across all clients.</li>
+  <li>Leaves the displayed client and item lists unchanged.</li>
+  <li>Add <code class="language-plaintext highlighter-rouge">by-deadline</code> to show earliest deadlines first, for example <code class="language-plaintext highlighter-rouge">list-complete-orders by-deadline</code>.
+Omit it to restore insertion order. Unknown or additional arguments are rejected.</li>
+  <li>Updates automatically: marking an order complete removes it from the incomplete view;
+running <code class="language-plaintext highlighter-rouge">unmark</code> removes an order from the completed view.</li>
+  <li>Each card retains its order number within the client’s full order list. Use the card’s
+client index and order number for order commands, even when earlier orders are hidden.</li>
+  <li>Use <code class="language-plaintext highlighter-rouge">list-orders</code> to show all orders again. These commands do not change stored orders or undo history.</li>
+</ul>
+
+<p>For all three order-list commands, orders with the same deadline retain their insertion order.
+Sorting changes only the displayed rows; stored orders and client-local order numbers stay unchanged.
+New orders appear in deadline order while sorting is active. Running <code class="language-plaintext highlighter-rouge">find-orders</code>, <code class="language-plaintext highlighter-rouge">undo</code>,
+<code class="language-plaintext highlighter-rouge">populate</code>, or <code class="language-plaintext highlighter-rouge">clear confirm</code> restores insertion order; sorting is not saved between app sessions.</p>
+
+<h3 id="general-commands">General commands</h3>
+
+<h4 id="undoing-the-last-data-change-undo">Undoing the last data change: <code class="language-plaintext highlighter-rouge">undo</code>
+</h4>
+
+<p>Type <code class="language-plaintext highlighter-rouge">undo</code> in the command input to reverse the last successfully saved data change.</p>
+
+<ul>
+  <li>Supports adding, editing, or deleting clients/items, adding, editing, or deleting orders, marking/unmarking orders, <code class="language-plaintext highlighter-rouge">clear confirm</code>, and <code class="language-plaintext highlighter-rouge">populate</code>. Running <code class="language-plaintext highlighter-rouge">clear</code> without confirmation only shows a warning and does not replace undo history.</li>
+  <li>Only one change can be undone. A new saved data change replaces the previous undo opportunity. There is no redo.</li>
+  <li>Listing, searching, help, failed commands, and edits that leave data unchanged do not replace the undo opportunity.</li>
+  <li>Undo restores linked clients, items, and orders together. It shows all clients and items again, so use the refreshed indices.</li>
+  <li>If nothing can be undone, <code class="language-plaintext highlighter-rouge">undo</code> reports an error without changing data.</li>
+  <li>If saving undo fails, the current data and displayed filters are restored, and you can retry.</li>
+  <li>Undo history is cleared on restart; successfully restored data remains saved. Extra arguments are rejected.</li>
+</ul>
+
+<p>Example: <code class="language-plaintext highlighter-rouge">delete-order 1 o/2</code> followed by <code class="language-plaintext highlighter-rouge">undo</code> restores the deleted order.</p>
+
+<h4 id="recalling-commands-with-up-and-down">Recalling commands with Up and Down</h4>
+
+<p>While the command input has focus, press <strong>Up</strong> to recall the latest submitted command and press it again for older commands. Press <strong>Down</strong> to move toward newer commands. Moving past the newest command restores the unfinished text you typed before navigating.</p>
+
+<ul>
+  <li>You can edit recalled text and press Enter to submit it. This does not change the original history entry.</li>
+  <li>Navigation keeps the caret at the end of the recalled text and does not execute commands.</li>
+  <li>Non-empty submissions, including commands that produce errors, are remembered. Empty submissions are ignored.</li>
+  <li>At the oldest entry, further Up presses keep that entry. Down at the draft keeps the current input.</li>
+  <li>History lasts only for the current application session. Modified arrow shortcuts keep their normal behavior.</li>
+</ul>
+
+<h4 id="viewing-help-help">Viewing help: <code class="language-plaintext highlighter-rouge">help</code>
+</h4>
+
+<p>Shows a message explaining how to access the help page, and a very brief summary of the commands.</p>
+
+<p>If the Help window is already open, running <code class="language-plaintext highlighter-rouge">help</code>, using the <code class="language-plaintext highlighter-rouge">Help</code> menu, or pressing <code class="language-plaintext highlighter-rouge">F1</code> brings it into focus and restores it if minimized.</p>
+
+<!-- @@author -->
+<p><img src="/tp/images/helpMessage.png" alt="help message"></p>
+
+<p>Format: <code class="language-plaintext highlighter-rouge">help</code>
+<!-- @@author --></p>
+
+<h4 id="replacing-all-entries-with-sample-data-populate">Replacing all entries with sample data: <code class="language-plaintext highlighter-rouge">populate</code>
+</h4>
+
+<p>Replaces all current clients, bakery items, and orders with the default sample data.
+This overwrites existing data; it does not append to it. The replacement is saved automatically.</p>
+
+<p>Format: <code class="language-plaintext highlighter-rouge">populate</code></p>
+
+<ul>
+  <li>Loads 12 sample clients, 12 bakery items, and 24 orders, including completed and incomplete orders.</li>
+  <li>Sample deadlines are relative to the day you run <code class="language-plaintext highlighter-rouge">populate</code>, with overdue, due-today, and upcoming orders.</li>
+  <li>Resets client and item filters so all sample entries are displayed.</li>
+  <li>Running it again replaces the data with a fresh sample book rather than adding duplicates.</li>
+  <li>If saving fails, the previous data and filters are restored.</li>
+</ul>
+
+<h4 id="clearing-all-entries-clear">Clearing all entries: <code class="language-plaintext highlighter-rouge">clear</code>
+</h4>
+
+<p>Requires explicit confirmation before removing all clients, bakery items, and orders from the bakery book.</p>
+
+<p>Format: <code class="language-plaintext highlighter-rouge">clear</code> or <code class="language-plaintext highlighter-rouge">clear confirm</code></p>
+
+<ul>
+  <li>
+<code class="language-plaintext highlighter-rouge">clear</code> shows a warning without changing or saving any data. The warning counts all clients, items, and orders in the book, including records hidden by searches. Counts reflect the current book, rather than only the displayed search results.</li>
+  <li>To cancel, simply continue using other commands. There is no pending action or confirmation dialog.</li>
+  <li>Only the exact, lowercase word <code class="language-plaintext highlighter-rouge">confirm</code> is accepted. Other arguments (for example, <code class="language-plaintext highlighter-rouge">clear yes</code> or <code class="language-plaintext highlighter-rouge">clear confirm extra</code>) are rejected without changing data.</li>
+  <li>
+<strong><code class="language-plaintext highlighter-rouge">clear confirm</code> deletes all clients, items, and orders immediately.</strong> It is an intentional, one-shot command for experienced users: you do not need to type <code class="language-plaintext highlighter-rouge">clear</code> first, and there is no additional confirmation prompt. All records are removed, including records hidden by searches. Review the command before pressing Enter, including when recalling it from command history.</li>
+  <li>If saving fails, the previous data and displayed filters are restored. You can retry the confirmed command.</li>
+</ul>
+
+<h5 id="interaction-with-single-step-undo">Interaction with single-step undo</h5>
+
+<p>Use the <code class="language-plaintext highlighter-rouge">undo</code> command to recover the last saved data change, including a confirmed clear.</p>
+
+<p>Confirmation prevents accidental deletion; undo allows recovery after a confirmed deletion:</p>
+
+<table>
+  <thead>
+    <tr>
+      <th>Action</th>
+      <th>Effect on data and undo</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td><code class="language-plaintext highlighter-rouge">clear</code></td>
+      <td>Shows the warning without changing data or replacing the previous undo opportunity.</td>
+    </tr>
+    <tr>
+      <td>Invalid input such as <code class="language-plaintext highlighter-rouge">clear yes</code>
+</td>
+      <td>Is rejected without changing data or undo history.</td>
+    </tr>
+    <tr>
+      <td>
+<code class="language-plaintext highlighter-rouge">clear confirm</code> on a non-empty book</td>
+      <td>Deletes all records and replaces the undo snapshot with the complete book from before deletion.</td>
+    </tr>
+    <tr>
+      <td>
+<code class="language-plaintext highlighter-rouge">undo</code> after confirmed clearing</td>
+      <td>Restores clients, items, linked orders, and completion statuses, shows all lists, and consumes the single undo snapshot.</td>
+    </tr>
+    <tr>
+      <td>Confirmed clearing that fails to save</td>
+      <td>Restores data and displayed filters; the earlier undo opportunity remains available.</td>
+    </tr>
+    <tr>
+      <td>
+<code class="language-plaintext highlighter-rouge">clear confirm</code> on an already empty book</td>
+      <td>Does not change data, so it does not replace an existing undo snapshot.</td>
+    </tr>
+  </tbody>
+</table>
+
+<p>For example, <code class="language-plaintext highlighter-rouge">edit-item 1 p/12</code>, then <code class="language-plaintext highlighter-rouge">clear</code>, then <code class="language-plaintext highlighter-rouge">undo</code> reverses the item edit: the warning did not change data. By contrast, <code class="language-plaintext highlighter-rouge">clear confirm</code>, then <code class="language-plaintext highlighter-rouge">undo</code> restores the deleted book.</p>
+
+<p>Only the last successful data change is recoverable. A subsequent data change replaces the snapshot, and restarting the application discards undo history. There is no redo. Undoing a clear cannot also undo an earlier edit; keep backups for longer-term recovery.</p>
+
+<h4 id="exiting-the-program-exit">Exiting the program: <code class="language-plaintext highlighter-rouge">exit</code>
+</h4>
+
+<p>Exits the program.</p>
+
+<p>Format: <code class="language-plaintext highlighter-rouge">exit</code></p>
+
+<h2 id="data-storage">Data storage</h2>
+
+<h3 id="saving-the-data">Saving the data</h3>
+
+<p>BakeBase automatically saves data after every command. You do not need to save manually.</p>
+
+<p>Clients, bakery items, orders, and completion statuses are saved together. A successful change is reported only after saving succeeds. If saving fails, an error is shown and the previous in-memory data and displayed filters are restored.</p>
+
+<h3 id="editing-the-data-file">Editing the data file</h3>
+
+<p>BakeBase data is saved automatically as a JSON file <code class="language-plaintext highlighter-rouge">[working directory]/data/addressbook.json</code>. The working directory is the folder your terminal is in when you launch BakeBase. Following the quick-start instructions to <code class="language-plaintext highlighter-rouge">cd</code> into the JAR folder makes this the JAR folder. Launching the JAR from another folder uses that other folder’s <code class="language-plaintext highlighter-rouge">data/addressbook.json</code>, even if the JAR itself has not moved. Advanced users are welcome to update data directly by editing that data file while BakeBase is closed.</p>
+
+<div class="alert alert-warning">
+<img class="emoji" title=":exclamation:" alt=":exclamation:" src="https://github.githubassets.com/images/icons/emoji/unicode/2757.png" height="20" width="20"> <strong>Caution:</strong>
+If your changes make the data file invalid, BakeBase starts with an empty bakery book at the next run. The invalid file remains on disk until you run a command (BakeBase saves after every command). Still, we recommend backing up the file before editing it.<br>
+Furthermore, certain edits can cause BakeBase to behave in unexpected ways (e.g., if a value entered is outside of the acceptable range). Therefore, edit the data file only if you are confident that you can update it correctly.
+</div>
+
+<p>Existing AddressBook Level 3 (AB3) files remain supported. Orders refer to clients and bakery items by name in the file. If you manually rename one, update its order references as well. Keep each order’s UUID unique and use valid quantities, dates, and completion statuses. Incorrect edits can prevent loading and cause data loss, as with AB3; back up the file before editing it.</p>
+
+<h3 id="archiving-data-files-coming-in-v20">Archiving data files <code class="language-plaintext highlighter-rouge">[coming in v2.0]</code>
+</h3>
+
+<p><em>Details coming soon …</em></p>
+
+<hr>
+
+<h2 id="faq">FAQ</h2>
+
+<p><strong>Q</strong>: How do I transfer my data to another computer?<br>
+<strong>A</strong>: Install the app on the other computer and overwrite the data file it creates with the data file from your previous BakeBase home folder.</p>
+
+<hr>
+
+<h2 id="known-issues">Known issues</h2>
+
+<ol>
+  <li>
+<strong>When using multiple screens</strong>, if you move the application to a secondary screen, and later switch to using only the primary screen, the GUI will open off-screen. The remedy is to delete the <code class="language-plaintext highlighter-rouge">preferences.json</code> file created by the application before running the application again.</li>
+</ol>
+
+<hr>
+
+<h2 id="command-summary">Command summary</h2>
+
+<h3 id="client-commands-1">Client commands</h3>
+
+<table>
+  <thead>
+    <tr>
+      <th>Action</th>
+      <th>Format, Examples</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td><strong>Add client</strong></td>
+      <td>
+<code class="language-plaintext highlighter-rouge">add-client n/NAME p/PHONE_NUMBER e/EMAIL a/ADDRESS [t/TAG]…​</code><br>e.g., <code class="language-plaintext highlighter-rouge">add-client n/James Ho p/22224444 e/jamesho@example.com a/123, Clementi Rd, 1234665 t/friend</code>
+</td>
+    </tr>
+    <tr>
+      <td><strong>Delete client</strong></td>
+      <td>
+<code class="language-plaintext highlighter-rouge">delete-client INDEX</code><br>e.g., <code class="language-plaintext highlighter-rouge">delete-client 3</code>
+</td>
+    </tr>
+    <tr>
+      <td><strong>Edit client</strong></td>
+      <td>
+<code class="language-plaintext highlighter-rouge">edit-client INDEX [n/NAME] [p/PHONE] [e/EMAIL] [a/ADDRESS] [t/TAG]…​</code><br>e.g., <code class="language-plaintext highlighter-rouge">edit-client 2 n/James Lee e/jameslee@example.com</code>
+</td>
+    </tr>
+    <tr>
+      <td><strong>List clients</strong></td>
+      <td><code class="language-plaintext highlighter-rouge">list-clients</code></td>
+    </tr>
+    <tr>
+      <td><strong>Find clients</strong></td>
+      <td>
+<code class="language-plaintext highlighter-rouge">find-clients KEYWORD [MORE_KEYWORDS]</code><br>e.g., <code class="language-plaintext highlighter-rouge">find-clients James Jake</code>
+</td>
+    </tr>
+  </tbody>
+</table>
+
+<h3 id="bakery-item-commands-1">Bakery item commands</h3>
+
+<table>
+  <thead>
+    <tr>
+      <th>Action</th>
+      <th>Format, Examples</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td><strong>Add bakery item</strong></td>
+      <td>
+<code class="language-plaintext highlighter-rouge">add-item n/ITEM_NAME p/PRICE_DOLLARS</code><br>e.g., <code class="language-plaintext highlighter-rouge">add-item n/Banana Muffin p/5.99</code>
+</td>
+    </tr>
+    <tr>
+      <td><strong>Edit bakery item</strong></td>
+      <td>
+<code class="language-plaintext highlighter-rouge">edit-item INDEX [n/ITEM_NAME] [p/PRICE]</code><br>e.g., <code class="language-plaintext highlighter-rouge">edit-item 2 n/Blueberry Muffin p/6.50</code>
+</td>
+    </tr>
+    <tr>
+      <td><strong>Delete bakery item</strong></td>
+      <td>
+<code class="language-plaintext highlighter-rouge">delete-item INDEX</code><br>e.g., <code class="language-plaintext highlighter-rouge">delete-item 3</code>
+</td>
+    </tr>
+    <tr>
+      <td><strong>Find bakery items</strong></td>
+      <td><code class="language-plaintext highlighter-rouge">find-items KEYWORD [MORE_KEYWORDS]...</code></td>
+    </tr>
+    <tr>
+      <td><strong>List bakery items</strong></td>
+      <td><code class="language-plaintext highlighter-rouge">list-items</code></td>
+    </tr>
+  </tbody>
+</table>
+
+<h3 id="order-commands-1">Order commands</h3>
+
+<table>
+  <thead>
+    <tr>
+      <th>Action</th>
+      <th>Format, Examples</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td><strong>Edit order</strong></td>
+      <td>
+<code class="language-plaintext highlighter-rouge">edit-order CONTACT_INDEX o/ORDER_INDEX [i/ITEM_INDEX] [q/QUANTITY] [d/DEADLINE]</code><br>e.g., <code class="language-plaintext highlighter-rouge">edit-order 1 o/2 q/13</code>
+</td>
+    </tr>
+    <tr>
+      <td><strong>Add order</strong></td>
+      <td>
+<code class="language-plaintext highlighter-rouge">add-order CONTACT_INDEX i/ITEM_INDEX q/QUANTITY d/DEADLINE</code><br>e.g., <code class="language-plaintext highlighter-rouge">add-order 1 i/2 q/5 d/2026-10-15</code>
+</td>
+    </tr>
+    <tr>
+      <td><strong>Delete order</strong></td>
+      <td>
+<code class="language-plaintext highlighter-rouge">delete-order CONTACT_INDEX o/ORDER_INDEX</code><br>e.g., <code class="language-plaintext highlighter-rouge">delete-order 1 o/2</code>
+</td>
+    </tr>
+    <tr>
+      <td><strong>Mark order complete</strong></td>
+      <td>
+<code class="language-plaintext highlighter-rouge">mark-order-complete CONTACT_INDEX o/ORDER_INDEX</code> or <code class="language-plaintext highlighter-rouge">mark CONTACT_INDEX o/ORDER_INDEX</code><br>e.g., <code class="language-plaintext highlighter-rouge">mark-order-complete 1 o/2</code>
+</td>
+    </tr>
+    <tr>
+      <td><strong>Restore order to incomplete</strong></td>
+      <td>
+<code class="language-plaintext highlighter-rouge">unmark CONTACT_INDEX o/ORDER_INDEX</code><br>e.g., <code class="language-plaintext highlighter-rouge">unmark 1 o/2</code>
+</td>
+    </tr>
+    <tr>
+      <td><strong>List orders</strong></td>
+      <td><code class="language-plaintext highlighter-rouge">list-orders [by-deadline]</code></td>
+    </tr>
+    <tr>
+      <td><strong>List completed orders</strong></td>
+      <td><code class="language-plaintext highlighter-rouge">list-complete-orders [by-deadline]</code></td>
+    </tr>
+    <tr>
+      <td><strong>List incomplete orders</strong></td>
+      <td><code class="language-plaintext highlighter-rouge">list-incomplete-orders [by-deadline]</code></td>
+    </tr>
+    <tr>
+      <td><strong>Find orders</strong></td>
+      <td><code class="language-plaintext highlighter-rouge">find-orders KEYWORD [MORE_KEYWORDS]...</code></td>
+    </tr>
+  </tbody>
+</table>
+
+<h3 id="general-commands-1">General commands</h3>
+
+<table>
+  <thead>
+    <tr>
+      <th>Action</th>
+      <th>Format</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td><strong>Help</strong></td>
+      <td><code class="language-plaintext highlighter-rouge">help</code></td>
+    </tr>
+    <tr>
+      <td><strong>Undo last data change</strong></td>
+      <td><code class="language-plaintext highlighter-rouge">undo</code></td>
+    </tr>
+    <tr>
+      <td><strong>Populate sample data</strong></td>
+      <td><code class="language-plaintext highlighter-rouge">populate</code></td>
+    </tr>
+    <tr>
+      <td><strong>Clear all data</strong></td>
+      <td>
+<code class="language-plaintext highlighter-rouge">clear</code> to show the warning and counts; <code class="language-plaintext highlighter-rouge">clear confirm</code> to delete immediately without another prompt</td>
+    </tr>
+    <tr>
+      <td><strong>Exit</strong></td>
+      <td><code class="language-plaintext highlighter-rouge">exit</code></td>
+    </tr>
+  </tbody>
+</table>
+
+  </div>
+
+</article>
+
+      </div>
+    </main>
+
+  </body>
+
+</html>

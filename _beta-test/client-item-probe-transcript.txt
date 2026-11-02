@@ -1,0 +1,269 @@
+
+> add-client n/John Tan p/91234567 e/john@one.com a/Block 1
+Oct 30, 2026 3:17:28 PM seedu.address.logic.LogicManager execute
+INFO: ----------------[USER COMMAND][add-client n/John Tan p/91234567 e/john@one.com a/Block 1]
+SUCCESS New client added: John Tan; Phone: 91234567; Email: john@one.com; Address: Block 1; Tags: 
+STATE persons=1 items=0 orders=0 displayedClients=[seedu.address.model.person.Person{name=John Tan, phone=91234567, email=john@one.com, address=Block 1, tags=[]}] displayedItems=[]
+
+> add-client n/John Tan p/98765432 e/john@two.com a/Block 2
+Oct 30, 2026 3:17:37 PM seedu.address.logic.LogicManager execute
+INFO: ----------------[USER COMMAND][add-client n/John Tan p/98765432 e/john@two.com a/Block 2]
+CommandException: This client already exists in the address book.
+STATE persons=1 items=0 orders=0 displayedClients=[seedu.address.model.person.Person{name=John Tan, phone=91234567, email=john@one.com, address=Block 1, tags=[]}] displayedItems=[]
+
+> add-client n/john  tan p/98765432 e/john@two.com a/Block 2
+Oct 30, 2026 3:17:37 PM seedu.address.logic.LogicManager execute
+INFO: ----------------[USER COMMAND][add-client n/john  tan p/98765432 e/john@two.com a/Block 2]
+SUCCESS New client added: john  tan; Phone: 98765432; Email: john@two.com; Address: Block 2; Tags: 
+Warning: Another client has a similar name (ignoring case and extra spaces):
+John Tan; Phone: 91234567; Email: john@one.com; Address: Block 1; Tags: 
+The change succeeded. If this was accidental, use undo before making another data change.
+STATE persons=2 items=0 orders=0 displayedClients=[seedu.address.model.person.Person{name=John Tan, phone=91234567, email=john@one.com, address=Block 1, tags=[]}, seedu.address.model.person.Person{name=john  tan, phone=98765432, email=john@two.com, address=Block 2, tags=[]}] displayedItems=[]
+
+> add-client n/Mary Lee p/98765432 e/mary@example.com a/Block 3
+Oct 30, 2026 3:17:37 PM seedu.address.logic.LogicManager execute
+INFO: ----------------[USER COMMAND][add-client n/Mary Lee p/98765432 e/mary@example.com a/Block 3]
+SUCCESS New client added: Mary Lee; Phone: 98765432; Email: mary@example.com; Address: Block 3; Tags: 
+STATE persons=3 items=0 orders=0 displayedClients=[seedu.address.model.person.Person{name=John Tan, phone=91234567, email=john@one.com, address=Block 1, tags=[]}, seedu.address.model.person.Person{name=john  tan, phone=98765432, email=john@two.com, address=Block 2, tags=[]}, seedu.address.model.person.Person{name=Mary Lee, phone=98765432, email=mary@example.com, address=Block 3, tags=[]}] displayedItems=[]
+
+> find-clients Mary
+Oct 30, 2026 3:17:37 PM seedu.address.logic.LogicManager execute
+INFO: ----------------[USER COMMAND][find-clients Mary]
+SUCCESS 1 client(s) listed!
+STATE persons=3 items=0 orders=0 displayedClients=[seedu.address.model.person.Person{name=Mary Lee, phone=98765432, email=mary@example.com, address=Block 3, tags=[]}] displayedItems=[]
+
+> edit-client 1 a/New Address
+Oct 30, 2026 3:17:37 PM seedu.address.logic.LogicManager execute
+INFO: ----------------[USER COMMAND][edit-client 1 a/New Address]
+SUCCESS Edited client: Mary Lee; Phone: 98765432; Email: mary@example.com; Address: New Address; Tags: 
+STATE persons=3 items=0 orders=0 displayedClients=[seedu.address.model.person.Person{name=John Tan, phone=91234567, email=john@one.com, address=Block 1, tags=[]}, seedu.address.model.person.Person{name=john  tan, phone=98765432, email=john@two.com, address=Block 2, tags=[]}, seedu.address.model.person.Person{name=Mary Lee, phone=98765432, email=mary@example.com, address=New Address, tags=[]}] displayedItems=[]
+
+> find-clients Mary
+Oct 30, 2026 3:17:37 PM seedu.address.logic.LogicManager execute
+INFO: ----------------[USER COMMAND][find-clients Mary]
+SUCCESS 1 client(s) listed!
+STATE persons=3 items=0 orders=0 displayedClients=[seedu.address.model.person.Person{name=Mary Lee, phone=98765432, email=mary@example.com, address=New Address, tags=[]}] displayedItems=[]
+
+> delete-client 1
+Oct 30, 2026 3:17:37 PM seedu.address.logic.LogicManager execute
+INFO: ----------------[USER COMMAND][delete-client 1]
+SUCCESS Deleted client: Mary Lee; Phone: 98765432; Email: mary@example.com; Address: New Address; Tags: 
+STATE persons=2 items=0 orders=0 displayedClients=[] displayedItems=[]
+
+> undo
+Oct 30, 2026 3:17:37 PM seedu.address.logic.LogicManager execute
+INFO: ----------------[USER COMMAND][undo]
+Oct 30, 2026 3:17:37 PM seedu.address.logic.LogicManager execute
+INFO: Undo saved successfully; snapshot consumed.
+SUCCESS Last data change undone. All lists are shown.
+STATE persons=3 items=0 orders=0 displayedClients=[seedu.address.model.person.Person{name=John Tan, phone=91234567, email=john@one.com, address=Block 1, tags=[]}, seedu.address.model.person.Person{name=john  tan, phone=98765432, email=john@two.com, address=Block 2, tags=[]}, seedu.address.model.person.Person{name=Mary Lee, phone=98765432, email=mary@example.com, address=New Address, tags=[]}] displayedItems=[]
+
+> undo
+Oct 30, 2026 3:17:37 PM seedu.address.logic.LogicManager execute
+INFO: ----------------[USER COMMAND][undo]
+Oct 30, 2026 3:17:37 PM seedu.address.logic.commands.UndoCommand execute
+INFO: Undo rejected: no saved data change is available.
+CommandException: There is no data change to undo.
+STATE persons=3 items=0 orders=0 displayedClients=[seedu.address.model.person.Person{name=John Tan, phone=91234567, email=john@one.com, address=Block 1, tags=[]}, seedu.address.model.person.Person{name=john  tan, phone=98765432, email=john@two.com, address=Block 2, tags=[]}, seedu.address.model.person.Person{name=Mary Lee, phone=98765432, email=mary@example.com, address=New Address, tags=[]}] displayedItems=[]
+
+> add-item n/Chocolate Cake p/5.99
+Oct 30, 2026 3:17:37 PM seedu.address.logic.LogicManager execute
+INFO: ----------------[USER COMMAND][add-item n/Chocolate Cake p/5.99]
+SUCCESS New bakery item added: Chocolate Cake; Price: $5.99
+STATE persons=3 items=1 orders=0 displayedClients=[seedu.address.model.person.Person{name=John Tan, phone=91234567, email=john@one.com, address=Block 1, tags=[]}, seedu.address.model.person.Person{name=john  tan, phone=98765432, email=john@two.com, address=Block 2, tags=[]}, seedu.address.model.person.Person{name=Mary Lee, phone=98765432, email=mary@example.com, address=New Address, tags=[]}] displayedItems=[seedu.address.model.bakeryitem.BakeryItem{name=Chocolate Cake, price=5.99}]
+
+> add-item n/chocolate  cake p/6
+Oct 30, 2026 3:17:37 PM seedu.address.logic.LogicManager execute
+INFO: ----------------[USER COMMAND][add-item n/chocolate  cake p/6]
+CommandException: This bakery item already exists.
+STATE persons=3 items=1 orders=0 displayedClients=[seedu.address.model.person.Person{name=John Tan, phone=91234567, email=john@one.com, address=Block 1, tags=[]}, seedu.address.model.person.Person{name=john  tan, phone=98765432, email=john@two.com, address=Block 2, tags=[]}, seedu.address.model.person.Person{name=Mary Lee, phone=98765432, email=mary@example.com, address=New Address, tags=[]}] displayedItems=[seedu.address.model.bakeryitem.BakeryItem{name=Chocolate Cake, price=5.99}]
+
+> add-item n/Banana Bread p/.5
+Oct 30, 2026 3:17:37 PM seedu.address.logic.LogicManager execute
+INFO: ----------------[USER COMMAND][add-item n/Banana Bread p/.5]
+SUCCESS New bakery item added: Banana Bread; Price: $0.50
+STATE persons=3 items=2 orders=0 displayedClients=[seedu.address.model.person.Person{name=John Tan, phone=91234567, email=john@one.com, address=Block 1, tags=[]}, seedu.address.model.person.Person{name=john  tan, phone=98765432, email=john@two.com, address=Block 2, tags=[]}, seedu.address.model.person.Person{name=Mary Lee, phone=98765432, email=mary@example.com, address=New Address, tags=[]}] displayedItems=[seedu.address.model.bakeryitem.BakeryItem{name=Chocolate Cake, price=5.99}, seedu.address.model.bakeryitem.BakeryItem{name=Banana Bread, price=0.50}]
+
+> find-items Banana
+Oct 30, 2026 3:17:37 PM seedu.address.logic.LogicManager execute
+INFO: ----------------[USER COMMAND][find-items Banana]
+SUCCESS 1 bakery items listed!
+STATE persons=3 items=2 orders=0 displayedClients=[seedu.address.model.person.Person{name=John Tan, phone=91234567, email=john@one.com, address=Block 1, tags=[]}, seedu.address.model.person.Person{name=john  tan, phone=98765432, email=john@two.com, address=Block 2, tags=[]}, seedu.address.model.person.Person{name=Mary Lee, phone=98765432, email=mary@example.com, address=New Address, tags=[]}] displayedItems=[seedu.address.model.bakeryitem.BakeryItem{name=Banana Bread, price=0.50}]
+
+> edit-item 1 p/8
+Oct 30, 2026 3:17:37 PM seedu.address.logic.LogicManager execute
+INFO: ----------------[USER COMMAND][edit-item 1 p/8]
+SUCCESS Edited bakery item: Banana Bread; Price: $8.00
+STATE persons=3 items=2 orders=0 displayedClients=[seedu.address.model.person.Person{name=John Tan, phone=91234567, email=john@one.com, address=Block 1, tags=[]}, seedu.address.model.person.Person{name=john  tan, phone=98765432, email=john@two.com, address=Block 2, tags=[]}, seedu.address.model.person.Person{name=Mary Lee, phone=98765432, email=mary@example.com, address=New Address, tags=[]}] displayedItems=[seedu.address.model.bakeryitem.BakeryItem{name=Chocolate Cake, price=5.99}, seedu.address.model.bakeryitem.BakeryItem{name=Banana Bread, price=8.00}]
+
+> find-items Banana
+Oct 30, 2026 3:17:37 PM seedu.address.logic.LogicManager execute
+INFO: ----------------[USER COMMAND][find-items Banana]
+SUCCESS 1 bakery items listed!
+STATE persons=3 items=2 orders=0 displayedClients=[seedu.address.model.person.Person{name=John Tan, phone=91234567, email=john@one.com, address=Block 1, tags=[]}, seedu.address.model.person.Person{name=john  tan, phone=98765432, email=john@two.com, address=Block 2, tags=[]}, seedu.address.model.person.Person{name=Mary Lee, phone=98765432, email=mary@example.com, address=New Address, tags=[]}] displayedItems=[seedu.address.model.bakeryitem.BakeryItem{name=Banana Bread, price=8.00}]
+
+> delete-item 1
+Oct 30, 2026 3:17:37 PM seedu.address.logic.LogicManager execute
+INFO: ----------------[USER COMMAND][delete-item 1]
+SUCCESS Deleted bakery item: Banana Bread; Price: $8.00
+STATE persons=3 items=1 orders=0 displayedClients=[seedu.address.model.person.Person{name=John Tan, phone=91234567, email=john@one.com, address=Block 1, tags=[]}, seedu.address.model.person.Person{name=john  tan, phone=98765432, email=john@two.com, address=Block 2, tags=[]}, seedu.address.model.person.Person{name=Mary Lee, phone=98765432, email=mary@example.com, address=New Address, tags=[]}] displayedItems=[]
+
+> undo
+Oct 30, 2026 3:17:37 PM seedu.address.logic.LogicManager execute
+INFO: ----------------[USER COMMAND][undo]
+Oct 30, 2026 3:17:37 PM seedu.address.logic.LogicManager execute
+INFO: Undo saved successfully; snapshot consumed.
+SUCCESS Last data change undone. All lists are shown.
+STATE persons=3 items=2 orders=0 displayedClients=[seedu.address.model.person.Person{name=John Tan, phone=91234567, email=john@one.com, address=Block 1, tags=[]}, seedu.address.model.person.Person{name=john  tan, phone=98765432, email=john@two.com, address=Block 2, tags=[]}, seedu.address.model.person.Person{name=Mary Lee, phone=98765432, email=mary@example.com, address=New Address, tags=[]}] displayedItems=[seedu.address.model.bakeryitem.BakeryItem{name=Chocolate Cake, price=5.99}, seedu.address.model.bakeryitem.BakeryItem{name=Banana Bread, price=8.00}]
+
+> add-order 1 i/1 q/3 d/2026-11-01
+Oct 30, 2026 3:17:37 PM seedu.address.logic.LogicManager execute
+INFO: ----------------[USER COMMAND][add-order 1 i/1 q/3 d/2026-11-01]
+SUCCESS New order added to contact: John Tan: 3 x Chocolate Cake (Due: 2026-11-01; incomplete) (Order index for this client: 1)
+STATE persons=3 items=2 orders=1 displayedClients=[seedu.address.model.person.Person{name=John Tan, phone=91234567, email=john@one.com, address=Block 1, tags=[]}, seedu.address.model.person.Person{name=john  tan, phone=98765432, email=john@two.com, address=Block 2, tags=[]}, seedu.address.model.person.Person{name=Mary Lee, phone=98765432, email=mary@example.com, address=New Address, tags=[]}] displayedItems=[seedu.address.model.bakeryitem.BakeryItem{name=Chocolate Cake, price=5.99}, seedu.address.model.bakeryitem.BakeryItem{name=Banana Bread, price=8.00}]
+
+> edit-client 1 n/Johnny Tan
+Oct 30, 2026 3:17:37 PM seedu.address.logic.LogicManager execute
+INFO: ----------------[USER COMMAND][edit-client 1 n/Johnny Tan]
+SUCCESS Edited client: Johnny Tan; Phone: 91234567; Email: john@one.com; Address: Block 1; Tags: 
+STATE persons=3 items=2 orders=1 displayedClients=[seedu.address.model.person.Person{name=Johnny Tan, phone=91234567, email=john@one.com, address=Block 1, tags=[]}, seedu.address.model.person.Person{name=john  tan, phone=98765432, email=john@two.com, address=Block 2, tags=[]}, seedu.address.model.person.Person{name=Mary Lee, phone=98765432, email=mary@example.com, address=New Address, tags=[]}] displayedItems=[seedu.address.model.bakeryitem.BakeryItem{name=Chocolate Cake, price=5.99}, seedu.address.model.bakeryitem.BakeryItem{name=Banana Bread, price=8.00}]
+
+> edit-item 1 n/Premium Cake
+Oct 30, 2026 3:17:37 PM seedu.address.logic.LogicManager execute
+INFO: ----------------[USER COMMAND][edit-item 1 n/Premium Cake]
+SUCCESS Edited bakery item: Premium Cake; Price: $5.99
+STATE persons=3 items=2 orders=1 displayedClients=[seedu.address.model.person.Person{name=Johnny Tan, phone=91234567, email=john@one.com, address=Block 1, tags=[]}, seedu.address.model.person.Person{name=john  tan, phone=98765432, email=john@two.com, address=Block 2, tags=[]}, seedu.address.model.person.Person{name=Mary Lee, phone=98765432, email=mary@example.com, address=New Address, tags=[]}] displayedItems=[seedu.address.model.bakeryitem.BakeryItem{name=Premium Cake, price=5.99}, seedu.address.model.bakeryitem.BakeryItem{name=Banana Bread, price=8.00}]
+
+> delete-client 1
+Oct 30, 2026 3:17:37 PM seedu.address.logic.LogicManager execute
+INFO: ----------------[USER COMMAND][delete-client 1]
+CommandException: Cannot delete this client: existing orders reference this client. Delete those orders first.
+STATE persons=3 items=2 orders=1 displayedClients=[seedu.address.model.person.Person{name=Johnny Tan, phone=91234567, email=john@one.com, address=Block 1, tags=[]}, seedu.address.model.person.Person{name=john  tan, phone=98765432, email=john@two.com, address=Block 2, tags=[]}, seedu.address.model.person.Person{name=Mary Lee, phone=98765432, email=mary@example.com, address=New Address, tags=[]}] displayedItems=[seedu.address.model.bakeryitem.BakeryItem{name=Premium Cake, price=5.99}, seedu.address.model.bakeryitem.BakeryItem{name=Banana Bread, price=8.00}]
+
+> delete-item 1
+Oct 30, 2026 3:17:37 PM seedu.address.logic.LogicManager execute
+INFO: ----------------[USER COMMAND][delete-item 1]
+CommandException: Cannot delete this item: existing orders reference this item. Delete those orders first.
+STATE persons=3 items=2 orders=1 displayedClients=[seedu.address.model.person.Person{name=Johnny Tan, phone=91234567, email=john@one.com, address=Block 1, tags=[]}, seedu.address.model.person.Person{name=john  tan, phone=98765432, email=john@two.com, address=Block 2, tags=[]}, seedu.address.model.person.Person{name=Mary Lee, phone=98765432, email=mary@example.com, address=New Address, tags=[]}] displayedItems=[seedu.address.model.bakeryitem.BakeryItem{name=Premium Cake, price=5.99}, seedu.address.model.bakeryitem.BakeryItem{name=Banana Bread, price=8.00}]
+Oct 30, 2026 3:17:37 PM seedu.address.commons.util.JsonUtil readJsonFile
+INFO: JSON file _beta-test\client-item-probe\addressbook.json found.
+RELOADED [Johnny Tan: 3 x Premium Cake (Due: 2026-11-01; incomplete)]
+
+> edit-client 1 n/Johnny Tan
+Oct 30, 2026 3:17:37 PM seedu.address.logic.LogicManager execute
+INFO: ----------------[USER COMMAND][edit-client 1 n/Johnny Tan]
+SUCCESS Edited client: Johnny Tan; Phone: 91234567; Email: john@one.com; Address: Block 1; Tags: 
+STATE persons=3 items=2 orders=1 displayedClients=[seedu.address.model.person.Person{name=Johnny Tan, phone=91234567, email=john@one.com, address=Block 1, tags=[]}, seedu.address.model.person.Person{name=john  tan, phone=98765432, email=john@two.com, address=Block 2, tags=[]}, seedu.address.model.person.Person{name=Mary Lee, phone=98765432, email=mary@example.com, address=New Address, tags=[]}] displayedItems=[seedu.address.model.bakeryitem.BakeryItem{name=Premium Cake, price=5.99}, seedu.address.model.bakeryitem.BakeryItem{name=Banana Bread, price=8.00}]
+
+> undo
+Oct 30, 2026 3:17:37 PM seedu.address.logic.LogicManager execute
+INFO: ----------------[USER COMMAND][undo]
+Oct 30, 2026 3:17:37 PM seedu.address.logic.LogicManager execute
+INFO: Undo saved successfully; snapshot consumed.
+SUCCESS Last data change undone. All lists are shown.
+STATE persons=3 items=2 orders=1 displayedClients=[seedu.address.model.person.Person{name=Johnny Tan, phone=91234567, email=john@one.com, address=Block 1, tags=[]}, seedu.address.model.person.Person{name=john  tan, phone=98765432, email=john@two.com, address=Block 2, tags=[]}, seedu.address.model.person.Person{name=Mary Lee, phone=98765432, email=mary@example.com, address=New Address, tags=[]}] displayedItems=[seedu.address.model.bakeryitem.BakeryItem{name=Chocolate Cake, price=5.99}, seedu.address.model.bakeryitem.BakeryItem{name=Banana Bread, price=8.00}]
+
+> edit-client 1 n/Johnny Tan x/typo
+Oct 30, 2026 3:17:37 PM seedu.address.logic.LogicManager execute
+INFO: ----------------[USER COMMAND][edit-client 1 n/Johnny Tan x/typo]
+SUCCESS Edited client: Johnny Tan x/typo; Phone: 91234567; Email: john@one.com; Address: Block 1; Tags: 
+STATE persons=3 items=2 orders=1 displayedClients=[seedu.address.model.person.Person{name=Johnny Tan x/typo, phone=91234567, email=john@one.com, address=Block 1, tags=[]}, seedu.address.model.person.Person{name=john  tan, phone=98765432, email=john@two.com, address=Block 2, tags=[]}, seedu.address.model.person.Person{name=Mary Lee, phone=98765432, email=mary@example.com, address=New Address, tags=[]}] displayedItems=[seedu.address.model.bakeryitem.BakeryItem{name=Chocolate Cake, price=5.99}, seedu.address.model.bakeryitem.BakeryItem{name=Banana Bread, price=8.00}]
+
+> edit-client 1 a/Somewhere q/9
+Oct 30, 2026 3:17:37 PM seedu.address.logic.LogicManager execute
+INFO: ----------------[USER COMMAND][edit-client 1 a/Somewhere q/9]
+SUCCESS Edited client: Johnny Tan x/typo; Phone: 91234567; Email: john@one.com; Address: Somewhere q/9; Tags: 
+STATE persons=3 items=2 orders=1 displayedClients=[seedu.address.model.person.Person{name=Johnny Tan x/typo, phone=91234567, email=john@one.com, address=Somewhere q/9, tags=[]}, seedu.address.model.person.Person{name=john  tan, phone=98765432, email=john@two.com, address=Block 2, tags=[]}, seedu.address.model.person.Person{name=Mary Lee, phone=98765432, email=mary@example.com, address=New Address, tags=[]}] displayedItems=[seedu.address.model.bakeryitem.BakeryItem{name=Chocolate Cake, price=5.99}, seedu.address.model.bakeryitem.BakeryItem{name=Banana Bread, price=8.00}]
+
+> add-client<TAB>n/Tab Name<TAB>p/12345678<TAB>e/tab@example.com<TAB>a/Block
+Oct 30, 2026 3:17:37 PM seedu.address.logic.LogicManager execute
+INFO: ----------------[USER COMMAND][add-client	n/Tab Name	p/12345678	e/tab@example.com	a/Block]
+ParseException: Invalid command format!
+add-client: Adds a client to the address book. Parameters: n/NAME p/PHONE_NUMBER e/EMAIL a/ADDRESS [t/TAG]...
+Example: add-client n/John Doe p/98765432 e/johnd@example.com a/311, Clementi Ave 2, #02-25 t/friends t/owesMoney
+STATE persons=3 items=2 orders=1 displayedClients=[seedu.address.model.person.Person{name=Johnny Tan x/typo, phone=91234567, email=john@one.com, address=Somewhere q/9, tags=[]}, seedu.address.model.person.Person{name=john  tan, phone=98765432, email=john@two.com, address=Block 2, tags=[]}, seedu.address.model.person.Person{name=Mary Lee, phone=98765432, email=mary@example.com, address=New Address, tags=[]}] displayedItems=[seedu.address.model.bakeryitem.BakeryItem{name=Chocolate Cake, price=5.99}, seedu.address.model.bakeryitem.BakeryItem{name=Banana Bread, price=8.00}]
+
+> edit-item 1 n/Premium Cake x/typo
+Oct 30, 2026 3:17:37 PM seedu.address.logic.LogicManager execute
+INFO: ----------------[USER COMMAND][edit-item 1 n/Premium Cake x/typo]
+SUCCESS Edited bakery item: Premium Cake x/typo; Price: $5.99
+STATE persons=3 items=2 orders=1 displayedClients=[seedu.address.model.person.Person{name=Johnny Tan x/typo, phone=91234567, email=john@one.com, address=Somewhere q/9, tags=[]}, seedu.address.model.person.Person{name=john  tan, phone=98765432, email=john@two.com, address=Block 2, tags=[]}, seedu.address.model.person.Person{name=Mary Lee, phone=98765432, email=mary@example.com, address=New Address, tags=[]}] displayedItems=[seedu.address.model.bakeryitem.BakeryItem{name=Premium Cake x/typo, price=5.99}, seedu.address.model.bakeryitem.BakeryItem{name=Banana Bread, price=8.00}]
+
+> add-item n/Free p/0
+Oct 30, 2026 3:17:37 PM seedu.address.logic.LogicManager execute
+INFO: ----------------[USER COMMAND][add-item n/Free p/0]
+SUCCESS New bakery item added: Free; Price: $0.00
+STATE persons=3 items=3 orders=1 displayedClients=[seedu.address.model.person.Person{name=Johnny Tan x/typo, phone=91234567, email=john@one.com, address=Somewhere q/9, tags=[]}, seedu.address.model.person.Person{name=john  tan, phone=98765432, email=john@two.com, address=Block 2, tags=[]}, seedu.address.model.person.Person{name=Mary Lee, phone=98765432, email=mary@example.com, address=New Address, tags=[]}] displayedItems=[seedu.address.model.bakeryitem.BakeryItem{name=Premium Cake x/typo, price=5.99}, seedu.address.model.bakeryitem.BakeryItem{name=Banana Bread, price=8.00}, seedu.address.model.bakeryitem.BakeryItem{name=Free, price=0.00}]
+
+> add-item n/Huge p/99999999999999999999999999999999
+Oct 30, 2026 3:17:37 PM seedu.address.logic.LogicManager execute
+INFO: ----------------[USER COMMAND][add-item n/Huge p/99999999999999999999999999999999]
+SUCCESS New bakery item added: Huge; Price: $99999999999999999999999999999999.00
+STATE persons=3 items=4 orders=1 displayedClients=[seedu.address.model.person.Person{name=Johnny Tan x/typo, phone=91234567, email=john@one.com, address=Somewhere q/9, tags=[]}, seedu.address.model.person.Person{name=john  tan, phone=98765432, email=john@two.com, address=Block 2, tags=[]}, seedu.address.model.person.Person{name=Mary Lee, phone=98765432, email=mary@example.com, address=New Address, tags=[]}] displayedItems=[seedu.address.model.bakeryitem.BakeryItem{name=Premium Cake x/typo, price=5.99}, seedu.address.model.bakeryitem.BakeryItem{name=Banana Bread, price=8.00}, seedu.address.model.bakeryitem.BakeryItem{name=Free, price=0.00}, seedu.address.model.bakeryitem.BakeryItem{name=Huge, price=99999999999999999999999999999999.00}]
+
+> add-client n/O'Neil p/12345678 e/name+@example.com a/Block
+Oct 30, 2026 3:17:37 PM seedu.address.logic.LogicManager execute
+INFO: ----------------[USER COMMAND][add-client n/O'Neil p/12345678 e/name+@example.com a/Block]
+ParseException: Emails should be of the format local-part@domain and adhere to the following constraints:
+1. The local-part should only contain alphanumeric characters and these special characters, excluding the parentheses, (+_.-). The local-part may not start or end with any special characters or contain consecutive periods.
+2. The local-part is followed by an '@' and then a domain name. The domain name is made up of domain labels separated by periods.
+The domain name must:
+    - end with a domain label at least 2 characters long
+    - have each domain label start and end with alphanumeric characters
+    - have each domain label consist of alphanumeric characters, separated only by hyphens, if any.
+STATE persons=3 items=4 orders=1 displayedClients=[seedu.address.model.person.Person{name=Johnny Tan x/typo, phone=91234567, email=john@one.com, address=Somewhere q/9, tags=[]}, seedu.address.model.person.Person{name=john  tan, phone=98765432, email=john@two.com, address=Block 2, tags=[]}, seedu.address.model.person.Person{name=Mary Lee, phone=98765432, email=mary@example.com, address=New Address, tags=[]}] displayedItems=[seedu.address.model.bakeryitem.BakeryItem{name=Premium Cake x/typo, price=5.99}, seedu.address.model.bakeryitem.BakeryItem{name=Banana Bread, price=8.00}, seedu.address.model.bakeryitem.BakeryItem{name=Free, price=0.00}, seedu.address.model.bakeryitem.BakeryItem{name=Huge, price=99999999999999999999999999999999.00}]
+
+> add-client n/Chinese Name p/+6591234567 e/name@example.com a/Block
+Oct 30, 2026 3:17:37 PM seedu.address.logic.LogicManager execute
+INFO: ----------------[USER COMMAND][add-client n/Chinese Name p/+6591234567 e/name@example.com a/Block]
+ParseException: Phone numbers should only contain digits, and should be at least 3 digits long
+STATE persons=3 items=4 orders=1 displayedClients=[seedu.address.model.person.Person{name=Johnny Tan x/typo, phone=91234567, email=john@one.com, address=Somewhere q/9, tags=[]}, seedu.address.model.person.Person{name=john  tan, phone=98765432, email=john@two.com, address=Block 2, tags=[]}, seedu.address.model.person.Person{name=Mary Lee, phone=98765432, email=mary@example.com, address=New Address, tags=[]}] displayedItems=[seedu.address.model.bakeryitem.BakeryItem{name=Premium Cake x/typo, price=5.99}, seedu.address.model.bakeryitem.BakeryItem{name=Banana Bread, price=8.00}, seedu.address.model.bakeryitem.BakeryItem{name=Free, price=0.00}, seedu.address.model.bakeryitem.BakeryItem{name=Huge, price=99999999999999999999999999999999.00}]
+
+> clear
+Oct 30, 2026 3:17:37 PM seedu.address.logic.LogicManager execute
+INFO: ----------------[USER COMMAND][clear]
+Oct 30, 2026 3:17:37 PM seedu.address.logic.commands.ClearCommand execute
+INFO: Clear blocked: explicit confirmation is required; data remains unchanged.
+CommandException: No data was deleted. clear confirm deletes all clients, items, and orders immediately.
+This includes 3 clients, 4 items, and 1 orders (including hidden records).
+No additional prompt will be shown. Type clear confirm to proceed, or continue with another command to cancel.
+STATE persons=3 items=4 orders=1 displayedClients=[seedu.address.model.person.Person{name=Johnny Tan x/typo, phone=91234567, email=john@one.com, address=Somewhere q/9, tags=[]}, seedu.address.model.person.Person{name=john  tan, phone=98765432, email=john@two.com, address=Block 2, tags=[]}, seedu.address.model.person.Person{name=Mary Lee, phone=98765432, email=mary@example.com, address=New Address, tags=[]}] displayedItems=[seedu.address.model.bakeryitem.BakeryItem{name=Premium Cake x/typo, price=5.99}, seedu.address.model.bakeryitem.BakeryItem{name=Banana Bread, price=8.00}, seedu.address.model.bakeryitem.BakeryItem{name=Free, price=0.00}, seedu.address.model.bakeryitem.BakeryItem{name=Huge, price=99999999999999999999999999999999.00}]
+
+> clear confirm extra
+Oct 30, 2026 3:17:37 PM seedu.address.logic.LogicManager execute
+INFO: ----------------[USER COMMAND][clear confirm extra]
+ParseException: Invalid command format!
+clear: Shows the deletion warning and record counts.
+clear confirm deletes all clients, items, and orders immediately. No additional prompt is shown.
+Usage: clear [confirm]
+Example: clear confirm
+STATE persons=3 items=4 orders=1 displayedClients=[seedu.address.model.person.Person{name=Johnny Tan x/typo, phone=91234567, email=john@one.com, address=Somewhere q/9, tags=[]}, seedu.address.model.person.Person{name=john  tan, phone=98765432, email=john@two.com, address=Block 2, tags=[]}, seedu.address.model.person.Person{name=Mary Lee, phone=98765432, email=mary@example.com, address=New Address, tags=[]}] displayedItems=[seedu.address.model.bakeryitem.BakeryItem{name=Premium Cake x/typo, price=5.99}, seedu.address.model.bakeryitem.BakeryItem{name=Banana Bread, price=8.00}, seedu.address.model.bakeryitem.BakeryItem{name=Free, price=0.00}, seedu.address.model.bakeryitem.BakeryItem{name=Huge, price=99999999999999999999999999999999.00}]
+
+> populate
+Oct 30, 2026 3:17:37 PM seedu.address.logic.LogicManager execute
+INFO: ----------------[USER COMMAND][populate]
+SUCCESS Replaced all clients, bakery items, and orders with sample data.
+STATE persons=12 items=12 orders=24 displayedClients=[seedu.address.model.person.Person{name=Alex Yeoh, phone=87438807, email=alexyeoh@example.com, address=Blk 30 Geylang Street 29, #06-40, tags=[[friends]]}, seedu.address.model.person.Person{name=Bernice Yu, phone=99272758, email=berniceyu@example.com, address=Blk 30 Lorong 3 Serangoon Gardens, #07-18, tags=[[colleagues], [friends]]}, seedu.address.model.person.Person{name=Charlotte Oliveiro, phone=93210283, email=charlotte@example.com, address=Blk 11 Ang Mo Kio Street 74, #11-04, tags=[[neighbours]]}, seedu.address.model.person.Person{name=David Li, phone=91031282, email=lidavid@example.com, address=Blk 436 Serangoon Gardens Street 26, #16-43, tags=[[family]]}, seedu.address.model.person.Person{name=Irfan Ibrahim, phone=92492021, email=irfan@example.com, address=Blk 47 Tampines Street 20, #17-35, tags=[[classmates]]}, seedu.address.model.person.Person{name=Roy Balakrishnan, phone=92624417, email=royb@example.com, address=Blk 45 Aljunied Street 85, #11-31, tags=[[colleagues]]}, seedu.address.model.person.Person{name=Sarah Tan, phone=81234567, email=sarahtan@example.com, address=Blk 15 Bishan Street 12, #05-22, tags=[[birthdays], [regular]]}, seedu.address.model.person.Person{name=Marcus Lim, phone=82345678, email=marcuslim@example.com, address=Blk 82 Toa Payoh Lorong 4, #09-15, tags=[[corporate]]}, seedu.address.model.person.Person{name=Priya Nair, phone=83456789, email=priyanair@example.com, address=Blk 208 Clementi Avenue 6, #03-18, tags=[[regular], [events]]}, seedu.address.model.person.Person{name=Daniel Wong, phone=84567890, email=danielwong@example.com, address=Blk 118 Bukit Merah View, #08-06, tags=[[neighbours]]}, seedu.address.model.person.Person{name=Nur Aisyah, phone=85678901, email=nuraisyah@example.com, address=Blk 320 Woodlands Street 32, #12-24, tags=[[family], [events]]}, seedu.address.model.person.Person{name=Grace Lee, phone=86789012, email=gracelee@example.com, address=Blk 55 Punggol Field, #04-11, tags=[[corporate], [regular]]}] displayedItems=[seedu.address.model.bakeryitem.BakeryItem{name=Banana Muffin, price=1.20}, seedu.address.model.bakeryitem.BakeryItem{name=Chocolate Cake, price=25.00}, seedu.address.model.bakeryitem.BakeryItem{name=Butter Croissant, price=2.80}, seedu.address.model.bakeryitem.BakeryItem{name=Chocolate Chip Cookies, price=5.50}, seedu.address.model.bakeryitem.BakeryItem{name=Blueberry Muffin, price=1.80}, seedu.address.model.bakeryitem.BakeryItem{name=Chocolate Muffin, price=1.60}, seedu.address.model.bakeryitem.BakeryItem{name=Almond Croissant, price=3.50}, seedu.address.model.bakeryitem.BakeryItem{name=Strawberry Shortcake, price=32.00}, seedu.address.model.bakeryitem.BakeryItem{name=Sourdough Bread, price=6.80}, seedu.address.model.bakeryitem.BakeryItem{name=Cinnamon Roll, price=2.50}, seedu.address.model.bakeryitem.BakeryItem{name=Lemon Tart, price=4.20}, seedu.address.model.bakeryitem.BakeryItem{name=Vanilla Cupcake, price=2.20}]
+
+> undo
+Oct 30, 2026 3:17:37 PM seedu.address.logic.LogicManager execute
+INFO: ----------------[USER COMMAND][undo]
+Oct 30, 2026 3:17:37 PM seedu.address.logic.LogicManager execute
+INFO: Undo saved successfully; snapshot consumed.
+SUCCESS Last data change undone. All lists are shown.
+STATE persons=3 items=4 orders=1 displayedClients=[seedu.address.model.person.Person{name=Johnny Tan x/typo, phone=91234567, email=john@one.com, address=Somewhere q/9, tags=[]}, seedu.address.model.person.Person{name=john  tan, phone=98765432, email=john@two.com, address=Block 2, tags=[]}, seedu.address.model.person.Person{name=Mary Lee, phone=98765432, email=mary@example.com, address=New Address, tags=[]}] displayedItems=[seedu.address.model.bakeryitem.BakeryItem{name=Premium Cake x/typo, price=5.99}, seedu.address.model.bakeryitem.BakeryItem{name=Banana Bread, price=8.00}, seedu.address.model.bakeryitem.BakeryItem{name=Free, price=0.00}, seedu.address.model.bakeryitem.BakeryItem{name=Huge, price=99999999999999999999999999999999.00}]
+
+> populate typo
+Oct 30, 2026 3:17:37 PM seedu.address.logic.LogicManager execute
+INFO: ----------------[USER COMMAND][populate typo]
+SUCCESS Replaced all clients, bakery items, and orders with sample data.
+STATE persons=12 items=12 orders=24 displayedClients=[seedu.address.model.person.Person{name=Alex Yeoh, phone=87438807, email=alexyeoh@example.com, address=Blk 30 Geylang Street 29, #06-40, tags=[[friends]]}, seedu.address.model.person.Person{name=Bernice Yu, phone=99272758, email=berniceyu@example.com, address=Blk 30 Lorong 3 Serangoon Gardens, #07-18, tags=[[colleagues], [friends]]}, seedu.address.model.person.Person{name=Charlotte Oliveiro, phone=93210283, email=charlotte@example.com, address=Blk 11 Ang Mo Kio Street 74, #11-04, tags=[[neighbours]]}, seedu.address.model.person.Person{name=David Li, phone=91031282, email=lidavid@example.com, address=Blk 436 Serangoon Gardens Street 26, #16-43, tags=[[family]]}, seedu.address.model.person.Person{name=Irfan Ibrahim, phone=92492021, email=irfan@example.com, address=Blk 47 Tampines Street 20, #17-35, tags=[[classmates]]}, seedu.address.model.person.Person{name=Roy Balakrishnan, phone=92624417, email=royb@example.com, address=Blk 45 Aljunied Street 85, #11-31, tags=[[colleagues]]}, seedu.address.model.person.Person{name=Sarah Tan, phone=81234567, email=sarahtan@example.com, address=Blk 15 Bishan Street 12, #05-22, tags=[[birthdays], [regular]]}, seedu.address.model.person.Person{name=Marcus Lim, phone=82345678, email=marcuslim@example.com, address=Blk 82 Toa Payoh Lorong 4, #09-15, tags=[[corporate]]}, seedu.address.model.person.Person{name=Priya Nair, phone=83456789, email=priyanair@example.com, address=Blk 208 Clementi Avenue 6, #03-18, tags=[[regular], [events]]}, seedu.address.model.person.Person{name=Daniel Wong, phone=84567890, email=danielwong@example.com, address=Blk 118 Bukit Merah View, #08-06, tags=[[neighbours]]}, seedu.address.model.person.Person{name=Nur Aisyah, phone=85678901, email=nuraisyah@example.com, address=Blk 320 Woodlands Street 32, #12-24, tags=[[family], [events]]}, seedu.address.model.person.Person{name=Grace Lee, phone=86789012, email=gracelee@example.com, address=Blk 55 Punggol Field, #04-11, tags=[[corporate], [regular]]}] displayedItems=[seedu.address.model.bakeryitem.BakeryItem{name=Banana Muffin, price=1.20}, seedu.address.model.bakeryitem.BakeryItem{name=Chocolate Cake, price=25.00}, seedu.address.model.bakeryitem.BakeryItem{name=Butter Croissant, price=2.80}, seedu.address.model.bakeryitem.BakeryItem{name=Chocolate Chip Cookies, price=5.50}, seedu.address.model.bakeryitem.BakeryItem{name=Blueberry Muffin, price=1.80}, seedu.address.model.bakeryitem.BakeryItem{name=Chocolate Muffin, price=1.60}, seedu.address.model.bakeryitem.BakeryItem{name=Almond Croissant, price=3.50}, seedu.address.model.bakeryitem.BakeryItem{name=Strawberry Shortcake, price=32.00}, seedu.address.model.bakeryitem.BakeryItem{name=Sourdough Bread, price=6.80}, seedu.address.model.bakeryitem.BakeryItem{name=Cinnamon Roll, price=2.50}, seedu.address.model.bakeryitem.BakeryItem{name=Lemon Tart, price=4.20}, seedu.address.model.bakeryitem.BakeryItem{name=Vanilla Cupcake, price=2.20}]
+
+> list-items
+Oct 30, 2026 3:17:37 PM seedu.address.logic.LogicManager execute
+INFO: ----------------[USER COMMAND][list-items]
+SUCCESS Listed all bakery items.
+STATE persons=12 items=12 orders=24 displayedClients=[seedu.address.model.person.Person{name=Alex Yeoh, phone=87438807, email=alexyeoh@example.com, address=Blk 30 Geylang Street 29, #06-40, tags=[[friends]]}, seedu.address.model.person.Person{name=Bernice Yu, phone=99272758, email=berniceyu@example.com, address=Blk 30 Lorong 3 Serangoon Gardens, #07-18, tags=[[colleagues], [friends]]}, seedu.address.model.person.Person{name=Charlotte Oliveiro, phone=93210283, email=charlotte@example.com, address=Blk 11 Ang Mo Kio Street 74, #11-04, tags=[[neighbours]]}, seedu.address.model.person.Person{name=David Li, phone=91031282, email=lidavid@example.com, address=Blk 436 Serangoon Gardens Street 26, #16-43, tags=[[family]]}, seedu.address.model.person.Person{name=Irfan Ibrahim, phone=92492021, email=irfan@example.com, address=Blk 47 Tampines Street 20, #17-35, tags=[[classmates]]}, seedu.address.model.person.Person{name=Roy Balakrishnan, phone=92624417, email=royb@example.com, address=Blk 45 Aljunied Street 85, #11-31, tags=[[colleagues]]}, seedu.address.model.person.Person{name=Sarah Tan, phone=81234567, email=sarahtan@example.com, address=Blk 15 Bishan Street 12, #05-22, tags=[[birthdays], [regular]]}, seedu.address.model.person.Person{name=Marcus Lim, phone=82345678, email=marcuslim@example.com, address=Blk 82 Toa Payoh Lorong 4, #09-15, tags=[[corporate]]}, seedu.address.model.person.Person{name=Priya Nair, phone=83456789, email=priyanair@example.com, address=Blk 208 Clementi Avenue 6, #03-18, tags=[[regular], [events]]}, seedu.address.model.person.Person{name=Daniel Wong, phone=84567890, email=danielwong@example.com, address=Blk 118 Bukit Merah View, #08-06, tags=[[neighbours]]}, seedu.address.model.person.Person{name=Nur Aisyah, phone=85678901, email=nuraisyah@example.com, address=Blk 320 Woodlands Street 32, #12-24, tags=[[family], [events]]}, seedu.address.model.person.Person{name=Grace Lee, phone=86789012, email=gracelee@example.com, address=Blk 55 Punggol Field, #04-11, tags=[[corporate], [regular]]}] displayedItems=[seedu.address.model.bakeryitem.BakeryItem{name=Banana Muffin, price=1.20}, seedu.address.model.bakeryitem.BakeryItem{name=Chocolate Cake, price=25.00}, seedu.address.model.bakeryitem.BakeryItem{name=Butter Croissant, price=2.80}, seedu.address.model.bakeryitem.BakeryItem{name=Chocolate Chip Cookies, price=5.50}, seedu.address.model.bakeryitem.BakeryItem{name=Blueberry Muffin, price=1.80}, seedu.address.model.bakeryitem.BakeryItem{name=Chocolate Muffin, price=1.60}, seedu.address.model.bakeryitem.BakeryItem{name=Almond Croissant, price=3.50}, seedu.address.model.bakeryitem.BakeryItem{name=Strawberry Shortcake, price=32.00}, seedu.address.model.bakeryitem.BakeryItem{name=Sourdough Bread, price=6.80}, seedu.address.model.bakeryitem.BakeryItem{name=Cinnamon Roll, price=2.50}, seedu.address.model.bakeryitem.BakeryItem{name=Lemon Tart, price=4.20}, seedu.address.model.bakeryitem.BakeryItem{name=Vanilla Cupcake, price=2.20}]
+Oct 30, 2026 3:17:37 PM seedu.address.commons.util.JsonUtil readJsonFile
+INFO: JSON file _beta-test\client-item-probe\addressbook.json found.
+RELOAD_EQUALS true

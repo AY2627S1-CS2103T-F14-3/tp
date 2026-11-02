@@ -1,0 +1,99 @@
+Oct 30, 2026 3:24:21 PM com.sun.javafx.application.PlatformImpl startup
+WARNING: Unsupported JavaFX configuration: classes were loaded from 'unnamed module @4f023edb'
+WARNING: A restricted method in java.lang.System has been called
+WARNING: java.lang.System::load has been called by com.sun.glass.utils.NativeLibLoader in an unnamed module (file:/C:/Users/neoki/NUS/Y2S1/cs2103t/tp/_beta-test/BakeBase-v1.5.jar)
+WARNING: Use --enable-native-access=ALL-UNNAMED to avoid a warning for callers in this module
+WARNING: Restricted methods will be blocked in a future release unless native access is enabled
+
+Can not create cache at C:\.openjfx\cache\17.0.7
+Can not create cache at C:\.openjfx\cache\17.0.7
+Can not create cache at C:\.openjfx\cache\17.0.7
+Can not create cache at C:\.openjfx\cache\17.0.7
+Can not create cache at C:\.openjfx\cache\17.0.7
+Can not create cache at C:\.openjfx\cache\17.0.7
+Can not create cache at C:\.openjfx\cache\17.0.7
+Can not create cache at C:\.openjfx\cache\17.0.7
+Can not create cache at C:\.openjfx\cache\17.0.7
+Can not create cache at C:\.openjfx\cache\17.0.7
+Can not create cache at C:\.openjfx\cache\17.0.7
+Can not create cache at C:\.openjfx\cache\17.0.7
+Can not create cache at C:\.openjfx\cache\17.0.7
+Can not create cache at C:\.openjfx\cache\17.0.7
+Can not create cache at C:\.openjfx\cache\17.0.7
+Can not create cache at C:\.openjfx\cache\17.0.7
+Can not create cache at C:\.openjfx\cache\17.0.7
+Can not create cache at C:\.openjfx\cache\17.0.7
+Can not create cache at C:\.openjfx\cache\17.0.7
+Can not create cache at C:\.openjfx\cache\17.0.7
+Can not create cache at C:\.openjfx\cache\17.0.7
+Can not create cache at C:\.openjfx\cache\17.0.7
+Can not create cache at C:\.openjfx\cache\17.0.7
+Can not create cache at C:\.openjfx\cache\17.0.7
+Can not create cache at C:\.openjfx\cache\17.0.7
+Can not create cache at C:\.openjfx\cache\17.0.7
+Can not create cache at C:\.openjfx\cache\17.0.7
+Can not create cache at C:\.openjfx\cache\17.0.7
+Can not create cache at C:\.openjfx\cache\17.0.7
+Can not create cache at C:\.openjfx\cache\17.0.7
+Can not create cache at C:\.openjfx\cache\17.0.7
+Can not create cache at C:\.openjfx\cache\17.0.7
+Can not create cache at C:\.openjfx\cache\17.0.7
+Can not create cache at C:\.openjfx\cache\17.0.7
+Can not create cache at C:\.openjfx\cache\17.0.7
+Can not create cache at C:\.openjfx\cache\17.0.7
+Can not create cache at C:\.openjfx\cache\17.0.7
+Can not create cache at C:\.openjfx\cache\17.0.7
+Can not create cache at C:\.openjfx\cache\17.0.7
+Can not create cache at C:\.openjfx\cache\17.0.7
+Can not create cache at C:\.openjfx\cache\17.0.7
+Can not create cache at C:\.openjfx\cache\17.0.7
+Can not create cache at C:\.openjfx\cache\17.0.7
+Can not create cache at C:\.openjfx\cache\17.0.7
+Can not create cache at C:\.openjfx\cache\17.0.7
+Can not create cache at C:\.openjfx\cache\17.0.7
+Can not create cache at C:\.openjfx\cache\17.0.7
+Can not create cache at C:\.openjfx\cache\17.0.7
+Can not create cache at C:\.openjfx\cache\17.0.7
+Oct 30, 2026 3:24:22 PM seedu.address.MainApp init
+INFO: =============================[ Initializing AddressBook ]===========================
+Oct 30, 2026 3:24:22 PM seedu.address.MainApp initPrefs
+INFO: Using preference file : preferences.json
+Oct 30, 2026 3:24:23 PM seedu.address.commons.util.JsonUtil readJsonFile
+INFO: JSON file preferences.json found.
+Oct 30, 2026 3:24:23 PM seedu.address.MainApp initModelManager
+INFO: Using data file : data\addressbook.json
+Oct 30, 2026 3:24:23 PM seedu.address.commons.util.JsonUtil readJsonFile
+INFO: JSON file data\addressbook.json found.
+Oct 30, 2026 3:24:23 PM seedu.address.logic.LogicManager execute
+INFO: ----------------[USER COMMAND][clear confirm]
+Oct 30, 2026 3:24:31 PM seedu.address.logic.LogicManager execute
+INFO: Confirmed clear saved successfully.
+Oct 30, 2026 3:24:31 PM seedu.address.logic.LogicManager execute
+INFO: ----------------[USER COMMAND][add-client n/Alexandra Catherine Tan p/91234567 e/alexandra.tan@example.com a/123 Ang Mo Kio Avenue 3 #12-456 Singapore 560123]
+Oct 30, 2026 3:24:31 PM seedu.address.logic.LogicManager execute
+INFO: ----------------[USER COMMAND][add-item n/Chocolate Hazelnut Birthday Cake p/55.90]
+Oct 30, 2026 3:24:31 PM seedu.address.logic.LogicManager execute
+INFO: ----------------[USER COMMAND][add-order 1 i/1 q/2 d/2026-11-03]
+Oct 30, 2026 3:24:31 PM seedu.address.MainApp start
+INFO: Starting AddressBook v1.5
+Oct 30, 2026 3:24:31 PM seedu.address.ui.UiManager start
+INFO: Starting UI...
+Can not create cache at C:\.openjfx\cache\17.0.7
+WARNING: A terminally deprecated method in sun.misc.Unsafe has been called
+WARNING: sun.misc.Unsafe::allocateMemory has been called by com.sun.marlin.OffHeapArray (file:/C:/Users/neoki/NUS/Y2S1/cs2103t/tp/_beta-test/BakeBase-v1.5.jar)
+WARNING: Please consider reporting this to the maintainers of class com.sun.marlin.OffHeapArray
+WARNING: sun.misc.Unsafe::allocateMemory will be removed in a future release
+SCENE=436x663
+LABEL=id width=15.333333333333334 preferred=14.6953125 tooltip=null wrap=false text=1. 
+LABEL=name width=114.0 preferred=178.171875 tooltip=null wrap=false text=Alexandra Catherine Tan
+LABEL=phone width=56.666666666666664 preferred=56.0625 tooltip=null wrap=false text=91234567
+LABEL=address width=129.33333333333334 preferred=308.6611328125 tooltip=null wrap=false text=123 Ang Mo Kio Avenue 3 #12-456 Singapore 560123
+LABEL=email width=129.33333333333334 preferred=164.70263671875 tooltip=null wrap=false text=alexandra.tan@example.com
+LABEL=id width=15.333333333333334 preferred=14.6953125 tooltip=null wrap=false text=1. 
+LABEL=name width=114.0 preferred=246.7421875 tooltip=null wrap=false text=Chocolate Hazelnut Birthday Cake
+LABEL=price width=38.0 preferred=37.857421875 tooltip=null wrap=false text=$55.90
+LABEL=item width=129.33333333333334 preferred=287.1328125 tooltip=null wrap=true text=1. 2 x Chocolate Hazelnut Birthday Cake
+LABEL=client width=129.33333333333334 preferred=253.84912109375 tooltip=null wrap=true text=Client 1: Alexandra Catherine Tan � Order 1
+LABEL=deadline width=96.66666666666667 preferred=96.10986328125 tooltip=null wrap=false text=Due: 2026-11-03
+LABEL=status width=64.66666666666667 preferred=64.4287109375 tooltip=null wrap=false text=Incomplete
+LABEL=saveLocationStatus width=156.0 preferred=155.5904998779297 tooltip=null wrap=false text=.\data\addressbook.json

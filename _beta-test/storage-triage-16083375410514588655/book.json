@@ -1,0 +1,281 @@
+{
+  "persons" : [ {
+    "name" : "Alex Yeoh",
+    "phone" : "87438807",
+    "email" : "alexyeoh@example.com",
+    "address" : "Blk 30 Geylang Street 29, #06-40",
+    "tags" : [ "friends" ]
+  }, {
+    "name" : "Bernice Yu",
+    "phone" : "99272758",
+    "email" : "berniceyu@example.com",
+    "address" : "Blk 30 Lorong 3 Serangoon Gardens, #07-18",
+    "tags" : [ "colleagues", "friends" ]
+  }, {
+    "name" : "Charlotte Oliveiro",
+    "phone" : "93210283",
+    "email" : "charlotte@example.com",
+    "address" : "Blk 11 Ang Mo Kio Street 74, #11-04",
+    "tags" : [ "neighbours" ]
+  }, {
+    "name" : "David Li",
+    "phone" : "91031282",
+    "email" : "lidavid@example.com",
+    "address" : "Blk 436 Serangoon Gardens Street 26, #16-43",
+    "tags" : [ "family" ]
+  }, {
+    "name" : "Irfan Ibrahim",
+    "phone" : "92492021",
+    "email" : "irfan@example.com",
+    "address" : "Blk 47 Tampines Street 20, #17-35",
+    "tags" : [ "classmates" ]
+  }, {
+    "name" : "Roy Balakrishnan",
+    "phone" : "92624417",
+    "email" : "royb@example.com",
+    "address" : "Blk 45 Aljunied Street 85, #11-31",
+    "tags" : [ "colleagues" ]
+  }, {
+    "name" : "Sarah Tan",
+    "phone" : "81234567",
+    "email" : "sarahtan@example.com",
+    "address" : "Blk 15 Bishan Street 12, #05-22",
+    "tags" : [ "birthdays", "regular" ]
+  }, {
+    "name" : "Marcus Lim",
+    "phone" : "82345678",
+    "email" : "marcuslim@example.com",
+    "address" : "Blk 82 Toa Payoh Lorong 4, #09-15",
+    "tags" : [ "corporate" ]
+  }, {
+    "name" : "Priya Nair",
+    "phone" : "83456789",
+    "email" : "priyanair@example.com",
+    "address" : "Blk 208 Clementi Avenue 6, #03-18",
+    "tags" : [ "regular", "events" ]
+  }, {
+    "name" : "Daniel Wong",
+    "phone" : "84567890",
+    "email" : "danielwong@example.com",
+    "address" : "Blk 118 Bukit Merah View, #08-06",
+    "tags" : [ "neighbours" ]
+  }, {
+    "name" : "Nur Aisyah",
+    "phone" : "85678901",
+    "email" : "nuraisyah@example.com",
+    "address" : "Blk 320 Woodlands Street 32, #12-24",
+    "tags" : [ "family", "events" ]
+  }, {
+    "name" : "Grace Lee",
+    "phone" : "86789012",
+    "email" : "gracelee@example.com",
+    "address" : "Blk 55 Punggol Field, #04-11",
+    "tags" : [ "corporate", "regular" ]
+  } ],
+  "bakeryItems" : [ {
+    "itemName" : "Banana Muffin",
+    "price" : "1.20"
+  }, {
+    "itemName" : "Chocolate Cake",
+    "price" : "25.00"
+  }, {
+    "itemName" : "Butter Croissant",
+    "price" : "2.80"
+  }, {
+    "itemName" : "Chocolate Chip Cookies",
+    "price" : "5.50"
+  }, {
+    "itemName" : "Blueberry Muffin",
+    "price" : "1.80"
+  }, {
+    "itemName" : "Chocolate Muffin",
+    "price" : "1.60"
+  }, {
+    "itemName" : "Almond Croissant",
+    "price" : "3.50"
+  }, {
+    "itemName" : "Strawberry Shortcake",
+    "price" : "32.00"
+  }, {
+    "itemName" : "Sourdough Bread",
+    "price" : "6.80"
+  }, {
+    "itemName" : "Cinnamon Roll",
+    "price" : "2.50"
+  }, {
+    "itemName" : "Lemon Tart",
+    "price" : "4.20"
+  }, {
+    "itemName" : "Vanilla Cupcake",
+    "price" : "2.20"
+  } ],
+  "orders" : [ {
+    "id" : "f088282d-8261-498d-aabd-fed3f2a342c4",
+    "clientName" : "Alex Yeoh",
+    "itemName" : "Banana Muffin",
+    "quantity" : "2",
+    "deadline" : "2026-10-30",
+    "complete" : true
+  }, {
+    "id" : "c94af574-8f59-4805-bde2-42afb749b4cd",
+    "clientName" : "Alex Yeoh",
+    "itemName" : "Chocolate Chip Cookies",
+    "quantity" : "1",
+    "deadline" : "2026-10-28",
+    "complete" : true
+  }, {
+    "id" : "474ec2ed-ee10-43f7-98ae-288d3eca614c",
+    "clientName" : "Bernice Yu",
+    "itemName" : "Chocolate Cake",
+    "quantity" : "4",
+    "deadline" : "2026-11-01",
+    "complete" : false
+  }, {
+    "id" : "8f726787-da85-41d4-8f96-804f5f564a2d",
+    "clientName" : "Bernice Yu",
+    "itemName" : "Blueberry Muffin",
+    "quantity" : "2",
+    "deadline" : "2026-10-30",
+    "complete" : false
+  }, {
+    "id" : "fdf2e1fa-f7a5-4541-8425-f16fe158ffaf",
+    "clientName" : "Charlotte Oliveiro",
+    "itemName" : "Butter Croissant",
+    "quantity" : "6",
+    "deadline" : "2026-11-02",
+    "complete" : false
+  }, {
+    "id" : "187c0c9e-0db9-44b8-8099-fac343eb389d",
+    "clientName" : "Charlotte Oliveiro",
+    "itemName" : "Chocolate Muffin",
+    "quantity" : "3",
+    "deadline" : "2026-10-31",
+    "complete" : true
+  }, {
+    "id" : "c1746761-abad-4f52-be23-2d9d0611885a",
+    "clientName" : "David Li",
+    "itemName" : "Chocolate Chip Cookies",
+    "quantity" : "8",
+    "deadline" : "2026-11-02",
+    "complete" : true
+  }, {
+    "id" : "e4b01318-a9bd-4095-8a6a-ce3f53201611",
+    "clientName" : "David Li",
+    "itemName" : "Almond Croissant",
+    "quantity" : "4",
+    "deadline" : "2026-10-31",
+    "complete" : true
+  }, {
+    "id" : "a80f3a0c-d532-43a9-a5a3-77daec8eee20",
+    "clientName" : "Irfan Ibrahim",
+    "itemName" : "Blueberry Muffin",
+    "quantity" : "10",
+    "deadline" : "2026-11-03",
+    "complete" : false
+  }, {
+    "id" : "61359571-d22a-48ea-b1b4-a0f3816db2a8",
+    "clientName" : "Irfan Ibrahim",
+    "itemName" : "Strawberry Shortcake",
+    "quantity" : "5",
+    "deadline" : "2026-11-01",
+    "complete" : false
+  }, {
+    "id" : "75aecebf-eab2-400d-9355-17998f25c2af",
+    "clientName" : "Roy Balakrishnan",
+    "itemName" : "Chocolate Muffin",
+    "quantity" : "12",
+    "deadline" : "2026-11-04",
+    "complete" : false
+  }, {
+    "id" : "c08c0b70-a241-4ced-aa2b-8d3a912ac972",
+    "clientName" : "Roy Balakrishnan",
+    "itemName" : "Sourdough Bread",
+    "quantity" : "6",
+    "deadline" : "2026-11-02",
+    "complete" : true
+  }, {
+    "id" : "5a124e1a-3fcb-478f-9021-69258834912e",
+    "clientName" : "Sarah Tan",
+    "itemName" : "Almond Croissant",
+    "quantity" : "14",
+    "deadline" : "2026-11-05",
+    "complete" : true
+  }, {
+    "id" : "a1d79894-3a16-4320-bd31-0ed4fc456490",
+    "clientName" : "Sarah Tan",
+    "itemName" : "Cinnamon Roll",
+    "quantity" : "7",
+    "deadline" : "2026-11-03",
+    "complete" : true
+  }, {
+    "id" : "e1a72721-67ee-45c5-9139-403550ba6452",
+    "clientName" : "Marcus Lim",
+    "itemName" : "Strawberry Shortcake",
+    "quantity" : "16",
+    "deadline" : "2026-11-07",
+    "complete" : false
+  }, {
+    "id" : "75d39b41-025e-42b2-9d77-a02e2576512a",
+    "clientName" : "Marcus Lim",
+    "itemName" : "Lemon Tart",
+    "quantity" : "8",
+    "deadline" : "2026-11-05",
+    "complete" : false
+  }, {
+    "id" : "80a8a4ee-1aaf-4253-a6e8-e7d2eb5095ce",
+    "clientName" : "Priya Nair",
+    "itemName" : "Sourdough Bread",
+    "quantity" : "18",
+    "deadline" : "2026-11-09",
+    "complete" : false
+  }, {
+    "id" : "f5d349a4-ec7c-49dc-9d6a-1b72357d7220",
+    "clientName" : "Priya Nair",
+    "itemName" : "Vanilla Cupcake",
+    "quantity" : "9",
+    "deadline" : "2026-11-07",
+    "complete" : true
+  }, {
+    "id" : "febf6e18-ded9-4384-a3d2-0e441a54f469",
+    "clientName" : "Daniel Wong",
+    "itemName" : "Cinnamon Roll",
+    "quantity" : "20",
+    "deadline" : "2026-11-12",
+    "complete" : true
+  }, {
+    "id" : "68fd1b2d-6e5a-4c46-acb6-26eb71a83f4b",
+    "clientName" : "Daniel Wong",
+    "itemName" : "Banana Muffin",
+    "quantity" : "10",
+    "deadline" : "2026-11-10",
+    "complete" : true
+  }, {
+    "id" : "7977cbf0-668b-4202-a835-8e4c2082a54a",
+    "clientName" : "Nur Aisyah",
+    "itemName" : "Lemon Tart",
+    "quantity" : "22",
+    "deadline" : "2026-11-16",
+    "complete" : false
+  }, {
+    "id" : "85a3d95e-c77b-4eba-91b8-b9ee032e9f1a",
+    "clientName" : "Nur Aisyah",
+    "itemName" : "Chocolate Cake",
+    "quantity" : "11",
+    "deadline" : "2026-11-14",
+    "complete" : false
+  }, {
+    "id" : "ff5941f1-8f97-4389-a785-318634261400",
+    "clientName" : "Grace Lee",
+    "itemName" : "Vanilla Cupcake",
+    "quantity" : "24",
+    "deadline" : "2026-11-23",
+    "complete" : false
+  }, {
+    "id" : "15e79081-cc51-4140-8173-60dfa9763d70",
+    "clientName" : "Grace Lee",
+    "itemName" : "Butter Croissant",
+    "quantity" : "12",
+    "deadline" : "2026-11-21",
+    "complete" : true
+  } ]
+}

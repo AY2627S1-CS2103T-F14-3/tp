@@ -1,0 +1,111 @@
+package seedu.address.logic.parser;
+
+import static seedu.address.logic.Messages.MESSAGE_INVALID_COMMAND_FORMAT;
+import static seedu.address.logic.Messages.MESSAGE_UNKNOWN_COMMAND;
+
+import java.util.logging.Logger;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
+
+import seedu.address.commons.core.LogsCenter;
+import seedu.address.logic.commands.AddBakeryItemCommand;
+import seedu.address.logic.commands.AddClientOrderCommand;
+import seedu.address.logic.commands.AddCommand;
+import seedu.address.logic.commands.ClearCommand;
+import seedu.address.logic.commands.Command;
+import seedu.address.logic.commands.DeleteBakeryItemCommand;
+import seedu.address.logic.commands.DeleteClientOrderCommand;
+import seedu.address.logic.commands.DeleteCommand;
+import seedu.address.logic.commands.EditBakeryItemCommand;
+import seedu.address.logic.commands.EditClientOrderCommand;
+import seedu.address.logic.commands.EditCommand;
+import seedu.address.logic.commands.ExitCommand;
+import seedu.address.logic.commands.FindCommand;
+import seedu.address.logic.commands.FindItemsCommand;
+import seedu.address.logic.commands.FindOrdersCommand;
+import seedu.address.logic.commands.HelpCommand;
+import seedu.address.logic.commands.ListCommand;
+import seedu.address.logic.commands.ListCompleteOrdersCommand;
+import seedu.address.logic.commands.ListIncompleteOrdersCommand;
+import seedu.address.logic.commands.ListItemsCommand;
+import seedu.address.logic.commands.ListOrdersCommand;
+import seedu.address.logic.commands.MarkOrderCompleteCommand;
+import seedu.address.logic.commands.PopulateCommand;
+import seedu.address.logic.commands.UndoCommand;
+import seedu.address.logic.commands.UnmarkOrderCommand;
+import seedu.address.logic.parser.exceptions.ParseException;
+
+/**
+ * Parses user input.
+ */
+public class AddressBookParser {
+
+    /**
+     * Used for initial separation of command word and args.
+     */
+    private static final Pattern BASIC_COMMAND_FORMAT = Pattern.compile("(?<commandWord>\\S+)(?<arguments>.*)");
+    private static final Logger logger = LogsCenter.getLogger(AddressBookParser.class);
+
+    /**
+     * Parses user input into command for execution.
+     *
+     * @param userInput full user input string
+     * @return the command based on the user input
+     * @throws ParseException if the user input does not conform to the expected format
+     */
+    public Command parseCommand(String userInput) throws ParseException {
+        final Matcher matcher = BASIC_COMMAND_FORMAT.matcher(userInput.trim());
+        if (!matcher.matches()) {
+            throw new ParseException(String.format(MESSAGE_INVALID_COMMAND_FORMAT, HelpCommand.MESSAGE_USAGE));
+        }
+
+        final String commandWord = matcher.group("commandWord");
+        final String arguments = matcher.group("arguments");
+
+        // Note to developers: Change LOG_LEVEL in LogsCenter to enable lower level (i.e., FINE, FINER and lower)
+        // log messages such as the one below.
+        // Lower level log messages are used sparingly to minimize noise in the code.
+        logger.fine("Command word: " + commandWord + "; Arguments: " + arguments);
+
+        return switch (commandWord) {
+            case UndoCommand.COMMAND_WORD -> {
+                if (!arguments.isBlank()) {
+                    throw new ParseException(String.format(MESSAGE_INVALID_COMMAND_FORMAT, UndoCommand.MESSAGE_USAGE));
+                }
+                yield new UndoCommand();
+            }
+            case AddCommand.COMMAND_WORD -> new AddCommandParser().parse(arguments);
+            case AddClientOrderCommand.COMMAND_WORD -> new AddClientOrderCommandParser().parse(arguments);
+            case DeleteClientOrderCommand.COMMAND_WORD -> new DeleteClientOrderCommandParser().parse(arguments);
+            case MarkOrderCompleteCommand.COMMAND_WORD, MarkOrderCompleteCommand.COMMAND_ALIAS ->
+                new MarkOrderCompleteCommandParser().parse(arguments);
+            case UnmarkOrderCommand.COMMAND_WORD -> new UnmarkOrderCommandParser().parse(arguments);
+            case EditClientOrderCommand.COMMAND_WORD -> new EditClientOrderCommandParser().parse(arguments);
+            case EditCommand.COMMAND_WORD -> new EditCommandParser().parse(arguments);
+            case EditBakeryItemCommand.COMMAND_WORD -> new EditBakeryItemCommandParser().parse(arguments);
+            case DeleteCommand.COMMAND_WORD -> new DeleteCommandParser().parse(arguments);
+            case ClearCommand.COMMAND_WORD -> new ClearCommandParser().parse(arguments);
+            case PopulateCommand.COMMAND_WORD -> new PopulateCommand();
+            case FindItemsCommand.COMMAND_WORD -> new FindItemsCommandParser().parse(arguments);
+            case FindOrdersCommand.COMMAND_WORD -> new FindOrdersCommandParser().parse(arguments);
+            case FindCommand.COMMAND_WORD -> new FindCommandParser().parse(arguments);
+            case ListCommand.COMMAND_WORD -> new ListCommand();
+            case ListOrdersCommand.COMMAND_WORD -> new ListOrdersCommand(
+                    ParserUtil.parseByDeadline(arguments, ListOrdersCommand.MESSAGE_USAGE));
+            case ListCompleteOrdersCommand.COMMAND_WORD -> new ListCompleteOrdersCommand(
+                    ParserUtil.parseByDeadline(arguments, ListCompleteOrdersCommand.MESSAGE_USAGE));
+            case ListIncompleteOrdersCommand.COMMAND_WORD -> new ListIncompleteOrdersCommand(
+                    ParserUtil.parseByDeadline(arguments, ListIncompleteOrdersCommand.MESSAGE_USAGE));
+            case ListItemsCommand.COMMAND_WORD -> new ListItemsCommand();
+            case ExitCommand.COMMAND_WORD -> new ExitCommand();
+            case HelpCommand.COMMAND_WORD -> new HelpCommand();
+            case DeleteBakeryItemCommand.COMMAND_WORD -> new DeleteBakeryItemCommandParser().parse(arguments);
+            case AddBakeryItemCommand.COMMAND_WORD -> new AddBakeryItemCommandParser().parse(arguments);
+            default -> {
+                logger.finer("This user input caused a ParseException: " + userInput);
+                throw new ParseException(MESSAGE_UNKNOWN_COMMAND);
+            }
+        };
+    }
+
+}

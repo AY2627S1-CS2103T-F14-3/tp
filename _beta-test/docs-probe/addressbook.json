@@ -1,0 +1,21 @@
+{
+  "persons" : [ {
+    "name" : "Alpha Baker",
+    "phone" : "12345678",
+    "email" : "alpha@example.com",
+    "address" : "Home",
+    "tags" : [ ]
+  } ],
+  "bakeryItems" : [ {
+    "itemName" : "Seasonal Tart",
+    "price" : "10.00"
+  } ],
+  "orders" : [ {
+    "id" : "32ef3809-1f2c-4ce6-85ef-7cc0f4c107a5",
+    "clientName" : "Alpha Baker",
+    "itemName" : "Seasonal Tart",
+    "quantity" : "1",
+    "deadline" : "2026-10-30",
+    "complete" : true
+  } ]
+}

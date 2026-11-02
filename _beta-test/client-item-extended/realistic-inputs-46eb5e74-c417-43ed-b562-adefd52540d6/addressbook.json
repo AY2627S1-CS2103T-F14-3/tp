@@ -1,0 +1,23 @@
+{
+  "persons" : [ {
+    "name" : "John Tan",
+    "phone" : "91234567",
+    "email" : "john@one.com",
+    "address" : "Block 1",
+    "tags" : [ ]
+  }, {
+    "name" : "Anne O'Neil",
+    "phone" : "91234560",
+    "email" : "anne@example.com",
+    "address" : "Block 5",
+    "tags" : [ ]
+  }, {
+    "name" : "Mary Lee",
+    "phone" : "6591234567",
+    "email" : "mary@example.com",
+    "address" : "Block 6",
+    "tags" : [ ]
+  } ],
+  "bakeryItems" : [ ],
+  "orders" : [ ]
+}

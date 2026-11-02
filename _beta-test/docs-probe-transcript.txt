@@ -1,0 +1,64 @@
+
+> add-client n/Alpha Baker p/12345678 e/alpha@example.com a/Home
+Oct 30, 2026 3:18:34 PM seedu.address.logic.LogicManager execute
+INFO: ----------------[USER COMMAND][add-client n/Alpha Baker p/12345678 e/alpha@example.com a/Home]
+New client added: Alpha Baker; Phone: 12345678; Email: alpha@example.com; Address: Home; Tags: 
+Stored orders: 0; displayed orders: 0
+
+> add-item n/Seasonal Tart p/10
+Oct 30, 2026 3:18:43 PM seedu.address.logic.LogicManager execute
+INFO: ----------------[USER COMMAND][add-item n/Seasonal Tart p/10]
+New bakery item added: Seasonal Tart; Price: $10.00
+Stored orders: 0; displayed orders: 0
+
+> add-order 1 i/1 q/1 d/2026-10-30
+Oct 30, 2026 3:18:43 PM seedu.address.logic.LogicManager execute
+INFO: ----------------[USER COMMAND][add-order 1 i/1 q/1 d/2026-10-30]
+New order added to contact: Alpha Baker: 1 x Seasonal Tart (Due: 2026-10-30; incomplete) (Order index for this client: 1)
+Stored orders: 1; displayed orders: 1
+
+> list-incomplete-orders
+Oct 30, 2026 3:18:43 PM seedu.address.logic.LogicManager execute
+INFO: ----------------[USER COMMAND][list-incomplete-orders]
+Listed incomplete orders.
+Stored orders: 1; displayed orders: 1
+
+> mark 1 o/1
+Oct 30, 2026 3:18:43 PM seedu.address.logic.LogicManager execute
+INFO: ----------------[USER COMMAND][mark 1 o/1]
+Order marked as complete: Alpha Baker: 1 x Seasonal Tart (Due: 2026-10-30; complete)
+Stored orders: 1; displayed orders: 0
+
+> list-orders
+Oct 30, 2026 3:18:43 PM seedu.address.logic.LogicManager execute
+INFO: ----------------[USER COMMAND][list-orders]
+Listed all orders.
+Stored orders: 1; displayed orders: 1
+
+> delete-item 1
+Oct 30, 2026 3:18:43 PM seedu.address.logic.LogicManager execute
+INFO: ----------------[USER COMMAND][delete-item 1]
+CommandException: Cannot delete this item: existing orders reference this item. Delete those orders first.
+Stored orders: 1; displayed orders: 1
+
+> delete 1
+Oct 30, 2026 3:18:43 PM seedu.address.logic.LogicManager execute
+INFO: ----------------[USER COMMAND][delete 1]
+ParseException: Unknown command.
+Stored orders: 1; displayed orders: 1
+
+> clear
+Oct 30, 2026 3:18:43 PM seedu.address.logic.LogicManager execute
+INFO: ----------------[USER COMMAND][clear]
+Oct 30, 2026 3:18:43 PM seedu.address.logic.commands.ClearCommand execute
+INFO: Clear blocked: explicit confirmation is required; data remains unchanged.
+CommandException: No data was deleted. clear confirm deletes all clients, items, and orders immediately.
+This includes 1 clients, 1 items, and 1 orders (including hidden records).
+No additional prompt will be shown. Type clear confirm to proceed, or continue with another command to cancel.
+Stored orders: 1; displayed orders: 1
+
+CURRENT HELP CLEAR USAGE:
+clear: Shows the deletion warning and record counts.
+clear confirm deletes all clients, items, and orders immediately. No additional prompt is shown.
+Usage: clear [confirm]
+Example: clear confirm

@@ -1,0 +1,72 @@
+{
+  "persons" : [ {
+    "name" : "Alicia",
+    "phone" : "1234567",
+    "email" : "alice@example.com",
+    "address" : "Alpha Road",
+    "tags" : [ ]
+  }, {
+    "name" : "Bob",
+    "phone" : "1234567",
+    "email" : "bob@example.com",
+    "address" : "Beta Road",
+    "tags" : [ ]
+  } ],
+  "bakeryItems" : [ {
+    "itemName" : "Pie",
+    "price" : "2.00"
+  }, {
+    "itemName" : "Muffin",
+    "price" : "0.50"
+  } ],
+  "orders" : [ {
+    "id" : "9c3bdfb7-b5ed-495b-b875-6ecd8b2ddc65",
+    "clientName" : "Alicia",
+    "itemName" : "Pie",
+    "quantity" : "9999",
+    "deadline" : "0000-01-01",
+    "complete" : false
+  }, {
+    "id" : "074d7167-3c97-4715-901e-f929bea6c911",
+    "clientName" : "Alicia",
+    "itemName" : "Pie",
+    "quantity" : "9999",
+    "deadline" : "0000-02-29",
+    "complete" : false
+  }, {
+    "id" : "4dcbe826-f946-4753-842d-23dec98dbbc4",
+    "clientName" : "Alicia",
+    "itemName" : "Pie",
+    "quantity" : "9999",
+    "deadline" : "0001-01-01",
+    "complete" : false
+  }, {
+    "id" : "9eefbbd2-3d47-4a3c-8bd5-f819d79819dc",
+    "clientName" : "Alicia",
+    "itemName" : "Pie",
+    "quantity" : "9999",
+    "deadline" : "2000-02-29",
+    "complete" : false
+  }, {
+    "id" : "ddaeae1d-8320-4f65-b745-3c9d394b4212",
+    "clientName" : "Alicia",
+    "itemName" : "Pie",
+    "quantity" : "9999",
+    "deadline" : "9999-12-31",
+    "complete" : false
+  }, {
+    "id" : "55882502-4f37-45df-9442-ea83b6591a92",
+    "clientName" : "Bob",
+    "itemName" : "Muffin",
+    "quantity" : "1",
+    "deadline" : "2026-10-30",
+    "complete" : false
+  }, {
+    "id" : "bb8fb826-ddac-427b-8f70-5bdc05073f53",
+    "clientName" : "Bob",
+    "itemName" : "Muffin",
+    "quantity" : "2",
+    "deadline" : "2026-11-01",
+    "complete" : true
+  } ]
+}

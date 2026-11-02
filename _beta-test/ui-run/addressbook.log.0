@@ -1,0 +1,188 @@
+Oct 30, 2026 3:19:17 PM seedu.address.MainApp init
+INFO: =============================[ Initializing AddressBook ]===========================
+Oct 30, 2026 3:19:17 PM seedu.address.MainApp initPrefs
+INFO: Using preference file : preferences.json
+Oct 30, 2026 3:19:17 PM seedu.address.MainApp initPrefs
+INFO: Creating new preference file preferences.json
+Oct 30, 2026 3:19:17 PM seedu.address.MainApp initModelManager
+INFO: Using data file : data\addressbook.json
+Oct 30, 2026 3:19:17 PM seedu.address.MainApp initModelManager
+INFO: Creating a new data file data\addressbook.json populated with a sample AddressBook.
+Oct 30, 2026 3:19:25 PM seedu.address.MainApp start
+INFO: Starting AddressBook v1.5
+Oct 30, 2026 3:19:25 PM seedu.address.ui.UiManager start
+INFO: Starting UI...
+Oct 30, 2026 3:19:29 PM seedu.address.logic.LogicManager execute
+INFO: ----------------[USER COMMAND][clear confirm]
+Oct 30, 2026 3:19:29 PM seedu.address.logic.LogicManager execute
+INFO: Confirmed clear saved successfully.
+Oct 30, 2026 3:19:29 PM seedu.address.ui.MainWindow executeCommand
+INFO: Result: Address book has been cleared!
+Oct 30, 2026 3:19:29 PM seedu.address.logic.LogicManager execute
+INFO: ----------------[USER COMMAND][add-client n/Alexandra Catherine Tan p/91234567 e/alexandra.tan@example.com a/123 Ang Mo Kio Avenue 3 #12-456 Singapore 560123]
+Oct 30, 2026 3:19:29 PM seedu.address.ui.MainWindow executeCommand
+INFO: Result: New client added: Alexandra Catherine Tan; Phone: 91234567; Email: alexandra.tan@example.com; Address: 123 Ang Mo Kio Avenue 3 #12-456 Singapore 560123; Tags: 
+Oct 30, 2026 3:19:29 PM seedu.address.logic.LogicManager execute
+INFO: ----------------[USER COMMAND][add-item n/Chocolate Hazelnut Birthday Cake p/55.90]
+Oct 30, 2026 3:19:29 PM seedu.address.ui.MainWindow executeCommand
+INFO: Result: New bakery item added: Chocolate Hazelnut Birthday Cake; Price: $55.90
+Oct 30, 2026 3:19:29 PM seedu.address.logic.LogicManager execute
+INFO: ----------------[USER COMMAND][add-order 1 i/1 q/2 d/2026-11-03]
+Oct 30, 2026 3:19:29 PM seedu.address.ui.MainWindow executeCommand
+INFO: Result: New order added to contact: Alexandra Catherine Tan: 2 x Chocolate Hazelnut Birthday Cake (Due: 2026-11-03; incomplete) (Order index for this client: 1)
+Oct 30, 2026 3:19:30 PM seedu.address.logic.LogicManager execute
+INFO: ----------------[USER COMMAND][list-incomplete-orders]
+Oct 30, 2026 3:19:30 PM seedu.address.ui.MainWindow executeCommand
+INFO: Result: Listed incomplete orders.
+Oct 30, 2026 3:19:30 PM seedu.address.logic.LogicManager execute
+INFO: ----------------[USER COMMAND][mark 1 o/1]
+Oct 30, 2026 3:19:30 PM seedu.address.ui.MainWindow executeCommand
+INFO: Result: Order marked as complete: Alexandra Catherine Tan: 2 x Chocolate Hazelnut Birthday Cake (Due: 2026-11-03; complete)
+Oct 30, 2026 3:19:30 PM seedu.address.logic.LogicManager execute
+INFO: ----------------[USER COMMAND][list-orders]
+Oct 30, 2026 3:19:30 PM seedu.address.ui.MainWindow executeCommand
+INFO: Result: Listed all orders.
+Oct 30, 2026 3:19:30 PM seedu.address.logic.LogicManager execute
+INFO: ----------------[USER COMMAND][help]
+Oct 30, 2026 3:19:30 PM seedu.address.ui.MainWindow executeCommand
+INFO: Result: Opened help window.
+Oct 30, 2026 3:19:30 PM seedu.address.logic.LogicManager execute
+INFO: ----------------[USER COMMAND][clear]
+Oct 30, 2026 3:19:30 PM seedu.address.logic.commands.ClearCommand execute
+INFO: Clear blocked: explicit confirmation is required; data remains unchanged.
+Oct 30, 2026 3:19:30 PM seedu.address.ui.MainWindow executeCommand
+INFO: An error occurred while executing command: clear
+Oct 30, 2026 3:19:30 PM seedu.address.logic.LogicManager execute
+INFO: ----------------[USER COMMAND][undo]
+Oct 30, 2026 3:19:30 PM seedu.address.logic.LogicManager execute
+INFO: Undo saved successfully; snapshot consumed.
+Oct 30, 2026 3:19:30 PM seedu.address.ui.MainWindow executeCommand
+INFO: Result: Last data change undone. All lists are shown.
+Oct 30, 2026 3:19:30 PM seedu.address.logic.LogicManager execute
+INFO: ----------------[USER COMMAND][populate]
+Oct 30, 2026 3:19:31 PM seedu.address.ui.MainWindow executeCommand
+INFO: Result: Replaced all clients, bakery items, and orders with sample data.
+Oct 30, 2026 3:19:31 PM seedu.address.logic.LogicManager execute
+INFO: ----------------[USER COMMAND][exit]
+Oct 30, 2026 3:19:31 PM seedu.address.ui.MainWindow executeCommand
+INFO: Result: Exiting Address Book as requested ...
+Oct 30, 2026 3:19:31 PM seedu.address.MainApp stop
+INFO: ============================ [ Stopping AddressBook ] =============================
+Oct 30, 2026 3:21:02 PM seedu.address.MainApp init
+INFO: =============================[ Initializing AddressBook ]===========================
+Oct 30, 2026 3:21:02 PM seedu.address.MainApp initPrefs
+INFO: Using preference file : preferences.json
+Oct 30, 2026 3:21:03 PM seedu.address.commons.util.JsonUtil readJsonFile
+INFO: JSON file preferences.json found.
+Oct 30, 2026 3:21:03 PM seedu.address.MainApp initModelManager
+INFO: Using data file : data\addressbook.json
+Oct 30, 2026 3:21:03 PM seedu.address.commons.util.JsonUtil readJsonFile
+INFO: JSON file data\addressbook.json found.
+Oct 30, 2026 3:21:03 PM seedu.address.MainApp start
+INFO: Starting AddressBook v1.5
+Oct 30, 2026 3:21:03 PM seedu.address.ui.UiManager start
+INFO: Starting UI...
+Oct 30, 2026 3:21:07 PM seedu.address.logic.LogicManager execute
+INFO: ----------------[USER COMMAND][clear confirm]
+Oct 30, 2026 3:21:15 PM seedu.address.logic.LogicManager execute
+INFO: Confirmed clear saved successfully.
+Oct 30, 2026 3:21:15 PM seedu.address.ui.MainWindow executeCommand
+INFO: Result: Address book has been cleared!
+Oct 30, 2026 3:21:15 PM seedu.address.logic.LogicManager execute
+INFO: ----------------[USER COMMAND][add-client n/Alexandra Catherine Tan p/91234567 e/alexandra.tan@example.com a/123 Ang Mo Kio Avenue 3 #12-456 Singapore 560123]
+Oct 30, 2026 3:21:15 PM seedu.address.ui.MainWindow executeCommand
+INFO: Result: New client added: Alexandra Catherine Tan; Phone: 91234567; Email: alexandra.tan@example.com; Address: 123 Ang Mo Kio Avenue 3 #12-456 Singapore 560123; Tags: 
+Oct 30, 2026 3:21:15 PM seedu.address.logic.LogicManager execute
+INFO: ----------------[USER COMMAND][add-item n/Chocolate Hazelnut Birthday Cake p/55.90]
+Oct 30, 2026 3:21:15 PM seedu.address.ui.MainWindow executeCommand
+INFO: Result: New bakery item added: Chocolate Hazelnut Birthday Cake; Price: $55.90
+Oct 30, 2026 3:21:15 PM seedu.address.logic.LogicManager execute
+INFO: ----------------[USER COMMAND][add-order 1 i/1 q/2 d/2026-11-03]
+Oct 30, 2026 3:21:15 PM seedu.address.ui.MainWindow executeCommand
+INFO: Result: New order added to contact: Alexandra Catherine Tan: 2 x Chocolate Hazelnut Birthday Cake (Due: 2026-11-03; incomplete) (Order index for this client: 1)
+Oct 30, 2026 3:21:16 PM seedu.address.logic.LogicManager execute
+INFO: ----------------[USER COMMAND][list-incomplete-orders]
+Oct 30, 2026 3:21:16 PM seedu.address.ui.MainWindow executeCommand
+INFO: Result: Listed incomplete orders.
+Oct 30, 2026 3:21:16 PM seedu.address.logic.LogicManager execute
+INFO: ----------------[USER COMMAND][mark 1 o/1]
+Oct 30, 2026 3:21:16 PM seedu.address.ui.MainWindow executeCommand
+INFO: Result: Order marked as complete: Alexandra Catherine Tan: 2 x Chocolate Hazelnut Birthday Cake (Due: 2026-11-03; complete)
+Oct 30, 2026 3:21:16 PM seedu.address.logic.LogicManager execute
+INFO: ----------------[USER COMMAND][list-orders]
+Oct 30, 2026 3:21:16 PM seedu.address.ui.MainWindow executeCommand
+INFO: Result: Listed all orders.
+Oct 30, 2026 3:21:16 PM seedu.address.logic.LogicManager execute
+INFO: ----------------[USER COMMAND][help]
+Oct 30, 2026 3:21:16 PM seedu.address.ui.MainWindow executeCommand
+INFO: Result: Opened help window.
+Oct 30, 2026 3:21:16 PM seedu.address.logic.LogicManager execute
+INFO: ----------------[USER COMMAND][clear]
+Oct 30, 2026 3:21:16 PM seedu.address.logic.commands.ClearCommand execute
+INFO: Clear blocked: explicit confirmation is required; data remains unchanged.
+Oct 30, 2026 3:21:16 PM seedu.address.ui.MainWindow executeCommand
+INFO: An error occurred while executing command: clear
+Oct 30, 2026 3:21:16 PM seedu.address.logic.LogicManager execute
+INFO: ----------------[USER COMMAND][undo]
+Oct 30, 2026 3:21:16 PM seedu.address.logic.LogicManager execute
+INFO: Undo saved successfully; snapshot consumed.
+Oct 30, 2026 3:21:16 PM seedu.address.ui.MainWindow executeCommand
+INFO: Result: Last data change undone. All lists are shown.
+Oct 30, 2026 3:21:17 PM seedu.address.logic.LogicManager execute
+INFO: ----------------[USER COMMAND][populate]
+Oct 30, 2026 3:21:17 PM seedu.address.ui.MainWindow executeCommand
+INFO: Result: Replaced all clients, bakery items, and orders with sample data.
+Oct 30, 2026 3:21:17 PM seedu.address.logic.LogicManager execute
+INFO: ----------------[USER COMMAND][exit]
+Oct 30, 2026 3:21:17 PM seedu.address.ui.MainWindow executeCommand
+INFO: Result: Exiting Address Book as requested ...
+Oct 30, 2026 3:21:17 PM seedu.address.MainApp stop
+INFO: ============================ [ Stopping AddressBook ] =============================
+Oct 30, 2026 3:24:09 PM seedu.address.MainApp init
+INFO: =============================[ Initializing AddressBook ]===========================
+Oct 30, 2026 3:24:09 PM seedu.address.MainApp initPrefs
+INFO: Using preference file : preferences.json
+Oct 30, 2026 3:24:09 PM seedu.address.commons.util.JsonUtil readJsonFile
+INFO: JSON file preferences.json found.
+Oct 30, 2026 3:24:09 PM seedu.address.MainApp initModelManager
+INFO: Using data file : data\addressbook.json
+Oct 30, 2026 3:24:09 PM seedu.address.commons.util.JsonUtil readJsonFile
+INFO: JSON file data\addressbook.json found.
+Oct 30, 2026 3:24:09 PM seedu.address.logic.LogicManager execute
+INFO: ----------------[USER COMMAND][clear confirm]
+Oct 30, 2026 3:24:17 PM seedu.address.logic.LogicManager execute
+INFO: Confirmed clear saved successfully.
+Oct 30, 2026 3:24:17 PM seedu.address.logic.LogicManager execute
+INFO: ----------------[USER COMMAND][add-client n/Alexandra Catherine Tan p/91234567 e/alexandra.tan@example.com a/123 Ang Mo Kio Avenue 3 #12-456 Singapore 560123]
+Oct 30, 2026 3:24:17 PM seedu.address.logic.LogicManager execute
+INFO: ----------------[USER COMMAND][add-item n/Chocolate Hazelnut Birthday Cake p/55.90]
+Oct 30, 2026 3:24:17 PM seedu.address.logic.LogicManager execute
+INFO: ----------------[USER COMMAND][add-order 1 i/1 q/2 d/2026-11-03]
+Oct 30, 2026 3:24:17 PM seedu.address.MainApp start
+INFO: Starting AddressBook v1.5
+Oct 30, 2026 3:24:17 PM seedu.address.ui.UiManager start
+INFO: Starting UI...
+Oct 30, 2026 3:24:22 PM seedu.address.MainApp init
+INFO: =============================[ Initializing AddressBook ]===========================
+Oct 30, 2026 3:24:22 PM seedu.address.MainApp initPrefs
+INFO: Using preference file : preferences.json
+Oct 30, 2026 3:24:23 PM seedu.address.commons.util.JsonUtil readJsonFile
+INFO: JSON file preferences.json found.
+Oct 30, 2026 3:24:23 PM seedu.address.MainApp initModelManager
+INFO: Using data file : data\addressbook.json
+Oct 30, 2026 3:24:23 PM seedu.address.commons.util.JsonUtil readJsonFile
+INFO: JSON file data\addressbook.json found.
+Oct 30, 2026 3:24:23 PM seedu.address.logic.LogicManager execute
+INFO: ----------------[USER COMMAND][clear confirm]
+Oct 30, 2026 3:24:31 PM seedu.address.logic.LogicManager execute
+INFO: Confirmed clear saved successfully.
+Oct 30, 2026 3:24:31 PM seedu.address.logic.LogicManager execute
+INFO: ----------------[USER COMMAND][add-client n/Alexandra Catherine Tan p/91234567 e/alexandra.tan@example.com a/123 Ang Mo Kio Avenue 3 #12-456 Singapore 560123]
+Oct 30, 2026 3:24:31 PM seedu.address.logic.LogicManager execute
+INFO: ----------------[USER COMMAND][add-item n/Chocolate Hazelnut Birthday Cake p/55.90]
+Oct 30, 2026 3:24:31 PM seedu.address.logic.LogicManager execute
+INFO: ----------------[USER COMMAND][add-order 1 i/1 q/2 d/2026-11-03]
+Oct 30, 2026 3:24:31 PM seedu.address.MainApp start
+INFO: Starting AddressBook v1.5
+Oct 30, 2026 3:24:31 PM seedu.address.ui.UiManager start
+INFO: Starting UI...

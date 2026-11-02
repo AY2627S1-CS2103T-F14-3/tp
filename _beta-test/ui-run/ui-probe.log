@@ -1,0 +1,526 @@
+Oct 30, 2026 3:21:01 PM com.sun.javafx.application.PlatformImpl startup
+WARNING: Unsupported JavaFX configuration: classes were loaded from 'unnamed module @63961c42'
+WARNING: A restricted method in java.lang.System has been called
+WARNING: java.lang.System::load has been called by com.sun.glass.utils.NativeLibLoader in an unnamed module (file:/C:/Users/neoki/NUS/Y2S1/cs2103t/tp/_beta-test/BakeBase-v1.5.jar)
+WARNING: Use --enable-native-access=ALL-UNNAMED to avoid a warning for callers in this module
+WARNING: Restricted methods will be blocked in a future release unless native access is enabled
+
+Can not create cache at C:\.openjfx\cache\17.0.7
+Can not create cache at C:\.openjfx\cache\17.0.7
+Can not create cache at C:\.openjfx\cache\17.0.7
+Can not create cache at C:\.openjfx\cache\17.0.7
+Can not create cache at C:\.openjfx\cache\17.0.7
+Can not create cache at C:\.openjfx\cache\17.0.7
+Can not create cache at C:\.openjfx\cache\17.0.7
+Can not create cache at C:\.openjfx\cache\17.0.7
+Can not create cache at C:\.openjfx\cache\17.0.7
+Can not create cache at C:\.openjfx\cache\17.0.7
+Can not create cache at C:\.openjfx\cache\17.0.7
+Can not create cache at C:\.openjfx\cache\17.0.7
+Can not create cache at C:\.openjfx\cache\17.0.7
+Can not create cache at C:\.openjfx\cache\17.0.7
+Can not create cache at C:\.openjfx\cache\17.0.7
+Can not create cache at C:\.openjfx\cache\17.0.7
+Can not create cache at C:\.openjfx\cache\17.0.7
+Can not create cache at C:\.openjfx\cache\17.0.7
+Can not create cache at C:\.openjfx\cache\17.0.7
+Can not create cache at C:\.openjfx\cache\17.0.7
+Can not create cache at C:\.openjfx\cache\17.0.7
+Can not create cache at C:\.openjfx\cache\17.0.7
+Can not create cache at C:\.openjfx\cache\17.0.7
+Can not create cache at C:\.openjfx\cache\17.0.7
+Can not create cache at C:\.openjfx\cache\17.0.7
+Can not create cache at C:\.openjfx\cache\17.0.7
+Can not create cache at C:\.openjfx\cache\17.0.7
+Can not create cache at C:\.openjfx\cache\17.0.7
+Can not create cache at C:\.openjfx\cache\17.0.7
+Can not create cache at C:\.openjfx\cache\17.0.7
+Can not create cache at C:\.openjfx\cache\17.0.7
+Can not create cache at C:\.openjfx\cache\17.0.7
+Can not create cache at C:\.openjfx\cache\17.0.7
+Can not create cache at C:\.openjfx\cache\17.0.7
+Can not create cache at C:\.openjfx\cache\17.0.7
+Can not create cache at C:\.openjfx\cache\17.0.7
+Can not create cache at C:\.openjfx\cache\17.0.7
+Can not create cache at C:\.openjfx\cache\17.0.7
+Can not create cache at C:\.openjfx\cache\17.0.7
+Can not create cache at C:\.openjfx\cache\17.0.7
+Can not create cache at C:\.openjfx\cache\17.0.7
+Can not create cache at C:\.openjfx\cache\17.0.7
+Can not create cache at C:\.openjfx\cache\17.0.7
+Can not create cache at C:\.openjfx\cache\17.0.7
+Can not create cache at C:\.openjfx\cache\17.0.7
+Can not create cache at C:\.openjfx\cache\17.0.7
+Can not create cache at C:\.openjfx\cache\17.0.7
+Can not create cache at C:\.openjfx\cache\17.0.7
+Can not create cache at C:\.openjfx\cache\17.0.7
+Oct 30, 2026 3:21:02 PM seedu.address.MainApp init
+INFO: =============================[ Initializing AddressBook ]===========================
+Oct 30, 2026 3:21:02 PM seedu.address.MainApp initPrefs
+INFO: Using preference file : preferences.json
+Oct 30, 2026 3:21:03 PM seedu.address.commons.util.JsonUtil readJsonFile
+INFO: JSON file preferences.json found.
+Oct 30, 2026 3:21:03 PM seedu.address.MainApp initModelManager
+INFO: Using data file : data\addressbook.json
+Oct 30, 2026 3:21:03 PM seedu.address.commons.util.JsonUtil readJsonFile
+INFO: JSON file data\addressbook.json found.
+Oct 30, 2026 3:21:03 PM seedu.address.MainApp start
+INFO: Starting AddressBook v1.5
+Oct 30, 2026 3:21:03 PM seedu.address.ui.UiManager start
+INFO: Starting UI...
+Can not create cache at C:\.openjfx\cache\17.0.7
+WARNING: A terminally deprecated method in sun.misc.Unsafe has been called
+WARNING: sun.misc.Unsafe::allocateMemory has been called by com.sun.marlin.OffHeapArray (file:/C:/Users/neoki/NUS/Y2S1/cs2103t/tp/_beta-test/BakeBase-v1.5.jar)
+WARNING: Please consider reporting this to the maintainers of class com.sun.marlin.OffHeapArray
+WARNING: sun.misc.Unsafe::allocateMemory will be removed in a future release
+CAPTURE=startup-default 1086x663 stage=1100.0x700.0
+LABEL startup-default null width=26.0 preferred=25.757810592651367 text=File
+LABEL startup-default null width=36.666666666666664 preferred=36.33984375 text=Help
+LABEL startup-default null width=49.333333333333336 preferred=48.8125 text=Clients
+LABEL startup-default id width=15.333333333333334 preferred=14.6953125 text=1. 
+LABEL startup-default name width=72.66666666666667 preferred=72.4375 text=Alex Yeoh
+LABEL startup-default null width=41.333333333333336 preferred=41.036295572916664 text=friends
+LABEL startup-default phone width=56.666666666666664 preferred=56.0625 text=87438807
+LABEL startup-default address width=187.33333333333334 preferred=187.2431640625 text=Blk 30 Geylang Street 29, #06-40
+LABEL startup-default email width=139.33333333333334 preferred=138.810546875 text=alexyeoh@example.com
+LABEL startup-default id width=17.333333333333332 preferred=17.140625 text=2. 
+LABEL startup-default name width=76.66666666666667 preferred=76.59375 text=Bernice Yu
+LABEL startup-default null width=60.0 preferred=59.373209635416664 text=colleagues
+LABEL startup-default null width=41.333333333333336 preferred=41.036295572916664 text=friends
+LABEL startup-default phone width=56.666666666666664 preferred=56.0625 text=99272758
+LABEL startup-default address width=254.0 preferred=253.88720703125 text=Blk 30 Lorong 3 Serangoon Gardens, #07-18
+LABEL startup-default email width=144.66666666666666 preferred=144.13623046875 text=berniceyu@example.com
+LABEL startup-default id width=17.333333333333332 preferred=17.140625 text=3. 
+LABEL startup-default name width=128.66666666666666 preferred=128.4453125 text=Charlotte Oliveiro
+LABEL startup-default null width=63.333333333333336 preferred=63.261881510416664 text=neighbours
+LABEL startup-default phone width=56.666666666666664 preferred=56.0625 text=93210283
+LABEL startup-default address width=208.66666666666666 preferred=208.57763671875 text=Blk 11 Ang Mo Kio Street 74, #11-04
+LABEL startup-default email width=139.33333333333334 preferred=139.08984375 text=charlotte@example.com
+LABEL startup-default id width=18.0 preferred=17.4765625 text=4. 
+LABEL startup-default name width=58.666666666666664 preferred=58.1640625 text=David Li
+LABEL startup-default null width=37.333333333333336 preferred=37.281901041666664 text=family
+LABEL startup-default phone width=56.666666666666664 preferred=56.0625 text=91031282
+LABEL startup-default address width=261.3333333333333 preferred=260.8505859375 text=Blk 436 Serangoon Gardens Street 26, #16-43
+LABEL startup-default email width=126.0 preferred=125.81689453125 text=lidavid@example.com
+LABEL startup-default null width=40.666666666666664 preferred=40.015625 text=Items
+LABEL startup-default id width=15.333333333333334 preferred=14.6953125 text=1. 
+LABEL startup-default name width=106.66666666666667 preferred=106.4609375 text=Banana Muffin
+LABEL startup-default price width=31.333333333333332 preferred=30.849609375 text=$1.20
+LABEL startup-default id width=17.333333333333332 preferred=17.140625 text=2. 
+LABEL startup-default name width=112.66666666666667 preferred=112.28125 text=Chocolate Cake
+LABEL startup-default price width=38.0 preferred=37.857421875 text=$25.00
+LABEL startup-default id width=17.333333333333332 preferred=17.140625 text=3. 
+LABEL startup-default name width=116.66666666666667 preferred=116.2421875 text=Butter Croissant
+LABEL startup-default price width=31.333333333333332 preferred=30.849609375 text=$2.80
+LABEL startup-default id width=18.0 preferred=17.4765625 text=4. 
+LABEL startup-default name width=172.0 preferred=171.5859375 text=Chocolate Chip Cookies
+LABEL startup-default price width=31.333333333333332 preferred=30.849609375 text=$5.50
+LABEL startup-default null width=49.333333333333336 preferred=48.9765625 text=Orders
+LABEL startup-default item width=147.33333333333334 preferred=146.8515625 text=1. 2 x Banana Muffin
+LABEL startup-default client width=170.66666666666666 preferred=170.65673828125 text=Client 1: Alex Yeoh � Order 1
+LABEL startup-default deadline width=96.66666666666667 preferred=96.10986328125 text=Due: 2026-10-27
+LABEL startup-default status width=56.0 preferred=55.65625 text=Complete
+LABEL startup-default item width=212.0 preferred=211.9765625 text=2. 1 x Chocolate Chip Cookies
+LABEL startup-default client width=170.66666666666666 preferred=170.65673828125 text=Client 1: Alex Yeoh � Order 2
+LABEL startup-default deadline width=96.66666666666667 preferred=96.10986328125 text=Due: 2026-10-25
+LABEL startup-default status width=56.0 preferred=55.65625 text=Complete
+LABEL startup-default item width=156.0 preferred=155.453125 text=3. 4 x Chocolate Cake
+LABEL startup-default client width=174.66666666666666 preferred=174.02099609375 text=Client 2: Bernice Yu � Order 1
+LABEL startup-default deadline width=96.66666666666667 preferred=96.10986328125 text=Due: 2026-10-29
+LABEL startup-default status width=123.33333333333333 preferred=122.80810546875 text=Incomplete (overdue)
+LABEL startup-default item width=166.66666666666666 preferred=166.0390625 text=4. 2 x Blueberry Muffin
+LABEL startup-default client width=174.66666666666666 preferred=174.02099609375 text=Client 2: Bernice Yu � Order 2
+LABEL startup-default deadline width=96.66666666666667 preferred=96.10986328125 text=Due: 2026-10-27
+LABEL startup-default status width=123.33333333333333 preferred=122.80810546875 text=Incomplete (overdue)
+LABEL startup-default saveLocationStatus width=156.0 preferred=155.5904998779297 text=.\data\addressbook.json
+Oct 30, 2026 3:21:07 PM seedu.address.logic.LogicManager execute
+INFO: ----------------[USER COMMAND][clear confirm]
+Oct 30, 2026 3:21:15 PM seedu.address.logic.LogicManager execute
+INFO: Confirmed clear saved successfully.
+Oct 30, 2026 3:21:15 PM seedu.address.ui.MainWindow executeCommand
+INFO: Result: Address book has been cleared!
+COMMAND=clear confirm
+RESULT=Address book has been cleared!
+Oct 30, 2026 3:21:15 PM seedu.address.logic.LogicManager execute
+INFO: ----------------[USER COMMAND][add-client n/Alexandra Catherine Tan p/91234567 e/alexandra.tan@example.com a/123 Ang Mo Kio Avenue 3 #12-456 Singapore 560123]
+Oct 30, 2026 3:21:15 PM seedu.address.ui.MainWindow executeCommand
+INFO: Result: New client added: Alexandra Catherine Tan; Phone: 91234567; Email: alexandra.tan@example.com; Address: 123 Ang Mo Kio Avenue 3 #12-456 Singapore 560123; Tags: 
+COMMAND=add-client n/Alexandra Catherine Tan p/91234567 e/alexandra.tan@example.com a/123 Ang Mo Kio Avenue 3 #12-456 Singapore 560123
+RESULT=New client added: Alexandra Catherine Tan; Phone: 91234567; Email: alexandra.tan@example.com; Address: 123 Ang Mo Kio Avenue 3 #12-456 Singapore 560123; Tags: 
+Oct 30, 2026 3:21:15 PM seedu.address.logic.LogicManager execute
+INFO: ----------------[USER COMMAND][add-item n/Chocolate Hazelnut Birthday Cake p/55.90]
+Oct 30, 2026 3:21:15 PM seedu.address.ui.MainWindow executeCommand
+INFO: Result: New bakery item added: Chocolate Hazelnut Birthday Cake; Price: $55.90
+COMMAND=add-item n/Chocolate Hazelnut Birthday Cake p/55.90
+RESULT=New bakery item added: Chocolate Hazelnut Birthday Cake; Price: $55.90
+Oct 30, 2026 3:21:15 PM seedu.address.logic.LogicManager execute
+INFO: ----------------[USER COMMAND][add-order 1 i/1 q/2 d/2026-11-03]
+Oct 30, 2026 3:21:15 PM seedu.address.ui.MainWindow executeCommand
+INFO: Result: New order added to contact: Alexandra Catherine Tan: 2 x Chocolate Hazelnut Birthday Cake (Due: 2026-11-03; incomplete) (Order index for this client: 1)
+COMMAND=add-order 1 i/1 q/2 d/2026-11-03
+RESULT=New order added to contact: Alexandra Catherine Tan: 2 x Chocolate Hazelnut Birthday Cake (Due: 2026-11-03; incomplete) (Order index for this client: 1)
+CAPTURE=normal-data-default 1086x663 stage=1100.0x700.0
+LABEL normal-data-default null width=26.0 preferred=25.757810592651367 text=File
+LABEL normal-data-default null width=36.666666666666664 preferred=36.33984375 text=Help
+LABEL normal-data-default null width=49.333333333333336 preferred=48.8125 text=Clients
+LABEL normal-data-default id width=15.333333333333334 preferred=14.6953125 text=1. 
+LABEL normal-data-default name width=178.66666666666666 preferred=178.171875 text=Alexandra Catherine Tan
+LABEL normal-data-default phone width=56.666666666666664 preferred=56.0625 text=91234567
+LABEL normal-data-default address width=308.6666666666667 preferred=308.6611328125 text=123 Ang Mo Kio Avenue 3 #12-456 Singapore 560123
+LABEL normal-data-default email width=165.33333333333334 preferred=164.70263671875 text=alexandra.tan@example.com
+LABEL normal-data-default null width=40.666666666666664 preferred=40.015625 text=Items
+LABEL normal-data-default id width=15.333333333333334 preferred=14.6953125 text=1. 
+LABEL normal-data-default name width=247.33333333333334 preferred=246.7421875 text=Chocolate Hazelnut Birthday Cake
+LABEL normal-data-default price width=38.0 preferred=37.857421875 text=$55.90
+LABEL normal-data-default null width=49.333333333333336 preferred=48.9765625 text=Orders
+LABEL normal-data-default item width=287.3333333333333 preferred=287.1328125 text=1. 2 x Chocolate Hazelnut Birthday Cake
+LABEL normal-data-default client width=254.0 preferred=253.84912109375 text=Client 1: Alexandra Catherine Tan � Order 1
+LABEL normal-data-default deadline width=96.66666666666667 preferred=96.10986328125 text=Due: 2026-11-03
+LABEL normal-data-default status width=64.66666666666667 preferred=64.4287109375 text=Incomplete
+LABEL normal-data-default saveLocationStatus width=156.0 preferred=155.5904998779297 text=.\data\addressbook.json
+CAPTURE=normal-data-1100 1086x663 stage=1100.0x700.0
+LABEL normal-data-1100 null width=26.0 preferred=25.757810592651367 text=File
+LABEL normal-data-1100 null width=36.666666666666664 preferred=36.33984375 text=Help
+LABEL normal-data-1100 null width=49.333333333333336 preferred=48.8125 text=Clients
+LABEL normal-data-1100 id width=15.333333333333334 preferred=14.6953125 text=1. 
+LABEL normal-data-1100 name width=178.66666666666666 preferred=178.171875 text=Alexandra Catherine Tan
+LABEL normal-data-1100 phone width=56.666666666666664 preferred=56.0625 text=91234567
+LABEL normal-data-1100 address width=308.6666666666667 preferred=308.6611328125 text=123 Ang Mo Kio Avenue 3 #12-456 Singapore 560123
+LABEL normal-data-1100 email width=165.33333333333334 preferred=164.70263671875 text=alexandra.tan@example.com
+LABEL normal-data-1100 null width=40.666666666666664 preferred=40.015625 text=Items
+LABEL normal-data-1100 id width=15.333333333333334 preferred=14.6953125 text=1. 
+LABEL normal-data-1100 name width=247.33333333333334 preferred=246.7421875 text=Chocolate Hazelnut Birthday Cake
+LABEL normal-data-1100 price width=38.0 preferred=37.857421875 text=$55.90
+LABEL normal-data-1100 null width=49.333333333333336 preferred=48.9765625 text=Orders
+LABEL normal-data-1100 item width=287.3333333333333 preferred=287.1328125 text=1. 2 x Chocolate Hazelnut Birthday Cake
+LABEL normal-data-1100 client width=254.0 preferred=253.84912109375 text=Client 1: Alexandra Catherine Tan � Order 1
+LABEL normal-data-1100 deadline width=96.66666666666667 preferred=96.10986328125 text=Due: 2026-11-03
+LABEL normal-data-1100 status width=64.66666666666667 preferred=64.4287109375 text=Incomplete
+LABEL normal-data-1100 saveLocationStatus width=156.0 preferred=155.5904998779297 text=.\data\addressbook.json
+CAPTURE=normal-data-minimum 1086x663 stage=450.0x700.0
+LABEL normal-data-minimum null width=26.0 preferred=25.757810592651367 text=File
+LABEL normal-data-minimum null width=36.666666666666664 preferred=36.33984375 text=Help
+LABEL normal-data-minimum null width=49.333333333333336 preferred=48.8125 text=Clients
+LABEL normal-data-minimum id width=15.333333333333334 preferred=14.6953125 text=1. 
+LABEL normal-data-minimum name width=178.66666666666666 preferred=178.171875 text=Alexandra Catherine Tan
+LABEL normal-data-minimum phone width=56.666666666666664 preferred=56.0625 text=91234567
+LABEL normal-data-minimum address width=308.6666666666667 preferred=308.6611328125 text=123 Ang Mo Kio Avenue 3 #12-456 Singapore 560123
+LABEL normal-data-minimum email width=165.33333333333334 preferred=164.70263671875 text=alexandra.tan@example.com
+LABEL normal-data-minimum null width=40.666666666666664 preferred=40.015625 text=Items
+LABEL normal-data-minimum id width=15.333333333333334 preferred=14.6953125 text=1. 
+LABEL normal-data-minimum name width=247.33333333333334 preferred=246.7421875 text=Chocolate Hazelnut Birthday Cake
+LABEL normal-data-minimum price width=38.0 preferred=37.857421875 text=$55.90
+LABEL normal-data-minimum null width=49.333333333333336 preferred=48.9765625 text=Orders
+LABEL normal-data-minimum item width=287.3333333333333 preferred=287.1328125 text=1. 2 x Chocolate Hazelnut Birthday Cake
+LABEL normal-data-minimum client width=254.0 preferred=253.84912109375 text=Client 1: Alexandra Catherine Tan � Order 1
+LABEL normal-data-minimum deadline width=96.66666666666667 preferred=96.10986328125 text=Due: 2026-11-03
+LABEL normal-data-minimum status width=64.66666666666667 preferred=64.4287109375 text=Incomplete
+LABEL normal-data-minimum saveLocationStatus width=156.0 preferred=155.5904998779297 text=.\data\addressbook.json
+Oct 30, 2026 3:21:16 PM seedu.address.logic.LogicManager execute
+INFO: ----------------[USER COMMAND][list-incomplete-orders]
+Oct 30, 2026 3:21:16 PM seedu.address.ui.MainWindow executeCommand
+INFO: Result: Listed incomplete orders.
+COMMAND=list-incomplete-orders
+RESULT=Listed incomplete orders.
+Oct 30, 2026 3:21:16 PM seedu.address.logic.LogicManager execute
+INFO: ----------------[USER COMMAND][mark 1 o/1]
+Oct 30, 2026 3:21:16 PM seedu.address.ui.MainWindow executeCommand
+INFO: Result: Order marked as complete: Alexandra Catherine Tan: 2 x Chocolate Hazelnut Birthday Cake (Due: 2026-11-03; complete)
+COMMAND=mark 1 o/1
+RESULT=Order marked as complete: Alexandra Catherine Tan: 2 x Chocolate Hazelnut Birthday Cake (Due: 2026-11-03; complete)
+CAPTURE=marked-in-incomplete-view 1086x663 stage=1100.0x700.0
+LABEL marked-in-incomplete-view null width=26.0 preferred=25.757810592651367 text=File
+LABEL marked-in-incomplete-view null width=36.666666666666664 preferred=36.33984375 text=Help
+LABEL marked-in-incomplete-view null width=49.333333333333336 preferred=48.8125 text=Clients
+LABEL marked-in-incomplete-view id width=15.333333333333334 preferred=14.6953125 text=1. 
+LABEL marked-in-incomplete-view name width=178.66666666666666 preferred=178.171875 text=Alexandra Catherine Tan
+LABEL marked-in-incomplete-view phone width=56.666666666666664 preferred=56.0625 text=91234567
+LABEL marked-in-incomplete-view address width=308.6666666666667 preferred=308.6611328125 text=123 Ang Mo Kio Avenue 3 #12-456 Singapore 560123
+LABEL marked-in-incomplete-view email width=165.33333333333334 preferred=164.70263671875 text=alexandra.tan@example.com
+LABEL marked-in-incomplete-view null width=40.666666666666664 preferred=40.015625 text=Items
+LABEL marked-in-incomplete-view id width=15.333333333333334 preferred=14.6953125 text=1. 
+LABEL marked-in-incomplete-view name width=247.33333333333334 preferred=246.7421875 text=Chocolate Hazelnut Birthday Cake
+LABEL marked-in-incomplete-view price width=38.0 preferred=37.857421875 text=$55.90
+LABEL marked-in-incomplete-view null width=49.333333333333336 preferred=48.9765625 text=Orders
+LABEL marked-in-incomplete-view saveLocationStatus width=156.0 preferred=155.5904998779297 text=.\data\addressbook.json
+Oct 30, 2026 3:21:16 PM seedu.address.logic.LogicManager execute
+INFO: ----------------[USER COMMAND][list-orders]
+Oct 30, 2026 3:21:16 PM seedu.address.ui.MainWindow executeCommand
+INFO: Result: Listed all orders.
+COMMAND=list-orders
+RESULT=Listed all orders.
+Oct 30, 2026 3:21:16 PM seedu.address.logic.LogicManager execute
+INFO: ----------------[USER COMMAND][help]
+Oct 30, 2026 3:21:16 PM seedu.address.ui.MainWindow executeCommand
+INFO: Result: Opened help window.
+COMMAND=help
+RESULT=Opened help window.
+CAPTURE=help-current 736x383 stage=750.0x420.0
+Oct 30, 2026 3:21:16 PM seedu.address.logic.LogicManager execute
+INFO: ----------------[USER COMMAND][clear]
+Oct 30, 2026 3:21:16 PM seedu.address.logic.commands.ClearCommand execute
+INFO: Clear blocked: explicit confirmation is required; data remains unchanged.
+Oct 30, 2026 3:21:16 PM seedu.address.ui.MainWindow executeCommand
+INFO: An error occurred while executing command: clear
+COMMAND=clear
+RESULT=No data was deleted. clear confirm deletes all clients, items, and orders immediately.
+This includes 1 clients, 1 items, and 1 orders (including hidden records).
+No additional prompt will be shown. Type clear confirm to proceed, or continue with another command to cancel.
+Oct 30, 2026 3:21:16 PM seedu.address.logic.LogicManager execute
+INFO: ----------------[USER COMMAND][undo]
+Oct 30, 2026 3:21:16 PM seedu.address.logic.LogicManager execute
+INFO: Undo saved successfully; snapshot consumed.
+Oct 30, 2026 3:21:16 PM seedu.address.ui.MainWindow executeCommand
+INFO: Result: Last data change undone. All lists are shown.
+COMMAND=undo
+RESULT=Last data change undone. All lists are shown.
+CAPTURE=undo-after-clear-warning 1086x663 stage=1100.0x700.0
+LABEL undo-after-clear-warning null width=26.0 preferred=25.757810592651367 text=File
+LABEL undo-after-clear-warning null width=36.666666666666664 preferred=36.33984375 text=Help
+LABEL undo-after-clear-warning null width=49.333333333333336 preferred=48.8125 text=Clients
+LABEL undo-after-clear-warning id width=15.333333333333334 preferred=14.6953125 text=1. 
+LABEL undo-after-clear-warning name width=178.66666666666666 preferred=178.171875 text=Alexandra Catherine Tan
+LABEL undo-after-clear-warning phone width=56.666666666666664 preferred=56.0625 text=91234567
+LABEL undo-after-clear-warning address width=308.6666666666667 preferred=308.6611328125 text=123 Ang Mo Kio Avenue 3 #12-456 Singapore 560123
+LABEL undo-after-clear-warning email width=165.33333333333334 preferred=164.70263671875 text=alexandra.tan@example.com
+LABEL undo-after-clear-warning null width=40.666666666666664 preferred=40.015625 text=Items
+LABEL undo-after-clear-warning id width=15.333333333333334 preferred=14.6953125 text=1. 
+LABEL undo-after-clear-warning name width=247.33333333333334 preferred=246.7421875 text=Chocolate Hazelnut Birthday Cake
+LABEL undo-after-clear-warning price width=38.0 preferred=37.857421875 text=$55.90
+LABEL undo-after-clear-warning null width=49.333333333333336 preferred=48.9765625 text=Orders
+LABEL undo-after-clear-warning item width=287.3333333333333 preferred=287.1328125 text=1. 2 x Chocolate Hazelnut Birthday Cake
+LABEL undo-after-clear-warning client width=254.0 preferred=253.84912109375 text=Client 1: Alexandra Catherine Tan � Order 1
+LABEL undo-after-clear-warning deadline width=96.66666666666667 preferred=96.10986328125 text=Due: 2026-11-03
+LABEL undo-after-clear-warning status width=64.66666666666667 preferred=64.4287109375 text=Incomplete
+LABEL undo-after-clear-warning saveLocationStatus width=156.0 preferred=155.5904998779297 text=.\data\addressbook.json
+Oct 30, 2026 3:21:17 PM seedu.address.logic.LogicManager execute
+INFO: ----------------[USER COMMAND][populate]
+Oct 30, 2026 3:21:17 PM seedu.address.ui.MainWindow executeCommand
+INFO: Result: Replaced all clients, bakery items, and orders with sample data.
+COMMAND=populate
+RESULT=Replaced all clients, bakery items, and orders with sample data.
+CAPTURE=populated 1086x663 stage=1100.0x700.0
+LABEL populated null width=26.0 preferred=25.757810592651367 text=File
+LABEL populated null width=36.666666666666664 preferred=36.33984375 text=Help
+LABEL populated null width=49.333333333333336 preferred=48.8125 text=Clients
+LABEL populated id width=24.0 preferred=23.578125 text=12. 
+LABEL populated name width=71.33333333333333 preferred=70.671875 text=Grace Lee
+LABEL populated null width=55.333333333333336 preferred=55.307291666666664 text=corporate
+LABEL populated null width=42.666666666666664 preferred=42.314615885416664 text=regular
+LABEL populated phone width=56.666666666666664 preferred=56.0625 text=86789012
+LABEL populated address width=164.66666666666666 preferred=164.22021484375 text=Blk 55 Punggol Field, #04-11
+LABEL populated email width=136.66666666666666 preferred=136.55712890625 text=gracelee@example.com
+LABEL populated id width=21.333333333333332 preferred=21.1328125 text=11. 
+LABEL populated name width=80.0 preferred=79.546875 text=Nur Aisyah
+LABEL populated null width=39.333333333333336 preferred=39.070475260416664 text=events
+LABEL populated null width=37.333333333333336 preferred=37.281901041666664 text=family
+LABEL populated phone width=56.666666666666664 preferred=56.0625 text=85678901
+LABEL populated address width=213.33333333333334 preferred=212.79248046875 text=Blk 320 Woodlands Street 32, #12-24
+LABEL populated email width=143.33333333333334 preferred=142.99365234375 text=nuraisyah@example.com
+LABEL populated id width=24.0 preferred=23.578125 text=10. 
+LABEL populated name width=94.66666666666667 preferred=94.40625 text=Daniel Wong
+LABEL populated null width=63.333333333333336 preferred=63.261881510416664 text=neighbours
+LABEL populated phone width=56.666666666666664 preferred=56.0625 text=84567890
+LABEL populated address width=193.33333333333334 preferred=192.82275390625 text=Blk 118 Bukit Merah View, #08-06
+LABEL populated email width=155.33333333333334 preferred=154.96533203125 text=danielwong@example.com
+LABEL populated id width=17.333333333333332 preferred=17.1875 text=9. 
+LABEL populated name width=71.33333333333333 preferred=71.0625 text=Priya Nair
+LABEL populated null width=39.333333333333336 preferred=39.070475260416664 text=events
+LABEL populated null width=42.666666666666664 preferred=42.314615885416664 text=regular
+LABEL populated phone width=56.666666666666664 preferred=56.0625 text=83456789
+LABEL populated address width=200.66666666666666 preferred=200.45263671875 text=Blk 208 Clementi Avenue 6, #03-18
+LABEL populated email width=138.66666666666666 preferred=138.07421875 text=priyanair@example.com
+LABEL populated id width=17.333333333333332 preferred=17.140625 text=8. 
+LABEL populated name width=84.0 preferred=83.390625 text=Marcus Lim
+LABEL populated null width=55.333333333333336 preferred=55.307291666666664 text=corporate
+LABEL populated phone width=56.666666666666664 preferred=56.0625 text=82345678
+LABEL populated address width=200.66666666666666 preferred=200.2685546875 text=Blk 82 Toa Payoh Lorong 4, #09-15
+LABEL populated email width=147.33333333333334 preferred=146.9228515625 text=marcuslim@example.com
+LABEL populated id width=17.333333333333332 preferred=16.8359375 text=7. 
+LABEL populated name width=72.0 preferred=71.5625 text=Sarah Tan
+LABEL populated null width=53.333333333333336 preferred=53.319986979166664 text=birthdays
+LABEL populated null width=42.666666666666664 preferred=42.314615885416664 text=regular
+LABEL populated phone width=56.666666666666664 preferred=56.0625 text=81234567
+LABEL populated address width=178.0 preferred=177.90576171875 text=Blk 15 Bishan Street 12, #05-22
+LABEL populated email width=137.33333333333334 preferred=137.21728515625 text=sarahtan@example.com
+LABEL populated id width=17.333333333333332 preferred=17.1875 text=6. 
+LABEL populated name width=124.66666666666667 preferred=124.328125 text=Roy Balakrishnan
+LABEL populated null width=60.0 preferred=59.373209635416664 text=colleagues
+LABEL populated phone width=56.666666666666664 preferred=56.0625 text=92624417
+LABEL populated address width=188.0 preferred=187.458984375 text=Blk 45 Aljunied Street 85, #11-31
+LABEL populated email width=114.66666666666667 preferred=114.28955078125 text=royb@example.com
+LABEL populated id width=17.333333333333332 preferred=17.140625 text=5. 
+LABEL populated name width=94.66666666666667 preferred=94.4296875 text=Irfan Ibrahim
+LABEL populated null width=60.0 preferred=59.985514322916664 text=classmates
+LABEL populated phone width=56.666666666666664 preferred=56.0625 text=92492021
+LABEL populated address width=196.0 preferred=195.5458984375 text=Blk 47 Tampines Street 20, #17-35
+LABEL populated email width=114.0 preferred=113.927734375 text=irfan@example.com
+LABEL populated id width=18.0 preferred=17.4765625 text=4. 
+LABEL populated name width=58.666666666666664 preferred=58.1640625 text=David Li
+LABEL populated null width=37.333333333333336 preferred=37.281901041666664 text=family
+LABEL populated phone width=56.666666666666664 preferred=56.0625 text=91031282
+LABEL populated address width=261.3333333333333 preferred=260.8505859375 text=Blk 436 Serangoon Gardens Street 26, #16-43
+LABEL populated email width=126.0 preferred=125.81689453125 text=lidavid@example.com
+LABEL populated id width=17.333333333333332 preferred=17.140625 text=3. 
+LABEL populated name width=128.66666666666666 preferred=128.4453125 text=Charlotte Oliveiro
+LABEL populated null width=63.333333333333336 preferred=63.261881510416664 text=neighbours
+LABEL populated phone width=56.666666666666664 preferred=56.0625 text=93210283
+LABEL populated address width=208.66666666666666 preferred=208.57763671875 text=Blk 11 Ang Mo Kio Street 74, #11-04
+LABEL populated email width=139.33333333333334 preferred=139.08984375 text=charlotte@example.com
+LABEL populated id width=17.333333333333332 preferred=17.140625 text=2. 
+LABEL populated name width=76.66666666666667 preferred=76.59375 text=Bernice Yu
+LABEL populated null width=60.0 preferred=59.373209635416664 text=colleagues
+LABEL populated null width=41.333333333333336 preferred=41.036295572916664 text=friends
+LABEL populated phone width=56.666666666666664 preferred=56.0625 text=99272758
+LABEL populated address width=254.0 preferred=253.88720703125 text=Blk 30 Lorong 3 Serangoon Gardens, #07-18
+LABEL populated email width=144.66666666666666 preferred=144.13623046875 text=berniceyu@example.com
+LABEL populated id width=15.333333333333334 preferred=14.6953125 text=1. 
+LABEL populated name width=72.66666666666667 preferred=72.4375 text=Alex Yeoh
+LABEL populated null width=41.333333333333336 preferred=41.036295572916664 text=friends
+LABEL populated phone width=56.666666666666664 preferred=56.0625 text=87438807
+LABEL populated address width=187.33333333333334 preferred=187.2431640625 text=Blk 30 Geylang Street 29, #06-40
+LABEL populated email width=139.33333333333334 preferred=138.810546875 text=alexyeoh@example.com
+LABEL populated null width=40.666666666666664 preferred=40.015625 text=Items
+LABEL populated id width=24.0 preferred=23.578125 text=12. 
+LABEL populated name width=115.33333333333333 preferred=114.9296875 text=Vanilla Cupcake
+LABEL populated price width=31.333333333333332 preferred=30.849609375 text=$2.20
+LABEL populated id width=21.333333333333332 preferred=21.1328125 text=11. 
+LABEL populated name width=82.66666666666667 preferred=82.6640625 text=Lemon Tart
+LABEL populated price width=31.333333333333332 preferred=30.849609375 text=$4.20
+LABEL populated id width=24.0 preferred=23.578125 text=10. 
+LABEL populated name width=106.66666666666667 preferred=106.4765625 text=Cinnamon Roll
+LABEL populated price width=31.333333333333332 preferred=30.849609375 text=$2.50
+LABEL populated id width=17.333333333333332 preferred=17.1875 text=9. 
+LABEL populated name width=128.0 preferred=127.484375 text=Sourdough Bread
+LABEL populated price width=31.333333333333332 preferred=30.849609375 text=$6.80
+LABEL populated id width=17.333333333333332 preferred=17.140625 text=8. 
+LABEL populated name width=156.0 preferred=155.4375 text=Strawberry Shortcake
+LABEL populated price width=38.0 preferred=37.857421875 text=$32.00
+LABEL populated id width=17.333333333333332 preferred=16.8359375 text=7. 
+LABEL populated name width=129.33333333333334 preferred=128.8828125 text=Almond Croissant
+LABEL populated price width=31.333333333333332 preferred=30.849609375 text=$3.50
+LABEL populated id width=17.333333333333332 preferred=17.1875 text=6. 
+LABEL populated name width=126.0 preferred=125.765625 text=Chocolate Muffin
+LABEL populated price width=31.333333333333332 preferred=30.849609375 text=$1.60
+LABEL populated id width=17.333333333333332 preferred=17.140625 text=5. 
+LABEL populated name width=123.33333333333333 preferred=122.8671875 text=Blueberry Muffin
+LABEL populated price width=31.333333333333332 preferred=30.849609375 text=$1.80
+LABEL populated id width=18.0 preferred=17.4765625 text=4. 
+LABEL populated name width=172.0 preferred=171.5859375 text=Chocolate Chip Cookies
+LABEL populated price width=31.333333333333332 preferred=30.849609375 text=$5.50
+LABEL populated id width=17.333333333333332 preferred=17.140625 text=3. 
+LABEL populated name width=116.66666666666667 preferred=116.2421875 text=Butter Croissant
+LABEL populated price width=31.333333333333332 preferred=30.849609375 text=$2.80
+LABEL populated id width=17.333333333333332 preferred=17.140625 text=2. 
+LABEL populated name width=112.66666666666667 preferred=112.28125 text=Chocolate Cake
+LABEL populated price width=38.0 preferred=37.857421875 text=$25.00
+LABEL populated id width=15.333333333333334 preferred=14.6953125 text=1. 
+LABEL populated name width=106.66666666666667 preferred=106.4609375 text=Banana Muffin
+LABEL populated price width=31.333333333333332 preferred=30.849609375 text=$1.20
+LABEL populated null width=49.333333333333336 preferred=48.9765625 text=Orders
+LABEL populated item width=165.33333333333334 preferred=164.6796875 text=19. 20 x Cinnamon Roll
+LABEL populated client width=196.0 preferred=195.36181640625 text=Client 10: Daniel Wong � Order 1
+LABEL populated deadline width=96.66666666666667 preferred=96.10986328125 text=Due: 2026-11-09
+LABEL populated status width=56.0 preferred=55.65625 text=Complete
+LABEL populated item width=164.66666666666666 preferred=164.25 text=18. 9 x Vanilla Cupcake
+LABEL populated client width=169.33333333333334 preferred=169.26025390625 text=Client 9: Priya Nair � Order 2
+LABEL populated deadline width=96.66666666666667 preferred=96.10986328125 text=Due: 2026-11-04
+LABEL populated status width=56.0 preferred=55.65625 text=Complete
+LABEL populated item width=183.33333333333334 preferred=182.890625 text=17. 18 x Sourdough Bread
+LABEL populated client width=169.33333333333334 preferred=169.26025390625 text=Client 9: Priya Nair � Order 1
+LABEL populated deadline width=96.66666666666667 preferred=96.10986328125 text=Due: 2026-11-06
+LABEL populated status width=64.66666666666667 preferred=64.4287109375 text=Incomplete
+LABEL populated item width=132.0 preferred=131.984375 text=16. 8 x Lemon Tart
+LABEL populated client width=180.0 preferred=179.5498046875 text=Client 8: Marcus Lim � Order 2
+LABEL populated deadline width=96.66666666666667 preferred=96.10986328125 text=Due: 2026-11-02
+LABEL populated status width=64.66666666666667 preferred=64.4287109375 text=Incomplete
+LABEL populated item width=211.33333333333334 preferred=211.1953125 text=15. 16 x Strawberry Shortcake
+LABEL populated client width=180.0 preferred=179.5498046875 text=Client 8: Marcus Lim � Order 1
+LABEL populated deadline width=96.66666666666667 preferred=96.10986328125 text=Due: 2026-11-04
+LABEL populated status width=64.66666666666667 preferred=64.4287109375 text=Incomplete
+LABEL populated item width=175.33333333333334 preferred=174.734375 text=24. 12 x Butter Croissant
+LABEL populated client width=177.33333333333334 preferred=176.97900390625 text=Client 12: Grace Lee � Order 2
+LABEL populated deadline width=96.66666666666667 preferred=96.10986328125 text=Due: 2026-11-18
+LABEL populated status width=56.0 preferred=55.65625 text=Complete
+LABEL populated item width=176.0 preferred=175.8671875 text=23. 24 x Vanilla Cupcake
+LABEL populated client width=177.33333333333334 preferred=176.97900390625 text=Client 12: Grace Lee � Order 1
+LABEL populated deadline width=96.66666666666667 preferred=96.10986328125 text=Due: 2026-11-20
+LABEL populated status width=64.66666666666667 preferred=64.4287109375 text=Incomplete
+LABEL populated item width=168.0 preferred=167.9921875 text=22. 11 x Chocolate Cake
+LABEL populated client width=183.33333333333334 preferred=183.3203125 text=Client 11: Nur Aisyah � Order 2
+LABEL populated deadline width=96.66666666666667 preferred=96.10986328125 text=Due: 2026-11-11
+LABEL populated status width=64.66666666666667 preferred=64.4287109375 text=Incomplete
+LABEL populated item width=141.33333333333334 preferred=140.8203125 text=21. 22 x Lemon Tart
+LABEL populated client width=183.33333333333334 preferred=183.3203125 text=Client 11: Nur Aisyah � Order 1
+LABEL populated deadline width=96.66666666666667 preferred=96.10986328125 text=Due: 2026-11-13
+LABEL populated status width=64.66666666666667 preferred=64.4287109375 text=Incomplete
+LABEL populated item width=164.66666666666666 preferred=164.6171875 text=20. 10 x Banana Muffin
+LABEL populated client width=196.0 preferred=195.36181640625 text=Client 10: Daniel Wong � Order 2
+LABEL populated deadline width=96.66666666666667 preferred=96.10986328125 text=Due: 2026-11-07
+LABEL populated status width=56.0 preferred=55.65625 text=Complete
+LABEL populated item width=166.66666666666666 preferred=166.0390625 text=4. 2 x Blueberry Muffin
+LABEL populated client width=174.66666666666666 preferred=174.02099609375 text=Client 2: Bernice Yu � Order 2
+LABEL populated deadline width=96.66666666666667 preferred=96.10986328125 text=Due: 2026-10-27
+LABEL populated status width=123.33333333333333 preferred=122.80810546875 text=Incomplete (overdue)
+LABEL populated item width=156.0 preferred=155.453125 text=3. 4 x Chocolate Cake
+LABEL populated client width=174.66666666666666 preferred=174.02099609375 text=Client 2: Bernice Yu � Order 1
+LABEL populated deadline width=96.66666666666667 preferred=96.10986328125 text=Due: 2026-10-29
+LABEL populated status width=123.33333333333333 preferred=122.80810546875 text=Incomplete (overdue)
+LABEL populated item width=212.0 preferred=211.9765625 text=2. 1 x Chocolate Chip Cookies
+LABEL populated client width=170.66666666666666 preferred=170.65673828125 text=Client 1: Alex Yeoh � Order 2
+LABEL populated deadline width=96.66666666666667 preferred=96.10986328125 text=Due: 2026-10-25
+LABEL populated status width=56.0 preferred=55.65625 text=Complete
+LABEL populated item width=147.33333333333334 preferred=146.8515625 text=1. 2 x Banana Muffin
+LABEL populated client width=170.66666666666666 preferred=170.65673828125 text=Client 1: Alex Yeoh � Order 1
+LABEL populated deadline width=96.66666666666667 preferred=96.10986328125 text=Due: 2026-10-27
+LABEL populated status width=56.0 preferred=55.65625 text=Complete
+LABEL populated item width=159.33333333333334 preferred=159.125 text=5. 6 x Butter Croissant
+LABEL populated client width=215.33333333333334 preferred=214.72216796875 text=Client 3: Charlotte Oliveiro � Order 1
+LABEL populated deadline width=96.66666666666667 preferred=96.10986328125 text=Due: 2026-10-30
+LABEL populated status width=64.66666666666667 preferred=64.4287109375 text=Incomplete
+LABEL populated item width=168.66666666666666 preferred=168.6484375 text=6. 3 x Chocolate Muffin
+LABEL populated client width=215.33333333333334 preferred=214.72216796875 text=Client 3: Charlotte Oliveiro � Order 2
+LABEL populated deadline width=96.66666666666667 preferred=96.10986328125 text=Due: 2026-10-28
+LABEL populated status width=56.0 preferred=55.65625 text=Complete
+LABEL populated item width=214.66666666666666 preferred=214.1171875 text=7. 8 x Chocolate Chip Cookies
+LABEL populated client width=160.0 preferred=159.427734375 text=Client 4: David Li � Order 1
+LABEL populated deadline width=96.66666666666667 preferred=96.10986328125 text=Due: 2026-10-30
+LABEL populated status width=56.0 preferred=55.65625 text=Complete
+LABEL populated item width=172.66666666666666 preferred=172.0546875 text=8. 4 x Almond Croissant
+LABEL populated client width=160.0 preferred=159.427734375 text=Client 4: David Li � Order 2
+LABEL populated deadline width=96.66666666666667 preferred=96.10986328125 text=Due: 2026-10-28
+LABEL populated status width=56.0 preferred=55.65625 text=Complete
+LABEL populated item width=172.66666666666666 preferred=172.1875 text=9. 10 x Blueberry Muffin
+LABEL populated client width=188.0 preferred=187.357421875 text=Client 5: Irfan Ibrahim � Order 1
+LABEL populated deadline width=96.66666666666667 preferred=96.10986328125 text=Due: 2026-10-31
+LABEL populated status width=64.66666666666667 preferred=64.4287109375 text=Incomplete
+LABEL populated item width=205.33333333333334 preferred=204.7109375 text=10. 5 x Strawberry Shortcake
+LABEL populated client width=188.0 preferred=187.357421875 text=Client 5: Irfan Ibrahim � Order 2
+LABEL populated deadline width=96.66666666666667 preferred=96.10986328125 text=Due: 2026-10-29
+LABEL populated status width=123.33333333333333 preferred=122.80810546875 text=Incomplete (overdue)
+LABEL populated item width=179.33333333333334 preferred=179.03125 text=11. 12 x Chocolate Muffin
+LABEL populated client width=211.33333333333334 preferred=211.24365234375 text=Client 6: Roy Balakrishnan � Order 1
+LABEL populated deadline width=96.66666666666667 preferred=96.10986328125 text=Due: 2026-11-01
+LABEL populated status width=64.66666666666667 preferred=64.4287109375 text=Incomplete
+LABEL populated item width=177.33333333333334 preferred=176.8046875 text=12. 6 x Sourdough Bread
+LABEL populated client width=211.33333333333334 preferred=211.24365234375 text=Client 6: Roy Balakrishnan � Order 2
+LABEL populated deadline width=96.66666666666667 preferred=96.10986328125 text=Due: 2026-10-30
+LABEL populated status width=56.0 preferred=55.65625 text=Complete
+LABEL populated item width=185.33333333333334 preferred=184.9296875 text=13. 14 x Almond Croissant
+LABEL populated client width=170.66666666666666 preferred=170.193359375 text=Client 7: Sarah Tan � Order 1
+LABEL populated deadline width=96.66666666666667 preferred=96.10986328125 text=Due: 2026-11-02
+LABEL populated status width=56.0 preferred=55.65625 text=Complete
+LABEL populated item width=156.0 preferred=155.78125 text=14. 7 x Cinnamon Roll
+LABEL populated client width=170.66666666666666 preferred=170.193359375 text=Client 7: Sarah Tan � Order 2
+LABEL populated deadline width=96.66666666666667 preferred=96.10986328125 text=Due: 2026-10-31
+LABEL populated status width=56.0 preferred=55.65625 text=Complete
+LABEL populated saveLocationStatus width=156.0 preferred=155.5904998779297 text=.\data\addressbook.json
+Oct 30, 2026 3:21:17 PM seedu.address.logic.LogicManager execute
+INFO: ----------------[USER COMMAND][exit]
+Oct 30, 2026 3:21:17 PM seedu.address.ui.MainWindow executeCommand
+INFO: Result: Exiting Address Book as requested ...
+COMMAND=exit
+RESULT=Exiting Address Book as requested ...
+VISIBLE_WINDOWS_AFTER_EXIT=0
+Oct 30, 2026 3:21:17 PM seedu.address.MainApp stop
+INFO: ============================ [ Stopping AddressBook ] =============================

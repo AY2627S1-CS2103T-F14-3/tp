@@ -1,0 +1,23 @@
+{
+  "persons" : [ {
+    "name" : "Alice",
+    "phone" : "91234567",
+    "email" : "alice@example.com",
+    "address" : "Alice Original Address",
+    "tags" : [ ]
+  }, {
+    "name" : "Bob",
+    "phone" : "98765432",
+    "email" : "bob@example.com",
+    "address" : "Bob Original Address",
+    "tags" : [ ]
+  } ],
+  "bakeryItems" : [ {
+    "itemName" : "Cake",
+    "price" : "5.00"
+  }, {
+    "itemName" : "Bread",
+    "price" : "2.00"
+  } ],
+  "orders" : [ ]
+}

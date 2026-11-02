@@ -1,0 +1,33 @@
+@startuml
+!include style.puml
+skinparam arrowThickness 1.1
+skinparam arrowColor LOGIC_COLOR_T4
+skinparam classBackgroundColor LOGIC_COLOR
+
+hide empty members
+
+Class "{abstract}\nCommand" as Command
+Class ClearCommand {
+    -confirmed : boolean
+}
+
+package "Parser classes" {
+    Class "<<interface>>\nParser" as Parser
+    Class AddressBookParser
+    Class ClearCommandParser
+}
+
+' Layout hints.
+Parser -[hidden]right-> AddressBookParser
+
+' UML relationships.
+AddressBookParser .down.> ClearCommandParser : <<create>>
+ClearCommandParser .up.|> Parser
+ClearCommandParser .right.> ClearCommand : <<create>>
+Command <|-down- ClearCommand
+
+note bottom of ClearCommandParser
+  No arguments: confirmed = false
+  Exact "confirm": confirmed = true
+end note
+@enduml
