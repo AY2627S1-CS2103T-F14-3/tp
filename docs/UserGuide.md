@@ -152,8 +152,8 @@ Format: `find-clients KEYWORD [MORE_KEYWORDS]`
 * The search is case-insensitive; for example, `hans` matches `Hans`.
 * Keyword order does not matter; for example, `Hans Bo` matches `Bo Hans`.
 * The search considers only names.
-* Only full words match; for example, `Han` does not match `Hans`.
-* Punctuation stays part of a word: `anne-marie` matches `Anne-Marie`, and `o'neil` matches `O'Neil`; `Anne` does not match `Anne-Marie`. The same rule applies to client names in `find-orders`.
+* Keywords can match any part of a name; for example, `Han` matches `Hans`, and `Ann` matches `Joanne`.
+* Punctuation is matched literally. `Anne` matches `Anne-Marie`, and `neil` matches `O'Neil`; `anne-marie` and `o'neil` also match. The same rules apply to client names in `find-orders`.
 * Clients matching at least one keyword are returned (an `OR` search); for example, `Hans Bo` returns `Hans Gruber` and `Bo Yang`.
 
 Examples:
@@ -227,9 +227,10 @@ Examples:
 
 Format: `find-items KEYWORD [MORE_KEYWORDS]...`
 
-Matches any supplied keyword against whole words in item names, case-insensitively.
+Matches any supplied keyword anywhere in item names, case-insensitively, including parts of words.
 For example, `find-items BANANA chocolate` finds Banana Muffin and Chocolate Muffin;
-`find-items muff` does not match Muffin. An empty search is rejected.
+`find-items muff` matches Muffin, and `find-items Free` matches Chocolate (Gluten Free).
+Punctuation is matched literally. An empty search is rejected.
 Use `list-items` to restore all items. The item indices for `add-order`, `edit-order`, `edit-item`,
 and `delete-item` refer to this displayed list. Searching does not change stored data.
 
@@ -333,9 +334,11 @@ Example:
 
 Format: `find-orders KEYWORD [MORE_KEYWORDS]...`
 
-Matches any supplied keyword against whole words in either the client name or bakery item
+Matches any supplied keyword anywhere in either the client name or bakery item
 name, case-insensitively. For example, `find-orders Alice muffin` shows Alice's orders and
-all orders for muffins. Partial words do not match, and empty searches are rejected.
+all orders for muffins. Partial words also match: `find-orders muff` finds orders for muffins,
+and `find-orders Free` finds orders for Chocolate (Gluten Free). Punctuation is matched literally,
+and empty searches are rejected.
 Use `list-orders` to restore all orders. Client and item searches remain unchanged.
 
 The row number follows the search results, but each card retains its order number within

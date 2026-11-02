@@ -47,7 +47,7 @@ public class FindItemsCommandTest {
     }
 
     @Test
-    public void execute_keywords_matchAnyWholeWordIgnoringCaseAndRestore() throws Exception {
+    public void execute_keywords_matchAnyPartialWordIgnoringCaseAndRestore() throws Exception {
         ModelManager model = new ModelManager();
         model.addBakeryItem(BANANA_MUFFIN);
         model.addBakeryItem(CHOCOLATE_MUFFIN);
@@ -56,7 +56,7 @@ public class FindItemsCommandTest {
                 .execute(model).getFeedbackToUser());
         assertEquals(List.of(BANANA_MUFFIN, CHOCOLATE_MUFFIN), model.getFilteredBakeryItemList());
         parser.parseCommand("find-items muff").execute(model);
-        assertEquals(List.of(), model.getFilteredBakeryItemList());
+        assertEquals(List.of(BANANA_MUFFIN, CHOCOLATE_MUFFIN), model.getFilteredBakeryItemList());
         parser.parseCommand("find-items \t CHOCOLATE \n").execute(model);
         assertEquals(List.of(CHOCOLATE_MUFFIN), model.getFilteredBakeryItemList());
         assertThrows(ParseException.class, () -> parser.parseCommand("find-items \t"));
