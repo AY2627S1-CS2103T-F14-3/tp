@@ -11,11 +11,11 @@ import org.junit.jupiter.api.Test;
 
 public class ItemNameContainsKeywordsPredicateTest {
     @Test
-    public void test_matchesAnyWholeWordIgnoringCase() {
+    public void test_matchesAnyKeywordIncludingPartialWordsIgnoringCase() {
         assertTrue(new ItemNameContainsKeywordsPredicate(List.of("bAnAnA")).test(BANANA_MUFFIN));
         assertTrue(new ItemNameContainsKeywordsPredicate(List.of("missing", "MUFFIN")).test(BANANA_MUFFIN));
         assertFalse(new ItemNameContainsKeywordsPredicate(List.of()).test(BANANA_MUFFIN));
-        assertFalse(new ItemNameContainsKeywordsPredicate(List.of("muff")).test(BANANA_MUFFIN));
+        assertTrue(new ItemNameContainsKeywordsPredicate(List.of("muff")).test(BANANA_MUFFIN));
         assertFalse(new ItemNameContainsKeywordsPredicate(List.of("1.20")).test(BANANA_MUFFIN));
     }
 

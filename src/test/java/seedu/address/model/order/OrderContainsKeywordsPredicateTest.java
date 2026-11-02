@@ -15,12 +15,13 @@ public class OrderContainsKeywordsPredicateTest {
             new Deadline("2026-10-22"));
 
     @Test
-    public void test_matchesEitherNameAndAnyWholeWordIgnoringCase() {
+    public void test_matchesEitherNameAndAnyKeywordIncludingPartialWordsIgnoringCase() {
         assertTrue(new OrderContainsKeywordsPredicate(List.of("aLiCe")).test(order));
         assertTrue(new OrderContainsKeywordsPredicate(List.of("MUFFIN")).test(order));
         assertTrue(new OrderContainsKeywordsPredicate(List.of("missing", "banana")).test(order));
         assertFalse(new OrderContainsKeywordsPredicate(List.of()).test(order));
-        assertFalse(new OrderContainsKeywordsPredicate(List.of("muff", "Ali")).test(order));
+        assertTrue(new OrderContainsKeywordsPredicate(List.of("muff")).test(order));
+        assertTrue(new OrderContainsKeywordsPredicate(List.of("Ali")).test(order));
         assertFalse(new OrderContainsKeywordsPredicate(List.of("2026-10-22", "2", "1.20")).test(order));
         assertFalse(new OrderContainsKeywordsPredicate(List.of(ALICE.getPhone().value, ALICE.getEmail().value))
                 .test(order));

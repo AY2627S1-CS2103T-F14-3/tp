@@ -19,7 +19,7 @@ public class ItemNameContainsKeywordsPredicate implements Predicate<BakeryItem> 
     @Override
     public boolean test(BakeryItem item) {
         return keywords.stream()
-                .anyMatch(keyword -> StringUtil.containsWordIgnoreCase(item.getItemName().toString(), keyword));
+                .anyMatch(keyword -> StringUtil.containsKeywordIgnoreCase(item.getItemName().toString(), keyword));
     }
 
     @Override

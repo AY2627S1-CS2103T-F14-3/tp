@@ -166,14 +166,14 @@ public class OrderListingTest {
     }
 
     @Test
-    public void findOrders_keywords_matchWholeWordsAcrossBothNamesAndRestore() throws Exception {
+    public void findOrders_keywords_matchPartialWordsAcrossBothNamesAndRestore() throws Exception {
         AddressBook before = new AddressBook(model.getAddressBook());
         assertEquals("2 orders listed!", logic.execute("find-orders ALICE").getFeedbackToUser());
         assertEquals(List.of(aliceFirst, aliceSecond), logic.getOrderList());
         logic.execute("find-orders banana Bob");
         assertEquals(List.of(bobFirst, aliceFirst, aliceSecond), logic.getOrderList());
         logic.execute("find-orders muff");
-        assertEquals(List.of(), logic.getOrderList());
+        assertEquals(List.of(bobFirst, aliceFirst, aliceSecond), logic.getOrderList());
         assertThrows(ParseException.class, () -> logic.execute("find-orders \t"));
         assertEquals(before, model.getAddressBook());
         logic.execute("list-orders");
