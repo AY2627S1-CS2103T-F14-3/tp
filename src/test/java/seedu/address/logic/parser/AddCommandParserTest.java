@@ -49,6 +49,14 @@ public class AddCommandParserTest {
     private AddCommandParser parser = new AddCommandParser();
 
     @Test
+    public void parse_apostropheEmail_success() {
+        Person expectedPerson = new PersonBuilder().withName("O'Neil").withPhone("93456789")
+                .withEmail("o'neil@example.com").withAddress("30 Test Road").withTags().build();
+        assertParseSuccess(parser, " n/O'Neil p/93456789 e/o'neil@example.com a/30 Test Road",
+                new AddCommand(expectedPerson));
+    }
+
+    @Test
     public void parse_allFieldsPresent_success() {
         Person expectedPerson = new PersonBuilder(BOB).withTags(VALID_TAG_FRIEND).build();
 

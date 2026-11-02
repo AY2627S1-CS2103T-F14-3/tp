@@ -67,6 +67,22 @@ public class EmailTest {
     }
 
     @Test
+    public void isValidEmail_apostropheInLocalPart_returnsTrue() {
+        assertTrue(Email.isValidEmail("o'neil@example.com"));
+        assertTrue(Email.isValidEmail("O'Neil+orders@example.com"));
+        assertTrue(Email.isValidEmail("o''neil@example.com"));
+    }
+
+    @Test
+    public void isValidEmail_apostropheDoesNotBypassRestrictions_returnsFalse() {
+        assertFalse(Email.isValidEmail("'neil@example.com"));
+        assertFalse(Email.isValidEmail("oneil'@example.com"));
+        assertFalse(Email.isValidEmail("o'..neil@example.com"));
+        assertFalse(Email.isValidEmail("o' neil@example.com"));
+        assertFalse(Email.isValidEmail("oneil@exam'ple.com"));
+    }
+
+    @Test
     public void isValidEmail_adjacentPermittedCharacters_returnsTrue() {
         assertTrue(Email.isValidEmail("alice+_orders@example.com"));
         assertTrue(Email.isValidEmail("a++b@example.com"));
