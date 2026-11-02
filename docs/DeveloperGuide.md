@@ -525,7 +525,7 @@ Priorities: Must have - `* * * *`, Nice to have (high) - `* * *`, Nice to have (
 * **Bakery book**: The collection of client, bakery item, and order data inside BakeBase. This is represented by `AddressBook` in the code and was adapted from the address book in AB3.
 * **Bakery good**: A baked product that a baker offers and can add to a client order.
 * **Bakery item**: Another term for a bakery good. The terms are used interchangeably in this guide.
-* **Client order**: A record of a client’s request for a bakery good, including its quantity and, if specified, its deadline and status.
+* **Client order**: A record of a client’s request for a bakery good, with a required quantity, deadline, and completion status. New orders start incomplete.
 * **Order deadline**: The date by which a client order is due.
 * **Incomplete order**: An order that has not been marked as complete.
 * **Completed order**: An order that the baker has marked as complete.
