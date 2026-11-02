@@ -135,6 +135,12 @@ public class ParserUtilTest {
     }
 
     @Test
+    public void parseEmail_emptyValue_returnsAbsentEmail() throws Exception {
+        assertEquals("", ParserUtil.parseEmail("").value);
+        assertEquals("", ParserUtil.parseEmail("   ").value);
+    }
+
+    @Test
     public void parseEmail_invalidValue_throwsParseException() {
         assertThrows(ParseException.class, () -> ParserUtil.parseEmail(INVALID_EMAIL));
     }

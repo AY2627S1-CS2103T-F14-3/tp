@@ -78,8 +78,9 @@ Adds a client to the bakery book.
 * If another client's name matches after ignoring case and collapsing repeated spaces, the addition succeeds with a possible-duplicate warning showing the matching client's details. Names are not rewritten and records are not merged. For example, `Alex Tan` and `alex  tan` trigger a warning, but `AlexTan` does not match `Alex Tan`.
 * If the addition was accidental, run `undo` immediately to reverse it. Otherwise, keep the separate client record. These warnings compare names only; they do not identify every possible duplicate customer.
 
-Format: `add-client n/NAME p/PHONE_NUMBER e/EMAIL a/ADDRESS [t/TAG]…​`
+Format: `add-client n/NAME p/PHONE_NUMBER [e/EMAIL] a/ADDRESS [t/TAG]…​`
 
+* Email is optional. Omit `e/` or leave it empty if the client has no email address. The client card and command feedback show `Not provided`.
 * Names must not be blank and must contain only printable ASCII characters. Leading and trailing whitespace is removed. Apostrophes (`'`), hyphens (`-`), periods (`.`), and slashes (`/`) are accepted, for example `Anne-Marie O'Neil` and `Siti d/o Rahim`. Curly apostrophes and other non-ASCII characters are not supported.
 * The sequences `n/`, `p/`, `e/`, `a/`, and `t/` immediately after a space are command prefixes and cannot be entered literally within a name. There is no quoting or escaping syntax for them. The slash in `d/o` or `s/o` does not conflict with these prefixes.
 * Clients with exactly the same name are duplicates, including letter case, punctuation, and internal spacing. Punctuation is preserved rather than removed or normalized.
@@ -90,6 +91,7 @@ A client can have any number of tags, including zero.
 
 Examples:
 * `add-client n/John Doe p/98765432 e/johnd@example.com a/John street, block 123, #01-01`
+* `add-client n/Carol p/93456789 a/30 Test Road` adds a client without an email address.
 * `add-client n/Betsy Crowe t/friend e/betsycrowe@example.com a/Newgate Prison p/1234567 t/criminal`
 
 #### Deleting a client: `delete-client`
@@ -123,6 +125,7 @@ Format: `edit-client INDEX [n/NAME] [p/PHONE] [e/EMAIL] [a/ADDRESS] [t/TAG]…�
 * Edits the client at the specified `INDEX`. The index refers to the index number shown in the displayed client list. The index **must be a positive integer** 1, 2, 3, …​
 * At least one of the optional fields must be provided.
 * Existing values will be updated to the input values.
+* Omitting `e/` keeps the client's current email address. Enter `e/` without a value to remove it; `Not provided` is then shown.
 * Names follow the same rules as `add-client`. Renaming a client updates their linked orders; renaming to another client's exact name is rejected.
 * When editing tags, all of the client's existing tags are removed; adding tags is not cumulative.
 * To remove all of a client's tags, enter `t/` without a tag after it.
@@ -130,6 +133,7 @@ Format: `edit-client INDEX [n/NAME] [p/PHONE] [e/EMAIL] [a/ADDRESS] [t/TAG]…�
 Examples:
 *  `edit-client 1 p/91234567 e/johndoe@example.com` Edits the phone number and email address of the 1st client to be `91234567` and `johndoe@example.com` respectively.
 *  `edit-client 2 n/Betsy Crower t/` Edits the name of the 2nd client to be `Betsy Crower` and clears all existing tags.
+*  `edit-client 1 e/` removes the 1st client's email address.
 
 #### Listing all clients: `list-clients`
 
@@ -523,7 +527,7 @@ _Details coming soon ..._
 
 Action | Format, Examples
 --------|------------------
-**Add client** | `add-client n/NAME p/PHONE_NUMBER e/EMAIL a/ADDRESS [t/TAG]…​`<br>e.g., `add-client n/James Ho p/22224444 e/jamesho@example.com a/123, Clementi Rd, 1234665 t/friend`
+**Add client** | `add-client n/NAME p/PHONE_NUMBER [e/EMAIL] a/ADDRESS [t/TAG]…​`<br>e.g., `add-client n/James Ho p/22224444 e/jamesho@example.com a/123, Clementi Rd, 1234665 t/friend`
 **Delete client** | `delete-client INDEX`<br>e.g., `delete-client 3`
 **Edit client** | `edit-client INDEX [n/NAME] [p/PHONE] [e/EMAIL] [a/ADDRESS] [t/TAG]…​`<br>e.g., `edit-client 2 n/James Lee e/jameslee@example.com`
 **List clients** | `list-clients`
