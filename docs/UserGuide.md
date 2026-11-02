@@ -305,7 +305,7 @@ Format: `mark-order-complete CONTACT_INDEX o/ORDER_INDEX` or `mark CONTACT_INDEX
 
 Both forms use the same validation, save, and undo behavior.
 
-* The order remains visible in the order panel.
+* Marking an order does not delete it. It remains visible in the all-orders view, but disappears from the incomplete-orders view. Use `list-orders` to show all orders again.
 * If the order is already complete, an error is shown and no data is changed.
 
 Example:
