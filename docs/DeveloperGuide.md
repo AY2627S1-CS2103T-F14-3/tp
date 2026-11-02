@@ -621,11 +621,53 @@ testers are expected to do more *exploratory* testing.
 
 ### Saving data
 
-1. Dealing with missing/corrupted data files
+Use a new disposable writable folder containing the downloaded JAR. Open a terminal in that folder
+and launch with `java -jar "DOWNLOADED_FILENAME.jar"`, substituting the actual downloaded filename.
+The paths below are relative to this launch folder. Run only one instance, and close the application
+before moving, replacing, or editing its data file.
 
-   1. _{Explain how to simulate missing or corrupted data files and state the expected behavior.}_
+1. Prepare a recoverable baseline
 
-1. _{ more test cases …​ }_
+   1. Run `populate`, then
+      `add-client n/Storage Test p/91234567 e/storage@example.com a/Test Road`.
+      Expected: The sample clients, items, and orders are present, together with the new client.
+   1. Close the application using the window's close button. Copy `data/addressbook.json` to
+      `baseline-backup.json` in the launch folder. Keep this backup unchanged throughout these tests.
+
+1. Missing data file
+
+   1. With the application closed, move `data/addressbook.json` to `missing-file-original.json`.
+      Relaunch from the same folder.
+      Expected: The GUI opens with sample clients, bakery items, and orders; `Storage Test` is absent.
+      The missing file does not cause a startup crash.
+   1. Run `list-orders`.
+      Expected: The command succeeds and creates `data/addressbook.json` containing the sample book.
+      Close and relaunch: the saved sample book loads successfully.
+
+1. Corrupted data file
+
+   1. Close the application. Replace the contents of `data/addressbook.json` with exactly
+      `not valid JSON`, save the file, and relaunch.
+      Expected: The GUI opens with an empty book: no clients, bakery items, or orders.
+      The application log reports that the data could not be loaded. Before entering any commands,
+      inspect the file: startup has left the invalid contents unchanged.
+   1. Run `add-client n/Recovery Test p/92345678 e/recovery@example.com a/Recovery Road`.
+      Expected: The command succeeds and replaces the invalid file with valid JSON containing the
+      new client. Close and relaunch: only `Recovery Test` is present, with no items or orders.
+   1. Close the application and repeat this corrupted-file test using exactly `null` as the file
+      contents. Expect the same empty-book fallback and successful save/reload, without a startup crash.
+
+1. Restore the backup
+
+   1. Close the application. Copy `baseline-backup.json` over `data/addressbook.json`, then relaunch.
+      Expected: `Storage Test` and all baseline sample clients, items, orders, and completion statuses
+      are restored. Neither `Recovery Test` nor the invalid file contents remain in the active book.
+
+Startup recovery does not repair an invalid book or recover its original records. A subsequent
+successful command, including a listing command, saves the current in-memory book and can overwrite
+the invalid file. To preserve it for recovery, close using the window's close button before entering
+commands and copy it elsewhere. The typed `exit` command also attempts to save. Restore backups only
+while the application is closed, so a running instance cannot overwrite the restored file.
 
 ### unmark backend
 
