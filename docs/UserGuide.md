@@ -83,6 +83,10 @@ Format: `add-client n/NAME p/PHONE_NUMBER e/EMAIL a/ADDRESS [t/TAG]…​`
 * Names must not be blank and must contain only printable ASCII characters. Leading and trailing whitespace is removed. Apostrophes (`'`), hyphens (`-`), periods (`.`), and slashes (`/`) are accepted, for example `Anne-Marie O'Neil` and `Siti d/o Rahim`. Curly apostrophes and other non-ASCII characters are not supported.
 * The sequences `n/`, `p/`, `e/`, `a/`, and `t/` immediately after a space are command prefixes and cannot be entered literally within a name. There is no quoting or escaping syntax for them. The slash in `d/o` or `s/o` does not conflict with these prefixes.
 * Clients with exactly the same name are duplicates, including letter case, punctuation, and internal spacing. Punctuation is preserved rather than removed or normalized.
+* Email addresses must use `local-part@domain`. The local part accepts ASCII letters, digits, and `+`, `_`, `.`, `'`, and `-`.
+  It must start and end with a letter or digit and cannot contain consecutive periods. For example, `o'neil@example.com` is accepted.
+* Email domain labels are separated by periods. Each label must start and end with an ASCII letter or digit and may contain hyphens internally.
+  The final label must contain at least two characters.
 
 <div markdown="span" class="alert alert-primary">:bulb: **Tip:**
 A client can have any number of tags, including zero.
@@ -91,6 +95,7 @@ A client can have any number of tags, including zero.
 Examples:
 * `add-client n/John Doe p/98765432 e/johnd@example.com a/John street, block 123, #01-01`
 * `add-client n/Betsy Crowe t/friend e/betsycrowe@example.com a/Newgate Prison p/1234567 t/criminal`
+* `add-client n/O'Neil p/93456789 e/o'neil@example.com a/30 Test Road`
 
 #### Deleting a client: `delete-client`
 
@@ -124,6 +129,7 @@ Format: `edit-client INDEX [n/NAME] [p/PHONE] [e/EMAIL] [a/ADDRESS] [t/TAG]…�
 * At least one of the optional fields must be provided.
 * Existing values will be updated to the input values.
 * Names follow the same rules as `add-client`. Renaming a client updates their linked orders; renaming to another client's exact name is rejected.
+* Email addresses follow the same rules as `add-client`, including support for apostrophes within the local part.
 * When editing tags, all of the client's existing tags are removed; adding tags is not cumulative.
 * To remove all of a client's tags, enter `t/` without a tag after it.
 
