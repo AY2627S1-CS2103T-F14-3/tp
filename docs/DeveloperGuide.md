@@ -482,20 +482,20 @@ Priorities: Must have - `* * * *`, Nice to have (high) - `* * *`, Nice to have (
       Use case resumes at step 2.
 
 
-**Use case: Display unfulfilled orders with deadline soon**
+**Use case: Display incomplete orders by deadline**
 
 **MSS**
 
-1.  User requests to list orders with filters incomplete and deadline by specified date
-2.  BakeBase shows a list of filtered orders accordingly
+1.  User requests to list incomplete orders sorted by deadline using `list-incomplete-orders by-deadline`
+2.  BakeBase shows all incomplete orders, sorted by earliest deadline
 
     Use case ends.
 
 **Extensions**
 
-* 2a. No orders match the filters.
+* 2a. There are no incomplete orders.
 
-    * 2a1. BakeBase displays a message indicating that no incomplete orders are due on or before the specified date.
+    * 2a1. BakeBase shows an empty order list.
 
       Use case ends.
 
