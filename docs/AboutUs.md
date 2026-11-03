@@ -31,7 +31,6 @@ You can reach us at the email `bakebase@comp.nus.edu.sg`
 
 <img src="images/neokh719.png" width="200px">
 
-[[homepage](https://neokh719.github.io)]
 [[github](http://github.com/neokh719)]
 
 * Role: Documenter and QC
